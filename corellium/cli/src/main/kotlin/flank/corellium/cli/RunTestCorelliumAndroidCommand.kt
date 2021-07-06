@@ -96,6 +96,20 @@ class RunTestCorelliumAndroidCommand :
         var apks: List<Args.Apk.App>? by data
 
         @set:CommandLine.Option(
+            names = ["--test-targets"],
+            split = ",",
+            description = [
+                "A list of one or more test target filters to apply " +
+                    "(default: run all test targets). Each target filter must be fully qualified with the package name, class name, " +
+                    "or test annotation desired. Any test filter supported by am instrument -e … is supported. " +
+                    "See https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner for more " +
+                    "information."
+            ]
+        )
+        @set:JsonProperty("test-targets")
+        var testTargets: List<String>? by data
+
+        @set:CommandLine.Option(
             names = ["--max-test-shards"],
             description = ["The amount of matrices to split the tests across."]
         )
@@ -172,6 +186,7 @@ private fun defaultConfig() = Config().apply {
 
 private operator fun Config.plusAssign(args: Args) {
     apks = args.apks
+    testTargets = emptyList()
     maxTestShards = args.maxShardsCount
     localResultsDir = args.outputDir
     obfuscate = args.obfuscateDumpShards
@@ -190,6 +205,7 @@ private fun RunTestCorelliumAndroidCommand.createArgs() = Args(
     obfuscateDumpShards = config.obfuscate!!,
     gpuAcceleration = config.gpuAcceleration!!,
     scanPreviousDurations = config.scanPreviousDurations!!,
+    testTargets = config.testTargets!!,
 )
 
 internal val format = buildFormatter<String> {
@@ -228,6 +244,11 @@ internal val format = buildFormatter<String> {
             is AndroidInstance.Event.Waiting -> "Wait until all instances are ready..."
             is AndroidInstance.Event.Ready -> "ready: $id"
             is AndroidInstance.Event.AllReady -> "All instances invoked and ready to use."
+        }
+    }
+    ExecuteTests.Plan {
+        instances.toList().joinToString("\n") { (id, commands) ->
+            "$id:\n" + commands.joinToString("\n") { " - $it" }
         }
     }
     ExecuteTests.Status::class {

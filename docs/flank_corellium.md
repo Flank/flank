@@ -87,7 +87,6 @@ $ flank.jar corellium test android run -c="./flank_corellium.yml"
 The example configuration file looks following:
 
 ```yaml
-
 ### Test apks
 ## The list of app and test apks.
 ## Each app apk must have one or more corresponding test apks.
@@ -100,6 +99,17 @@ apks:
       - path: "app2-test1.apk"
       - path: "app2-test2.apk"
 
+### Test Targets
+## A list of one or more test target filters to apply (default: run all test targets).
+## Each target filter must be fully qualified with the package name, class name, or test annotation desired.
+## Supported test filters by am instrument -e … include:
+## class, notClass, size, annotation, notAnnotation, package, notPackage, testFile, notTestFile
+## See https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner for more information.
+# test-targets:
+#  - class com.example.app.ExampleUiTest#testPasses
+#  - package com.example.app.foo
+#  - notPackage com.example.app.bar
+
 ### Authorization file
 ## Path to YAML file with host address and credentials.
 ## default: corellium_auth.yml
@@ -111,7 +121,7 @@ apks:
 # project: "project name"
 
 ### Max Test Shards
-## test shards - the amount of groups to split the test suite into.
+## The amount of groups to split the test suite into.
 ## default: 1
 # max-test-shards: 10000
 
@@ -191,6 +201,7 @@ To see the source of the problem check the log file referenced in the error mess
 
 # Features
 
+* Filtering tests using test-targets.
 * Calculating multi-module shards.
 * Reusing test cases duration for sharding.
 * Creating or reusing instances (devices).
@@ -204,6 +215,5 @@ To see the source of the problem check the log file referenced in the error mess
 
 * Cleaning devices after test execution.
 * Flaky test detection.
-* Structural logging.
 * iOS support.
 * and much more...

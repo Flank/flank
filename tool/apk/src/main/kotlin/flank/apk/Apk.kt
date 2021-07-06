@@ -23,7 +23,13 @@ object Apk {
     /**
      * @return The full list of test methods from parsed apk.
      */
-    fun interface ParseTestCases : (LocalPath) -> TestCases
+    fun interface ParseTestCases : (ParseTestCases.Config) -> (LocalPath) -> TestCases {
+
+        data class Config(
+            val filterClass: TestRunners = emptySet(),
+            val filterTest: TestFilter = { true },
+        )
+    }
 
     /**
      * @return The [PackageName] for given apk.
@@ -34,7 +40,22 @@ object Apk {
      * @return The [Info] for given apk.
      */
     fun interface ParseInfo : (LocalPath) -> Info
+
+    object Runner {
+        const val JUnitParamsRunner = "junitparams.JUnitParamsRunner"
+        const val Parameterized = "org.junit.runners.Parameterized"
+    }
 }
+
+/**
+ * Test runners simple names
+ */
+typealias TestRunners = Set<String>
+
+/**
+ * Check if given a pair of test name with list of annotations can should be filtered.
+ */
+typealias TestFilter = (Pair<String, List<String>>) -> Boolean
 
 /**
  * Local path to the test apk file.

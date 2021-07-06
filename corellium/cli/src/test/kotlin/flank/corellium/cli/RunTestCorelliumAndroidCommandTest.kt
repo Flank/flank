@@ -2,6 +2,7 @@ package flank.corellium.cli
 
 import flank.corellium.api.AndroidApps
 import flank.corellium.api.AndroidInstance
+import flank.corellium.api.AndroidTestPlan
 import flank.corellium.api.Authorization
 import flank.corellium.domain.RunTestCorelliumAndroid
 import flank.corellium.domain.RunTestCorelliumAndroid.Args
@@ -33,7 +34,7 @@ import java.io.File
 class RunTestCorelliumAndroidCommandTest {
 
     /**
-     * Apply test values to config. Each value should be different than default.
+     * Apply test values to config. Each value should be different from default.
      */
     private fun RunTestCorelliumAndroidCommand.Config.applyTestValues() = apply {
         auth = "test_auth.yml"
@@ -52,6 +53,10 @@ class RunTestCorelliumAndroidCommandTest {
                     Args.Apk.Test("app2-test2.apk"),
                 )
             ),
+        )
+        testTargets = listOf(
+            "class foo.Foo",
+            "package bar",
         )
         maxTestShards = Int.MAX_VALUE
         localResultsDir = "test_result_dir"
@@ -78,6 +83,7 @@ class RunTestCorelliumAndroidCommandTest {
                 "--project=$project",
                 "--auth=$auth",
                 "--apks=app1.apk=app1-test1.apk;app2.apk=app2-test1.apk,app2-test2.apk",
+                "--test-targets=class foo.Foo,package bar",
                 "--max-test-shards=$maxTestShards",
                 "--local-result-dir=$localResultsDir",
                 "--obfuscate=$obfuscate",
@@ -98,6 +104,9 @@ apks:
   tests:
   - path: "app2-test1.apk"
   - path: "app2-test2.apk"
+test-targets:
+  - class foo.Foo
+  - package bar
 max-test-shards: $maxTestShards
 local-result-dir: $localResultsDir
 obfuscate: $obfuscate
@@ -162,6 +171,7 @@ scan-previous-durations: $scanPreviousDurations
             Args(
                 credentials = expectedCredentials,
                 apks = apks!!,
+                testTargets = testTargets!!,
                 maxShardsCount = maxTestShards!!,
                 outputDir = localResultsDir!!,
                 obfuscateDumpShards = obfuscate!!,
@@ -230,6 +240,14 @@ password: $password
             Unit event InvokeDevices.Status(AndroidInstance.Event.Creating(7)),
             Unit event InvokeDevices.Status(AndroidInstance.Event.Waiting),
             Unit event InvokeDevices.Status(AndroidInstance.Event.Ready("123456")),
+            Unit event ExecuteTests.Plan(
+                AndroidTestPlan.Config(
+                    mapOf(
+                        "123456" to listOf("command a", "command b"),
+                        "654321" to listOf("command c", "command d"),
+                    )
+                )
+            ),
             Unit event ExecuteTests.Status(
                 id = "123456",
                 status = Instrument.Status(
