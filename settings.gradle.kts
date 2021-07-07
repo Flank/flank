@@ -35,6 +35,7 @@ include(
     ":tool:log:format",
     ":tool:execution:parallel",
     ":tool:execution:synchronized",
+    ":tool:analytics",
 )
 
 plugins {

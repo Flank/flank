@@ -25,6 +25,7 @@ dependencies {
     api(project(":tool:instrument:log"))
     api(project(":tool:junit"))
     api(project(":tool:log"))
+    api(project(":tool:analytics"))
 
     testImplementation(Dependencies.JUNIT)
     testImplementation(project(":corellium:adapter"))

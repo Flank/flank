@@ -1,8 +1,6 @@
-package ftl.analytics
+package flank.tool.analytics
 
-import ftl.args.AndroidArgs
-import ftl.args.IArgs
-import ftl.args.IosArgs
+import com.fasterxml.jackson.core.type.TypeReference
 import kotlin.reflect.KClass
 
 annotation class IgnoreInStatistics
@@ -16,7 +14,7 @@ internal val keysToAnonymize by lazy {
     classesForStatistics.map(findMembersWithAnnotation(AnonymizeInStatistics::class)).flatten()
 }
 
-private val classesForStatistics = listOf(IArgs::class, AndroidArgs::class, IosArgs::class)
+lateinit var classesForStatistics: List<KClass<*>>
 
 private fun findMembersWithAnnotation(
     annotationType: KClass<*>
@@ -28,12 +26,12 @@ private fun findMembersWithAnnotation(
     }
 }
 
-internal fun Map<String, Any>.removeNotNeededKeys() =
+fun Map<String, Any>.removeNotNeededKeys() =
     filterNot { (key, _) ->
         key in keysToRemove
     }
 
-internal fun Map<String, Any>.filterSensitiveValues() = mapValues { it.anonymousSensitiveValues() }
+fun Map<String, Any>.filterSensitiveValues() = mapValues { it.anonymousSensitiveValues() }
 
 private fun Map.Entry<String, Any>.anonymousSensitiveValues() =
     if (keysToAnonymize.contains(key)) value.toAnonymous()
@@ -46,3 +44,5 @@ private fun Any.toAnonymous(): Any = when (this) {
 }
 
 private const val ANONYMIZE_VALUE = "..."
+
+fun Any.objectToMap(): Map<String, Any> = objectMapper.convertValue(this, object : TypeReference<Map<String, Any>>() {})

@@ -1,8 +1,13 @@
 package ftl.domain
 
 import flank.common.logLn
-import ftl.analytics.FLANK_VERSION
-import ftl.analytics.FLANK_VERSION_PROPERTY
+import flank.common.userHome
+import flank.tool.analytics.FIREBASE
+import flank.tool.analytics.FLANK_VERSION
+import flank.tool.analytics.FLANK_VERSION_PROPERTY
+import flank.tool.analytics.TEST_PLATFORM
+import flank.tool.analytics.initUsageStatistics
+import flank.tool.analytics.sendConfiguration
 import ftl.analytics.sendConfiguration
 import ftl.args.createIosArgs
 import ftl.args.setupLogLevel
@@ -22,6 +27,7 @@ import ftl.run.newTestRun
 import ftl.util.DEVICE_SYSTEM
 import ftl.util.StopWatch
 import ftl.util.TEST_TYPE
+import ftl.util.isGoogleAnalyticsDisabled
 import ftl.util.loadFile
 import ftl.util.printVersionInfo
 import ftl.util.readVersion
@@ -58,8 +64,15 @@ operator fun RunIosTest.invoke() {
             DEVICE_SYSTEM to "ios",
             TEST_TYPE to type?.name.orEmpty()
         )
+        initUsageStatistics(disableUsageStatistics || isGoogleAnalyticsDisabled(userHome))
+
         sendConfiguration()
-        sendConfiguration(mapOf(FLANK_VERSION_PROPERTY to readVersion()), eventName = FLANK_VERSION)
+        sendConfiguration(
+            project,
+            mapOf(FLANK_VERSION_PROPERTY to readVersion(), TEST_PLATFORM to FIREBASE),
+            eventName = FLANK_VERSION
+        )
+
         if (dumpShards.not()) logLn(this)
     }.validate().run {
         if (dumpShards) dumpShards()

@@ -1,7 +1,7 @@
 package ftl.run.common
 
+import flank.tool.analytics.sessionId
 import ftl.args.IArgs
-import ftl.util.sessionId
 import java.nio.file.Paths
 
 const val SESSION_ID_FILE = "session_id.txt"

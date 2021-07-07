@@ -212,6 +212,8 @@ dependencies {
 
     implementation(project(":corellium:cli"))
 
+    implementation(project(":tool:analytics"))
+
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.SYSTEM_RULES)
     testImplementation(Dependencies.TRUTH)

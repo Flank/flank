@@ -1,17 +1,17 @@
 package ftl.util
 
 import flank.common.config.isTest
+import flank.tool.analytics.SESSION_ID
+import flank.tool.analytics.sessionId
 import io.sentry.Sentry
 import io.sentry.SentryLevel
 import java.io.File
-import java.util.UUID
 
 private const val FLANK_API_KEY = "https://f626934e7811480db91c40f62f5035f0@o475862.ingest.sentry.io/5514444"
 private const val GSUTIL_FOLDER = ".gsutil"
 private const val ANALYTICS_FILE = "analytics-uuid"
 private const val DISABLED = "DISABLED"
 
-const val SESSION_ID = "session.id"
 const val OS_NAME = "os.name"
 const val FLANK_VERSION = "flank.version"
 const val FLANK_REVISION = "flank.revision"
@@ -57,10 +57,6 @@ private fun initializeCrashReportWrapper() {
         FLANK_VERSION to readVersion(),
         FLANK_REVISION to readRevision()
     )
-}
-
-val sessionId by lazy {
-    UUID.randomUUID().toString()
 }
 
 fun setCrashReportTag(

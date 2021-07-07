@@ -1,7 +1,7 @@
 package ftl.reports
 
 import flank.common.println
-import ftl.analytics.sendConfiguration
+import flank.tool.analytics.sendConfiguration
 import ftl.api.JUnitTest
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
@@ -28,7 +28,8 @@ object CostReport : IReport {
             totalBillablePhysicalMinutes += it.billableMinutes.physical
         }
 
-        args.sendConfiguration(
+        sendConfiguration(
+            project = args.project,
             events = mapOf(
                 "virtual_cost" to calculateVirtualCost(totalBillableVirtualMinutes.toBigDecimal()),
                 "physical_cost" to calculatePhysicalCost(totalBillablePhysicalMinutes.toBigDecimal()),
