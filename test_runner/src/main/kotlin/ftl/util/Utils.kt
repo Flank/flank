@@ -5,6 +5,7 @@ package ftl.util
 import com.fasterxml.jackson.annotation.JsonProperty
 import flank.common.logLn
 import ftl.run.exception.FlankGeneralError
+import org.json.JSONObject
 import java.io.File
 import java.io.InputStream
 import java.time.Instant
@@ -87,6 +88,22 @@ fun readRevision(): String {
     return readTextResource("revision.txt").trim()
 }
 
+val applicationInfo by lazy {
+    "client_info" to
+        JSONObject(
+            mapOf(
+                "name" to "Flank",
+                "client_info_details" to
+                    listOf(
+                        JSONObject(mapOf("key" to "Flank Version", "value" to readVersion())),
+                        JSONObject(mapOf("key" to "Flank Revision", "value" to readRevision()))
+                    )
+            )
+        )
+}
+
+data class KeyValueObject(val key: String, val value: Any)
+
 fun readTextResource(name: String): String {
     return getResource(name).bufferedReader().use { it.readText() }
 }
@@ -126,4 +143,5 @@ fun <T> KMutableProperty<T?>.require() =
 
 fun getGACPathOrEmpty(): String = System.getenv("GOOGLE_APPLICATION_CREDENTIALS").orEmpty()
 
-fun saveToFlankLinks(vararg links: String) = File("flank-links.log").writeText(links.joinToString(System.lineSeparator()))
+fun saveToFlankLinks(vararg links: String) =
+    File("flank-links.log").writeText(links.joinToString(System.lineSeparator()))
