@@ -5,7 +5,6 @@ package ftl.util
 import com.fasterxml.jackson.annotation.JsonProperty
 import flank.common.logLn
 import ftl.run.exception.FlankGeneralError
-import org.json.JSONObject
 import java.io.File
 import java.io.InputStream
 import java.time.Instant
@@ -86,20 +85,6 @@ fun readVersion(): String {
 // git commit name: 5b0d23215e3bd90e5f9c1c57149320634aad8008
 fun readRevision(): String {
     return readTextResource("revision.txt").trim()
-}
-
-val applicationInfo by lazy {
-    "client_info" to
-        JSONObject(
-            mapOf(
-                "name" to "Flank",
-                "client_info_details" to
-                    listOf(
-                        JSONObject(mapOf("key" to "Flank Version", "value" to readVersion())),
-                        JSONObject(mapOf("key" to "Flank Revision", "value" to readRevision()))
-                    )
-            )
-        )
 }
 
 data class KeyValueObject(val key: String, val value: Any)

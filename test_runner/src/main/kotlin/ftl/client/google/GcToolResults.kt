@@ -1,8 +1,6 @@
 package ftl.client.google
 
 import com.google.api.services.toolresults.ToolResults
-import com.google.api.services.toolresults.ToolResultsRequest
-import com.google.api.services.toolresults.ToolResultsRequestInitializer
 import com.google.api.services.toolresults.model.Environment
 import com.google.api.services.toolresults.model.Execution
 import com.google.api.services.toolresults.model.History
@@ -27,7 +25,6 @@ import ftl.run.exception.FailureToken
 import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.PermissionDenied
 import ftl.run.exception.ProjectNotFound
-import ftl.util.applicationInfo
 
 object GcToolResults {
 
@@ -37,15 +34,7 @@ object GcToolResults {
         if (FtlConstants.useMock) builder.rootUrl = FtlConstants.localhost
 
         builder.setApplicationName(applicationName)
-
-        builder.setToolResultsRequestInitializer(object : ToolResultsRequestInitializer() {
-            override fun initializeToolResultsRequest(request: ToolResultsRequest<*>?) {
-                super.initializeToolResultsRequest(request)
-                val (clientDetails, clientDetailsInfo) = applicationInfo
-                request?.requestHeaders?.set(clientDetails, clientDetailsInfo)
-            }
-        })
-        builder.build()
+            .build()
     }
 
     // https://github.com/bootstraponline/gcloud_cli/blob/0752e88b155a417a18d244c242b4ab3fb9aa1c1f/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/history_picker.py#L45

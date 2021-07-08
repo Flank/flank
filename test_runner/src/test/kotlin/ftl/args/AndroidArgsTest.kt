@@ -1388,18 +1388,18 @@ AndroidArgs
         matrixMap.map
             .toList().apply {
                 // test the module which overrides and adds client details
-                first { it.second.clientDetails!!.size == 3 }
+                first { it.second.clientDetails!!.size == 5 }
                     .apply {
                         assertEquals("val1", second.clientDetails!!["key1"])
                         assertEquals("val2", second.clientDetails!!["key2"])
                         assertEquals("overwritten-top-val1", second.clientDetails!!["top-key1"])
                     }
                 // test all other modules got top level client details
-                first { it.second.clientDetails!!.size == 1 }
+                first { it.second.clientDetails!!.size == 3 }
                     .apply {
                         assertEquals("top-val1", second.clientDetails!!["top-key1"])
                     }
-                last { it.second.clientDetails!!.size == 1 }
+                last { it.second.clientDetails!!.size == 3 }
                     .apply {
                         assertEquals("top-val1", second.clientDetails!!["top-key1"])
                     }
