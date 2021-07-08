@@ -1409,6 +1409,28 @@ AndroidArgs
     }
 
     @Test
+    fun `should add flank version to client-details even if client-details is empty`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          additional-app-test-apks:
+          - test: $testErrorApk
+          - app: null
+            test: $testErrorApk
+        """.trimIndent()
+
+        val parsedYml = AndroidArgs.load(yaml).validate()
+
+        val (matrixMap) = runBlocking { parsedYml.runAndroidTests() }
+        assertTrue(
+            "Not all matrices have the `Flank Version` client-detail",
+            matrixMap.map.all { it.value.clientDetails!!.containsKey("Flank Version") && it.value.clientDetails!!.containsKey("Flank Revision") }
+        )
+    }
+
+    @Test
     fun `cli keep-file-path`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parseArgs("--keep-file-path=true")

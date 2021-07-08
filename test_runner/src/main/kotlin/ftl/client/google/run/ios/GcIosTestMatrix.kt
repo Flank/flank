@@ -90,4 +90,4 @@ private fun getIosTestSetup(
 private fun List<String>.toIosDeviceFiles() = map { path -> toIosDeviceFile(path) }
 
 private val TestMatrixIos.Config.clientInfo
-    get() = ClientInfo().setName("Flank").setClientInfoDetails(clientDetails?.toClientInfoDetailList())
+    get() = ClientInfo().setName("Flank").setClientInfoDetails(clientDetails.toClientInfoDetailList())

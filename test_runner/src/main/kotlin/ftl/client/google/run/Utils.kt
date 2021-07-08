@@ -24,8 +24,8 @@ internal fun toIosDeviceFile(testDevicePath: String, gcsFilePath: String = "") =
     content = FileReference().setGcsPath(gcsFilePath)
 }
 
-internal fun Map<String, String>.toClientInfoDetailList() =
-    map { (key, value) ->
+internal fun Map<String, String>?.toClientInfoDetailList() =
+    (this ?: emptyMap()).map { (key, value) ->
         ClientInfoDetail()
             .setKey(key)
             .setValue(value)
