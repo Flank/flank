@@ -1388,24 +1388,46 @@ AndroidArgs
         matrixMap.map
             .toList().apply {
                 // test the module which overrides and adds client details
-                first { it.second.clientDetails!!.size == 3 }
+                first { it.second.clientDetails!!.size == 5 }
                     .apply {
                         assertEquals("val1", second.clientDetails!!["key1"])
                         assertEquals("val2", second.clientDetails!!["key2"])
                         assertEquals("overwritten-top-val1", second.clientDetails!!["top-key1"])
                     }
                 // test all other modules got top level client details
-                first { it.second.clientDetails!!.size == 1 }
+                first { it.second.clientDetails!!.size == 3 }
                     .apply {
                         assertEquals("top-val1", second.clientDetails!!["top-key1"])
                     }
-                last { it.second.clientDetails!!.size == 1 }
+                last { it.second.clientDetails!!.size == 3 }
                     .apply {
                         assertEquals("top-val1", second.clientDetails!!["top-key1"])
                     }
             }
         assertEquals(3, matrixMap.map.size)
         assertEquals(3, chunks.size)
+    }
+
+    @Test
+    fun `should add flank version to client-details even if client-details is empty`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          additional-app-test-apks:
+          - test: $testErrorApk
+          - app: null
+            test: $testErrorApk
+        """.trimIndent()
+
+        val parsedYml = AndroidArgs.load(yaml).validate()
+
+        val (matrixMap) = runBlocking { parsedYml.runAndroidTests() }
+        assertTrue(
+            "Not all matrices have the `Flank Version` client-detail",
+            matrixMap.map.all { it.value.clientDetails!!.containsKey("Flank Version") && it.value.clientDetails!!.containsKey("Flank Revision") }
+        )
     }
 
     @Test

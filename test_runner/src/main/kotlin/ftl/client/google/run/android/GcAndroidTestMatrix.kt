@@ -74,7 +74,7 @@ private fun createAndroidTestMatrix(
 private val TestMatrixAndroid.Config.clientInfo
     get() = ClientInfo()
         .setName("Flank")
-        .setClientInfoDetails(clientDetails?.toClientInfoDetailList())
+        .setClientInfoDetails(clientDetails.toClientInfoDetailList())
 
 private val TestMatrixAndroid.Config.environmentMatrix
     get() = EnvironmentMatrix()
