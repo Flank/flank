@@ -1,13 +1,11 @@
 package ftl.domain
 
 import flank.common.logLn
-import flank.common.userHome
-import flank.tool.analytics.FIREBASE
-import flank.tool.analytics.FLANK_VERSION
-import flank.tool.analytics.FLANK_VERSION_PROPERTY
-import flank.tool.analytics.TEST_PLATFORM
-import flank.tool.analytics.initUsageStatistics
-import flank.tool.analytics.sendConfiguration
+import flank.tool.analytics.mixpanel.FIREBASE
+import flank.tool.analytics.mixpanel.FLANK_VERSION
+import flank.tool.analytics.mixpanel.FLANK_VERSION_PROPERTY
+import flank.tool.analytics.mixpanel.TEST_PLATFORM
+import flank.tool.analytics.mixpanel.sendConfiguration
 import ftl.analytics.sendConfiguration
 import ftl.args.createAndroidArgs
 import ftl.args.setupLogLevel
@@ -27,7 +25,6 @@ import ftl.run.newTestRun
 import ftl.util.DEVICE_SYSTEM
 import ftl.util.StopWatch
 import ftl.util.TEST_TYPE
-import ftl.util.isGoogleAnalyticsDisabled
 import ftl.util.loadFile
 import ftl.util.printVersionInfo
 import ftl.util.readVersion
@@ -64,7 +61,7 @@ operator fun RunTestAndroid.invoke() {
             DEVICE_SYSTEM to "android",
             TEST_TYPE to type?.name.orEmpty()
         )
-        initUsageStatistics(disableUsageStatistics || isGoogleAnalyticsDisabled(userHome))
+
         sendConfiguration()
         sendConfiguration(
             project,

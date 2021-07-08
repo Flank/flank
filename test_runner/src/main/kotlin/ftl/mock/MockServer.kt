@@ -41,7 +41,7 @@ import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
 import com.google.testing.model.ToolResultsExecution
 import com.google.testing.model.ToolResultsStep
-import flank.tool.analytics.objectToMap
+import flank.tool.analytics.mixpanel.objectToMap
 import ftl.client.google.run.toClientInfoDetailList
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.JSON_FACTORY

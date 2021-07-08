@@ -3,7 +3,7 @@ package ftl.adapter.google
 import com.google.testing.model.FileReference
 import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
-import flank.tool.analytics.toJSONObject
+import flank.tool.analytics.mixpanel.toJSONObject
 import ftl.api.TestMatrix.Data
 import ftl.api.TestMatrix.Outcome
 import ftl.api.TestMatrix.SuiteOverview

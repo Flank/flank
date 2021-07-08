@@ -1,6 +1,6 @@
 package ftl.run.common
 
-import flank.tool.analytics.sessionId
+import flank.tool.analytics.mixpanel.sessionId
 import ftl.args.IArgs
 import java.nio.file.Paths
 

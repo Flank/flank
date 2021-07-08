@@ -1,20 +1,22 @@
-package flank.tool.analytics
+package flank.tool.analytics.mixpanel
 
-import com.fasterxml.jackson.core.type.TypeReference
 import kotlin.reflect.KClass
 
 annotation class IgnoreInStatistics
 annotation class AnonymizeInStatistics
 
 internal val keysToRemove by lazy {
-    classesForStatistics.map(findMembersWithAnnotation(IgnoreInStatistics::class)).flatten()
+    getClassesForStatisticsOrThrow().map(findMembersWithAnnotation(IgnoreInStatistics::class)).flatten()
 }
 
 internal val keysToAnonymize by lazy {
-    classesForStatistics.map(findMembersWithAnnotation(AnonymizeInStatistics::class)).flatten()
+    getClassesForStatisticsOrThrow().map(findMembersWithAnnotation(AnonymizeInStatistics::class)).flatten()
 }
 
-lateinit var classesForStatistics: List<KClass<*>>
+private fun getClassesForStatisticsOrThrow() =
+    (classesForStatistics ?: throw NullPointerException("Analytics client should be initialized first"))
+
+internal var classesForStatistics: List<KClass<*>>? = null
 
 private fun findMembersWithAnnotation(
     annotationType: KClass<*>
@@ -44,5 +46,3 @@ private fun Any.toAnonymous(): Any = when (this) {
 }
 
 private const val ANONYMIZE_VALUE = "..."
-
-fun Any.objectToMap(): Map<String, Any> = objectMapper.convertValue(this, object : TypeReference<Map<String, Any>>() {})

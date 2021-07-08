@@ -1,4 +1,4 @@
-package flank.tool.analytics
+package flank.tool.analytics.mixpanel
 
 import com.fasterxml.jackson.module.kotlin.jsonMapper
 import com.fasterxml.jackson.module.kotlin.kotlinModule
@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 
 private const val MIXPANEL_API_TOKEN = "d9728b2c8e6ca9fd6de1fcd32dd8cdc2"
 
-var blockSendUsageStatistics: Boolean = false
+internal var blockSendUsageStatistics: Boolean = false
 
 internal val messageBuilder by lazy {
     MessageBuilder(MIXPANEL_API_TOKEN)
@@ -19,14 +19,16 @@ internal val apiClient by lazy {
     MixpanelAPI()
 }
 
-val objectMapper by lazy {
+internal val objectMapper by lazy {
     jsonMapper {
         addModule(kotlinModule())
     }
 }
 
-fun initUsageStatistics(sendUsageStatistics: Boolean, vararg statisticClasses: KClass<*>) {
-    blockSendUsageStatistics = sendUsageStatistics.not()
+fun initUsageStatistics(blockUsageStatistics: Boolean, vararg statisticClasses: KClass<*>) {
+    if (classesForStatistics != null) return
+
+    blockSendUsageStatistics = blockUsageStatistics
     classesForStatistics = statisticClasses.asList()
 }
 

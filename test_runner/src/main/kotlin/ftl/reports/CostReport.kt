@@ -1,7 +1,7 @@
 package ftl.reports
 
 import flank.common.println
-import flank.tool.analytics.sendConfiguration
+import flank.tool.analytics.mixpanel.sendConfiguration
 import ftl.api.JUnitTest
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent

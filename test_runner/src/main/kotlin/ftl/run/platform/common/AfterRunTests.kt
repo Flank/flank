@@ -2,7 +2,7 @@ package ftl.run.platform.common
 
 import flank.common.logLn
 import flank.common.startWithNewLine
-import flank.tool.analytics.sendConfiguration
+import flank.tool.analytics.mixpanel.sendConfiguration
 import ftl.analytics.sendConfiguration
 import ftl.api.RemoteStorage
 import ftl.api.TestMatrix

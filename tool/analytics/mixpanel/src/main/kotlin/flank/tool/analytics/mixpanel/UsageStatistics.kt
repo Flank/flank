@@ -1,15 +1,7 @@
-package flank.tool.analytics
-
-import org.json.JSONObject
+package flank.tool.analytics.mixpanel
 
 private const val PROJECT_ID = "project_id"
 private const val NAME_KEY = "name"
-
-fun registerUser(project: String) {
-    messageBuilder.set(
-        project, mapOf(PROJECT_ID to project, NAME_KEY to project).toJSONObject()
-    ).send()
-}
 
 fun sendConfiguration(
     project: String,
@@ -23,4 +15,8 @@ fun sendConfiguration(
             .send()
     }
 
-fun Map<*, *>.toJSONObject() = JSONObject(this)
+private fun registerUser(project: String) {
+    messageBuilder.set(
+        project, mapOf(PROJECT_ID to project, NAME_KEY to project).toJSONObject()
+    ).send()
+}
