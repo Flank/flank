@@ -1,4 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import java.nio.file.Paths
 
 plugins {
     application
@@ -22,7 +23,7 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.0.0"
+version = "1.1.0"
 group = "com.github.flank"
 
 repositories {
@@ -75,6 +76,7 @@ publishing {
 
 dependencies {
     implementation(project(":common"))
+    implementation(Dependencies.SENTRY)
     implementation(Dependencies.Fuel.CORE)
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.TRUTH)
@@ -128,5 +130,17 @@ val prepareJar by tasks.registering(Copy::class) {
     into("$projectDir")
 }
 
+val setWrapperVersion by tasks.registering {
+    doLast {
+        Paths.get(projectDir.absolutePath, "src", "main", "resources", "version.txt")
+            .toFile()
+            .apply { createNewFile() }
+            .writeText(version.toString())
+    }
+}
+
+tasks.processResources {
+    dependsOn(setWrapperVersion)
+}
 
 tasks["lintKotlin"].dependsOn(checkIfVersionUpdated)
