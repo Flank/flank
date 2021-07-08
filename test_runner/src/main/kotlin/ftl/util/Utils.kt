@@ -87,8 +87,6 @@ fun readRevision(): String {
     return readTextResource("revision.txt").trim()
 }
 
-data class KeyValueObject(val key: String, val value: Any)
-
 fun readTextResource(name: String): String {
     return getResource(name).bufferedReader().use { it.readText() }
 }
@@ -128,5 +126,4 @@ fun <T> KMutableProperty<T?>.require() =
 
 fun getGACPathOrEmpty(): String = System.getenv("GOOGLE_APPLICATION_CREDENTIALS").orEmpty()
 
-fun saveToFlankLinks(vararg links: String) =
-    File("flank-links.log").writeText(links.joinToString(System.lineSeparator()))
+fun saveToFlankLinks(vararg links: String) = File("flank-links.log").writeText(links.joinToString(System.lineSeparator()))
