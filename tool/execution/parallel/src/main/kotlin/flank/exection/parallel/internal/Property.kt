@@ -8,7 +8,9 @@ import flank.exection.parallel.ParallelState
  */
 internal fun <T : Any> Parallel.Context.lazyProperty(type: Parallel.Type<T>) = lazy {
     @Suppress("UNCHECKED_CAST")
-    state[type] as T
+    state[type] as? T ?: throw IllegalStateException(
+        "Cannot resolve dependency of type: $type. Make sure is specified as argument"
+    )
 }
 
 /**

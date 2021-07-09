@@ -3,7 +3,7 @@ package flank.exection.parallel
 import flank.exection.parallel.internal.ContextProvider
 import flank.exection.parallel.internal.EagerProperties
 import flank.exection.parallel.internal.lazyProperty
-import java.lang.System.currentTimeMillis
+import flank.log.Output
 
 // ======================= Types =======================
 
@@ -13,7 +13,7 @@ import java.lang.System.currentTimeMillis
 object Parallel {
 
     /**
-     * Abstraction for execution data provider which is also an context for task execution.
+     * Abstraction for execution data provider which is also a context for task execution.
      * For initialization purpose some properties are exposed as variable.
      */
     open class Context : Type<Unit> {
@@ -67,7 +67,7 @@ object Parallel {
         /**
          * The task signature.
          *
-         * @param type A return type of a task
+         * @param type A return a type of task
          * @param args A set of types for arguments
          */
         data class Signature<R : Any>(
@@ -80,15 +80,6 @@ object Parallel {
      * Parameterized factory for creating task functions in scope of [X].
      */
     class Function<X : Context>(override val context: () -> X) : ContextProvider<X>()
-
-    data class Event internal constructor(
-        val type: Type<*>,
-        val data: Any,
-        val timestamp: Long = currentTimeMillis(),
-    ) {
-        object Start
-        object Stop
-    }
 
     object Logger : Type<Output>
 
@@ -110,11 +101,6 @@ object Parallel {
  * Signature for [Parallel.Task] function.
  */
 typealias ExecuteTask<R> = suspend ParallelState.() -> R
-
-/**
- * Common signature for structural log output.
- */
-typealias Output = Any.() -> Unit
 
 /**
  * Immutable state for parallel execution.
