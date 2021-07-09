@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import flank.apk.Apk
+import flank.config.ConfigMap
+import flank.config.emptyConfigMap
+import flank.config.loadYaml
+import flank.config.merge
 import flank.corellium.api.AndroidApps
 import flank.corellium.api.AndroidInstance
 import flank.corellium.cli.RunTestCorelliumAndroidCommand.Config
-import flank.corellium.cli.util.ConfigMap
-import flank.corellium.cli.util.emptyConfigMap
-import flank.corellium.cli.util.loadYaml
-import flank.corellium.cli.util.merge
 import flank.corellium.corelliumApi
 import flank.corellium.domain.RunTestCorelliumAndroid
 import flank.corellium.domain.RunTestCorelliumAndroid.Args
