@@ -96,15 +96,20 @@ private fun InstrumentationTestContext.calculateShardsNormally(
 private fun InstrumentationTestContext.calculateShards(
     args: AndroidArgs,
     testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets, args.testTargetsForShard)
-): InstrumentationTestContext =
-    if (args.parameterizedTests.shouldShardIntoSingle()) {
+): InstrumentationTestContext = when {
+    args.parameterizedTests.shouldShardIntoSingle() -> {
         var flankTestMethods = getFlankTestMethods(testFilter, args.parameterizedTests)
         val parameterizedTests = flankTestMethods.filter { it.isParameterizedClass }
         flankTestMethods = flankTestMethods.filterNot { it.isParameterizedClass }
         val shards = calculateParameterizedShards(flankTestMethods, args)
         val parameterizedShard = calculateParameterizedShards(parameterizedTests, args, 1)
         shards.copy(shards = shards.shards + parameterizedShard.shards)
-    } else calculateShardsNormally(args, testFilter)
+    }
+    args.parameterizedTests.shouldShardMultiple() -> {
+        calculateShardsNormally(args, testFilter)
+    }
+    else -> calculateShardsNormally(args, testFilter)
+}
 
 private fun InstrumentationTestContext.calculateParameterizedShards(
     filteredTests: List<FlankTestMethod>,
@@ -122,6 +127,7 @@ private fun InstrumentationTestContext.calculateParameterizedShards(
 }
 
 private fun String.shouldShardIntoSingle() = (this == "shard-into-single")
+private fun String.shouldShardMultiple() = (this == "shard-into-multiple")
 
 private fun InstrumentationTestContext.calculateDummyShards(
     args: AndroidArgs,
