@@ -46,6 +46,11 @@ object Parallel {
         protected operator fun <T : Any> Type<T>.unaryMinus() = lazyProperty(this)
 
         /**
+         * DSL for creating lazy delegate accessor to the state value for a given type with additional property selector.
+         */
+        protected operator fun <T : Any, V> Type<T>.invoke(select: T.() -> V) = lazyProperty(this, select)
+
+        /**
          * Internal accessor for initializing (validating) eager properties
          */
         internal fun validate() = eager()
