@@ -2832,6 +2832,20 @@ AndroidArgs
         val chunks = runBlocking { parsedYml.runAndroidTests() }.shardChunks
         assertTrue(chunks.size == 1)
     }
+
+    @Test
+    fun `should shard tests into multiple new shards with shard-into-multiple`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testExtremeParameterizedOtherApk
+          parameterized-tests: shard-into-multiple
+        """.trimIndent()
+
+        val parsedYml = AndroidArgs.load(yaml).validate()
+        val chunks = runBlocking { parsedYml.runAndroidTests() }.shardChunks
+        assertTrue(chunks.size == 5)
+    }
 }
 
 private fun AndroidArgs.Companion.load(
