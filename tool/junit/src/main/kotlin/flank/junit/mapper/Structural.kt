@@ -40,7 +40,7 @@ internal fun List<JUnit.Suite>.mapToTestResults(): List<JUnit.TestResult> =
                 suiteName = suite.name,
                 testName = case.name,
                 className = case.classname,
-                startAt = startAt.also { startAt = endAt },
+                startAt = startAt,
                 endsAt = endAt,
                 status = when {
                     case.error.isNotEmpty() -> JUnit.TestResult.Status.Error
