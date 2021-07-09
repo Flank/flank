@@ -1,3 +1,18 @@
+## v21.07.1
+### Features
+- [#2074](https://github.com/Flank/flank/pull/2074) Add Sentry to Flank Wrapper ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#2073](https://github.com/Flank/flank/pull/2073) Add Flank version info to requests ([adamfilipow92](https://github.com/adamfilipow92))
+- [#2069](https://github.com/Flank/flank/pull/2069) Add option for running parallel tasks as synchronized sequence. ([jan-gogo](https://github.com/jan-gogo))
+- [#2056](https://github.com/Flank/flank/pull/2056) Test targets option for Corellium ([jan-gogo](https://github.com/jan-gogo))
+- [#2064](https://github.com/Flank/flank/pull/2064) Added Flank Wrapper ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#2058](https://github.com/Flank/flank/pull/2058) Install apks asynchronous ([jan-gogo](https://github.com/jan-gogo))
+- [#2046](https://github.com/Flank/flank/pull/2046) Parameterized tests options ([Sloox](https://github.com/Sloox))
+- [#2055](https://github.com/Flank/flank/pull/2055) Expose test filters as standalone tool ([jan-gogo](https://github.com/jan-gogo))
+### Refactor
+- [#2057](https://github.com/Flank/flank/pull/2057) Make the domain a source of defaults ([jan-gogo](https://github.com/jan-gogo))
+### Bug Fixes
+- [#2066](https://github.com/Flank/flank/pull/2066) Parameterized Tests name change ([Sloox](https://github.com/Sloox))
+
 ## v21.07.0
 ### Features
 - [#2049](https://github.com/Flank/flank/pull/2049) Save `am instrument` logs to file & handle parsing error. ([jan-gogo](https://github.com/jan-gogo))
