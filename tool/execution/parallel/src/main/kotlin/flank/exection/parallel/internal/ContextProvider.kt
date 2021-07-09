@@ -7,11 +7,11 @@ import flank.exection.parallel.validator
 /**
  * Abstract factory for creating task function.
  */
-abstract class ContextProvider<X : Parallel.Context> {
+abstract class ContextProvider<X : Parallel.Context> internal constructor() {
     protected abstract val context: () -> X
 
     operator fun <R> invoke(body: suspend X.() -> R): ExecuteTask<R> =
         { context().also { it.state = this }.body() }
 
-    val validator by lazy { validator(context) }
+    val validate by lazy { validator(context) }
 }
