@@ -31,8 +31,8 @@ internal fun List<JUnit.TestResult>.mapToTestSuites(): List<JUnit.Suite> = this
 
 internal fun List<JUnit.Suite>.mapToTestResults(): List<JUnit.TestResult> =
     flatMap { suite ->
-        var startAt: Long
-        var endAt: Long = 0
+        var startAt: Long = JUnit.dateFormat.parse(suite.timestamp).time
+        var endAt: Long = startAt
         suite.testcases.map { case ->
             startAt = endAt
             endAt = startAt + (case.time * 1000).toLong()
