@@ -1,30 +1,29 @@
 package flank.corellium.domain.run.test.android.step
 
 import flank.corellium.domain.RunTestCorelliumAndroid
+import flank.corellium.domain.RunTestCorelliumAndroid.LoadPreviousDurations
+import flank.corellium.domain.RunTestCorelliumAndroid.ParseTestCases
 import flank.corellium.domain.RunTestCorelliumAndroid.PrepareShards
-import flank.corellium.domain.step
+import flank.corellium.domain.RunTestCorelliumAndroid.context
+import flank.exection.parallel.from
+import flank.exection.parallel.using
 import flank.shard.Shard
 import flank.shard.calculateShards
 
 /**
- * The step is calculating shards data.
- *
- * require:
- * * [RunTestCorelliumAndroid.Context.parseTestCasesFromApks]
- *
- * updates:
- * * [RunTestCorelliumAndroid.State.shards]
+ * The task is calculating shard data.
  */
-internal fun RunTestCorelliumAndroid.Context.prepareShards() = step(PrepareShards) {
-    copy(
-        shards = calculateShards(
-            apps = prepareDataForSharding(
-                apks = args.apks,
-                testCases = testCases,
-                durations = previousDurations,
-            ),
-            maxCount = args.maxShardsCount
-        )
+internal val prepareShards = PrepareShards from setOf(
+    ParseTestCases,
+    LoadPreviousDurations,
+) using context {
+    calculateShards(
+        apps = prepareDataForSharding(
+            apks = args.apks,
+            testCases = testCases,
+            durations = previousDurations,
+        ),
+        maxCount = args.maxShardsCount
     )
 }
 
