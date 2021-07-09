@@ -38,7 +38,7 @@ fun JUnit.Report.writeAsXml(writer: Writer) {
 }
 
 /**
- * Merge [JUnit.TestResult] test methods by class names to accumulate duration and return them as classes of test methods.
+ * Merge [JUnit.TestResult] test methods by class names to accumulate duration and return them as classes.
  */
 fun List<JUnit.TestResult>.mergeTestCases(byClasses: Set<String>): List<JUnit.TestResult> =
     mergeDurations(byClasses)
