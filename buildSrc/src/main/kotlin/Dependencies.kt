@@ -45,6 +45,8 @@ object Dependencies {
 
     const val PROGUARD = "com.guardsquare:proguard-gradle:${Versions.PROGUARD}"
 
+    const val JSON = "org.json:json:${Versions.JSON}"
+
     //region Test Dependencies
     const val JSOUP = "org.jsoup:jsoup:${Versions.JSOUP}"
     const val JUNIT = "junit:junit:${Versions.JUNIT}"

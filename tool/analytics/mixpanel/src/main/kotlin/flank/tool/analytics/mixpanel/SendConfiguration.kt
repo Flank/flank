@@ -1,5 +1,7 @@
 package flank.tool.analytics.mixpanel
 
+import flank.common.toJSONObject
+
 private const val PROJECT_ID = "project_id"
 private const val NAME_KEY = "name"
 

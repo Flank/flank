@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jsonMapper
 import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.mixpanel.mixpanelapi.MessageBuilder
 import com.mixpanel.mixpanelapi.MixpanelAPI
+import flank.common.toJSONObject
 import org.json.JSONObject
 import kotlin.reflect.KClass
 
@@ -25,7 +26,7 @@ internal val objectMapper by lazy {
     }
 }
 
-fun initUsageStatistics(blockUsageStatistics: Boolean, vararg statisticClasses: KClass<*>) {
+fun initializeStatisticsClient(blockUsageStatistics: Boolean, vararg statisticClasses: KClass<*>) {
     if (classesForStatistics != null) return
 
     blockSendUsageStatistics = blockUsageStatistics

@@ -1,9 +1,8 @@
 package flank.tool.analytics.mixpanel
 
+import flank.tool.analytics.AnonymizeInStatistics
+import flank.tool.analytics.IgnoreInStatistics
 import kotlin.reflect.KClass
-
-annotation class IgnoreInStatistics
-annotation class AnonymizeInStatistics
 
 internal val keysToRemove by lazy {
     getClassesForStatisticsOrThrow().map(findMembersWithAnnotation(IgnoreInStatistics::class)).flatten()

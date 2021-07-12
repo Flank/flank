@@ -1,7 +1,6 @@
 package flank.tool.analytics.mixpanel
 
 import com.fasterxml.jackson.core.type.TypeReference
-import org.json.JSONObject
 import java.util.UUID
 
 const val CONFIGURATION_KEY = "configuration"
@@ -24,5 +23,3 @@ val sessionId by lazy {
 }
 
 fun Any.objectToMap(): Map<String, Any> = objectMapper.convertValue(this, object : TypeReference<Map<String, Any>>() {})
-
-fun Map<*, *>.toJSONObject() = JSONObject(this)

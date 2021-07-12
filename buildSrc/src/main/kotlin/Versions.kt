@@ -98,6 +98,9 @@ object Versions {
     // https://github.com/Guardsquare/proguard
     const val PROGUARD = "7.1.0"
 
+    // https://mvnrepository.com/artifact/org.json/json
+    const val JSON = "20210307"
+
     // ============== flank-scripts ==============
     const val KOTLIN_SERIALIZATION = "1.2.1"
     const val ARCHIVE_LIB = "1.1.0"

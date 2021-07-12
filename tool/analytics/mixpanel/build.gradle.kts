@@ -17,6 +17,8 @@ dependencies {
     implementation(Dependencies.MIXPANEL)
     implementation(Dependencies.JACKSON_KOTLIN)
     implementation(Dependencies.JACKSON_YAML)
+    implementation(project(":common"))
+    implementation(project(":tool:analytics"))
 
     testImplementation(Dependencies.JUNIT)
 }
