@@ -10,6 +10,7 @@ import ftl.config.defaultIosConfig
 import ftl.ios.xctest.flattenShardChunks
 import ftl.presentation.cli.firebase.test.ios.IosRunCommand
 import ftl.run.exception.FlankConfigurationError
+import ftl.run.platform.runIosTests
 import ftl.run.status.OutputStyle
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
@@ -18,6 +19,7 @@ import ftl.test.util.TestHelper.getPath
 import ftl.test.util.assertThrowsWithMessage
 import io.mockk.every
 import io.mockk.mockkObject
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -1367,6 +1369,25 @@ IosArgs
           skip-test-configuration: pl
         """.trimIndent()
         IosArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should add flank version to client-details even if client-details is empty`() {
+        val yaml = """
+         gcloud:
+          test: $testPlansPath
+          xctestrun-file: $testPlansXctestrun
+        flank:
+          skip-test-configuration: pl
+        """.trimIndent()
+
+        val parsedYml = IosArgs.load(yaml).validate()
+
+        val (matrixMap) = runBlocking { parsedYml.runIosTests() }
+        assertTrue(
+            "Not all matrices have the `Flank Version` client-detail",
+            matrixMap.map.all { it.value.clientDetails!!.containsKey("Flank Version") && it.value.clientDetails!!.containsKey("Flank Revision") }
+        )
     }
 }
 

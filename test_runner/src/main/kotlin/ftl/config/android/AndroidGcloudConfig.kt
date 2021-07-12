@@ -250,7 +250,13 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
 
     @set:CommandLine.Option(
         names = ["--parameterized-tests"],
-        description = ["Specifies how to handle tests which contain the parameterization annotation. Possible values: `default`, `ignore-all`, `shard-into-single`, leaving it blank will result in `default` sharding"]
+        description = [
+            "Specifies how to handle tests which contain the parameterization annotation. Possible values: `default`, `ignore-all`, `shard-into-single`, `shard-into-multiple`.\n" +
+                "leaving it blank will result in `default` sharding.\n" +
+                "Note: Making use of shard-into-single` or `shard-into-multiple will result in additional shards being created even if a max number of shards has been specified.\n" +
+                "Note: If shard-into-single is used, a single additional shard is created that will run the Parameterized tests separately.\n" +
+                "Note: If shard-into-multiple is used, each parameterized test will be matched by its corresponding name and sharded into a separate shard. This may dramatically increase the amount of expected shards depending upon how many parameterized tests are discovered."
+        ]
     )
     @set:JsonProperty("parameterized-tests")
     var parameterizedTests: String? by data

@@ -18,10 +18,8 @@ dependencies {
     implementation(Dependencies.PICOCLI)
     implementation(project(":corellium:domain"))
     implementation(project(":corellium:adapter"))
+    implementation(project(":tool:config"))
     implementation(project(":tool:log:format"))
-    implementation(Dependencies.JACKSON_KOTLIN)
-    implementation(Dependencies.JACKSON_YAML)
-    implementation(Dependencies.JACKSON_XML)
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.MOCKK)
 }
