@@ -35,7 +35,7 @@ infix fun <R : Any> Parallel.Type<R>.using(
 
 /**
  * Factory function for creating special task that can validate arguments before execution.
- * Typically, the [Parallel.Context] with added [EagerProperties] is used to validate initial state.
+ * The [Parallel.Context] with added [EagerProperties] can validate if state contains required initial values.
  */
 internal fun <C : Parallel.Context> validator(
     context: (() -> C)
