@@ -10,10 +10,9 @@ internal fun <T : Any, R> Parallel.Context.lazyProperty(
     type: Parallel.Type<T>,
     select: T.() -> R
 ): Lazy<R> = lazy {
+    fun errorMessage() = "Cannot resolve dependency of type: $type. Make sure is specified as argument"
     @Suppress("UNCHECKED_CAST")
-    (state[type] as? T ?: throw IllegalStateException(
-        "Cannot resolve dependency of type: $type. Make sure is specified as argument"
-    )).select()
+    (state[type] as? T ?: throw IllegalStateException(errorMessage())).select()
 }
 
 internal fun <T : Any> Parallel.Context.lazyProperty(
