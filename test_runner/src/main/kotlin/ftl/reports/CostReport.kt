@@ -35,7 +35,7 @@ object CostReport : IReport {
             events = mapOf(
                 "virtual_cost" to virtualCost,
                 "physical_cost" to physicalCost,
-                "total_cost" to calculateTotalCost(
+                "cost_total" to calculateTotalCost(
                     virtualCost,
                     physicalCost
                 )
