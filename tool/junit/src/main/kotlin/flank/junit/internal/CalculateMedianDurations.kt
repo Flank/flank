@@ -10,7 +10,7 @@ internal fun List<JUnit.TestResult>.calculateMedianDurations(): Map<String, Long
     .groupBy(Pair<String, Long>::first, Pair<String, Long>::second)
     .mapValues { (_, durations) -> durations.median() }
 
-private val JUnit.TestResult.fullName get() = "$className#$testName"
+private val JUnit.TestResult.fullName get() = className + if (testName.isBlank()) "" else "#$testName"
 
 private val JUnit.TestResult.duration get() = (endsAt - startAt)
 

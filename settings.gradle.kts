@@ -23,6 +23,7 @@ include(
     ":corellium:sandbox",
 
     ":tool:apk",
+    ":tool:config",
     ":tool:filter",
     ":tool:shard",
     ":tool:shard:calculate",

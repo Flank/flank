@@ -28,13 +28,16 @@ object CostReport : IReport {
             totalBillablePhysicalMinutes += it.billableMinutes.physical
         }
 
+        val virtualCost = calculateVirtualCost(totalBillableVirtualMinutes.toBigDecimal())
+        val physicalCost = calculatePhysicalCost(totalBillablePhysicalMinutes.toBigDecimal())
+
         args.sendConfiguration(
             events = mapOf(
-                "virtual_cost" to calculateVirtualCost(totalBillableVirtualMinutes.toBigDecimal()),
-                "physical_cost" to calculatePhysicalCost(totalBillablePhysicalMinutes.toBigDecimal()),
-                "total_cost" to calculateTotalCost(
-                    totalBillablePhysicalMinutes.toBigDecimal(),
-                    totalBillableVirtualMinutes.toBigDecimal()
+                "virtual_cost" to virtualCost,
+                "physical_cost" to physicalCost,
+                "cost_total" to calculateTotalCost(
+                    virtualCost,
+                    physicalCost
                 )
             ),
             eventName = "devices_cost"
