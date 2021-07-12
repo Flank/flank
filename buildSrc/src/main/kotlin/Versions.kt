@@ -29,7 +29,7 @@ object Versions {
     const val KOTLIN = "1.5.20"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    const val KOTLIN_COROUTINES = "1.5.0"
+    const val KOTLIN_COROUTINES = "1.5.1"
 
     // https://github.com/remkop/picocli/releases
     const val PICOCLI = "4.6.1"
@@ -56,7 +56,7 @@ object Versions {
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
-    const val JACKSON = "2.12.3"
+    const val JACKSON = "2.12.4"
 
     const val JUNIT = "4.13.2"
 
@@ -99,7 +99,7 @@ object Versions {
     const val PROGUARD = "7.1.0"
 
     // ============== flank-scripts ==============
-    const val KOTLIN_SERIALIZATION = "1.2.1"
+    const val KOTLIN_SERIALIZATION = "1.2.2"
     const val ARCHIVE_LIB = "1.1.0"
     const val TUKAANI_XZ = "1.9"
     const val FUEL = "2.3.1"
