@@ -1,7 +1,7 @@
 package flank.exection.parallel
 
+import flank.exection.parallel.internal.DynamicType
 import flank.exection.parallel.internal.EagerProperties
-import flank.exection.parallel.internal.dynamicType
 
 // ======================= Signature =======================
 
@@ -47,4 +47,9 @@ internal fun <C : Parallel.Context> validator(
 /**
  * Factory function for creating dynamic [Parallel.Type].
  */
-inline fun <reified T : Any> type(): Parallel.Type<T> = dynamicType(T::class.java)
+inline fun <reified T : Any> type(): Parallel.Type<T> = type(T::class.java)
+
+/**
+ * Factory function for creating dynamic [Parallel.Type].
+ */
+fun <T : Any> type(type: Class<T>): Parallel.Type<T> = DynamicType(type)
