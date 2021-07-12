@@ -3,8 +3,8 @@ package ftl.args
 import flank.common.OutputLogLevel
 import flank.common.config.isTest
 import flank.common.setLogLevel
-import flank.tool.analytics.mixpanel.AnonymizeInStatistics
-import flank.tool.analytics.mixpanel.IgnoreInStatistics
+import flank.tool.analytics.AnonymizeInStatistics
+import flank.tool.analytics.IgnoreInStatistics
 import ftl.args.yml.Type
 import ftl.config.Device
 import ftl.config.common.CommonFlankConfig.Companion.defaultLocalResultsDir

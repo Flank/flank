@@ -2,7 +2,7 @@ package ftl.args
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.google.common.annotations.VisibleForTesting
-import flank.tool.analytics.mixpanel.AnonymizeInStatistics
+import flank.tool.analytics.AnonymizeInStatistics
 import ftl.args.yml.Type
 import ftl.ios.xctest.XcTestRunData
 import ftl.ios.xctest.calculateXcTestRunData

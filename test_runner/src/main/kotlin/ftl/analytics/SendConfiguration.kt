@@ -4,13 +4,14 @@ import com.google.common.annotations.VisibleForTesting
 import flank.tool.analytics.mixpanel.filterSensitiveValues
 import flank.tool.analytics.mixpanel.objectToMap
 import flank.tool.analytics.mixpanel.removeNotNeededKeys
+import flank.tool.analytics.mixpanel.sendConfiguration
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
 
 fun AndroidArgs.sendConfiguration() {
     initUsageStatistics()
-    flank.tool.analytics.mixpanel.sendConfiguration(project = project, events = createEventMap())
+    sendConfiguration(project = project, events = createEventMap())
 }
 
 internal fun AndroidArgs.createEventMap() =
@@ -18,7 +19,7 @@ internal fun AndroidArgs.createEventMap() =
 
 fun IosArgs.sendConfiguration() {
     initUsageStatistics()
-    flank.tool.analytics.mixpanel.sendConfiguration(project = project, events = createEventMap())
+    sendConfiguration(project = project, events = createEventMap())
 }
 
 private fun IosArgs.createEventMap() =
