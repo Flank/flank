@@ -1,5 +1,6 @@
 package ftl.util
 
+import flank.analytics.sessionId
 import flank.common.config.isTest
 import flank.tool.analytics.mixpanel.SESSION_ID
 import flank.tool.analytics.mixpanel.sessionId

@@ -1,8 +1,8 @@
 package com.github.flank.wrapper.internal
 
+import flank.analytics.sessionId
 import flank.common.config.isTest
 import io.sentry.Sentry
-import java.util.UUID
 
 private const val SESSION_ID = "session.id"
 private const val OS_NAME = "os.name"
@@ -17,7 +17,7 @@ fun setupCrashReporter() {
         }
 
         logTags(
-            SESSION_ID to sessionID,
+            SESSION_ID to sessionId,
             OS_NAME to osName,
             FLANK_WRAPPER_VERSION to flankWrapperVersion,
         )
@@ -27,8 +27,6 @@ fun setupCrashReporter() {
 private fun logTags(vararg tags: Pair<String, String>) {
     tags.forEach { (key, value) -> Sentry.setTag(key, value) }
 }
-
-private val sessionID by lazy { UUID.randomUUID().toString() }
 
 private val osName: String
     get() = System.getProperty("os.name")

@@ -173,9 +173,9 @@ tasks.withType<Test> {
 }
 
 dependencies {
-    implementation(project(":common"))
+    implementation(project(Modules.COMMON))
+    implementation(project(Modules.ANALYTICS))
     implementation(Dependencies.SENTRY)
-    implementation(Dependencies.MIXPANEL)
 
     implementation(Dependencies.DD_PLIST)
     implementation(Dependencies.DEX_TEST_PARSER)
