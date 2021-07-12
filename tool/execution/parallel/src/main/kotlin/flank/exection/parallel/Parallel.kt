@@ -51,7 +51,7 @@ object Parallel {
         protected operator fun <T : Any, V> Type<T>.invoke(select: T.() -> V) = lazyProperty(this, select)
 
         /**
-         * Internal accessor for initializing (validating) eager properties
+         * Internal accessor for initializing (validating) eager properties.
          */
         internal fun validate() = eager()
     }
@@ -72,8 +72,8 @@ object Parallel {
         /**
          * The task signature.
          *
-         * @param type A return a type of task
-         * @param args A set of types for arguments
+         * @param type A return a type of task.
+         * @param args A set of argument types.
          */
         data class Signature<R : Any>(
             val type: Type<R>,
