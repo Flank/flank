@@ -276,7 +276,16 @@ private fun AndroidArgs.assertParameterizedTests() {
     if (parameterizedTests.isNullOrEmpty() || parameterizedTests !in listOf(
             "ignore-all",
             "default",
-            "shard-into-single"
+            "shard-into-single",
+            "shard-into-multiple"
         )
     ) throw FlankConfigurationError("Parameterized test flag must be one of the following: `default`, `ignore-all`, `shard-into-single`, leaving it blank will result in `default` sharding.")
+    else checkParameterizedTestFeaturesWarning()
+}
+
+private fun AndroidArgs.checkParameterizedTestFeaturesWarning() {
+    when (parameterizedTests) {
+        "shard-into-single" -> logLn("WARNING: All parameterized tests will be collected and sharded separately into a single shard. This may result in a long shard execution times if many parameterized tests are found.")
+        "shard-into-multiple" -> logLn("WARNING: All parameterized tests will be collected and sharded into different shards. This will result in additional shards created. max-shards is not adhered to for this selection.")
+    }
 }

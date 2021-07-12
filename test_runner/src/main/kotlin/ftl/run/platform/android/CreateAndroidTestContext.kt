@@ -96,15 +96,15 @@ private fun InstrumentationTestContext.calculateShardsNormally(
 private fun InstrumentationTestContext.calculateShards(
     args: AndroidArgs,
     testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets, args.testTargetsForShard)
-): InstrumentationTestContext =
-    if (args.parameterizedTests.shouldShardIntoSingle()) {
-        var flankTestMethods = getFlankTestMethods(testFilter, args.parameterizedTests)
-        val parameterizedTests = flankTestMethods.filter { it.isParameterizedClass }
-        flankTestMethods = flankTestMethods.filterNot { it.isParameterizedClass }
-        val shards = calculateParameterizedShards(flankTestMethods, args)
-        val parameterizedShard = calculateParameterizedShards(parameterizedTests, args, 1)
-        shards.copy(shards = shards.shards + parameterizedShard.shards)
-    } else calculateShardsNormally(args, testFilter)
+): InstrumentationTestContext = if (args.parameterizedTests.shouldShardSmartly()) {
+    var flankTestMethods = getFlankTestMethods(testFilter, args.parameterizedTests)
+    val parameterizedTests = flankTestMethods.filter { it.isParameterizedClass }
+    flankTestMethods = flankTestMethods.filterNot { it.isParameterizedClass }
+    val shards = calculateParameterizedShards(flankTestMethods, args)
+    val shardCount = if (args.parameterizedTests.isSingleParameterizedShard()) 1 else parameterizedTests.size
+    val parameterizedShard = calculateParameterizedShards(parameterizedTests, args, shardCount)
+    shards.copy(shards = shards.shards + parameterizedShard.shards)
+} else calculateShardsNormally(args, testFilter)
 
 private fun InstrumentationTestContext.calculateParameterizedShards(
     filteredTests: List<FlankTestMethod>,
@@ -120,8 +120,6 @@ private fun InstrumentationTestContext.calculateParameterizedShards(
         ignoredTestCases = ignoredTestCases
     )
 }
-
-private fun String.shouldShardIntoSingle() = (this == "shard-into-single")
 
 private fun InstrumentationTestContext.calculateDummyShards(
     args: AndroidArgs,
@@ -177,6 +175,8 @@ private val ignoredAnnotations = listOf(
     "android.support.test.filters.Suppress"
 )
 
+private fun String.shouldShardSmartly() = (this == "shard-into-single" || this == "shard-into-multiple")
+private fun String.isSingleParameterizedShard() = (this == "shard-into-single")
 private fun String.shouldIgnore(): Boolean = (this == "ignore-all")
 
 @VisibleForTesting

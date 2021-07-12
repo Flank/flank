@@ -588,12 +588,16 @@ gcloud:
   # - class com.package2.for.shard2.Class
 
   ### parameterized-tests
-  ## Specifies how to handle tests which contain Parameterization.
-  ## 3 options are available
+  ## Specifies how to handle tests which contain the parameterization annotation.
+  ## 4 options are available
   ## default: treat Parameterized tests as normal and shard accordingly
   ## ignore-all: Parameterized tests are ignored and not sharded
   ## shard-into-single: Parameterized tests are collected and put into a single shard
-  ## Note: if left blank default is used. Default usage may result in significant increase/difference of shard times observed 
+  ## shard-into-multiple: Parameterized tests are collected and sharded into different shards based upon matching names. (Experimental)
+  ## Note: If left blank default is used. Default usage may result in significant increase/difference of shard times observed
+  ## Note: If shard-into-single is used, a single additional shard is created that will run the Parameterized tests separately.
+  ## Note: If shard-into-multiple is used, each parameterized test will be matched by its corresponding name and sharded into a separate shard.
+  ##       This may dramatically increase the amount of expected shards depending upon how many parameterized tests are discovered.
   # parameterized-tests: default
 
 flank:
