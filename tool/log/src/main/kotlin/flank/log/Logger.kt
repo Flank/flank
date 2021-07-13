@@ -10,7 +10,7 @@ interface Logger {
 /**
  * Logging function signature.
  */
-typealias Output = Any.() -> Unit
+typealias Output = GenericOutput<Any>
 
 /**
  * Generic logging function signature.

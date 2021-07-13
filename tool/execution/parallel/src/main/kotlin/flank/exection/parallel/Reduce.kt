@@ -1,19 +1,20 @@
 package flank.exection.parallel
 
-import flank.exection.parallel.internal.contextValidators
+import flank.exection.parallel.internal.contextValidatorTypes
 import flank.exection.parallel.internal.reduceTo
+import flank.exection.parallel.internal.type
 
 /**
  * Reduce given [Tasks] by [expected] types to remove unneeded tasks from the graph.
  * The returned graph will hold only tasks that are returning selected types, their dependencies and derived dependencies.
- * Additionally this is keeping also the validators for initial state.
+ * Additionally, this is keeping also the validators for initial state.
  *
  * @return Reduced [Tasks]
  */
 operator fun Tasks.invoke(
     expected: Set<Parallel.Type<*>>
 ): Tasks =
-    reduceTo(expected + contextValidators())
+    reduceTo(expected + contextValidatorTypes())
 
 /**
  * Shortcut for tasks reducing.
@@ -21,3 +22,11 @@ operator fun Tasks.invoke(
 operator fun Tasks.invoke(
     vararg expected: Parallel.Type<*>
 ): Tasks = invoke(expected.toSet())
+
+/**
+ * Remove the [Tasks] by given [types].
+ */
+operator fun Tasks.minus(
+    types: Set<Parallel.Type<*>>
+): Tasks =
+    filterNot { task -> task.type in types }.toSet()

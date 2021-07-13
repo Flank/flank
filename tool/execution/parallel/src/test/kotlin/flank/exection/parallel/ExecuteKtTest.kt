@@ -164,7 +164,7 @@ class ExecuteKtTest {
         )
         val actual = runBlocking { execute(args).last() }
 
-        assert(actual[A] is NullPointerException)
+        assert(actual[A] is IllegalStateException)
     }
 
     /**

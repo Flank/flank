@@ -132,7 +132,7 @@ fun main() {
     )
 
     Example.run {
-        execute + context.validator
+        execute + context.validate
     }.validate(
         // Comment line below to simulate error on context.validator
         args
