@@ -23,9 +23,9 @@ import flank.corellium.domain.run.test.android.step.loadPreviousDurations
 import flank.corellium.domain.run.test.android.step.parseApksInfo
 import flank.corellium.domain.run.test.android.step.parseTestCasesFromApks
 import flank.corellium.domain.run.test.android.step.prepareShards
-import flank.corellium.domain.util.Transform
-import flank.corellium.domain.util.execute
-import flank.corellium.domain.util.injectLogger
+import flank.exection.linear.Transform
+import flank.exection.linear.execute
+import flank.exection.linear.injectLogger
 import flank.instrument.log.Instrument
 import flank.junit.JUnit
 import flank.log.Event
