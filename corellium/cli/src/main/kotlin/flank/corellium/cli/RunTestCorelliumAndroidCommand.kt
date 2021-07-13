@@ -173,13 +173,16 @@ class RunTestCorelliumAndroidCommand :
 
         val context = Parallel.Function(RunTestCorelliumAndroidCommand::Context)
 
-        val resolve = setOf(
-            context.validate,
-            config,
-            args,
-            corelliumApi,
-            apkApi,
-            jUnitApi,
-        )
+        // Needs to be evaluated lazy due to strange NullPointerException when RunTestCorelliumAndroidCommandTest is run after ArgsKtTest.
+        val resolve by lazy {
+            setOf(
+                context.validate,
+                config,
+                args,
+                corelliumApi,
+                apkApi,
+                jUnitApi,
+            )
+        }
     }
 }

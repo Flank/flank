@@ -7,7 +7,7 @@ import flank.corellium.cli.RunTestCorelliumAndroidCommand.Config
 import flank.corellium.domain.RunTestCorelliumAndroid
 import flank.exection.parallel.using
 
-val config = Config using context {
+internal val config = Config using context {
     merge(
         defaultConfig(),
         yamlConfig(command.yamlConfigPath),
@@ -15,7 +15,7 @@ val config = Config using context {
     )
 }
 
-internal fun defaultConfig() = Config().apply {
+private fun defaultConfig() = Config().apply {
     project = RunTestCorelliumAndroid.Args.DEFAULT_PROJECT
     auth = RunTestCorelliumAndroid.Args.AUTH_FILE
     this += RunTestCorelliumAndroid.Args.Default

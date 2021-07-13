@@ -8,6 +8,6 @@ import flank.exection.parallel.from
 import flank.exection.parallel.type
 import flank.exection.parallel.using
 
-val corelliumApi = type<CorelliumApi>() from setOf(Config) using context {
+internal val corelliumApi = type<CorelliumApi>() from setOf(Config) using context {
     corelliumApi(config.project!!)
 }

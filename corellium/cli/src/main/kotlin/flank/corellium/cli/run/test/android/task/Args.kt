@@ -7,7 +7,7 @@ import flank.corellium.domain.RunTestCorelliumAndroid.Args
 import flank.exection.parallel.from
 import flank.exection.parallel.using
 
-val args = Args from setOf(Config) using context {
+internal val args = Args from setOf(Config) using context {
     Args(
         credentials = loadYaml(config.auth!!),
         apks = config.apks!!,

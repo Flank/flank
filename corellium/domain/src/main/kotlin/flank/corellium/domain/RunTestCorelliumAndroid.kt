@@ -192,19 +192,22 @@ object RunTestCorelliumAndroid {
 
     // Execution tasks
 
-    val execute = setOf(
-        context.validate,
-        authorize,
-        createOutputDir,
-        dumpShards,
-        executeTests,
-        finish,
-        generateReport,
-        installApks,
-        invokeDevices,
-        loadPreviousDurations,
-        parseApksInfo,
-        parseTestCasesFromApks,
-        prepareShards,
-    )
+    // Evaluate lazy to avoid strange NullPointerException.
+    val execute by lazy {
+        setOf(
+            context.validate,
+            authorize,
+            createOutputDir,
+            dumpShards,
+            executeTests,
+            finish,
+            generateReport,
+            installApks,
+            invokeDevices,
+            loadPreviousDurations,
+            parseApksInfo,
+            parseTestCasesFromApks,
+            prepareShards,
+        )
+    }
 }

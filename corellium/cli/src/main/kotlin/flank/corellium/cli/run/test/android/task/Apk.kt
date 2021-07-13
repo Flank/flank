@@ -4,4 +4,4 @@ import flank.apk.Apk
 import flank.exection.parallel.type
 import flank.exection.parallel.using
 
-val apkApi = type<Apk.Api>() using { Apk.Api() }
+internal val apkApi = type<Apk.Api>() using { Apk.Api() }
