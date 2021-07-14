@@ -26,8 +26,8 @@ dependencies {
     api(project(":tool:instrument:log"))
     api(project(":tool:junit"))
     api(project(":tool:log"))
-    api(project(":tool:analytics"))
-    api(project(":tool:analytics:mixpanel"))
+    api(project(Modules.ANALYTICS))
+    api(project(Modules.MIXPANEL_ANALYTICS))
 
     testImplementation(Dependencies.JUNIT)
     testImplementation(project(":corellium:adapter"))

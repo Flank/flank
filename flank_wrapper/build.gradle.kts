@@ -75,7 +75,7 @@ publishing {
 }
 
 dependencies {
-    implementation(project(Modules.ANALYTICS))
+    implementation(project(Modules.MIXPANEL_ANALYTICS))
     implementation(project(Modules.COMMON))
     implementation(Dependencies.SENTRY)
     implementation(Dependencies.Fuel.CORE)

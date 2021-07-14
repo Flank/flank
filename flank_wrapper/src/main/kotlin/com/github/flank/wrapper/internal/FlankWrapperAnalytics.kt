@@ -1,7 +1,7 @@
 package com.github.flank.wrapper.internal
 
-import flank.analytics.send
-import flank.analytics.toEvent
+import flank.tool.analytics.mixpanel.send
+import flank.tool.analytics.mixpanel.toEvent
 
 private const val FLANK_WRAPPER = "flank_wrapper"
 private const val EVENT_RUN = "flank run"
