@@ -27,7 +27,7 @@ class UsageStatisticsTest {
     fun `should anonymize maps to (key,anonymizedValue)`() {
         val default = AndroidArgs.default()
         val args = default.copy(environmentVariables = mapOf("testKey" to "testValue", "testKey2" to "testValue2"))
-
+        args.initUsageStatistics()
         val nonDefaultArgs = args.createEventMap()
         (nonDefaultArgs["environmentVariables"] as? Map<*, *>)?.let { environmentVariables ->
             assertThat(environmentVariables.count()).isEqualTo(2)
