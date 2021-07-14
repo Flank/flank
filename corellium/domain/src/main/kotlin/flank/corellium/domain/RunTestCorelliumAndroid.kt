@@ -174,16 +174,16 @@ object RunTestCorelliumAndroid {
         ) : Event.Data
     }
 
+    object CleanUp : Parallel.Type<Unit>
+    object GenerateReport : Parallel.Type<Unit>
+    object CompleteTests : Parallel.Type<Unit>
+
     // Data
 
     data class Info(
         val packageNames: Map<String, String> = emptyMap(),
         val testRunners: Map<String, String> = emptyMap(),
     )
-
-    object CleanUp : Parallel.Type<Unit>
-    object GenerateReport : Parallel.Type<Unit>
-    object CompleteTests : Parallel.Type<Unit>
 
     // Common Events
 
