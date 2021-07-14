@@ -15,6 +15,7 @@ tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
 dependencies {
     api(Dependencies.Fuel.CORE)
     api(Dependencies.ARCHIVE_LIB)
+    api(Dependencies.JSON)
 
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.MOCKK)

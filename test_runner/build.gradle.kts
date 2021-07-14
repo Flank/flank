@@ -212,6 +212,9 @@ dependencies {
 
     implementation(project(":corellium:cli"))
 
+    implementation(project(":tool:analytics"))
+    implementation(project(":tool:analytics:mixpanel"))
+
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.SYSTEM_RULES)
     testImplementation(Dependencies.TRUTH)

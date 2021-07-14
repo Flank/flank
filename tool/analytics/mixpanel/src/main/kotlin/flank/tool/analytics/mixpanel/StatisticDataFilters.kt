@@ -1,22 +1,21 @@
-package ftl.analytics
+package flank.tool.analytics.mixpanel
 
-import ftl.args.AndroidArgs
-import ftl.args.IArgs
-import ftl.args.IosArgs
+import flank.tool.analytics.AnonymizeInStatistics
+import flank.tool.analytics.IgnoreInStatistics
 import kotlin.reflect.KClass
 
-annotation class IgnoreInStatistics
-annotation class AnonymizeInStatistics
-
 internal val keysToRemove by lazy {
-    classesForStatistics.map(findMembersWithAnnotation(IgnoreInStatistics::class)).flatten()
+    getClassesForStatisticsOrThrow().map(findMembersWithAnnotation(IgnoreInStatistics::class)).flatten()
 }
 
 internal val keysToAnonymize by lazy {
-    classesForStatistics.map(findMembersWithAnnotation(AnonymizeInStatistics::class)).flatten()
+    getClassesForStatisticsOrThrow().map(findMembersWithAnnotation(AnonymizeInStatistics::class)).flatten()
 }
 
-private val classesForStatistics = listOf(IArgs::class, AndroidArgs::class, IosArgs::class)
+private fun getClassesForStatisticsOrThrow() =
+    (classesForStatistics ?: throw NullPointerException("Analytics client should be initialized first"))
+
+internal var classesForStatistics: List<KClass<*>>? = null
 
 private fun findMembersWithAnnotation(
     annotationType: KClass<*>
@@ -28,12 +27,12 @@ private fun findMembersWithAnnotation(
     }
 }
 
-internal fun Map<String, Any>.removeNotNeededKeys() =
+fun Map<String, Any>.removeNotNeededKeys() =
     filterNot { (key, _) ->
         key in keysToRemove
     }
 
-internal fun Map<String, Any>.filterSensitiveValues() = mapValues { it.anonymousSensitiveValues() }
+fun Map<String, Any>.filterSensitiveValues() = mapValues { it.anonymousSensitiveValues() }
 
 private fun Map.Entry<String, Any>.anonymousSensitiveValues() =
     if (keysToAnonymize.contains(key)) value.toAnonymous()

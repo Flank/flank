@@ -1,8 +1,11 @@
 package ftl.domain
 
 import flank.common.logLn
-import ftl.analytics.FLANK_VERSION
-import ftl.analytics.FLANK_VERSION_PROPERTY
+import flank.tool.analytics.mixpanel.FIREBASE
+import flank.tool.analytics.mixpanel.FLANK_VERSION
+import flank.tool.analytics.mixpanel.FLANK_VERSION_PROPERTY
+import flank.tool.analytics.mixpanel.TEST_PLATFORM
+import flank.tool.analytics.mixpanel.sendConfiguration
 import ftl.analytics.sendConfiguration
 import ftl.args.createIosArgs
 import ftl.args.setupLogLevel
@@ -58,8 +61,14 @@ operator fun RunIosTest.invoke() {
             DEVICE_SYSTEM to "ios",
             TEST_TYPE to type?.name.orEmpty()
         )
+
         sendConfiguration()
-        sendConfiguration(mapOf(FLANK_VERSION_PROPERTY to readVersion()), eventName = FLANK_VERSION)
+        sendConfiguration(
+            project,
+            mapOf(FLANK_VERSION_PROPERTY to readVersion(), TEST_PLATFORM to FIREBASE),
+            eventName = FLANK_VERSION
+        )
+
         if (dumpShards.not()) logLn(this)
     }.validate().run {
         if (dumpShards) dumpShards()

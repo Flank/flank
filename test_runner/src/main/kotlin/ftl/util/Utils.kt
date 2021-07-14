@@ -4,6 +4,7 @@ package ftl.util
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import flank.common.logLn
+import flank.tool.analytics.mixpanel.sessionId
 import ftl.run.exception.FlankGeneralError
 import java.io.File
 import java.io.InputStream

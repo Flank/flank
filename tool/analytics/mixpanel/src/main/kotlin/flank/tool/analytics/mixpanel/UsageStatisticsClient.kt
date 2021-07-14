@@ -1,15 +1,16 @@
-package ftl.analytics
+package flank.tool.analytics.mixpanel
 
 import com.fasterxml.jackson.module.kotlin.jsonMapper
 import com.fasterxml.jackson.module.kotlin.kotlinModule
-import com.google.common.annotations.VisibleForTesting
 import com.mixpanel.mixpanelapi.MessageBuilder
 import com.mixpanel.mixpanelapi.MixpanelAPI
-import ftl.util.SESSION_ID
-import ftl.util.sessionId
+import flank.common.toJSONObject
 import org.json.JSONObject
+import kotlin.reflect.KClass
 
 private const val MIXPANEL_API_TOKEN = "d9728b2c8e6ca9fd6de1fcd32dd8cdc2"
+
+internal var blockSendUsageStatistics: Boolean = false
 
 internal val messageBuilder by lazy {
     MessageBuilder(MIXPANEL_API_TOKEN)
@@ -25,10 +26,16 @@ internal val objectMapper by lazy {
     }
 }
 
-@VisibleForTesting
-internal fun JSONObject.send() = apiClient.sendMessage(this)
+fun initializeStatisticsClient(blockUsageStatistics: Boolean, vararg statisticClasses: KClass<*>) {
+    if (classesForStatistics != null) return
 
-internal fun Map<String, Any?>.toEvent(projectId: String, eventName: String) =
+    blockSendUsageStatistics = blockUsageStatistics
+    classesForStatistics = statisticClasses.asList()
+}
+
+fun JSONObject.send() = apiClient.sendMessage(this)
+
+fun Map<String, Any?>.toEvent(projectId: String, eventName: String): JSONObject =
     (this + Pair(SESSION_ID, sessionId)).run {
         messageBuilder.event(projectId, eventName, toJSONObject())
     }

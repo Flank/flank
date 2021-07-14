@@ -1,7 +1,7 @@
 package ftl.args
 
-import ftl.analytics.AnonymizeInStatistics
-import ftl.analytics.IgnoreInStatistics
+import flank.tool.analytics.AnonymizeInStatistics
+import flank.tool.analytics.IgnoreInStatistics
 import ftl.api.ShardChunks
 import ftl.args.yml.AppTestPair
 import ftl.args.yml.Type

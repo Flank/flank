@@ -2,6 +2,7 @@ package ftl.run.platform.common
 
 import flank.common.logLn
 import flank.common.startWithNewLine
+import flank.tool.analytics.mixpanel.sendConfiguration
 import ftl.analytics.sendConfiguration
 import ftl.api.RemoteStorage
 import ftl.api.TestMatrix
@@ -90,5 +91,5 @@ fun IArgs.uploadSessionId() = takeUnless { disableResultsUpload }?.let {
 
 private fun Duration.saveAndReportStepTime(args: IArgs) {
     addStepTime("Running tests", this)
-    args.sendConfiguration(events = mapOf("test_duration" to this), eventName = "total_test_time")
+    sendConfiguration(project = args.project, events = mapOf("test_duration" to this), eventName = "total_test_time")
 }

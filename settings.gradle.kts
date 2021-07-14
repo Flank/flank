@@ -21,7 +21,6 @@ include(
     ":corellium:adapter",
     ":corellium:client",
     ":corellium:sandbox",
-
     ":tool:apk",
     ":tool:config",
     ":tool:filter",
@@ -35,6 +34,9 @@ include(
     ":tool:log",
     ":tool:log:format",
     ":tool:execution:parallel",
+    ":tool:execution:synchronized",
+    ":tool:analytics",
+    ":tool:analytics:mixpanel",
     ":tool:execution:linear",
 )
 
