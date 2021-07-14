@@ -3,7 +3,6 @@
 package ftl.util
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import flank.analytics.sessionId
 import flank.common.logLn
 import flank.tool.analytics.mixpanel.sessionId
 import ftl.run.exception.FlankGeneralError
