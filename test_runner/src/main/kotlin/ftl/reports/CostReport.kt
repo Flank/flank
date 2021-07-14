@@ -15,7 +15,7 @@ object CostReport : IReport {
 
     override val extension = ".txt"
 
-    private fun estimate(args: IArgs, matrices: MatrixMap): String {
+    private fun estimate(matrices: MatrixMap): String {
         var totalBillableVirtualMinutes = 0L
         var totalBillablePhysicalMinutes = 0L
 
@@ -27,8 +27,8 @@ object CostReport : IReport {
         return estimateCosts(totalBillableVirtualMinutes, totalBillablePhysicalMinutes)
     }
 
-    private fun generate(args: IArgs, matrices: MatrixMap): String {
-        val cost = estimate(args, matrices)
+    private fun generate(matrices: MatrixMap): String {
+        val cost = estimate(matrices)
         StringWriter().use { writer ->
             writer.println(reportName())
             cost.split("\n").forEach { writer.println(indent + it) }
@@ -37,7 +37,7 @@ object CostReport : IReport {
     }
 
     override fun run(matrices: MatrixMap, result: JUnitTest.Result?, printToStdout: Boolean, args: IArgs) {
-        val output = generate(args, matrices)
+        val output = generate(matrices)
         if (printToStdout) print(output)
         write(matrices, output, args)
         ReportManager.uploadReportResult(output, args, fileName())
