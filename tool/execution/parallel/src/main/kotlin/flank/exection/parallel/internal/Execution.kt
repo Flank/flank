@@ -1,14 +1,16 @@
 package flank.exection.parallel.internal
 
-import flank.exection.parallel.Output
 import flank.exection.parallel.Parallel
-import flank.exection.parallel.Parallel.Event
 import flank.exection.parallel.Parallel.Logger
 import flank.exection.parallel.Parallel.Task
 import flank.exection.parallel.Parallel.Type
 import flank.exection.parallel.ParallelState
 import flank.exection.parallel.Property
 import flank.exection.parallel.Tasks
+import flank.log.Event
+import flank.log.Output
+import flank.log.event
+import flank.log.normalize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -221,7 +223,7 @@ private suspend fun Execution.execute(
     jobs += type to scope.launch {
 
         // Extend root output for adding additional data.
-        val out: Output = output?.let { { it(Event(type, this)) } } ?: {}
+        val out: Output = output?.normalize { type event it } ?: {}
 
         // Log the task was started
         Event.Start.out()

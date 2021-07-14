@@ -4,6 +4,7 @@ import ftl.api.RemoteStorage
 import ftl.api.uploadToRemoteStorage
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
+import ftl.config.FtlConstants.GCS_PREFIX
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -24,9 +25,9 @@ internal suspend fun AndroidArgs.uploadObbFiles(): Map<String, String> = corouti
     }.awaitAll().toMap()
 }
 
-fun upload(file: String, rootGcsBucket: String, runGcsPath: String): String {
-    return uploadToRemoteStorage(
+fun upload(file: String, rootGcsBucket: String, runGcsPath: String): String =
+    if (file.startsWith(GCS_PREFIX)) file
+    else uploadToRemoteStorage(
         RemoteStorage.Dir(rootGcsBucket, runGcsPath),
         RemoteStorage.Data(file, Files.readAllBytes(Paths.get(file)))
     )
-}

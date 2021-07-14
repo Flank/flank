@@ -3,7 +3,7 @@ package flank.exection.parallel
 import flank.exection.parallel.internal.ContextProvider
 import flank.exection.parallel.internal.EagerProperties
 import flank.exection.parallel.internal.lazyProperty
-import java.lang.System.currentTimeMillis
+import flank.log.Output
 
 // ======================= Types =======================
 
@@ -13,7 +13,7 @@ import java.lang.System.currentTimeMillis
 object Parallel {
 
     /**
-     * Abstraction for execution data provider which is also an context for task execution.
+     * Abstraction for execution data provider which is also a context for task execution.
      * For initialization purpose some properties are exposed as variable.
      */
     open class Context : Type<Unit> {
@@ -46,7 +46,12 @@ object Parallel {
         protected operator fun <T : Any> Type<T>.unaryMinus() = lazyProperty(this)
 
         /**
-         * Internal accessor for initializing (validating) eager properties
+         * DSL for creating lazy delegate accessor to the state value for a given type with additional property selector.
+         */
+        protected operator fun <T : Any, V> Type<T>.invoke(select: T.() -> V) = lazyProperty(this, select)
+
+        /**
+         * Internal accessor for initializing (validating) eager properties.
          */
         internal fun validate() = eager()
     }
@@ -67,8 +72,8 @@ object Parallel {
         /**
          * The task signature.
          *
-         * @param type A return type of a task
-         * @param args A set of types for arguments
+         * @param type A return a type of task.
+         * @param args A set of argument types.
          */
         data class Signature<R : Any>(
             val type: Type<R>,
@@ -80,15 +85,6 @@ object Parallel {
      * Parameterized factory for creating task functions in scope of [X].
      */
     class Function<X : Context>(override val context: () -> X) : ContextProvider<X>()
-
-    data class Event internal constructor(
-        val type: Type<*>,
-        val data: Any,
-        val timestamp: Long = currentTimeMillis(),
-    ) {
-        object Start
-        object Stop
-    }
 
     object Logger : Type<Output>
 
@@ -110,11 +106,6 @@ object Parallel {
  * Signature for [Parallel.Task] function.
  */
 typealias ExecuteTask<R> = suspend ParallelState.() -> R
-
-/**
- * Common signature for structural log output.
- */
-typealias Output = Any.() -> Unit
 
 /**
  * Immutable state for parallel execution.

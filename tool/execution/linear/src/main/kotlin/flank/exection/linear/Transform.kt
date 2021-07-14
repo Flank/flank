@@ -1,4 +1,4 @@
-package flank.corellium.domain.util
+package flank.exection.linear
 
 import flank.log.Event
 import flank.log.Logger
@@ -14,13 +14,13 @@ import kotlinx.coroutines.flow.fold
  * @receiver Value to apply transformations on it.
  * @return Result of transformations.
  */
-internal suspend infix fun <S> S.execute(operations: Flow<Transform<S>>): S =
+suspend infix fun <S> S.execute(operations: Flow<Transform<S>>): S =
     operations.fold(this) { value, transform -> transform(value) }
 
 /**
  * Simple parameterized factory for generating [Transform] instances.
  */
-internal class CreateTransformation<S> : (Transform<S>) -> Transform<S> by { it }
+class CreateTransformation<S> : (Transform<S>) -> Transform<S> by { it }
 
 /**
  * Type-alias for suspendable transforming operation
@@ -30,7 +30,7 @@ typealias Transform<S> = suspend S.() -> S
 /**
  * Inject log output to the transform function.
  */
-internal fun <S> Logger.injectLogger(
+fun <S> Logger.injectLogger(
     type: Any = Unit,
     transform: suspend S.(Output) -> S
 ): Transform<S> {

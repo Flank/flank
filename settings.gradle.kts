@@ -37,6 +37,7 @@ include(
     ":tool:execution:synchronized",
     ":tool:analytics",
     ":tool:analytics:mixpanel",
+    ":tool:execution:linear",
 )
 
 plugins {
