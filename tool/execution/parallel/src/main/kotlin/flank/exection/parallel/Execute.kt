@@ -2,6 +2,7 @@ package flank.exection.parallel
 
 import flank.exection.parallel.internal.Execution
 import flank.exection.parallel.internal.invoke
+import flank.exection.parallel.internal.minusContextValidators
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -12,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 infix operator fun Tasks.invoke(
     args: ParallelState
 ): Flow<ParallelState> =
-    Execution(this, args).invoke()
+    Execution(minusContextValidators(), args).invoke()
 
 // ======================= Extensions =======================
 

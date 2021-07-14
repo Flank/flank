@@ -1,5 +1,6 @@
 package flank.exection.parallel
 
+import flank.exection.parallel.internal.DynamicType
 import flank.exection.parallel.internal.EagerProperties
 
 // ======================= Signature =======================
@@ -34,9 +35,21 @@ infix fun <R : Any> Parallel.Type<R>.using(
 
 /**
  * Factory function for creating special task that can validate arguments before execution.
- * Typically the [Parallel.Context] with added [EagerProperties] is used to validate initial state.
+ * The [Parallel.Context] with added [EagerProperties] can validate if state contains required initial values.
  */
 internal fun <C : Parallel.Context> validator(
     context: (() -> C)
 ): Parallel.Task<Unit> =
     context() using { context().also { it.state = this }.run { validate() } }
+
+// ======================= Type =======================
+
+/**
+ * Factory function for creating dynamic [Parallel.Type].
+ */
+inline fun <reified T : Any> type(): Parallel.Type<T> = type(T::class.java)
+
+/**
+ * Factory function for creating dynamic [Parallel.Type].
+ */
+fun <T : Any> type(type: Class<T>): Parallel.Type<T> = DynamicType(type)
