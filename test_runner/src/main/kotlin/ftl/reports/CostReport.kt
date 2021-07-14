@@ -1,16 +1,12 @@
 package ftl.reports
 
 import flank.common.println
-import flank.tool.analytics.mixpanel.sendConfiguration
 import ftl.api.JUnitTest
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.util.ReportManager
-import ftl.util.calculatePhysicalCost
-import ftl.util.calculateTotalCost
-import ftl.util.calculateVirtualCost
 import ftl.util.estimateCosts
 import java.io.StringWriter
 
@@ -27,22 +23,6 @@ object CostReport : IReport {
             totalBillableVirtualMinutes += it.billableMinutes.virtual
             totalBillablePhysicalMinutes += it.billableMinutes.physical
         }
-
-        val virtualCost = calculateVirtualCost(totalBillableVirtualMinutes.toBigDecimal())
-        val physicalCost = calculatePhysicalCost(totalBillablePhysicalMinutes.toBigDecimal())
-
-        sendConfiguration(
-            project = args.project,
-            events = mapOf(
-                "virtual_cost" to virtualCost,
-                "physical_cost" to physicalCost,
-                "cost_total" to calculateTotalCost(
-                    virtualCost,
-                    physicalCost
-                )
-            ),
-            eventName = "devices_cost"
-        )
 
         return estimateCosts(totalBillableVirtualMinutes, totalBillablePhysicalMinutes)
     }

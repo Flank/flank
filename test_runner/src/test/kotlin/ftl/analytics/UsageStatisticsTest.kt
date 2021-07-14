@@ -37,15 +37,6 @@ class UsageStatisticsTest {
     }
 
     @Test
-    fun `should not run send configuration if unit tests`() {
-        mockkStatic(JSONObject::send)
-
-        AndroidArgs.default().sendConfiguration()
-
-        verify(inverse = true) { any<JSONObject>().send() }
-    }
-
-    @Test
     fun `should not run send configuration if disable statistic param set`() {
         mockkStatic(JSONObject::send)
         mockkStatic(::readVersion)
