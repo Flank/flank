@@ -8,9 +8,9 @@ private const val NAME_KEY = "name"
 fun sendConfiguration(
     project: String,
     events: Map<String, Any?>,
-    eventName: String = CONFIGURATION_KEY
+    eventName: String = FIREBASE_TEST_LAB_RUN
 ) =
-    project.takeUnless { blockSendUsageStatistics }?.run {
+    project.takeUnless { blockSendUsageStatistics || project.isBlank() }?.run {
         registerUser(project)
         events
             .toEvent(project, eventName)

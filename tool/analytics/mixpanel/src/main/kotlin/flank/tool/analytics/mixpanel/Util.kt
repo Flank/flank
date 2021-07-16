@@ -3,7 +3,7 @@ package flank.tool.analytics.mixpanel
 import com.fasterxml.jackson.core.type.TypeReference
 import java.util.UUID
 
-const val CONFIGURATION_KEY = "configuration"
+const val FIREBASE_TEST_LAB_RUN = "firebase test lab run"
 const val APP_ID = "app_id"
 const val DEVICE_TYPE = "device_type"
 const val FLANK_VERSION = "flank_version"
