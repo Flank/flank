@@ -25,7 +25,7 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.9.22"
+version = "1.9.23"
 group = "com.github.flank"
 
 application {
@@ -93,7 +93,7 @@ repositories {
 
 dependencies {
     implementation(Dependencies.KOTLIN_SERIALIZATION)
-    implementation(project(":common"))
+    implementation(project(Modules.COMMON))
     implementation(Dependencies.CLIKT)
     implementation(Dependencies.JCABI_GITHUB)
     implementation(Dependencies.SLF4J_NOP)

@@ -3,6 +3,8 @@ package com.github.flank.wrapper.internal
 import kotlin.system.exitProcess
 
 internal fun executeFlank(args: Array<out String>) {
+    sendAnalyticsFlankRun()
+
     ProcessBuilder()
         .command(buildRunCommand(args))
         .inheritIO()

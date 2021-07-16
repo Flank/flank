@@ -173,9 +173,9 @@ tasks.withType<Test> {
 }
 
 dependencies {
-    implementation(project(":common"))
+    implementation(project(Modules.COMMON))
+    implementation(project(Modules.MIXPANEL_ANALYTICS))
     implementation(Dependencies.SENTRY)
-    implementation(Dependencies.MIXPANEL)
 
     implementation(Dependencies.DD_PLIST)
     implementation(Dependencies.DEX_TEST_PARSER)
@@ -212,8 +212,8 @@ dependencies {
 
     implementation(project(":corellium:cli"))
 
-    implementation(project(":tool:analytics"))
-    implementation(project(":tool:analytics:mixpanel"))
+    implementation(project(Modules.ANALYTICS))
+    implementation(project(Modules.MIXPANEL_ANALYTICS))
 
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.SYSTEM_RULES)

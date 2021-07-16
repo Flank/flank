@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":common"))
+    implementation(project(Modules.COMMON))
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.JACKSON_XML)
     testImplementation(Dependencies.JACKSON_KOTLIN)

@@ -23,7 +23,7 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.1.0"
+version = "1.2.0"
 group = "com.github.flank"
 
 repositories {
@@ -75,7 +75,8 @@ publishing {
 }
 
 dependencies {
-    implementation(project(":common"))
+    implementation(project(Modules.MIXPANEL_ANALYTICS))
+    implementation(project(Modules.COMMON))
     implementation(Dependencies.SENTRY)
     implementation(Dependencies.Fuel.CORE)
     testImplementation(Dependencies.JUNIT)
