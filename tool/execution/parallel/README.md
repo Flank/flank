@@ -22,7 +22,7 @@ data `types` and suspendable functions (`tasks`).
 
 #### Example execution graph
 
-![example-graph](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2001_Implement_tool_for_parallel_execution/docs/hld/parallel-example-graph.puml)
+![example-graph](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/parallel-example-graph.puml)
 
 ## Type
 
@@ -70,7 +70,7 @@ object Logger : Parallel.Type<Output>
 * can be created from a set of tasks.
 * can have broken paths, when any task have `missing dependencies`.
 
-![parallel-execution](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2001_Implement_tool_for_parallel_execution/docs/hld/task-graph.puml)
+![parallel-execution](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/task-graph.puml)
 
 #### Example kotlin code
 
@@ -147,7 +147,7 @@ val flow3: Flow<ParallelState> = execute(Bar, Baz)(intial)
 
 The following diagram is showing parallel execution algorithm in details:
 
-![parallel-execution](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2001_Implement_tool_for_parallel_execution/docs/hld/parallel-execution.puml)
+![parallel-execution](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/parallel-execution.puml)
 
 # API
 
@@ -155,8 +155,8 @@ The following graphs are showing constrains between API elements described previ
 
 ### Functions
 
-![parallel-execution](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2001_Implement_tool_for_parallel_execution/docs/hld/parallel-execution-api-functions.puml)
+![parallel-execution](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/parallel-execution-api-functions.puml)
 
 ### Types
 
-![parallel-execution](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2001_Implement_tool_for_parallel_execution/docs/hld/parallel-execution-api-structures.puml)
+![parallel-execution](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/parallel-execution-api-structures.puml)

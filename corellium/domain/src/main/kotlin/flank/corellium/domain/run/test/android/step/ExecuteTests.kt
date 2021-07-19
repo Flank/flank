@@ -2,8 +2,15 @@ package flank.corellium.domain.run.test.android.step
 
 import flank.corellium.api.AndroidTestPlan
 import flank.corellium.domain.RunTestCorelliumAndroid
+import flank.corellium.domain.RunTestCorelliumAndroid.Authorize
 import flank.corellium.domain.RunTestCorelliumAndroid.ExecuteTests
-import flank.corellium.domain.step
+import flank.corellium.domain.RunTestCorelliumAndroid.InstallApks
+import flank.corellium.domain.RunTestCorelliumAndroid.InvokeDevices
+import flank.corellium.domain.RunTestCorelliumAndroid.ParseApkInfo
+import flank.corellium.domain.RunTestCorelliumAndroid.PrepareShards
+import flank.corellium.domain.RunTestCorelliumAndroid.context
+import flank.exection.parallel.from
+import flank.exection.parallel.using
 import flank.instrument.command.formatAmInstrumentCommand
 import flank.instrument.log.Instrument
 import flank.instrument.log.parseAdbInstrumentLog
@@ -27,21 +34,17 @@ import java.io.File
  * The side effect is console logs from `am instrument` saved inside [RunTestCorelliumAndroid.ExecuteTests.ADB_LOG] output subdirectory.
  *
  * The optional parsing errors are sent through [RunTestCorelliumAndroid.Context.out].
- *
- * require:
- * * [RunTestCorelliumAndroid.Context.authorize]
- * * [RunTestCorelliumAndroid.Context.prepareShards]
- * * [RunTestCorelliumAndroid.Context.invokeDevices]
- * * [RunTestCorelliumAndroid.Context.installApks]
- * * [RunTestCorelliumAndroid.Context.parseApksInfo]
- *
- * updates:
- * * [RunTestCorelliumAndroid.State.shards]
  */
-internal fun RunTestCorelliumAndroid.Context.executeTests() = step(ExecuteTests) { out ->
+internal val executeTests = ExecuteTests from setOf(
+    PrepareShards,
+    ParseApkInfo,
+    Authorize,
+    InvokeDevices,
+    InstallApks,
+) using context {
     val outputDir = File(args.outputDir, ExecuteTests.ADB_LOG).apply { mkdir() }
     val testPlan: AndroidTestPlan.Config = prepareTestPlan()
-    val list = coroutineScope {
+    coroutineScope {
         ExecuteTests.Plan(testPlan).out()
         api.executeTest(testPlan).map { (id, flow) ->
             async {
@@ -65,14 +68,13 @@ internal fun RunTestCorelliumAndroid.Context.executeTests() = step(ExecuteTests)
             }
         }.awaitAll()
     }
-    copy(testResult = list)
 }
 
 /**
  * Prepare [AndroidTestPlan.Config] for test execution.
  * It is just mapping and formatting the data collected in state.
  */
-private fun RunTestCorelliumAndroid.State.prepareTestPlan(): AndroidTestPlan.Config =
+private fun RunTestCorelliumAndroid.Context.prepareTestPlan(): AndroidTestPlan.Config =
     AndroidTestPlan.Config(
         shards.mapIndexed { index, shards ->
             ids[index] to shards.flatMap { shard: Shard.App ->
@@ -87,5 +89,5 @@ private fun RunTestCorelliumAndroid.State.prepareTestPlan(): AndroidTestPlan.Con
         }.toMap()
     )
 
-private fun RunTestCorelliumAndroid.State.expectedResultsCountFor(id: String): Int =
+private fun RunTestCorelliumAndroid.Context.expectedResultsCountFor(id: String): Int =
     shards[ids.indexOf(id)].size

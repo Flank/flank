@@ -16,7 +16,7 @@ tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
 dependencies {
     implementation(Dependencies.KOTLIN_COROUTINES_CORE)
     api(project(":corellium:api"))
-    api(project(":tool:execution:linear"))
+    api(project(":tool:execution:parallel"))
     api(project(":tool:apk"))
     api(project(":tool:filter"))
     api(project(":tool:shard:calculate"))

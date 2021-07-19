@@ -1,14 +1,23 @@
 package flank.corellium.domain.run.test.android.step
 
-import flank.apk.Apk
 import flank.corellium.api.CorelliumApi
 import flank.corellium.domain.RunTestCorelliumAndroid
+import flank.corellium.domain.RunTestCorelliumAndroid.Args
+import flank.corellium.domain.RunTestCorelliumAndroid.Authorize
 import flank.corellium.domain.RunTestCorelliumAndroid.ExecuteTests
 import flank.corellium.domain.RunTestCorelliumAndroid.ExecuteTests.ADB_LOG
+import flank.corellium.domain.RunTestCorelliumAndroid.InstallApks
+import flank.corellium.domain.RunTestCorelliumAndroid.InvokeDevices
+import flank.corellium.domain.RunTestCorelliumAndroid.ParseApkInfo
+import flank.corellium.domain.RunTestCorelliumAndroid.PrepareShards
 import flank.corellium.domain.invalidLog
 import flank.corellium.domain.stubCredentials
 import flank.corellium.domain.validLog
-import flank.junit.JUnit
+import flank.exection.parallel.Parallel
+import flank.exection.parallel.ParallelState
+import flank.exection.parallel.invoke
+import flank.exection.parallel.select
+import flank.exection.parallel.type
 import flank.log.Event
 import flank.log.Output
 import flank.shard.Shard
@@ -16,6 +25,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flattenConcat
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -25,33 +35,32 @@ import org.junit.Before
 import org.junit.Test
 import java.io.File
 
-class ExecuteTestsKtTest : RunTestCorelliumAndroid.Context {
+class ExecuteTestsKtTest {
 
-    override lateinit var api: CorelliumApi
-    override var out: Output = ::println
-    override val apk = Apk.Api()
-    override val junit = JUnit.Api()
-    override val args = RunTestCorelliumAndroid.Args(
-        credentials = stubCredentials,
-        apks = emptyList(),
-        maxShardsCount = 1,
-    )
-
-    private val dir = File(args.outputDir)
+    private val dir = File(Args.DefaultOutputDir.new)
     private val instanceId = "1"
-    private val state = RunTestCorelliumAndroid.State(
-        ids = listOf(instanceId),
-        shards = listOf((0..2).map { Shard.App("$it", emptyList()) })
+
+    private val initial: ParallelState = mapOf(
+        Args to Args(
+            credentials = stubCredentials,
+            apks = emptyList(),
+            maxShardsCount = 1,
+            outputDir = dir.path
+        ),
+        PrepareShards to listOf((0..2).map { Shard.App("$it", emptyList()) }),
+        ParseApkInfo to RunTestCorelliumAndroid.Info(),
+        Authorize to Unit,
+        InvokeDevices to listOf(instanceId),
+        InstallApks to Unit,
     )
+
+    private val execute = setOf(executeTests)
 
     // simulate additional unneeded input that will be omitted.
     private val additionalInput = (0..1000).map(Int::toString).asFlow().onStart { delay(500) }
-
-    private fun setLog(log: String) {
-        api = CorelliumApi(
-            executeTest = { listOf(instanceId to flowOf(log.lines().asFlow(), additionalInput).flattenConcat()) }
-        )
-    }
+    private fun corelliumApi(log: String) = CorelliumApi(
+        executeTest = { listOf(instanceId to flowOf(log.lines().asFlow(), additionalInput).flattenConcat()) }
+    )
 
     @Before
     fun setUp() {
@@ -69,13 +78,15 @@ class ExecuteTestsKtTest : RunTestCorelliumAndroid.Context {
     @Test
     fun happyPath() {
         // given
-        setLog(validLog)
+        val args = initial + mapOf(
+            type<CorelliumApi>() to corelliumApi(validLog)
+        )
 
         // when
-        val testResult = runBlocking { executeTests().invoke(state) }.testResult
+        val testResult = runBlocking { execute(args).last() }
 
         // then
-        assertEquals(9, testResult.first().size)
+        assertEquals(9, testResult.select(ExecuteTests).first().size)
 
         // Right after reading the required results count from validLog the stream is closing.
         // Saved log is same as validLog without unneeded additionalInput.
@@ -94,12 +105,14 @@ class ExecuteTestsKtTest : RunTestCorelliumAndroid.Context {
     @Test
     fun error() {
         // given
-        setLog(invalidLog)
         val events = mutableListOf<Event<*>>()
-        out = { events += this as Event<*> }
-
+        val out: Output = { events += this as Event<*> }
+        val args = initial + mapOf(
+            type<CorelliumApi>() to corelliumApi(invalidLog),
+            Parallel.Logger to out
+        )
         // when
-        val testResult = runBlocking { executeTests()(state).testResult }
+        val testResult = runBlocking { execute(args).last().select(ExecuteTests) }
 
         // then
         assertTrue(testResult.first().isNotEmpty()) // Valid lines parsed before error will be returned

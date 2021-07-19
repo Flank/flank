@@ -8,10 +8,7 @@ import flank.corellium.api.Authorization
 import flank.corellium.api.CorelliumApi
 import flank.corellium.domain.RunTestCorelliumAndroid.Args.DefaultOutputDir
 import flank.corellium.domain.RunTestCorelliumAndroid.Args.DefaultOutputDir.new
-import flank.corellium.domain.RunTestCorelliumAndroid.Context
-import flank.corellium.domain.RunTestCorelliumAndroid.State
 import flank.corellium.domain.run.test.android.step.authorize
-import flank.corellium.domain.run.test.android.step.cleanUpInstances
 import flank.corellium.domain.run.test.android.step.createOutputDir
 import flank.corellium.domain.run.test.android.step.dumpShards
 import flank.corellium.domain.run.test.android.step.executeTests
@@ -23,17 +20,12 @@ import flank.corellium.domain.run.test.android.step.loadPreviousDurations
 import flank.corellium.domain.run.test.android.step.parseApksInfo
 import flank.corellium.domain.run.test.android.step.parseTestCasesFromApks
 import flank.corellium.domain.run.test.android.step.prepareShards
-import flank.exection.linear.Transform
-import flank.exection.linear.execute
-import flank.exection.linear.injectLogger
+import flank.exection.parallel.Parallel
+import flank.exection.parallel.type
 import flank.instrument.log.Instrument
 import flank.junit.JUnit
 import flank.log.Event
-import flank.log.Logger
-import flank.log.Output
 import flank.shard.Shard
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.lang.System.currentTimeMillis
 import java.text.SimpleDateFormat
@@ -42,17 +34,6 @@ import java.text.SimpleDateFormat
  * Use case for running android tests on corellium virtual devices.
  */
 object RunTestCorelliumAndroid {
-
-    /**
-     * The context of android test execution on corellium.
-     * Is providing all necessary data and operations for [Context.invoke].
-     */
-    interface Context : Logger {
-        val api: CorelliumApi
-        val apk: Apk.Api
-        val junit: JUnit.Api
-        val args: Args
-    }
 
     /**
      * The user arguments for the test execution.
@@ -77,7 +58,7 @@ object RunTestCorelliumAndroid {
         val scanPreviousDurations: Int = 10,
     ) {
 
-        companion object {
+        companion object : Parallel.Type<Args> {
             val Default = Args()
             const val DEFAULT_PROJECT = "Default Project"
             const val AUTH_FILE = "corellium_auth.yml"
@@ -121,38 +102,66 @@ object RunTestCorelliumAndroid {
         }
     }
 
+    // Context
+
     /**
-     * The State structure is holding all necessary data collected during the execution process.
+     * The context of android test execution on corellium.
+     * Is providing access to initial arguments and data collected during the execution process.
      * For convenience the properties are sorted in order equal to its initialization.
      *
-     * @param testCases key - path to the test apk, value - list of test method names.
-     * @param previousDurations key - test case name, value - calculated previous duration.
-     * @param shards each item is representing list of apps to run on another device instance.
-     * @param ids the ids of corellium device instances.
-     * @param packageNames key - path to the test apk, value - package name.
-     * @param testRunners key - path to the test apk, value - fully qualified test runner name.
+     * @property api - Corellium API functions.
+     * @property apk - APK parsing functions.
+     * @property junit - JUnit parsing functions.
+     * @property args - User arguments for execution.
+     *
+     * @property testCases key - path to the test apk, value - list of test method names.
+     * @property previousDurations key - test case name, value - calculated previous duration.
+     * @property shards each item is representing list of apps to run on another device instance.
+     * @property ids the ids of corellium device instances.
+     * @property packageNames key - path to the test apk, value - package name.
+     * @property testRunners key - path to the test apk, value - fully qualified test runner name.
      */
-    internal data class State(
-        val testCases: Map<String, List<String>> = emptyMap(),
-        val previousDurations: Map<String, Long> = defaultPreviousDurations,
-        val shards: List<List<Shard.App>> = emptyList(),
-        val ids: List<String> = emptyList(),
-        val packageNames: Map<String, String> = emptyMap(),
-        val testRunners: Map<String, String> = emptyMap(),
-        val testResult: List<List<Instrument>> = emptyList(),
-    )
+    internal class Context : Parallel.Context() {
+        val api by !type<CorelliumApi>()
+        val apk by !type<Apk.Api>()
+        val junit by !type<JUnit.Api>()
+        val args by !Args
 
-    private const val DEFAULT_TEST_CASE_DURATION = 120L
+        val testCases: Map<String, List<String>> by -ParseTestCases
+        val previousDurations: Map<String, Long> by -LoadPreviousDurations
+        val shards: List<List<Shard.App>> by -PrepareShards
+        val ids: List<String> by -InvokeDevices
+        val packageNames by ParseApkInfo { packageNames }
+        val testRunners by ParseApkInfo { testRunners }
+        val testResult: List<List<Instrument>> by -ExecuteTests
+    }
 
-    private val defaultPreviousDurations = emptyMap<String, Long>().withDefault { DEFAULT_TEST_CASE_DURATION }
+    internal val context = Parallel.Function(::Context)
+
+    internal const val DEFAULT_TEST_CASE_DURATION = 120L
 
     // Types
 
-    object Authorize
-    object CleanUp
-    object OutputDir
-    object DumpShards
-    object ExecuteTests {
+    object ParseTestCases : Parallel.Type<Map<String, List<String>>>
+    object LoadPreviousDurations : Parallel.Type<Map<String, Long>> {
+        object Searching : Event.Type<Int>
+        data class Summary(val unknown: Int, val matching: Int, val required: Int) : Event.Data
+    }
+
+    object PrepareShards : Parallel.Type<List<List<Shard.App>>>
+    object ParseApkInfo : Parallel.Type<Info>
+    object OutputDir : Parallel.Type<Unit>
+    object DumpShards : Parallel.Type<Unit>
+    object Authorize : Parallel.Type<Unit>
+    object InvokeDevices : Parallel.Type<List<String>> {
+        object Status : Event.Type<AndroidInstance.Event>
+    }
+
+    object InstallApks : Parallel.Type<Unit> {
+        object Status : Event.Type<AndroidApps.Event>
+    }
+
+    object ExecuteTests : Parallel.Type<List<List<Instrument>>> {
         const val ADB_LOG = "adb_log"
 
         object Plan : Event.Type<AndroidTestPlan.Config>
@@ -165,55 +174,40 @@ object RunTestCorelliumAndroid {
         ) : Event.Data
     }
 
-    object CompleteTests
-    object GenerateReport
-    object InstallApks {
-        object Status : Event.Type<AndroidApps.Event>
-    }
+    object CleanUp : Parallel.Type<Unit>
+    object GenerateReport : Parallel.Type<Unit>
+    object CompleteTests : Parallel.Type<Unit>
 
-    object InvokeDevices {
-        object Status : Event.Type<AndroidInstance.Event>
-    }
+    // Data
 
-    object LoadPreviousDurations {
-        object Searching : Event.Type<Int>
-        data class Summary(val unknown: Int, val matching: Int, val required: Int) : Event.Data
-    }
-
-    object ParseApkInfo
-    object ParseTestCases
-    object PrepareShards
+    data class Info(
+        val packageNames: Map<String, String> = emptyMap(),
+        val testRunners: Map<String, String> = emptyMap(),
+    )
 
     // Common Events
 
     object Created : Event.Type<File>
     object AlreadyExist : Event.Type<File>
-}
 
-/**
- * The reference to the step factory.
- * Invoke it to generate new execution step.
- */
-internal fun Context.step(
-    type: Any = Unit,
-    transform: suspend State.(Output) -> State
-): Transform<State> =
-    injectLogger(type, transform)
+    // Execution tasks
 
-operator fun Context.invoke(): Unit = runBlocking {
-    State() execute flowOf(
-        parseTestCasesFromApks(),
-        loadPreviousDurations(),
-        prepareShards(),
-        createOutputDir(),
-        dumpShards(),
-        parseApksInfo(),
-        authorize(),
-        invokeDevices(),
-        installApks(),
-        executeTests(),
-        cleanUpInstances(),
-        generateReport(),
-        finish(),
-    )
+    // Evaluate lazy to avoid strange NullPointerException.
+    val execute by lazy {
+        setOf(
+            context.validate,
+            authorize,
+            createOutputDir,
+            dumpShards,
+            executeTests,
+            finish,
+            generateReport,
+            installApks,
+            invokeDevices,
+            loadPreviousDurations,
+            parseApksInfo,
+            parseTestCasesFromApks,
+            prepareShards,
+        )
+    }
 }

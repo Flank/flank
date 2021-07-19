@@ -3,36 +3,24 @@ package flank.corellium.cli
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import flank.apk.Apk
 import flank.config.ConfigMap
 import flank.config.emptyConfigMap
-import flank.config.loadYaml
-import flank.config.merge
-import flank.corellium.api.AndroidApps
-import flank.corellium.api.AndroidInstance
-import flank.corellium.cli.RunTestCorelliumAndroidCommand.Config
-import flank.corellium.corelliumApi
-import flank.corellium.domain.RunTestCorelliumAndroid
+import flank.corellium.cli.run.test.android.format
+import flank.corellium.cli.run.test.android.task.apkApi
+import flank.corellium.cli.run.test.android.task.args
+import flank.corellium.cli.run.test.android.task.config
+import flank.corellium.cli.run.test.android.task.corelliumApi
+import flank.corellium.cli.run.test.android.task.jUnitApi
 import flank.corellium.domain.RunTestCorelliumAndroid.Args
-import flank.corellium.domain.RunTestCorelliumAndroid.Authorize
-import flank.corellium.domain.RunTestCorelliumAndroid.CleanUp
 import flank.corellium.domain.RunTestCorelliumAndroid.CompleteTests
-import flank.corellium.domain.RunTestCorelliumAndroid.DumpShards
-import flank.corellium.domain.RunTestCorelliumAndroid.ExecuteTests
-import flank.corellium.domain.RunTestCorelliumAndroid.GenerateReport
-import flank.corellium.domain.RunTestCorelliumAndroid.InstallApks
-import flank.corellium.domain.RunTestCorelliumAndroid.InvokeDevices
-import flank.corellium.domain.RunTestCorelliumAndroid.LoadPreviousDurations
-import flank.corellium.domain.RunTestCorelliumAndroid.OutputDir
-import flank.corellium.domain.RunTestCorelliumAndroid.ParseApkInfo
-import flank.corellium.domain.RunTestCorelliumAndroid.ParseTestCases
-import flank.corellium.domain.RunTestCorelliumAndroid.PrepareShards
-import flank.corellium.domain.invoke
-import flank.instrument.log.Instrument
-import flank.junit.JUnit
-import flank.log.Event.Start
-import flank.log.buildFormatter
+import flank.corellium.domain.RunTestCorelliumAndroid.execute
+import flank.exection.parallel.Parallel
+import flank.exection.parallel.ParallelState
+import flank.exection.parallel.invoke
+import flank.exection.parallel.verify
 import flank.log.output
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -47,8 +35,12 @@ import picocli.CommandLine
     usageHelpAutoWidth = true
 )
 class RunTestCorelliumAndroidCommand :
-    Runnable,
-    RunTestCorelliumAndroid.Context {
+    Runnable {
+
+    class Context : Parallel.Context() {
+        val command by !RunTestCorelliumAndroidCommand
+        val config by -Config
+    }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class Config @JsonIgnore constructor(
@@ -56,6 +48,8 @@ class RunTestCorelliumAndroidCommand :
         override val data: MutableMap<String, Any?>
     ) : ConfigMap {
         constructor() : this(emptyConfigMap())
+
+        companion object : Parallel.Type<Config>
 
         @set:CommandLine.Option(
             names = ["-a", "--auth"],
@@ -68,13 +62,6 @@ class RunTestCorelliumAndroidCommand :
             description = ["YAML credentials file path"]
         )
         var project: String? by data
-
-        @CommandLine.Option(
-            names = ["-h", "--help"],
-            usageHelp = true,
-            description = ["Prints this help message"]
-        )
-        var usageHelpRequested: Boolean = false
 
         @CommandLine.Option(
             names = ["--apks"],
@@ -154,6 +141,13 @@ class RunTestCorelliumAndroidCommand :
         var scanPreviousDurations: Int? by data
     }
 
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
+    var usageHelpRequested: Boolean = false
+
     @CommandLine.Mixin
     val cliConfig = Config()
 
@@ -163,109 +157,32 @@ class RunTestCorelliumAndroidCommand :
     )
     var yamlConfigPath: String? = null
 
-    internal val config by lazy { merge(defaultConfig(), yamlConfig(), cliConfig) }
-
-    override val api by lazy { corelliumApi(config.project!!) }
-
-    override val apk by lazy { Apk.Api() }
-
-    override val junit by lazy { JUnit.Api() }
-
-    override val args by lazy { createArgs() }
-
-    override val out by lazy { format.output }
-
-    override fun run() = invoke()
-}
-
-private fun defaultConfig() = Config().apply {
-    project = Args.DEFAULT_PROJECT
-    auth = Args.AUTH_FILE
-    this += Args.Default
-}
-
-private operator fun Config.plusAssign(args: Args) {
-    apks = args.apks
-    testTargets = emptyList()
-    maxTestShards = args.maxShardsCount
-    localResultsDir = args.outputDir
-    obfuscate = args.obfuscateDumpShards
-    gpuAcceleration = args.gpuAcceleration
-    scanPreviousDurations = args.scanPreviousDurations
-}
-
-private fun RunTestCorelliumAndroidCommand.yamlConfig(): Config =
-    yamlConfigPath?.let(::loadYaml) ?: Config()
-
-private fun RunTestCorelliumAndroidCommand.createArgs() = Args(
-    credentials = loadYaml(config.auth!!),
-    apks = config.apks!!,
-    maxShardsCount = config.maxTestShards!!,
-    outputDir = config.localResultsDir!!,
-    obfuscateDumpShards = config.obfuscate!!,
-    gpuAcceleration = config.gpuAcceleration!!,
-    scanPreviousDurations = config.scanPreviousDurations!!,
-    testTargets = config.testTargets!!,
-)
-
-internal val format = buildFormatter<String> {
-
-    Start(Authorize) { "* Authorizing" }
-    Start(CleanUp) { "* Cleaning instances" }
-    Start(OutputDir) { "* Preparing output directory" }
-    Start(DumpShards) { "* Dumping shards" }
-    Start(ExecuteTests) { "* Executing tests" }
-    Start(CompleteTests) { "* Finish" }
-    Start(GenerateReport) { "* Generating report" }
-    Start(InstallApks) { "* Installing apks" }
-    Start(InvokeDevices) { "* Invoking devices" }
-    Start(LoadPreviousDurations) { "* Obtaining previous test cases durations" }
-    Start(ParseApkInfo) { "* Parsing apk info" }
-    Start(ParseTestCases) { "* Parsing test cases" }
-    Start(PrepareShards) { "* Calculating shards" }
-
-    LoadPreviousDurations.Searching { "Searching in $this JUnitReport.xml files..." }
-    LoadPreviousDurations.Summary::class { "For $required test cases, found $matching matching and $unknown unknown" }
-    InstallApks.Status {
-        when (this) {
-            is AndroidApps.Event.Connecting.Agent -> "$instanceId: Connecting agent"
-            is AndroidApps.Event.Connecting.Console -> "$instanceId: Connecting console"
-            is AndroidApps.Event.Apk.Uploading -> "$instanceId: Uploading apk $path"
-            is AndroidApps.Event.Apk.Installing -> "$instanceId: Installing apk $path"
+    override fun run() {
+        val seed: ParallelState = mapOf(
+            RunTestCorelliumAndroidCommand to this,
+            Parallel.Logger to format.output,
+        )
+        runBlocking {
+            resolve(seed).last().verify().let { args ->
+                execute(CompleteTests)(args).last().verify()
+            }
         }
     }
-    InvokeDevices.Status {
-        when (this) {
-            is AndroidInstance.Event.GettingAlreadyCreated -> "Getting instances already created by flank."
-            is AndroidInstance.Event.Obtained -> "Obtained $size already created devices"
-            is AndroidInstance.Event.Starting -> "Starting not running $size instances."
-            is AndroidInstance.Event.Started -> "$id - $name"
-            is AndroidInstance.Event.Creating -> "Creating additional $size instances. Connecting to the agents may take longer."
-            is AndroidInstance.Event.Waiting -> "Wait until all instances are ready..."
-            is AndroidInstance.Event.Ready -> "ready: $id"
-            is AndroidInstance.Event.AllReady -> "All instances invoked and ready to use."
-        }
-    }
-    ExecuteTests.Plan {
-        instances.toList().joinToString("\n") { (id, commands) ->
-            "$id:\n" + commands.joinToString("\n") { " - $it" }
-        }
-    }
-    ExecuteTests.Status::class {
-        when (val status = status) {
-            is Instrument.Status -> "$id: " + status.details.run { "$className#$testName" } + " - " + status.code
-            else -> null
-        }
-    }
-    ExecuteTests.Error::class {
-        """
-            Error while parsing results from instance $id.
-            For details check $logFile lines $lines.
-            
-        """.trimIndent() + cause.stackTraceToString()
-    }
-    RunTestCorelliumAndroid.Created { "Created $path" }
-    RunTestCorelliumAndroid.AlreadyExist { "Already exist $path" }
 
-    match { it as? String } to { this }
+    internal companion object : Parallel.Type<RunTestCorelliumAndroidCommand> {
+
+        val context = Parallel.Function(RunTestCorelliumAndroidCommand::Context)
+
+        // Needs to be evaluated lazy due to strange NullPointerException when RunTestCorelliumAndroidCommandTest is run after ArgsKtTest.
+        val resolve by lazy {
+            setOf(
+                context.validate,
+                config,
+                args,
+                corelliumApi,
+                apkApi,
+                jUnitApi,
+            )
+        }
+    }
 }
