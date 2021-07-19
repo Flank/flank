@@ -86,9 +86,7 @@ tasks.test {
 }
 
 repositories {
-    jcenter()
     mavenCentral()
-    maven(url = "https://kotlin.bintray.com/kotlinx")
 }
 
 dependencies {
