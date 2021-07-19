@@ -4,21 +4,28 @@ import flank.apk.Apk
 import flank.corellium.api.AndroidInstance
 import flank.corellium.api.CorelliumApi
 import flank.corellium.domain.RunTestCorelliumAndroid.Args
+import flank.corellium.domain.RunTestCorelliumAndroid.CompleteTests
+import flank.corellium.domain.RunTestCorelliumAndroid.execute
+import flank.exection.parallel.Parallel
+import flank.exection.parallel.invoke
+import flank.exection.parallel.type
+import flank.exection.parallel.validate
 import flank.junit.JUnit
-import flank.log.Output
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.io.File
 
-class RunTestAndroidCorelliumTestMockApiAndroid : RunTestCorelliumAndroid.Context {
+class RunTestAndroidCorelliumTestMockApiAndroid {
 
     private val expectedShardsCount = 4
 
-    override val args = Args(
+    private val args = Args(
         credentials = stubCredentials,
         apks = listOf(
             Args.Apk.App(
@@ -46,58 +53,69 @@ class RunTestAndroidCorelliumTestMockApiAndroid : RunTestCorelliumAndroid.Contex
         maxShardsCount = expectedShardsCount
     )
 
-    override val api = CorelliumApi(
-        authorize = { credentials ->
-            println(credentials)
-            assertEquals(args.credentials, credentials)
-            completeJob
-        },
-        invokeAndroidDevices = { (amount) ->
-            assertEquals(expectedShardsCount, amount)
-            (1..amount).asFlow().map {
-                AndroidInstance.Event.Ready(it.toString())
-            }
-        },
-        installAndroidApps = { list ->
-            println(list)
-            assertEquals(expectedShardsCount, list.size)
-            emptyFlow()
-        },
-        executeTest = { (instances) ->
-            println(instances)
-            assertEquals(expectedShardsCount, instances.size)
-            emptyList()
-        },
-    )
+    private val initial = mapOf(
+        Args to args,
 
-    override val apk = Apk.Api(
-        parseTestCases = {
-            { path ->
-                println(path)
-                (1..path.last().toString().toInt()).map {
-                    path.replace("/", ".") + ".Test#test$it"
+        type<CorelliumApi>() to CorelliumApi(
+            authorize = { credentials ->
+                println(credentials)
+                assertEquals(args.credentials, credentials)
+                completeJob
+            },
+            invokeAndroidDevices = { (amount) ->
+                assertEquals(expectedShardsCount, amount)
+                (1..amount).asFlow().map {
+                    AndroidInstance.Event.Ready(it.toString())
                 }
-            }
-        },
-        parsePackageName = { path ->
-            println(path)
-            path
-        },
-        parseInfo = { path ->
-            println(path)
-            Apk.Info(
-                packageName = path,
-                testRunner = path
-            )
-        },
+            },
+            installAndroidApps = { list ->
+                println(list)
+                assertEquals(expectedShardsCount, list.size)
+                emptyFlow()
+            },
+            executeTest = { (instances) ->
+                println(instances)
+                assertEquals(expectedShardsCount, instances.size)
+                emptyList()
+            },
+        ),
+
+        type<Apk.Api>() to Apk.Api(
+            parseTestCases = {
+                { path ->
+                    println(path)
+                    (1..path.last().toString().toInt()).map {
+                        path.replace("/", ".") + ".Test#test$it"
+                    }
+                }
+            },
+            parsePackageName = { path ->
+                println(path)
+                path
+            },
+            parseInfo = { path ->
+                println(path)
+                Apk.Info(
+                    packageName = path,
+                    testRunner = path
+                )
+            },
+        ),
+
+        type<JUnit.Api>() to JUnit.Api(),
+
+        Parallel.Logger to fun Any.() = println(this),
     )
-
-    override val out: Output = ::println
-
-    override val junit = JUnit.Api()
 
     @Test
-    fun test(): Unit = invoke()
+    fun validate() {
+        execute.validate(initial)
+    }
+
+    @Test
+    fun test() {
+        runBlocking { execute(CompleteTests)(initial).collect() }
+    }
 
     @After
     fun cleanUp() {

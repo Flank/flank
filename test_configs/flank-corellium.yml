@@ -9,3 +9,4 @@ apks:
 #  - "package com.example.test_app.foo"
 #  - "class com.example.test_app.InstrumentedTest#test0"
 max-test-shards: 3
+gpu-acceleration: false

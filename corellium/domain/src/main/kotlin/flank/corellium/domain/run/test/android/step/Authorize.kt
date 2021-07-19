@@ -1,13 +1,12 @@
 package flank.corellium.domain.run.test.android.step
 
-import flank.corellium.domain.RunTestCorelliumAndroid
 import flank.corellium.domain.RunTestCorelliumAndroid.Authorize
-import flank.corellium.domain.step
+import flank.corellium.domain.RunTestCorelliumAndroid.context
+import flank.exection.parallel.using
 
 /**
- * The Initial step required to perform further remote calls to Corellium API.
+ * Authorizing access to corellium backend, required to perform further remote calls to Corellium API.
  */
-internal fun RunTestCorelliumAndroid.Context.authorize() = step(Authorize) {
+internal val authorize = Authorize using context {
     api.authorize(args.credentials).join()
-    this
 }

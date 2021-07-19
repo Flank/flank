@@ -1,8 +1,12 @@
 package flank.corellium.domain.run.test.android.step
 
 import flank.corellium.domain.RunTestCorelliumAndroid
+import flank.corellium.domain.RunTestCorelliumAndroid.ExecuteTests
 import flank.corellium.domain.RunTestCorelliumAndroid.GenerateReport
-import flank.corellium.domain.step
+import flank.corellium.domain.RunTestCorelliumAndroid.OutputDir
+import flank.corellium.domain.RunTestCorelliumAndroid.context
+import flank.exection.parallel.from
+import flank.exection.parallel.using
 import flank.instrument.log.Instrument
 import flank.junit.JUnit
 import flank.junit.generateJUnitReport
@@ -12,20 +16,17 @@ import java.io.File
 /**
  * The step is generating the summary report basing on the collected state.
  * Generated JUnit report is saved as formatted xml file
- *
- * require:
- * * [RunTestCorelliumAndroid.Context.executeTests]
- * * [RunTestCorelliumAndroid.Context.createOutputDir]
- *
  */
-internal fun RunTestCorelliumAndroid.Context.generateReport() = step(GenerateReport) { out ->
+internal val generateReport = GenerateReport from setOf(
+    ExecuteTests,
+    OutputDir
+) using context {
     val file = File(args.outputDir, JUnit.REPORT_FILE_NAME)
     testResult
         .prepareInputForJUnit()
         .generateJUnitReport()
         .writeAsXml(file.bufferedWriter())
     RunTestCorelliumAndroid.Created(file).out()
-    this
 }
 
 /**

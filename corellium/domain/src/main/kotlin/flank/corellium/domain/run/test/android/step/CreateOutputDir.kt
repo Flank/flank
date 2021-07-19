@@ -1,16 +1,16 @@
 package flank.corellium.domain.run.test.android.step
 
-import flank.corellium.domain.RunTestCorelliumAndroid
 import flank.corellium.domain.RunTestCorelliumAndroid.AlreadyExist
 import flank.corellium.domain.RunTestCorelliumAndroid.Created
 import flank.corellium.domain.RunTestCorelliumAndroid.OutputDir
-import flank.corellium.domain.step
+import flank.corellium.domain.RunTestCorelliumAndroid.context
+import flank.exection.parallel.using
 import java.io.File
 
 /**
  * The step is creating the output directory for execution results.
  */
-internal fun RunTestCorelliumAndroid.Context.createOutputDir() = step(OutputDir) { out ->
+internal val createOutputDir = OutputDir using context {
     require(args.outputDir.isNotEmpty())
     val dir = File(args.outputDir)
     when {
@@ -25,5 +25,4 @@ internal fun RunTestCorelliumAndroid.Context.createOutputDir() = step(OutputDir)
             AlreadyExist(dir).out()
         }
     }
-    this
 }
