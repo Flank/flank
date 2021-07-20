@@ -158,9 +158,7 @@ application {
 }
 
 repositories {
-    maven(url = "https://dl.bintray.com/kotlin/ktor")
-    maven(url = "https://dl.bintray.com/kotlin/kotlinx")
-    jcenter()
+    mavenCentral()
 }
 
 // Output full test results to console
@@ -224,7 +222,6 @@ dependencies {
 buildscript {
     repositories {
         mavenLocal()
-        jcenter()
         google()
     }
     dependencies {
