@@ -1,6 +1,6 @@
 package ftl.presentation.cli.corellium.test
 
-import flank.corellium.cli.RunTestCorelliumAndroidCommand
+import flank.corellium.cli.TestAndroidCommand
 import ftl.util.PrintHelpCommand
 import picocli.CommandLine.Command
 
@@ -8,7 +8,7 @@ import picocli.CommandLine.Command
     name = "android",
     synopsisHeading = "",
     subcommands = [
-        RunTestCorelliumAndroidCommand::class
+        TestAndroidCommand::class
     ],
     usageHelpAutoWidth = true
 )
