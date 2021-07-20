@@ -222,7 +222,6 @@ dependencies {
 buildscript {
     repositories {
         mavenLocal()
-        // jcenter()
         google()
     }
     dependencies {
