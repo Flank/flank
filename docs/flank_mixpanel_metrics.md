@@ -55,7 +55,7 @@ This property contains information about count of shards.
 
 ## Tests result information [test]
 
-This property contains information about count of tests and count of successful, failed and flaky tests.
+This property contains information about overall count of tests and the count of successful, failed and flaky tests.
 
 Fields:
 
