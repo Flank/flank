@@ -76,7 +76,7 @@ Fields:
 
 ## Outcome [outcome]
 
-This property contains information about outcome of the entire run. More information you can find here: https://github.com/Flank/flank/blob/3a213579b0b8ed7ca018314f0619146408292b35/docs/feature/summary_output.md#possible-outputs
+This property contains information about the outcome of the entire run. More information you can find here: https://github.com/Flank/flank/blob/3a213579b0b8ed7ca018314f0619146408292b35/docs/feature/summary_output.md#possible-outputs
 
 ## Total cost and cost per device type [cost]
 
