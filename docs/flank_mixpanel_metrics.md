@@ -66,7 +66,7 @@ Fields:
 
 ## Tests duration [test_duration]
 
-This property contains information about time of execution tests by device type (virtual, physical, total)
+This property contains information about the time of execution of tests by device type (virtual, physical, total)
 
 Fields:
 
