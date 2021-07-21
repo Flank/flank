@@ -30,7 +30,7 @@ Every event contains a session id and project id. By ```project id``` you can fi
 
 ## Schema version [schema_version]
 
-This property contains version of schema, this property should be equals to this document version.
+This property contains a schema version, it should be equal to this document version.
 
 ## Flank Version [flank_version]
 
