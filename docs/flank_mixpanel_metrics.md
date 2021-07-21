@@ -38,7 +38,7 @@ By these event's we can check how frequently users upgrade the Flank version.
 
 ## Project id [project_id]
 
-This property contains id of project used in firebase.
+This property contains the id of the project used in firebase.
 
 ## Bundle and package id [app_id]
 
