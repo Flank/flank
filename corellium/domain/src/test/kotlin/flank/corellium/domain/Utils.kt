@@ -1,7 +1,7 @@
 package flank.corellium.domain
 
 import flank.corellium.api.Authorization
-import flank.corellium.domain.RunTestCorelliumAndroid.Args
+import flank.corellium.domain.TestAndroid.Args
 import kotlinx.coroutines.Job
 import java.util.Properties
 

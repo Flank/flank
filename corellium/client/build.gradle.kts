@@ -6,9 +6,7 @@ plugins {
 }
 
 repositories {
-    jcenter()
     mavenCentral()
-    maven(url = "https://kotlin.bintray.com/kotlinx")
 }
 
 tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
