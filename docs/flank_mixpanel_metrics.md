@@ -34,7 +34,7 @@ This property contains version of schema, this property should be equals to this
 
 ## Flank Version [flank_version]
 
-By these event's we can check how frequently users upgrade the Flank version.
+With these event's we can check how frequently users upgrade their Flank to a new version.
 
 ## Project id [project_id]
 
