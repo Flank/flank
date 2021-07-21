@@ -2,7 +2,7 @@
 
 ## Document version: 1.0
 
-Flank is currently tracking event with following properties:
+Flank is currently tracking events with the following properties:
 
 - schema_version
 - flank_version
