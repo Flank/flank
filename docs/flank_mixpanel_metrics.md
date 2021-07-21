@@ -1,57 +1,97 @@
 # Mixpanel events in Flank
 
-Flank is currently tracking the following events:
+## Document version: 1.0
 
+Flank is currently tracking events with the following properties:
+
+- schema_version
+- flank_version
+- project_id
+- app_id
+- device_types
+- cost 
+    - virtual
+    - physical
+    - total
+- shard_count
+- tests
+  - total
+  - successful
+  - failed
+  - flaky
+- test_duration 
+    - total
+    - physical
+    - virtual
+- outcome 
 - configuration
-- bundle id and package name with information about the device type
-- total cost
-- cost per device type
-- test duration
-- flank version with information if tests run on corellium or firebase
 
 Every event contains a session id and project id. By ```project id``` you can find all events from every execution with specific ```project id```. By ```session id``` you can find events from specific Flank execution.
 
-## Configuration
+## Schema version [schema_version]
 
-This event contains information about the configuration executed in Flank. This event allows us to
-track information about devices and features used in Flank.
-It could be useful to check what features are most important for the community.
+This property contains a schema version, it should be equal to this document version.
 
-Fields reflect configuration names.
+## Flank Version [flank_version]
+
+With these event's we can check how frequently users upgrade their Flank to a new version.
+
+## Project id [project_id]
+
+This property contains the id of the project used in firebase.
 
 ## Bundle and package id [app_id]
 
 This event contains information about the bundle id for ios and the package id for android project. Additionally,
 contains platform type (android, ios). This event allows us to implement a ```Who uses Flank``` report with additional breakdown by ```device type```.
 
-Fields:
+## Device types [device_types]
 
-- ```app_id```
-- ```device_type```
+This property contains information about used devices types.
 
-## Total cost and cost per device type [devices_cost]
+## Shards count [shard_count]
 
-With these event's we can realize the report ```How many millions per month in spend is Flank responsible for on Firebase Test Lab? ```
+This property contains information about count of shards.
 
-Fields:
+## Tests result information [test]
 
-- ```virtual_cost```
-- ```physical_cost```
-- ```total_cost```
-
-## Test duration [total_test_time]
-
-With these event's we can check how long tests took.
+This property contains information about overall count of tests and the count of successful, failed and flaky tests.
 
 Fields:
 
-- ```test_duration```
+- ```total```
+- ```successful```
+- ```failed```
+- ```flaky```
 
-## Flank Version [flank_version]
+## Tests duration [test_duration]
 
-By these event's we can check how frequently users upgrade the Flank version.
+This property contains information about the time of execution of tests by device type (virtual, physical, total)
 
 Fields:
 
-- ```version```
-- ```test_platform```
+- ```virtual```
+- ```physical```
+- ```total```
+
+## Outcome [outcome]
+
+This property contains information about the outcome of the entire run. More information you can find here: https://github.com/Flank/flank/blob/3a213579b0b8ed7ca018314f0619146408292b35/docs/feature/summary_output.md#possible-outputs
+
+## Total cost and cost per device type [cost]
+
+With these event's we can realize the report ```How many millions per month is spent on Firebase Test lab by way of using Flank? ```
+
+Fields:
+
+- ```virtual```
+- ```physical```
+- ```total```
+
+## Configuration [configuration]
+
+This event contains information about the configuration executed in Flank. This event allows us to
+track information about devices and features used in Flank.
+It could be useful to check what features are most important for the community.
+
+Fields reflect configuration names.

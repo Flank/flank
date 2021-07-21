@@ -2,8 +2,6 @@ package ftl.run.platform.common
 
 import flank.common.logLn
 import flank.common.startWithNewLine
-import flank.tool.analytics.mixpanel.sendConfiguration
-import ftl.analytics.sendConfiguration
 import ftl.api.RemoteStorage
 import ftl.api.TestMatrix
 import ftl.api.refreshTestMatrix
@@ -16,7 +14,6 @@ import ftl.reports.addStepTime
 import ftl.run.common.SESSION_ID_FILE
 import ftl.run.common.saveSessionId
 import ftl.run.common.updateMatrixFile
-import ftl.util.Duration
 import ftl.util.StopWatch
 import ftl.util.formatted
 import ftl.util.isInvalid
@@ -42,7 +39,7 @@ internal suspend fun IArgs.afterRunTests(
     val gcsBucket = GCS_STORAGE_LINK + resultsBucket + "/" + matrixMap.runPath
     logLn("${FtlConstants.indent}Raw results will be stored in your GCS bucket at [$gcsBucket]")
     matrixMap.printMatricesWebLinks(project)
-    stopwatch.check().saveAndReportStepTime(this)
+    addStepTime("Running tests", stopwatch.check())
 }
 
 private fun List<TestMatrix.Data>.toSavedMatrixMap() =
@@ -87,9 +84,4 @@ fun IArgs.uploadSessionId() = takeUnless { disableResultsUpload }?.let {
         RemoteStorage.Dir(resultsBucket, resultsDir),
         RemoteStorage.Data(file, Files.readAllBytes(Paths.get(file)))
     )
-}
-
-private fun Duration.saveAndReportStepTime(args: IArgs) {
-    addStepTime("Running tests", this)
-    sendConfiguration(project = args.project, events = mapOf("test_duration" to this), eventName = "total_test_time")
 }

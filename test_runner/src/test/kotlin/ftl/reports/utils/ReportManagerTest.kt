@@ -26,7 +26,6 @@ import io.mockk.verify
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assume.assumeFalse
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
@@ -49,7 +48,6 @@ class ReportManagerTest {
     fun tearDown() = unmockkAll()
 
     @Test(expected = FTLError::class)
-    @Ignore("Will be fixed in https://github.com/Flank/flank/issues/2087")
     fun `generate fromErrorResult`() {
         // TODO: NPE on Windows
         val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/error_result", AndroidArgs.default())
@@ -63,7 +61,6 @@ class ReportManagerTest {
     }
 
     @Test
-    @Ignore("Will be fixed in https://github.com/Flank/flank/issues/2087")
     fun `generate fromSuccessResult`() {
         val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
         val mockArgs = mockk<AndroidArgs>(relaxed = true)
