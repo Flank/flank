@@ -11,7 +11,6 @@ import io.mockk.unmockkAll
 import io.mockk.verify
 import org.json.JSONObject
 import org.junit.After
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -38,17 +37,15 @@ class UsageStatisticsTest {
     }
 
     @Test
-    @Ignore("Will be fixed in https://github.com/Flank/flank/issues/2087")
     fun `should not run send configuration if unit tests`() {
         mockkStatic(JSONObject::send)
 
-        AndroidArgs.default().sendConfiguration()
+        AndroidArgs.default().reportConfiguration()
 
         verify(inverse = true) { any<JSONObject>().send() }
     }
 
     @Test
-    @Ignore("Will be fixed in https://github.com/Flank/flank/issues/2087")
     fun `should not run send configuration if disable statistic param set`() {
         mockkStatic(JSONObject::send)
         mockkStatic(::readVersion)
@@ -57,7 +54,7 @@ class UsageStatisticsTest {
 
         AndroidArgs.default().run {
             copy(commonArgs = commonArgs.copy(disableUsageStatistics = true))
-                .sendConfiguration()
+                .reportConfiguration()
         }
 
         verify(inverse = true) { any<JSONObject>().send() }

@@ -2,13 +2,14 @@ package ftl.run.platform
 
 import flank.common.join
 import flank.common.logLn
-import ftl.analytics.sendAppId
+import flank.tool.analytics.mixpanel.APP_ID
+import flank.tool.analytics.mixpanel.add
+import flank.tool.analytics.mixpanel.analyticsReport
 import ftl.api.RemoteStorage
 import ftl.api.TestMatrixAndroid
 import ftl.api.executeTestMatrixAndroid
 import ftl.api.uploadToRemoteStorage
 import ftl.args.AndroidArgs
-import ftl.args.IArgs
 import ftl.args.isInstrumentationTest
 import ftl.args.shardsFilePath
 import ftl.client.google.getAndroidAppDetails
@@ -51,7 +52,7 @@ internal suspend fun AndroidArgs.runAndroidTests(): TestResult = coroutineScope 
                 ignoredTestsShardChunks += context.ignoredTestCases
                 allTestShardChunks += context.shards
             }
-            context.reportPackageName(args)
+            context.reportPackageName()
         }
         .map { createTestSetup(it) }
         .run { executeTestMatrixAndroid(this) }
@@ -97,11 +98,11 @@ private suspend fun createTestSetup(context: AndroidTestContext) = TestMatrixAnd
     type = context.args.createAndroidTestMatrixType(context)
 )
 
-private fun AndroidTestContext.reportPackageName(args: IArgs) = when (this) {
+private fun AndroidTestContext.reportPackageName() = when (this) {
     is InstrumentationTestContext -> getAndroidAppDetails(app.remote)
     is RoboTestContext -> getAndroidAppDetails(app.remote)
     is SanityRoboTestContext -> getAndroidAppDetails(app.remote)
     is GameLoopContext -> getAndroidAppDetails(app.remote)
-}.sendPackageName(args)
+}.sendPackageName()
 
-private fun String.sendPackageName(args: IArgs) = args.sendAppId(this)
+private fun String.sendPackageName() = analyticsReport.add(APP_ID, this)
