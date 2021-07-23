@@ -53,3 +53,10 @@ inline fun <reified T : Any> type(): Parallel.Type<T> = type(T::class.java)
  * Factory function for creating dynamic [Parallel.Type].
  */
 fun <T : Any> type(type: Class<T>): Parallel.Type<T> = DynamicType(type)
+
+// ======================= Property =======================
+
+/**
+ * Factory function for creating property with value of specified type.
+ */
+operator fun <T : Any> Parallel.Type<T>.plus(value: T) = this to value

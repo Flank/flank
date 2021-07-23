@@ -94,9 +94,9 @@ object Parallel {
     object Sequence : Type<Unit>
 
     object DependenciesError {
-        data class Missing(val data: TypeDependencies) : Error("Missing dependencies $data")
-        data class Duplicate(val data: DuplicateDependencies) : Error("Duplicate dependencies $data")
-        data class Cycles(val data: List<List<Type<*>>>) : Error("Found cycles in graph $data")
+        data class Missing(val data: TypeDependencies) : Error("Missing dependencies:")
+        data class Duplicate(val data: DuplicateDependencies) : Error("Duplicate dependencies:")
+        data class Cycles(val data: List<List<Type<*>>>) : Error("Found cycles in graph:")
     }
 }
 

@@ -176,8 +176,8 @@ private fun Execution.isFinished(state: ParallelState): Boolean =
 private fun Execution.filterTasksFor(state: ParallelState): Map<Set<Type<*>>, List<Task<*>>> =
     remaining.filterKeys(state.keys::containsAll).apply {
 
-        // Check if execution is not detached, other words some of tasks cannot be run because of missing values in state.
-        // Typically will fail if broken graph was not validated before execution.
+        // Check if execution is not detached, other words some tasks cannot be run because of missing values in state.
+        // Typically, will fail if broken graph was not validated before execution.
         isNotEmpty() || // Found tasks to execute.
             jobs.any { (_, job) -> job.isActive } || // some jobs still are running, is required to wait for values from them.
             channel.isEmpty.not() || // some values are waiting in the channel queue.
@@ -188,7 +188,7 @@ private fun Execution.filterTasksFor(state: ParallelState): Map<Set<Type<*>>, Li
     }
 
 /**
- * Typically can occurs when execution is running on broken graph of tasks.
+ * Typically, can occur when execution is running on broken graph of tasks.
  */
 private data class DeadlockError(
     val state: ParallelState,
@@ -196,10 +196,12 @@ private data class DeadlockError(
     val remaining: Map<Set<Type<*>>, List<Task<*>>>,
 ) : Error() {
     override fun toString(): String = listOf(
+        "Execution cannot be fulfilled due to unresolved dependencies, use function `Tasks.validate(initial: ParallelState)` before run for getting details.",
+        "",
         "Parallel execution dump:",
-        state,
-        jobs,
-        remaining,
+        "state:     $state",
+        "jobs:      $jobs",
+        "remaining: $remaining",
         "", super.toString(),
     ).joinToString("\n")
 }

@@ -41,6 +41,7 @@ data class Event<V : Any> internal constructor(
  * Creates [Event] from [this] context and given [any] type or value.
  */
 infix fun Any.event(any: Any): Event<out Any> = when (any) {
+    is Event<*> -> any
     is Pair<*, *> -> Event(this, any.first!!, any.second!!)
     is Event.Data -> Event(this, any::class.java, any)
     is Event.Type<*> -> Event(this, any, Unit)
