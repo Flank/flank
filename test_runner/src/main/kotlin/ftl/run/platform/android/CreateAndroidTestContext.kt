@@ -15,6 +15,7 @@ import ftl.api.FileReference
 import ftl.args.AndroidArgs
 import ftl.args.ArgsHelper
 import ftl.args.CalculateShardsResult
+import ftl.config.Device
 import ftl.config.FlankDefaults
 import ftl.config.FtlConstants
 import ftl.filter.TestFilter
@@ -51,7 +52,9 @@ private suspend fun List<AndroidTestContext>.setupShards(): List<AndroidTestCont
     }.awaitAll().dropEmptyInstrumentationTest()
 }
 
-private fun InstrumentationTestContext.userShards(customShardingMap: Map<String, AndroidTestShards>) = customShardingMap
+private fun InstrumentationTestContext.userShards(
+    customShardingMap: Map<String, AndroidTestShards>
+) = customShardingMap
     .values
     .firstOrNull { app.hasReference(it.app) && test.hasReference(it.test) }
     ?.let { customSharding ->
@@ -99,11 +102,13 @@ private fun InstrumentationTestContext.calculateShards(
 ): InstrumentationTestContext = if (args.parameterizedTests.shouldShardSmartly()) {
     var flankTestMethods = getFlankTestMethods(testFilter, args.parameterizedTests)
     val parameterizedTests = flankTestMethods.filter { it.isParameterizedClass }
-    flankTestMethods = flankTestMethods.filterNot { it.isParameterizedClass }
+    val sdkSuppressTests = flankTestMethods.filter { it.sdkSuppressLevels != null }
+    flankTestMethods = flankTestMethods.filterNot { it.isParameterizedClass }.filterNot { it.sdkSuppressLevels != null }
     val shards = calculateParameterizedShards(flankTestMethods, args)
     val shardCount = if (args.parameterizedTests.isSingleParameterizedShard()) 1 else parameterizedTests.size
     val parameterizedShard = calculateParameterizedShards(parameterizedTests, args, shardCount)
-    shards.copy(shards = shards.shards + parameterizedShard.shards)
+    val sdkSuppressShard = calculateParameterizedShards(sdkSuppressTests, args, shardCount)
+    shards.copy(shards = shards.shards + parameterizedShard.shards + sdkSuppressShard.shards)
 } else calculateShardsNormally(args, testFilter)
 
 private fun InstrumentationTestContext.calculateParameterizedShards(
@@ -151,7 +156,8 @@ internal fun InstrumentationTestContext.getFlankTestMethods(
             .distinctBy { it.testName }
             .filter(testFilter.shouldRun)
             .filterNot(parameterizedClasses::belong)
-            .map(TestMethod::toFlankTestMethod).toList()
+            .map { testMethod -> testMethod.toFlankTestMethod(args.devices) }
+            .toList()
             .plus(parameterizedClasses.onlyShouldRun(testFilter, parameterizedTests.shouldIgnore()))
     }
 
@@ -164,10 +170,18 @@ private fun List<TestMethod>.onlyShouldRun(filter: TestFilter, shouldIgnore: Boo
 } else this.filter { filter.shouldRun(it) }
     .map { FlankTestMethod("class ${it.testName}", ignored = false, isParameterizedClass = true) }
 
-private fun TestMethod.toFlankTestMethod() = FlankTestMethod(
+private fun TestMethod.toFlankTestMethod(devices: List<Device>) = FlankTestMethod(
     testName = "class $testName",
-    ignored = annotations.any { it.name in ignoredAnnotations }
+    ignored = annotations.any { it.name in ignoredAnnotations } || !isApplicableToAnyTestDevice(devices),
+    sdkSuppressLevels = if (isSdkSuppressTest()) sdkSuppressLevels() else null
 )
+
+private fun TestMethod.isApplicableToAnyTestDevice(devices: List<Device>): Boolean {
+    val sdkSuppressLevels = sdkSuppressLevels()
+    val min = sdkSuppressLevels.minSdkVersion ?: Int.MIN_VALUE
+    val max = sdkSuppressLevels.maxSdkVersion ?: Int.MAX_VALUE
+    return devices.any { it.version.toInt() in (min..max) }
+}
 
 private val ignoredAnnotations = listOf(
     "org.junit.Ignore",
