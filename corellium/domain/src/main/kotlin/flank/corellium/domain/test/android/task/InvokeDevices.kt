@@ -2,6 +2,8 @@ package flank.corellium.domain.test.android.task
 
 import flank.corellium.api.AndroidInstance
 import flank.corellium.domain.TestAndroid.Authorize
+import flank.corellium.domain.TestAndroid.AvailableDevices
+import flank.corellium.domain.TestAndroid.Device
 import flank.corellium.domain.TestAndroid.InvokeDevices
 import flank.corellium.domain.TestAndroid.PrepareShards
 import flank.corellium.domain.TestAndroid.context
@@ -19,7 +21,8 @@ import kotlinx.coroutines.flow.toList
  */
 internal val invokeDevices = InvokeDevices from setOf(
     Authorize,
-    PrepareShards
+    PrepareShards,
+    AvailableDevices,
 ) using context {
     val config = AndroidInstance.Config(
         amount = shards.size,
@@ -29,5 +32,6 @@ internal val invokeDevices = InvokeDevices from setOf(
         .onEach { event -> InvokeDevices.Status(event).out() }
         .filterIsInstance<AndroidInstance.Event.Ready>()
         .map { instance -> instance.id }
+        .onEach { id -> devices.send(Device.Instance(id)) }
         .toList()
 }

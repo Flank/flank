@@ -23,7 +23,6 @@ internal val format = buildFormatter<String> {
     Event.Start(TestAndroid.ExecuteTests) { "* Executing tests" }
     Event.Start(TestAndroid.CompleteTests) { "* Finish" }
     Event.Start(TestAndroid.GenerateReport) { "* Generating report" }
-    Event.Start(TestAndroid.InstallApks) { "* Installing apks" }
     Event.Start(TestAndroid.InvokeDevices) { "* Invoking devices" }
     Event.Start(TestAndroid.LoadPreviousDurations) { "* Obtaining previous test cases durations" }
     Event.Start(TestAndroid.ParseApkInfo) { "* Parsing apk info" }

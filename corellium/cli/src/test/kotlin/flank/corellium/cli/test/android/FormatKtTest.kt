@@ -55,7 +55,8 @@ class FormatKtTest {
                     startTime = 1,
                     endTime = 2,
                     details = Instrument.Status.Details(emptyMap(), "Class", "Test", null)
-                )
+                ),
+                shard = emptyList()
             ),
             Unit event TestAndroid.ExecuteTests.Error("1", Exception(), "path/to/log/1", 5..10),
             Unit event TestAndroid.Created(File("path/to/apk.apk")),

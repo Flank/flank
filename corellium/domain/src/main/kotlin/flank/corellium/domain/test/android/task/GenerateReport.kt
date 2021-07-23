@@ -1,6 +1,8 @@
 package flank.corellium.domain.test.android.task
 
 import flank.corellium.domain.TestAndroid
+import flank.corellium.domain.TestAndroid.Device
+import flank.corellium.domain.TestAndroid.Dispatch
 import flank.corellium.domain.TestAndroid.ExecuteTests
 import flank.corellium.domain.TestAndroid.GenerateReport
 import flank.corellium.domain.TestAndroid.OutputDir
@@ -36,11 +38,12 @@ internal val generateReport = GenerateReport from setOf(
  * @receiver Instrument results of each instance execution
  * @return prepared input for generating JUnitReport
  */
-private fun List<List<Instrument>>.prepareInputForJUnit(): List<JUnit.TestResult> =
-    flatMapIndexed { index: Int, list: List<Instrument> ->
-        list.filterIsInstance<Instrument.Status>().map { status ->
+private fun List<Device.Result>.prepareInputForJUnit(): List<JUnit.TestResult> =
+    flatMap { result ->
+        val suiteName = result.suiteName
+        result.value.filterIsInstance<Instrument.Status>().map { status ->
             JUnit.TestResult(
-                suiteName = "shard_$index",
+                suiteName = suiteName,
                 testName = status.details.testName,
                 className = status.details.className,
                 startAt = status.startTime,
@@ -55,4 +58,15 @@ private fun List<List<Instrument>>.prepareInputForJUnit(): List<JUnit.TestResult
                 }
             )
         }
+    }
+
+/**
+ * Generates proper suite name from [Device.Result] basing on [Dispatch.Type].
+ */
+private val Device.Result.suiteName
+    get() = when (data.type) {
+        Dispatch.Type.Rerun -> "rerun"
+        Dispatch.Type.Shard -> "shard"
+    }.let { prefix ->
+        "${prefix}_${data.index}_$id"
     }

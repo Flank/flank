@@ -1,13 +1,12 @@
 package flank.corellium.domain.test.android.task
 
+import flank.corellium.api.AndroidInstance
 import flank.corellium.api.CorelliumApi
 import flank.corellium.domain.TestAndroid
 import flank.corellium.domain.TestAndroid.Args
 import flank.corellium.domain.TestAndroid.Authorize
 import flank.corellium.domain.TestAndroid.ExecuteTests
 import flank.corellium.domain.TestAndroid.ExecuteTests.ADB_LOG
-import flank.corellium.domain.TestAndroid.InstallApks
-import flank.corellium.domain.TestAndroid.InvokeDevices
 import flank.corellium.domain.TestAndroid.ParseApkInfo
 import flank.corellium.domain.TestAndroid.PrepareShards
 import flank.corellium.domain.invalidLog
@@ -18,14 +17,18 @@ import flank.exection.parallel.ParallelState
 import flank.exection.parallel.invoke
 import flank.exection.parallel.select
 import flank.exection.parallel.type
+import flank.exection.parallel.validate
+import flank.exection.parallel.verify
 import flank.log.Event
 import flank.log.Output
 import flank.shard.Shard
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flattenConcat
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -35,7 +38,7 @@ import org.junit.Before
 import org.junit.Test
 import java.io.File
 
-class ExecuteTestsKtTest {
+class ExecuteTestQueueKtTest {
 
     private val dir = File(Args.DefaultOutputDir.new)
     private val instanceId = "1"
@@ -50,15 +53,28 @@ class ExecuteTestsKtTest {
         PrepareShards to listOf((0..2).map { Shard.App("$it", emptyList()) }),
         ParseApkInfo to TestAndroid.Info(),
         Authorize to Unit,
-        InvokeDevices to listOf(instanceId),
-        InstallApks to Unit,
     )
 
-    private val execute = setOf(executeTests)
+    private val dependencies = setOf(
+        initResultsChannel,
+        availableDevices,
+        invokeDevices,
+        dispatchShards,
+        dispatchTests,
+        dispatchFailedTests,
+    )
+
+    private val execute = dependencies + executeTestQueue
 
     // simulate additional unneeded input that will be omitted.
     private val additionalInput = (0..1000).map(Int::toString).asFlow().onStart { delay(500) }
     private fun corelliumApi(log: String) = CorelliumApi(
+        invokeAndroidDevices = { config ->
+            (0 until config.amount).asFlow().map { id ->
+                AndroidInstance.Event.Ready("$id")
+            }
+        },
+        installAndroidApps = { emptyFlow() },
         executeTest = { listOf(instanceId to flowOf(log.lines().asFlow(), additionalInput).flattenConcat()) }
     )
 
@@ -72,6 +88,11 @@ class ExecuteTestsKtTest {
         dir.deleteRecursively()
     }
 
+    @Test
+    fun validate() {
+        execute.validate(initial)
+    }
+
     /**
      * Valid console output should be completely saved in file, parsed and returned as testResult.
      */
@@ -83,10 +104,10 @@ class ExecuteTestsKtTest {
         )
 
         // when
-        val testResult = runBlocking { execute(args).last() }
+        val testResult = runBlocking { execute(args).last() }.verify()
 
         // then
-        assertEquals(9, testResult.select(ExecuteTests).first().size)
+        assertEquals(9, testResult.select(ExecuteTests).first().value.size)
 
         // Right after reading the required results count from validLog the stream is closing.
         // Saved log is same as validLog without unneeded additionalInput.
@@ -115,7 +136,7 @@ class ExecuteTestsKtTest {
         val testResult = runBlocking { execute(args).last().select(ExecuteTests) }
 
         // then
-        assertTrue(testResult.first().isNotEmpty()) // Valid lines parsed before error will be returned
+        assertTrue(testResult.first().value.isNotEmpty()) // Valid lines parsed before error will be returned
 
         val error = events.mapNotNull { it.value as? ExecuteTests.Error }.first() // Obtain error
         assertEquals(instanceId, error.id) // Error should contain correct instanceId

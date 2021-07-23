@@ -10,6 +10,7 @@ import flank.exection.parallel.Parallel
 import flank.exection.parallel.invoke
 import flank.exection.parallel.type
 import flank.exection.parallel.validate
+import flank.exection.parallel.verify
 import flank.junit.JUnit
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
@@ -70,12 +71,10 @@ class TestAndroidMockApiTest {
             },
             installAndroidApps = { list ->
                 println(list)
-                assertEquals(expectedShardsCount, list.size)
                 emptyFlow()
             },
             executeTest = { (instances) ->
                 println(instances)
-                assertEquals(expectedShardsCount, instances.size)
                 emptyList()
             },
         ),
@@ -114,7 +113,7 @@ class TestAndroidMockApiTest {
 
     @Test
     fun test() {
-        runBlocking { execute(CompleteTests)(initial).collect() }
+        runBlocking { execute(CompleteTests)(initial).collect { it.verify() } }
     }
 
     @After
