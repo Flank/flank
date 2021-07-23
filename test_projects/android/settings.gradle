@@ -1,6 +1,7 @@
 include ':app_many_tests'
 include ':multi-modules:multiapp'
 include ':app',
+        ':app_sdksuppress',
         ':multi-modules:fullyIgnoredModule',
         ':multi-modules:testModule',
         ':multi-modules:testModule1',
