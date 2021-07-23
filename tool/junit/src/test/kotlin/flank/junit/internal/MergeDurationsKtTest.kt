@@ -20,14 +20,16 @@ class MergeDurationsKtTest {
             result("b", "b[0]", 10, 110),
             result("b", "b[1]", 110, 120),
             result("b", "b[2]", 120, 140),
-            result("c", "c", 140, 440),
+            result("c", "c", 140, 240),
+            result("c", "c", 240, 440),
             result("d", "d[name: a]", 440, 470),
             result("d", "d[name: b]", 470, 500),
         )
 
         val expected = listOf(
             result("a", "a", 0, 10),
-            result("c", "c", 140, 440),
+            result("c", "c", 140, 240),
+            result("c", "c", 240, 440),
             result("b", "", 10, 140),
             result("d", "", 440, 500),
         )
