@@ -6,7 +6,7 @@ import flank.corellium.domain.TestAndroid.context
 import flank.exection.parallel.using
 
 /**
- * The step is parsing information from app and test apk files.
+ * Parses information from app and test apk files.
  */
 internal val parseApksInfo = ParseApkInfo using context {
     val packageNames = mutableMapOf<String, String>()

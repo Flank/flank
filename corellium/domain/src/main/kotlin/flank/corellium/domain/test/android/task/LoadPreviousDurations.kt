@@ -12,7 +12,7 @@ import flank.junit.calculateTestCaseDurations
 import flank.junit.mergeTestCases
 
 /**
- * The step is searching result directory for JUnitReport.xml.
+ * Searches result directory for JUnitReport.xml.
  * Collected reports are used for calculating test cases durations.
  *
  * For test cases represented by their class, the duration will be based on summary durations from methods of this class.

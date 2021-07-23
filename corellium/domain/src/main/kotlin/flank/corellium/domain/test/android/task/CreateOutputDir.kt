@@ -8,7 +8,7 @@ import flank.exection.parallel.using
 import java.io.File
 
 /**
- * The step is creating the output directory for execution results.
+ * Creates the output directory for execution results.
  */
 internal val createOutputDir = OutputDir using context {
     require(args.outputDir.isNotEmpty())

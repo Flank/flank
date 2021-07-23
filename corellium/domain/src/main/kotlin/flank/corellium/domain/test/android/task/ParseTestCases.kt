@@ -7,7 +7,7 @@ import flank.exection.parallel.using
 import flank.filter.createTestCasesFilter
 
 /**
- * The step is parsing the test methods from each test apk.
+ * Parses the test methods from each test apk.
  */
 internal val parseTestCasesFromApks = ParseTestCases using context {
     val config = Apk.ParseTestCases.Config(

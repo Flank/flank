@@ -29,7 +29,7 @@ import kotlinx.coroutines.flow.take
 import java.io.File
 
 /**
- * The step is executing tests on previously invoked devices, and returning the test results.
+ * Executes given tests on previously invoked devices, and returns the test results.
  *
  * The side effect is console logs from `am instrument` saved inside [TestAndroid.ExecuteTests.ADB_LOG] output subdirectory.
  *
