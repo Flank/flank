@@ -10,3 +10,4 @@ apks:
 #  - "class com.example.test_app.InstrumentedTest#test0"
 max-test-shards: 3
 gpu-acceleration: false
+scan-previous-durations: 3

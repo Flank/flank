@@ -29,6 +29,7 @@ private operator fun Config.plusAssign(args: TestAndroid.Args) {
     obfuscate = args.obfuscateDumpShards
     gpuAcceleration = args.gpuAcceleration
     scanPreviousDurations = args.scanPreviousDurations
+    flakyTestAttempts = args.flakyTestsAttempts
 }
 
 internal fun yamlConfig(path: String?): Config =

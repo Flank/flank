@@ -17,6 +17,7 @@ import flank.corellium.domain.TestAndroid.execute
 import flank.exection.parallel.Parallel
 import flank.exection.parallel.ParallelState
 import flank.exection.parallel.invoke
+import flank.exection.parallel.plus
 import flank.exection.parallel.verify
 import flank.log.output
 import kotlinx.coroutines.flow.last
@@ -139,6 +140,16 @@ class TestAndroidCommand :
         )
         @set:JsonProperty("scan-previous-durations")
         var scanPreviousDurations: Int? by data
+
+        @set:CommandLine.Option(
+            names = ["--num-flaky-test-attempts"],
+            description = [
+                "The number of times a test case should be re-attempted if fail for any reason. " +
+                    "Default value is 0, which implies no reruns."
+            ]
+        )
+        @set:JsonProperty("num-flaky-test-attempts")
+        var flakyTestAttempts: Int? by data
     }
 
     @CommandLine.Option(
@@ -159,8 +170,8 @@ class TestAndroidCommand :
 
     override fun run() {
         val seed: ParallelState = mapOf(
-            TestAndroidCommand to this,
-            Parallel.Logger to format.output,
+            TestAndroidCommand + this,
+            Parallel.Logger + format.output,
         )
         runBlocking {
             resolve(seed).last().verify().let { args ->
