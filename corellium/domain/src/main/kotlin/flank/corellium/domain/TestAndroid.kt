@@ -8,13 +8,20 @@ import flank.corellium.api.Authorization
 import flank.corellium.api.CorelliumApi
 import flank.corellium.domain.TestAndroid.Args.DefaultOutputDir
 import flank.corellium.domain.TestAndroid.Args.DefaultOutputDir.new
+import flank.corellium.domain.test.android.device.task.executeTestShard
+import flank.corellium.domain.test.android.device.task.installApks
+import flank.corellium.domain.test.android.device.task.releaseDevice
 import flank.corellium.domain.test.android.task.authorize
+import flank.corellium.domain.test.android.task.availableDevices
 import flank.corellium.domain.test.android.task.createOutputDir
+import flank.corellium.domain.test.android.task.dispatchFailedTests
+import flank.corellium.domain.test.android.task.dispatchShards
+import flank.corellium.domain.test.android.task.dispatchTests
 import flank.corellium.domain.test.android.task.dumpShards
-import flank.corellium.domain.test.android.task.executeTests
+import flank.corellium.domain.test.android.task.executeTestQueue
 import flank.corellium.domain.test.android.task.finish
 import flank.corellium.domain.test.android.task.generateReport
-import flank.corellium.domain.test.android.task.installApks
+import flank.corellium.domain.test.android.task.initResultsChannel
 import flank.corellium.domain.test.android.task.invokeDevices
 import flank.corellium.domain.test.android.task.loadPreviousDurations
 import flank.corellium.domain.test.android.task.parseApksInfo
@@ -25,7 +32,10 @@ import flank.exection.parallel.type
 import flank.instrument.log.Instrument
 import flank.junit.JUnit
 import flank.log.Event
+import flank.shard.InstanceShard
 import flank.shard.Shard
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.SendChannel
 import java.io.File
 import java.lang.System.currentTimeMillis
 import java.text.SimpleDateFormat
@@ -53,7 +63,7 @@ object TestAndroid {
         val testTargets: List<String> = emptyList(),
         val maxShardsCount: Int = 1,
         val obfuscateDumpShards: Boolean = false,
-        val outputDir: String = DefaultOutputDir.new,
+        val outputDir: String = new,
         val gpuAcceleration: Boolean = true,
         val scanPreviousDurations: Int = 10,
         val flakyTestsAttempts: Int = 0,
@@ -110,17 +120,19 @@ object TestAndroid {
      * Is providing access to initial arguments and data collected during the execution process.
      * For convenience the properties are sorted in order equal to its initialization.
      *
-     * @property api - Corellium API functions.
-     * @property apk - APK parsing functions.
-     * @property junit - JUnit parsing functions.
-     * @property args - User arguments for execution.
+     * @property api Corellium API functions.
+     * @property apk APK parsing functions.
+     * @property junit JUnit parsing functions.
+     * @property args User arguments for execution.
      *
      * @property testCases key - path to the test apk, value - list of test method names.
      * @property previousDurations key - test case name, value - calculated previous duration.
      * @property shards each item is representing list of apps to run on another device instance.
+     * @property results Channel for providing result from each executed test case.
+     * @property dispatch Channel for dispatching test shards to execute.
+     * @property devices Channel for providing devices that are available and ready to use.
      * @property ids the ids of corellium device instances.
-     * @property packageNames key - path to the test apk, value - package name.
-     * @property testRunners key - path to the test apk, value - fully qualified test runner name.
+     * @property testResult Execution results.
      */
     internal class Context : Parallel.Context() {
         val api by !type<CorelliumApi>()
@@ -128,13 +140,14 @@ object TestAndroid {
         val junit by !type<JUnit.Api>()
         val args by !Args
 
+        val shards: List<List<Shard.App>> by -PrepareShards
         val testCases: Map<String, List<String>> by -ParseTestCases
         val previousDurations: Map<String, Long> by -LoadPreviousDurations
-        val shards: List<List<Shard.App>> by -PrepareShards
+        val results: Channel<ExecuteTests.Result> by -ExecuteTests.Results
+        val dispatch: Channel<Dispatch.Data> by -Dispatch.Shards
+        val devices: Channel<Device.Instance> by -AvailableDevices
         val ids: List<String> by -InvokeDevices
-        val packageNames by ParseApkInfo { packageNames }
-        val testRunners by ParseApkInfo { testRunners }
-        val testResult: List<List<Instrument>> by -ExecuteTests
+        val testResult: List<Device.Result> by -ExecuteTests
     }
 
     internal val context = Parallel.Function(::Context)
@@ -154,22 +167,48 @@ object TestAndroid {
     object OutputDir : Parallel.Type<Unit>
     object DumpShards : Parallel.Type<Unit>
     object Authorize : Parallel.Type<Unit>
+    object AvailableDevices : Parallel.Type<Channel<Device.Instance>>
     object InvokeDevices : Parallel.Type<List<String>> {
         object Status : Event.Type<AndroidInstance.Event>
     }
 
-    object InstallApks : Parallel.Type<Unit> {
+    object InstallApks : Parallel.Type<List<String>> {
         object Status : Event.Type<AndroidApps.Event>
     }
 
-    object ExecuteTests : Parallel.Type<List<List<Instrument>>> {
+    object Dispatch {
+
+        object Shards : Parallel.Type<Channel<Data>>
+        object Tests : Parallel.Type<List<Device.Result>>
+        object Failed : Parallel.Type<Map<InstanceShard, Int>>
+
+        enum class Type { Shard, Rerun }
+
+        data class Data(
+            val index: Int,
+            val shard: InstanceShard,
+            val type: Type,
+        ) {
+            companion object : Parallel.Type<Data>
+        }
+    }
+
+    object ExecuteTests : Parallel.Type<List<Device.Result>> {
         const val ADB_LOG = "adb_log"
 
+        object Results : Parallel.Type<Channel<Result>>
+
         object Plan : Event.Type<AndroidTestPlan.Config>
+
+        data class Dispatch(
+            val id: String,
+            val data: TestAndroid.Dispatch.Data
+        ) : Event.Data
 
         data class Result(
             val id: String,
             val status: Instrument,
+            val shard: InstanceShard,
         ) : Event.Data
 
         data class Error(
@@ -178,8 +217,13 @@ object TestAndroid {
             val logFile: String,
             val lines: IntRange
         ) : Event.Data
+
+        data class Finish(
+            val id: String
+        ) : Event.Data
     }
 
+    object ReleaseDevice : Parallel.Type<Unit>
     object CleanUp : Parallel.Type<Unit>
     object GenerateReport : Parallel.Type<Unit>
     object CompleteTests : Parallel.Type<Unit>
@@ -196,6 +240,67 @@ object TestAndroid {
     object Created : Event.Type<File>
     object AlreadyExist : Event.Type<File>
 
+    // Nested
+
+    /**
+     * Nested scope that represents shard execution on single device
+     */
+    object Device {
+
+        /**
+         * The context of android test execution on single device.
+         *
+         * @property api Corellium API functions.
+         * @property args User arguments for execution.
+         * @property packageNames key - path to the test apk, value - package name.
+         * @property testRunners key - path to the test apk, value - fully qualified test runner name.
+         * @property shard Tests dispatched to run on device.
+         * @property device Device instance specified to execute test shard.
+         * @property results Channel for providing result from each executed test case.
+         * @property release Channel for releasing instance device after shard execution.
+         *
+         * @property installedApks List of apk names that was installed on the device during the current execution.
+         */
+        internal class Context : Parallel.Context() {
+            val api by !type<CorelliumApi>()
+            val args by !Args
+            val packageNames: Map<String, String> by ParseApkInfo { packageNames }
+            val testRunners: Map<String, String> by ParseApkInfo { testRunners }
+            val data: Dispatch.Data by !Dispatch.Data
+            val shard get() = data.shard
+            val device: Instance by !Instance
+            val results: SendChannel<ExecuteTests.Result> by !ExecuteTests.Results
+            val release: SendChannel<Instance> by !AvailableDevices
+
+            val installedApks by -InstallApks
+        }
+
+        internal val context = Parallel.Function(::Context)
+
+        object Shard : Parallel.Type<InstanceShard>
+
+        data class Instance(
+            val id: String,
+            val apks: Set<String> = emptySet()
+        ) {
+            companion object : Parallel.Type<Instance>
+        }
+
+        data class Result(
+            val id: String,
+            val data: Dispatch.Data,
+            val value: List<Instrument>,
+        )
+
+        internal val execute by lazy {
+            setOf(
+                installApks,
+                executeTestShard,
+                releaseDevice,
+            )
+        }
+    }
+
     // Execution tasks
 
     // Evaluate lazy to avoid strange NullPointerException.
@@ -204,11 +309,15 @@ object TestAndroid {
             context.validate,
             authorize,
             createOutputDir,
+            dispatchShards,
+            dispatchTests,
+            dispatchFailedTests,
             dumpShards,
-            executeTests,
+            executeTestQueue,
             finish,
             generateReport,
-            installApks,
+            initResultsChannel,
+            availableDevices,
             invokeDevices,
             loadPreviousDurations,
             parseApksInfo,

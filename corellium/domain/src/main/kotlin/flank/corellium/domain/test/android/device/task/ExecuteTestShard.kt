@@ -1,14 +1,14 @@
-package flank.corellium.domain.test.android.task
+package flank.corellium.domain.test.android.device.task
 
 import flank.corellium.api.AndroidTestPlan
 import flank.corellium.domain.TestAndroid
 import flank.corellium.domain.TestAndroid.Authorize
+import flank.corellium.domain.TestAndroid.Device
 import flank.corellium.domain.TestAndroid.ExecuteTests
+import flank.corellium.domain.TestAndroid.ExecuteTests.Error
+import flank.corellium.domain.TestAndroid.ExecuteTests.Result
 import flank.corellium.domain.TestAndroid.InstallApks
-import flank.corellium.domain.TestAndroid.InvokeDevices
 import flank.corellium.domain.TestAndroid.ParseApkInfo
-import flank.corellium.domain.TestAndroid.PrepareShards
-import flank.corellium.domain.TestAndroid.context
 import flank.exection.parallel.from
 import flank.exection.parallel.using
 import flank.instrument.command.formatAmInstrumentCommand
@@ -19,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -29,44 +30,33 @@ import kotlinx.coroutines.flow.take
 import java.io.File
 
 /**
- * Executes given tests on previously invoked devices, and returns the test results.
+ * Executes given test shard on device, and returns the test results.
  *
  * The side effect is console logs from `am instrument` saved inside [TestAndroid.ExecuteTests.ADB_LOG] output subdirectory.
  *
  * The optional parsing errors are sent through [TestAndroid.Context.out].
  */
-internal val executeTests = ExecuteTests from setOf(
-    PrepareShards,
+internal val executeTestShard = ExecuteTests from setOf(
     ParseApkInfo,
     Authorize,
-    InvokeDevices,
     InstallApks,
-) using context {
+    ExecuteTests.Results,
+) using Device.context {
     val outputDir = File(args.outputDir, ExecuteTests.ADB_LOG).apply { mkdir() }
     val testPlan: AndroidTestPlan.Config = prepareTestPlan()
     coroutineScope {
         ExecuteTests.Plan(testPlan).out()
         api.executeTest(testPlan).map { (id, flow) ->
             async {
-                var read = 0
-                var parsed = 0
-                val file = outputDir.resolve(id)
-                val results = mutableListOf<Instrument>()
-                flow.onEach { file.appendText(it + "\n") }
-                    .buffer(100)
-                    .flowOn(Dispatchers.IO)
-                    .onEach { ++read }
-                    .parseAdbInstrumentLog()
-                    .onEach { parsed = read }
-                    .onEach { result -> results += result }
-                    .onEach { result -> ExecuteTests.Result(id, result).out() }
-                    .catch { cause -> ExecuteTests.Error(id, cause, file.path, ++parsed..read).out() }
-                    .filterIsInstance<Instrument.Result>()
-                    .take(expectedResultsCountFor(id))
-                    .collect()
-                results
+                Device.Result(
+                    id = id,
+                    data = data,
+                    value = collectResults(flow, id, outputDir)
+                )
             }
-        }.awaitAll()
+        }.awaitAll().also {
+            ExecuteTests.Finish(device.id).out()
+        }
     }
 }
 
@@ -74,11 +64,11 @@ internal val executeTests = ExecuteTests from setOf(
  * Prepare [AndroidTestPlan.Config] for test execution.
  * It is just mapping and formatting the data collected in state.
  */
-private fun TestAndroid.Context.prepareTestPlan(): AndroidTestPlan.Config =
+private fun Device.Context.prepareTestPlan(): AndroidTestPlan.Config =
     AndroidTestPlan.Config(
-        shards.mapIndexed { index, shards ->
-            ids[index] to shards.flatMap { shard: Shard.App ->
-                shard.tests.map { test ->
+        mapOf(
+            device.id to shard.flatMap { app: Shard.App ->
+                app.tests.map { test ->
                     formatAmInstrumentCommand(
                         packageName = packageNames.getValue(test.name),
                         testRunner = testRunners.getValue(test.name),
@@ -86,8 +76,30 @@ private fun TestAndroid.Context.prepareTestPlan(): AndroidTestPlan.Config =
                     )
                 }
             }
-        }.toMap()
+        )
     )
 
-private fun TestAndroid.Context.expectedResultsCountFor(id: String): Int =
-    shards[ids.indexOf(id)].size
+private suspend fun Device.Context.collectResults(
+    flow: Flow<String>,
+    id: String,
+    dir: File,
+): List<Instrument> {
+    suspend fun Result.send() = also { results.send(it) }
+    val file = dir.resolve(id)
+    var parsed = file.run { if (exists()) useLines { it.count() } else 0 }
+    var read = parsed
+    val results = mutableListOf<Instrument>()
+    flow.onEach { file.appendText(it + "\n") }
+        .buffer(100)
+        .flowOn(Dispatchers.IO)
+        .onEach { ++read }
+        .parseAdbInstrumentLog()
+        .onEach { parsed = read }
+        .onEach { result -> results += result }
+        .onEach { result -> Result(id, result, shard).send().out() }
+        .catch { cause -> Error(id, cause, file.path, ++parsed..read).out() }
+        .filterIsInstance<Instrument.Result>()
+        .take(shard.size)
+        .collect()
+    return results
+}
