@@ -11,7 +11,7 @@ import flank.shard.Shard
 import flank.shard.calculateShards
 
 /**
- * The task is calculating shard data.
+ * Calculates shard data.
  */
 internal val prepareShards = PrepareShards from setOf(
     ParseTestCases,

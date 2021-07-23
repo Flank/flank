@@ -7,7 +7,7 @@ import flank.exection.parallel.from
 import flank.exection.parallel.using
 
 /**
- * The final step, notifies that execution completes without exceptions.
+ * The final task, notifies that execution completes without exceptions.
  */
 internal val finish = CompleteTests from setOf(
     GenerateReport,

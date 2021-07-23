@@ -13,8 +13,9 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.toList
 
 /**
- * The step is invoking amount of instances equal to the previously calculated shards count.
- * After the successful finish, the instances should be ready tu use.
+ * Invokes amount of instances equal to the previously calculated shards count.
+ * Each instance ready to use is immediately sent into device channel.
+ * After the successful finish, all instances should be ready tu use.
  */
 internal val invokeDevices = InvokeDevices from setOf(
     Authorize,

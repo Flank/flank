@@ -14,8 +14,8 @@ import flank.junit.writeAsXml
 import java.io.File
 
 /**
- * The step is generating the summary report basing on the collected state.
- * Generated JUnit report is saved as formatted xml file
+ * Generates the summary report basing on the collected state.
+ * Generated JUnit report is saved as formatted xml file.
  */
 internal val generateReport = GenerateReport from setOf(
     ExecuteTests,

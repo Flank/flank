@@ -5,7 +5,7 @@ import flank.corellium.domain.TestAndroid.context
 import flank.exection.parallel.using
 
 /**
- * Authorizing access to corellium backend, required to perform further remote calls to Corellium API.
+ * Authorizes access to corellium backend, required to perform further remote calls to Corellium API.
  */
 internal val authorize = Authorize using context {
     api.authorize(args.credentials).join()

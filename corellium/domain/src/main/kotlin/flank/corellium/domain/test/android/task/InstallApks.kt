@@ -13,7 +13,7 @@ import flank.shard.Shard
 import kotlinx.coroutines.flow.collect
 
 /**
- * The step is installing required software on android instances.
+ * Installs the required software on android instances.
  */
 internal val installApks = InstallApks from setOf(
     Authorize,

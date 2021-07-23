@@ -12,7 +12,7 @@ import flank.shard.obfuscate
 import java.io.File
 
 /**
- * The step is saving calculated shards on drive to output directory.
+ * Saves calculated shards on the drive into the output directory specific for a testing platform.
  */
 internal val dumpShards = DumpShards from setOf(
     PrepareShards,
