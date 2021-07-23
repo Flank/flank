@@ -17,5 +17,6 @@ internal val args = Args from setOf(Config) using context {
         obfuscateDumpShards = config.obfuscate!!,
         gpuAcceleration = config.gpuAcceleration!!,
         scanPreviousDurations = config.scanPreviousDurations!!,
+        flakyTestsAttempts = config.flakyTestAttempts!!,
     )
 }

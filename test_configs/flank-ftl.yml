@@ -1,0 +1,7 @@
+gcloud:
+  app: "test_artifacts/master/apk/app-debug.apk"
+  test: "test_artifacts/master/apk/app-multiple-flaky-debug-androidTest.apk"
+
+flank:
+  max-test-shards: 3
+  gpu-acceleration: false

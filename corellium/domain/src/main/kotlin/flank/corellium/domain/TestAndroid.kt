@@ -56,6 +56,7 @@ object TestAndroid {
         val outputDir: String = DefaultOutputDir.new,
         val gpuAcceleration: Boolean = true,
         val scanPreviousDurations: Int = 10,
+        val flakyTestsAttempts: Int = 0,
     ) {
 
         companion object : Parallel.Type<Args> {
@@ -165,7 +166,12 @@ object TestAndroid {
         const val ADB_LOG = "adb_log"
 
         object Plan : Event.Type<AndroidTestPlan.Config>
-        data class Status(val id: String, val status: Instrument) : Event.Data
+
+        data class Result(
+            val id: String,
+            val status: Instrument,
+        ) : Event.Data
+
         data class Error(
             val id: String,
             val cause: Throwable,

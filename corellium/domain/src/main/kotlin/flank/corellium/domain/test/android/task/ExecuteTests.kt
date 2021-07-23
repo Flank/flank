@@ -59,7 +59,7 @@ internal val executeTests = ExecuteTests from setOf(
                     .parseAdbInstrumentLog()
                     .onEach { parsed = read }
                     .onEach { result -> results += result }
-                    .onEach { result -> ExecuteTests.Status(id, result).out() }
+                    .onEach { result -> ExecuteTests.Result(id, result).out() }
                     .catch { cause -> ExecuteTests.Error(id, cause, file.path, ++parsed..read).out() }
                     .filterIsInstance<Instrument.Result>()
                     .take(expectedResultsCountFor(id))

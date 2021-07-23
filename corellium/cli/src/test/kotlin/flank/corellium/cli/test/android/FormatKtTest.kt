@@ -30,7 +30,6 @@ class FormatKtTest {
             TestAndroid.ExecuteTests event Event.Start,
             TestAndroid.CompleteTests event Event.Start,
             TestAndroid.GenerateReport event Event.Start,
-            TestAndroid.InstallApks event Event.Start,
             TestAndroid.InvokeDevices event Event.Start,
             TestAndroid.LoadPreviousDurations event Event.Start,
             TestAndroid.ParseApkInfo event Event.Start,
@@ -49,7 +48,7 @@ class FormatKtTest {
             Unit event TestAndroid.InvokeDevices.Status(AndroidInstance.Event.Creating(7)),
             Unit event TestAndroid.InvokeDevices.Status(AndroidInstance.Event.Waiting),
             Unit event TestAndroid.InvokeDevices.Status(AndroidInstance.Event.Ready("123456")),
-            Unit event TestAndroid.ExecuteTests.Status(
+            Unit event TestAndroid.ExecuteTests.Result(
                 id = "123456",
                 status = Instrument.Status(
                     code = 0,

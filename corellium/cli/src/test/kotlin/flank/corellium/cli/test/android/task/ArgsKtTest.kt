@@ -5,6 +5,7 @@ import flank.corellium.cli.TestAndroidCommand
 import flank.corellium.domain.TestAndroid.Args
 import flank.exection.parallel.invoke
 import flank.exection.parallel.select
+import flank.exection.parallel.verify
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
@@ -38,14 +39,15 @@ class ArgsKtTest {
                 obfuscateDumpShards = obfuscate!!,
                 gpuAcceleration = gpuAcceleration!!,
                 scanPreviousDurations = scanPreviousDurations!!,
+                flakyTestsAttempts = flakyTestAttempts!!,
             )
         }
 
         val yamlAuth = expected.credentials.run {
             """
-host: $host
-username: $username
-password: $password
+            host: $host
+            username: $username
+            password: $password
             """.trimIndent()
         }
 
@@ -58,7 +60,7 @@ password: $password
         // ======================== WHEN ========================
 
         val actual = runBlocking {
-            setOf(args)(TestAndroidCommand.Config to testConfig).last().select(Args)
+            setOf(args)(TestAndroidCommand.Config to testConfig).last().verify().select(Args)
         }
 
         // ======================== THEN ========================

@@ -57,7 +57,7 @@ internal val format = buildFormatter<String> {
             "$id:\n" + commands.joinToString("\n") { " - $it" }
         }
     }
-    TestAndroid.ExecuteTests.Status::class {
+    TestAndroid.ExecuteTests.Result::class {
         when (val status = status) {
             is Instrument.Status -> "$id: " + status.details.run { "$className#$testName" } + " - " + status.code
             else -> null

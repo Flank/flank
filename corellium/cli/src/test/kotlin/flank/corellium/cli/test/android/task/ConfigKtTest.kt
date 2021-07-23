@@ -22,7 +22,7 @@ class ConfigKtTest {
         // ======================== GIVEN ========================
 
         // Create expected config for assertions
-        // Make sure to set values different then produced by defaultConfig() function,
+        // Make sure to set values different from produced by defaultConfig() function,
         // otherwise the test will fail
         val expectedConfig = Config().applyTestValues()
 
@@ -37,29 +37,31 @@ class ConfigKtTest {
                 "--obfuscate=$obfuscate",
                 "--gpu-acceleration=$gpuAcceleration",
                 "--scan-previous-durations=$scanPreviousDurations",
+                "--num-flaky-test-attempts=$flakyTestAttempts"
             )
         }
 
         val yamlConfig = expectedConfig.run {
             """
-auth: $auth
-project: $project
-apks:
-- path: "app1.apk"
-  tests:
-  - path: "app1-test1.apk"
-- path: "app2.apk"
-  tests:
-  - path: "app2-test1.apk"
-  - path: "app2-test2.apk"
-test-targets:
-  - class foo.Foo
-  - package bar
-max-test-shards: $maxTestShards
-local-result-dir: $localResultsDir
-obfuscate: $obfuscate
-gpu-acceleration: $gpuAcceleration
-scan-previous-durations: $scanPreviousDurations
+            auth: $auth
+            project: $project
+            apks:
+            - path: "app1.apk"
+              tests:
+              - path: "app1-test1.apk"
+            - path: "app2.apk"
+              tests:
+              - path: "app2-test1.apk"
+              - path: "app2-test2.apk"
+            test-targets:
+              - class foo.Foo
+              - package bar
+            max-test-shards: $maxTestShards
+            local-result-dir: $localResultsDir
+            obfuscate: $obfuscate
+            gpu-acceleration: $gpuAcceleration
+            scan-previous-durations: $scanPreviousDurations
+            num-flaky-test-attempts: $flakyTestAttempts
             """.trimIndent()
         }
 

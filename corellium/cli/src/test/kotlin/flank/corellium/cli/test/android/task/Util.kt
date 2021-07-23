@@ -33,4 +33,5 @@ fun TestAndroidCommand.Config.applyTestValues() = apply {
     obfuscate = true
     gpuAcceleration = false
     scanPreviousDurations = 123
+    flakyTestAttempts = Int.MAX_VALUE
 }
