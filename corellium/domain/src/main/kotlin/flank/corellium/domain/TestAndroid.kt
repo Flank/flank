@@ -25,7 +25,6 @@ import flank.exection.parallel.type
 import flank.instrument.log.Instrument
 import flank.junit.JUnit
 import flank.log.Event
-import flank.shard.InstanceShard
 import flank.shard.Shard
 import java.io.File
 import java.lang.System.currentTimeMillis
