@@ -1,3 +1,26 @@
+## v21.07.2
+### Features
+- [#2096](https://github.com/Flank/flank/pull/2096) Add num-flaky-test-attempts CLI option ([jan-gogo](https://github.com/jan-gogo))
+- [#2094](https://github.com/Flank/flank/pull/2094) Added Sdk Suppress Handling ([pawelpasterz](https://github.com/pawelpasterz), [adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#2098](https://github.com/Flank/flank/pull/2098) Improvements for :tool:execution:parallel ([jan-gogo](https://github.com/jan-gogo))
+- [#2088](https://github.com/Flank/flank/pull/2088) Added firebase event to Mixpanel ([axelzuziak-gogo](https://github.com/axelzuziak-gogo), [adamfilipow92](https://github.com/adamfilipow92))
+- [#2072](https://github.com/Flank/flank/pull/2072) Integrate parallel execution in Corellium domain ([jan-gogo](https://github.com/jan-gogo))
+- [#2085](https://github.com/Flank/flank/pull/2085) Add Analytics to Flank Wrapper ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#2086](https://github.com/Flank/flank/pull/2086) Move Mixpanel metrics to tools:analytics ([adamfilipow92](https://github.com/adamfilipow92))
+- [#2080](https://github.com/Flank/flank/pull/2080) Improve :tool:execution:parallel. ([jan-gogo](https://github.com/jan-gogo))
+- [#2076](https://github.com/Flank/flank/pull/2076) Parameterized Tests - multiple  ([Sloox](https://github.com/Sloox))
+- [#2062](https://github.com/Flank/flank/pull/2062) Merge test method duration for parameterized classes ([jan-gogo](https://github.com/jan-gogo))
+### Bug Fixes
+- [#2097](https://github.com/Flank/flank/pull/2097) Incorrect calculations in JUnit tool ([jan-gogo](https://github.com/jan-gogo))
+- [#2095](https://github.com/Flank/flank/pull/2095) XArgs command update ([Sloox](https://github.com/Sloox))
+- [#2091](https://github.com/Flank/flank/pull/2091) Remove jfrog repositories ([jan-gogo](https://github.com/jan-gogo))
+- [#2075](https://github.com/Flank/flank/pull/2075) Do not upload/read files when path starts with gs:// ([pawelpasterz](https://github.com/pawelpasterz), [adamfilipow92](https://github.com/adamfilipow92))
+- [#2084](https://github.com/Flank/flank/pull/2084) Fix calculating total test cost in Mixpanel ()
+### Refactor
+- [#2093](https://github.com/Flank/flank/pull/2093) Fix & simplify names for Corellium domain & cli   ([jan-gogo](https://github.com/jan-gogo))
+- [#2081](https://github.com/Flank/flank/pull/2081) Move legacy execution tool to standalone module. ([jan-gogo](https://github.com/jan-gogo))
+- [#2079](https://github.com/Flank/flank/pull/2079) Move Config.kt into :tool:config module. ([jan-gogo](https://github.com/jan-gogo))
+
 ## v21.07.1
 ### Features
 - [#2074](https://github.com/Flank/flank/pull/2074) Add Sentry to Flank Wrapper ([piotradamczyk5](https://github.com/piotradamczyk5))
