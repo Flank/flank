@@ -32,6 +32,7 @@ ${colors.printColors(name)}
 ${graph.printRelations(name)}
 
 @enduml
+
     """.trimIndent()
 }
 

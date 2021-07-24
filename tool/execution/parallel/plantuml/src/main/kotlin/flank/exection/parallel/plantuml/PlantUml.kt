@@ -17,7 +17,7 @@ fun Any.generatePlanUml(
     dir: String = ""
 ): File = generatePlanUmlFile(
     tasks = tasks,
-    path = File(dir, javaClass.simpleName).absolutePath + "-execute.puml",
+    path = File(dir).resolve(javaClass.simpleName).absolutePath + "-execute.puml",
     prefixToRemove = javaClass.name
 )
 
