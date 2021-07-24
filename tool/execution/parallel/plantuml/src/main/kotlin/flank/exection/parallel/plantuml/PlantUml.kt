@@ -6,11 +6,11 @@ import flank.exection.parallel.plantuml.internal.generatePlantUmlString
 import java.io.File
 
 /**
- * Generates plant uml file and save on drive.
+ * Generates plantuml file and saves on drive.
  *
  * @receiver Source object of execution. Used for generating filename and reducing tasks names.
- * @param tasks Tasks relations graph required to generate diagram.
- * @param dir optional path to directory for generated file.
+ * @param tasks Graph of tasks required to generate diagram.
+ * @param dir Optional path to directory for generated file.
  */
 fun Any.generatePlanUml(
     tasks: Tasks,
@@ -22,9 +22,9 @@ fun Any.generatePlanUml(
 )
 
 /**
- * Generates plant uml file and save on drive.
+ * Generates plantuml file and saves on drive.
  *
- * @param tasks Tasks relations graph required to generate diagram.
+ * @param tasks Graph of tasks required to generate diagram.
  * @param path Path to generated file.
  * @param prefixToRemove Optional prefix to remove from each task name.
  */
@@ -39,10 +39,10 @@ fun generatePlanUml(
 )
 
 /**
- * Generates plant uml string.
+ * Generates plantuml string.
  *
  * @receiver Source object of execution. Used for reducing tasks names.
- * @param tasks Tasks relations graph required to generate diagram.
+ * @param tasks Graph of tasks required to generate diagram.
  */
 fun Any.generatePlantUml(
     tasks: Tasks
@@ -52,9 +52,9 @@ fun Any.generatePlantUml(
 )
 
 /**
- * Generates plant uml string.
+ * Generates plantuml string.
  *
- * @param tasks Tasks relations graph required to generate diagram.
+ * @param tasks Graph of tasks required to generate diagram.
  * @param prefixToRemove Optional prefix to remove from each task name.
  */
 fun generatePlantUml(
