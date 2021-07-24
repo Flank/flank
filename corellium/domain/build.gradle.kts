@@ -29,6 +29,7 @@ dependencies {
 
     testImplementation(Dependencies.JUNIT)
     testImplementation(project(":corellium:adapter"))
+    testImplementation(project(":tool:execution:parallel:plantuml"))
 }
 
 tasks.test {

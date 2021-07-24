@@ -35,6 +35,7 @@ include(
     ":tool:log",
     ":tool:log:format",
     ":tool:execution:parallel",
+    ":tool:execution:parallel:plantuml",
     ":tool:execution:synchronized",
     ":tool:analytics",
     ":tool:analytics:mixpanel",

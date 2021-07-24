@@ -9,22 +9,15 @@ This module is specifying public API and internal implementation of Flank-Corell
 * Public API - files inside [flank.corellium.domain](./src/main/kotlin/flank/corellium/domain)
 * Internal functions - nested packages inside [flank.corellium.domain](./src/main/kotlin/flank/corellium/domain)
 
-## Design
+## Execution
 
-### Stateful execution
+Execution can be represented as a graph of tasks relations without cycles.
 
-Following specification is suitable for complicated long-running use-cases, when becomes convenient to split execution into smaller atomic chunks of work.
 
-#### Definition:
+#### Version from master branch:
 
-* `Execution` is process which is creating initial `State`, and is running the set of `steps` on it in specific `Context`.
-* `Execution` can pass `Context` to `Step` if needed.
-* `Step` is a suspendable operation that is receiving `State` as the only argument.
-* `Step` must return received or new `State`.
-* `Step` can generate side effects.
-* `State` is a structure used for sharing data between preceding and following `steps`.
-* `Context` is providing arguments and functions for `step`.
+![TestAndroid.execute graph](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/corellium/domain/TestAndroid-execute.puml)
 
-#### Utility:
+### New version draft:
 
-* [`Transform.kt`](src/main/kotlin/flank/corellium/domain/util/Transform.kt)
+![TestAndroid.execute graph](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2083_Add_module_tool-execution-parallel-plantuml/corellium/domain/TestAndroid-execute.puml)

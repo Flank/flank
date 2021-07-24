@@ -1,0 +1,44 @@
+@startuml
+
+skinparam componentStyle rectangle
+
+note as N #ffffff
+* Brighter tasks are required by the darker tasks.
+* The brightness means how fast the task will start.
+* White tasks are starting first.
+end note
+
+[Authorize] #fbfbfb
+[OutputDir] #fbfbfb
+[ParseApkInfo] #fbfbfb
+[ParseTestCases] #fbfbfb
+[LoadPreviousDurations] #dfdfdf
+[PrepareShards] #c3c3c3
+[DumpShards] #a7a7a7
+[InvokeDevices] #a7a7a7
+[InstallApks] #8b8b8b
+[ExecuteTests] #6f6f6f
+[GenerateReport] #535353
+[CompleteTests] #373737
+
+[DumpShards] --> [PrepareShards]
+[DumpShards] --> [OutputDir]
+[ExecuteTests] --> [PrepareShards]
+[ExecuteTests] --> [ParseApkInfo]
+[ExecuteTests] --> [Authorize]
+[ExecuteTests] --> [InvokeDevices]
+[ExecuteTests] --> [InstallApks]
+[CompleteTests] --> [GenerateReport]
+[CompleteTests] --> [DumpShards]
+[GenerateReport] --> [ExecuteTests]
+[GenerateReport] --> [OutputDir]
+[InstallApks] --> [Authorize]
+[InstallApks] --> [PrepareShards]
+[InstallApks] --> [InvokeDevices]
+[InvokeDevices] --> [Authorize]
+[InvokeDevices] --> [PrepareShards]
+[LoadPreviousDurations] --> [ParseTestCases]
+[PrepareShards] --> [ParseTestCases]
+[PrepareShards] --> [LoadPreviousDurations]
+
+@enduml
