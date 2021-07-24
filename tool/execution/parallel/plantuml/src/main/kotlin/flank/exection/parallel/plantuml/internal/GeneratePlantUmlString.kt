@@ -1,28 +1,20 @@
-package flank.exection.parallel.plantuml
+package flank.exection.parallel.plantuml.internal
 
 import flank.exection.parallel.Parallel
 import flank.exection.parallel.Tasks
 import java.awt.Color
-import java.io.File
 
-infix fun Any.generatePlanUml(
-    tasks: Tasks,
-) {
-    val name = javaClass.simpleName
-    val plant = generatePlantUml(tasks)
-    println(plant)
-    File("$name-execute.puml").writeText(plant)
-}
+// =================== Internal API ===================
 
-fun Any.generatePlantUml(
+internal fun generatePlantUmlString(
     tasks: Tasks,
+    prefixToRemove: String = "",
 ): String {
-    val source = javaClass.name + "$"
     val graph: Graph = tasks.associate { task -> task.signature.type to task.signature.args }
     val depth: Map<Node, Int> = graph.calculateDepth()
     val maxDepth: Int = depth.values.maxOrNull() ?: 0
     val colors: Colors = depth.mapValues { (_, value) -> calculateColor(maxDepth, value) }
-    val name = fun Any.() = javaClass.name.removePrefix(source).replace('$', '.').let { "[$it]" }
+    val name = fun Any.() = javaClass.name.removePrefix("$prefixToRemove$").replace('$', '.').let { "[$it]" }
 
     return """
 @startuml
@@ -42,6 +34,8 @@ ${graph.printRelations(name)}
 @enduml
     """.trimIndent()
 }
+
+// =================== Private implementation ===================
 
 private typealias Graph = Map<Node, Set<Node>>
 private typealias Node = Parallel.Type<*>
