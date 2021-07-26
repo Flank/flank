@@ -589,6 +589,20 @@
           },
           "type": "array"
         },
+        "roboMode": {
+          "description": "The mode in which Robo should run. Most clients should allow the server to populate this field automatically.",
+          "enum": [
+            "ROBO_MODE_UNSPECIFIED",
+            "ROBO_VERSION_1",
+            "ROBO_VERSION_2"
+          ],
+          "enumDescriptions": [
+            "LINT.IfChange This means that the server should choose the mode. Recommended.",
+            "Runs Robo in UIAutomator-only mode without app resigning",
+            "Runs Robo in standard Espresso with UIAutomator fallback"
+          ],
+          "type": "string"
+        },
         "roboScript": {
           "$ref": "FileReference",
           "description": "A JSON file with a sequence of actions Robo should perform as a prologue for the crawl."
