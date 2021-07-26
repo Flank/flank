@@ -18,5 +18,6 @@ internal val args = Args from setOf(Config) using context {
         gpuAcceleration = config.gpuAcceleration!!,
         scanPreviousDurations = config.scanPreviousDurations!!,
         flakyTestsAttempts = config.flakyTestAttempts!!,
+        junitReport = config.junitReport!!
     )
 }

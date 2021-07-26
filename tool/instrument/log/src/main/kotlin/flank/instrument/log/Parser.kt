@@ -48,12 +48,16 @@ sealed class Instrument {
         val details: Details,
     ) : Instrument() {
 
+        val name = details.name
+
         data class Details(
             val raw: Map<String, Any>,
             val className: String,
             val testName: String,
             val stack: String?,
-        )
+        ) {
+            val name get() = "$className#$testName"
+        }
     }
 
     /**
@@ -94,5 +98,10 @@ sealed class Instrument {
         const val FAILED = -2
         const val EXCEPTION = -1
         const val SKIPPED = -3
+
+        val errors = setOf(
+            FAILED,
+            EXCEPTION,
+        )
     }
 }

@@ -6,11 +6,13 @@ import flank.corellium.domain.TestAndroid.Dispatch
 import flank.corellium.domain.TestAndroid.ExecuteTests
 import flank.corellium.domain.TestAndroid.GenerateReport
 import flank.corellium.domain.TestAndroid.OutputDir
+import flank.corellium.domain.TestAndroid.ProcessedResults
 import flank.corellium.domain.TestAndroid.context
 import flank.exection.parallel.from
 import flank.exection.parallel.using
 import flank.instrument.log.Instrument
 import flank.junit.JUnit
+import flank.junit.JUnit.REPORT_FILE_NAME
 import flank.junit.generateJUnitReport
 import flank.junit.writeAsXml
 import java.io.File
@@ -21,10 +23,24 @@ import java.io.File
  */
 internal val generateReport = GenerateReport from setOf(
     ExecuteTests,
-    OutputDir
+    ProcessedResults,
+    OutputDir,
 ) using context {
-    val file = File(args.outputDir, JUnit.REPORT_FILE_NAME)
-    testResult
+    // Generate default junit report from raw results.
+    generateReport(rawResults, REPORT_FILE_NAME)
+
+    // Generate junit reports from processed results.
+    processedResults.forEach { (suffix, results) ->
+        generateReport(results, REPORT_FILE_NAME.replace(".", "_$suffix."))
+    }
+}
+
+private fun TestAndroid.Context.generateReport(
+    results: List<Device.Result>,
+    fileName: String
+) {
+    val file = File(args.outputDir, fileName)
+    results
         .prepareInputForJUnit()
         .generateJUnitReport()
         .writeAsXml(file.bufferedWriter())
@@ -49,6 +65,7 @@ private fun List<Device.Result>.prepareInputForJUnit(): List<JUnit.TestResult> =
                 startAt = status.startTime,
                 endsAt = status.endTime,
                 stack = listOfNotNull(status.details.stack),
+                flaky = status.name in result.flakes,
                 status = when (status.code) {
                     Instrument.Code.PASSED -> JUnit.TestResult.Status.Passed
                     Instrument.Code.FAILED -> JUnit.TestResult.Status.Failed

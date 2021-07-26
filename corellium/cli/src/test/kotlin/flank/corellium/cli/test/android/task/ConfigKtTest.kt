@@ -37,7 +37,8 @@ class ConfigKtTest {
                 "--obfuscate=$obfuscate",
                 "--gpu-acceleration=$gpuAcceleration",
                 "--scan-previous-durations=$scanPreviousDurations",
-                "--num-flaky-test-attempts=$flakyTestAttempts"
+                "--num-flaky-test-attempts=$flakyTestAttempts",
+                "--junit-report-config=test1=Passed;test2=FAILED,flaky"
             )
         }
 
@@ -62,6 +63,9 @@ class ConfigKtTest {
             gpu-acceleration: $gpuAcceleration
             scan-previous-durations: $scanPreviousDurations
             num-flaky-test-attempts: $flakyTestAttempts
+            junit-report-config:
+              test1: [Passed]
+              test2: [FAILED, flaky]
             """.trimIndent()
         }
 
