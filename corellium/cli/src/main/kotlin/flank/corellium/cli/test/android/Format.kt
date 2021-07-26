@@ -20,7 +20,7 @@ internal val format = buildFormatter<String> {
     Event.Start(TestAndroid.CleanUp) { "* Cleaning instances" }
     Event.Start(TestAndroid.OutputDir) { "* Preparing output directory" }
     Event.Start(TestAndroid.DumpShards) { "* Dumping shards" }
-    Event.Start(TestAndroid.ExecuteTests) { "* Executing tests" }
+    Event.Start(TestAndroid.TestExecution) { "* Executing tests" }
     Event.Start(TestAndroid.CompleteTests) { "* Finish" }
     Event.Start(TestAndroid.GenerateReport) { "* Generating report" }
     Event.Start(TestAndroid.InvokeDevices) { "* Invoking devices" }
@@ -51,18 +51,18 @@ internal val format = buildFormatter<String> {
             is AndroidInstance.Event.AllReady -> "All instances invoked and ready to use."
         }
     }
-    TestAndroid.ExecuteTests.Plan {
+    TestAndroid.TestExecution.Plan {
         instances.toList().joinToString("\n") { (id, commands) ->
             "$id:\n" + commands.joinToString("\n") { " - $it" }
         }
     }
-    TestAndroid.ExecuteTests.Result::class {
+    TestAndroid.TestExecution.Result::class {
         when (val status = status) {
             is Instrument.Status -> "$id: " + status.details.run { "$className#$testName" } + " - " + status.code
             else -> null
         }
     }
-    TestAndroid.ExecuteTests.Error::class {
+    TestAndroid.TestExecution.Error::class {
         """
             Error while parsing results from instance $id.
             For details check $logFile lines $lines.

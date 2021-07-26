@@ -5,10 +5,11 @@ import flank.corellium.api.CorelliumApi
 import flank.corellium.domain.TestAndroid
 import flank.corellium.domain.TestAndroid.Args
 import flank.corellium.domain.TestAndroid.Authorize
-import flank.corellium.domain.TestAndroid.ExecuteTests
-import flank.corellium.domain.TestAndroid.ExecuteTests.ADB_LOG
+import flank.corellium.domain.TestAndroid.TestExecution
+import flank.corellium.domain.TestAndroid.TestExecution.ADB_LOG
 import flank.corellium.domain.TestAndroid.ParseApkInfo
 import flank.corellium.domain.TestAndroid.PrepareShards
+import flank.corellium.domain.TestAndroid.context
 import flank.corellium.domain.invalidLog
 import flank.corellium.domain.stubCredentials
 import flank.corellium.domain.validLog
@@ -38,7 +39,7 @@ import org.junit.Before
 import org.junit.Test
 import java.io.File
 
-class ExecuteTestQueueKtTest {
+class TestExecutionKtTest {
 
     private val dir = File(Args.DefaultOutputDir.new)
     private val instanceId = "1"
@@ -64,7 +65,7 @@ class ExecuteTestQueueKtTest {
         dispatchFailedTests,
     )
 
-    private val execute = dependencies + executeTestQueue
+    private val execute = dependencies + testExecution
 
     // simulate additional unneeded input that will be omitted.
     private val additionalInput = (0..1000).map(Int::toString).asFlow().onStart { delay(500) }
@@ -107,7 +108,7 @@ class ExecuteTestQueueKtTest {
         val testResult = runBlocking { execute(args).last() }.verify()
 
         // then
-        assertEquals(9, testResult.select(ExecuteTests).first().value.size)
+        assertEquals(9, testResult.let(context).shardResults.first().value.size)
 
         // Right after reading the required results count from validLog the stream is closing.
         // Saved log is same as validLog without unneeded additionalInput.
@@ -121,7 +122,7 @@ class ExecuteTestQueueKtTest {
     }
 
     /**
-     * On parsing error, the task will send the [TestAndroid.ExecuteTests.Error] through [Output].
+     * On parsing error, the task will send the [TestAndroid.TestExecution.Error] through [Output].
      */
     @Test
     fun error() {
@@ -133,12 +134,12 @@ class ExecuteTestQueueKtTest {
             Parallel.Logger to out
         )
         // when
-        val testResult = runBlocking { execute(args).last().select(ExecuteTests) }
+        val testResult = runBlocking { execute(args).last().select(TestExecution) }
 
         // then
-        assertTrue(testResult.first().value.isNotEmpty()) // Valid lines parsed before error will be returned
+        assertTrue(testResult.let(context).shardResults.first().value.isNotEmpty()) // Valid lines parsed before error will be returned
 
-        val error = events.mapNotNull { it.value as? ExecuteTests.Error }.first() // Obtain error
+        val error = events.mapNotNull { it.value as? TestExecution.Error }.first() // Obtain error
         assertEquals(instanceId, error.id) // Error should contain correct instanceId
 
         val lines = dir.resolve(ADB_LOG).resolve(instanceId).readLines() // Read log saved in file

@@ -133,4 +133,5 @@ private fun result(
     stack = emptyList(),
     status = JUnit.TestResult.Status.Passed,
     suiteName = "",
+    flaky = false,
 )

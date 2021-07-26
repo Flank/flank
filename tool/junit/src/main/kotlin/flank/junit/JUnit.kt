@@ -76,6 +76,7 @@ object JUnit {
         val endsAt: Long,
         val stack: List<String>,
         val status: Status,
+        val flaky: Boolean,
     ) {
         enum class Status { Passed, Failed, Error, Skipped }
 

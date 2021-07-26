@@ -18,7 +18,7 @@ import flank.corellium.domain.test.android.task.dispatchFailedTests
 import flank.corellium.domain.test.android.task.dispatchShards
 import flank.corellium.domain.test.android.task.dispatchTests
 import flank.corellium.domain.test.android.task.dumpShards
-import flank.corellium.domain.test.android.task.executeTestQueue
+import flank.corellium.domain.test.android.task.testExecution
 import flank.corellium.domain.test.android.task.finish
 import flank.corellium.domain.test.android.task.generateReport
 import flank.corellium.domain.test.android.task.initResultsChannel
@@ -27,6 +27,7 @@ import flank.corellium.domain.test.android.task.loadPreviousDurations
 import flank.corellium.domain.test.android.task.parseApksInfo
 import flank.corellium.domain.test.android.task.parseTestCasesFromApks
 import flank.corellium.domain.test.android.task.prepareShards
+import flank.corellium.domain.test.android.task.processResults
 import flank.exection.parallel.Parallel
 import flank.exection.parallel.type
 import flank.instrument.log.Instrument
@@ -67,6 +68,7 @@ object TestAndroid {
         val gpuAcceleration: Boolean = true,
         val scanPreviousDurations: Int = 10,
         val flakyTestsAttempts: Int = 0,
+        val reportConfig: ReportConfig = ReportConfig.Default,
     ) {
 
         companion object : Parallel.Type<Args> {
@@ -111,6 +113,25 @@ object TestAndroid {
                 override val path: String
             ) : Apk()
         }
+
+        /**
+         * Report configuration file.
+         *
+         * @param jUnitXml key: Config name suffix, value: set of required results to be included.
+         */
+        class ReportConfig(
+            val jUnitXml: Map<String, Set<JUnitType>>
+        ) {
+            enum class JUnitType { Shard, Rerun, Processed }
+            companion object {
+                val Default = ReportConfig(
+                    mapOf(
+                        "" to setOf(JUnitType.Shard, JUnitType.Processed),
+                        "-processed" to setOf(JUnitType.Shard, JUnitType.Processed),
+                    )
+                )
+            }
+        }
     }
 
     // Context
@@ -143,11 +164,13 @@ object TestAndroid {
         val shards: List<List<Shard.App>> by -PrepareShards
         val testCases: Map<String, List<String>> by -ParseTestCases
         val previousDurations: Map<String, Long> by -LoadPreviousDurations
-        val results: Channel<ExecuteTests.Result> by -ExecuteTests.Results
+        val results: Channel<TestExecution.Result> by -TestExecution.Results
         val dispatch: Channel<Dispatch.Data> by -Dispatch.Shards
         val devices: Channel<Device.Instance> by -AvailableDevices
         val ids: List<String> by -InvokeDevices
-        val testResult: List<Device.Result> by -ExecuteTests
+        val shardResults: List<Device.Result> by -TestExecution.Results.Shard
+        val rerunResults: List<Device.Result> by -TestExecution.Results.Shard
+        val processedResults: List<Device.Result> by -ProcessResults
     }
 
     internal val context = Parallel.Function(::Context)
@@ -193,10 +216,18 @@ object TestAndroid {
         }
     }
 
-    object ExecuteTests : Parallel.Type<List<Device.Result>> {
+    object ExecuteTestShard : Parallel.Type<List<Device.Result>>
+
+    object TestExecution : Parallel.Type.Composite(
+        Results.Shard,
+        Results.Rerun,
+    ) {
         const val ADB_LOG = "adb_log"
 
-        object Results : Parallel.Type<Channel<Result>>
+        object Results : Parallel.Type<Channel<Result>> {
+            object Shard : Parallel.Type<List<Device.Result>>
+            object Rerun : Parallel.Type<List<Device.Result>>
+        }
 
         object Plan : Event.Type<AndroidTestPlan.Config>
 
@@ -218,12 +249,16 @@ object TestAndroid {
             val lines: IntRange
         ) : Event.Data
 
-        data class Finish(
-            val id: String
-        ) : Event.Data
+        data class Finish(val id: String) : Event.Data
+    }
+
+    object TestResults {
+        object Shard : Parallel.Type<List<Device.Result>>
+        object Rerun : Parallel.Type<List<Device.Result>>
     }
 
     object ReleaseDevice : Parallel.Type<Unit>
+    object ProcessResults : Parallel.Type<List<Device.Result>>
     object CleanUp : Parallel.Type<Unit>
     object GenerateReport : Parallel.Type<Unit>
     object CompleteTests : Parallel.Type<Unit>
@@ -269,7 +304,7 @@ object TestAndroid {
             val data: Dispatch.Data by !Dispatch.Data
             val shard get() = data.shard
             val device: Instance by !Instance
-            val results: SendChannel<ExecuteTests.Result> by !ExecuteTests.Results
+            val results: SendChannel<TestExecution.Result> by !TestExecution.Results
             val release: SendChannel<Instance> by !AvailableDevices
 
             val installedApks by -InstallApks
@@ -290,6 +325,7 @@ object TestAndroid {
             val id: String,
             val data: Dispatch.Data,
             val value: List<Instrument>,
+            val flakes: Set<String> = emptySet(),
         )
 
         internal val execute by lazy {
@@ -305,24 +341,26 @@ object TestAndroid {
 
     // Evaluate lazy to avoid strange NullPointerException.
     val execute by lazy {
+        // Keep alphabetic order.
         setOf(
             context.validate,
             authorize,
+            availableDevices,
             createOutputDir,
+            dispatchFailedTests,
             dispatchShards,
             dispatchTests,
-            dispatchFailedTests,
             dumpShards,
-            executeTestQueue,
+            testExecution,
             finish,
             generateReport,
             initResultsChannel,
-            availableDevices,
             invokeDevices,
             loadPreviousDurations,
             parseApksInfo,
             parseTestCasesFromApks,
             prepareShards,
+            processResults,
         )
     }
 }

@@ -1,7 +1,7 @@
 package flank.corellium.domain.test.android.task
 
 import flank.corellium.domain.TestAndroid
-import flank.corellium.domain.TestAndroid.ExecuteTests
+import flank.corellium.domain.TestAndroid.TestExecution
 import flank.corellium.domain.TestAndroid.PrepareShards
 import flank.corellium.domain.TestAndroid.context
 import flank.exection.parallel.from
@@ -14,7 +14,7 @@ import kotlinx.coroutines.channels.Channel
  *
  * Required for flaky tests detection.
  */
-internal val initResultsChannel = ExecuteTests.Results from setOf(
+internal val initResultsChannel = TestExecution.Results from setOf(
     PrepareShards
 ) using context {
     Channel(bufferSize)

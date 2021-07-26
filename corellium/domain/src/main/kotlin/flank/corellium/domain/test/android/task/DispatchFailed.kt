@@ -1,7 +1,7 @@
 package flank.corellium.domain.test.android.task
 
 import flank.corellium.domain.TestAndroid.Dispatch
-import flank.corellium.domain.TestAndroid.ExecuteTests
+import flank.corellium.domain.TestAndroid.TestExecution
 import flank.corellium.domain.TestAndroid.PrepareShards
 import flank.corellium.domain.TestAndroid.context
 import flank.exection.parallel.from
@@ -12,21 +12,21 @@ import kotlinx.coroutines.channels.consumeEach
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
- * Collects each [ExecuteTests.Results] and checks its status.
+ * Collects each [TestExecution.Results] and checks its status.
  * Each failed is dispatched again at most as many times as specified in flakyTestsAttempts argument.
  * Rerunning failed tests help detect flakiness.
  */
 internal val dispatchFailedTests = Dispatch.Failed from setOf(
     PrepareShards,
     Dispatch.Shards,
-    ExecuteTests.Results,
+    TestExecution.Results,
 ) using context {
     val counter = { AtomicInteger(0) }
     val runs = mutableMapOf<InstanceShard, AtomicInteger>()
     var index = 0
     results.consumeEach { result ->
         if (result.status is Instrument.Status) {
-            if (result.status.code in errorCodes) {
+            if (result.status.code in Instrument.Code.errors) {
                 val shard = result.shard
                     .reduceTo(result.status.details.fullTestName)
                 val attempt = runs
@@ -45,14 +45,6 @@ internal val dispatchFailedTests = Dispatch.Failed from setOf(
     }
     runs.mapValues { (_, value) -> value.get() }
 }
-
-/**
- * Set of [Instrument] error codes.
- */
-private val errorCodes = setOf(
-    Instrument.Code.FAILED,
-    Instrument.Code.EXCEPTION,
-)
 
 /**
  * Create new [InstanceShard] that contains only one test with basing on given [name].

@@ -19,6 +19,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.scan
@@ -33,6 +34,8 @@ internal operator fun Execution.invoke(): Flow<ParallelState> =
 
         // Abort the execution if any task was failed and returned the throwable value.
         .onEach { (type, value) -> if (value is Throwable && isNotClosed()) abortBy(type, value) }
+
+        .map { property -> property.unwrap() }
 
         // Accumulate each received value in state.
         .scan(initial, updateState())
@@ -148,13 +151,22 @@ private suspend fun Execution.abortBy(type: Type<*>, cause: Throwable) {
 /**
  * Create function for updating state depending on reference counter state.
  */
-private fun Execution.updateState(): suspend (ParallelState, Property) -> ParallelState =
+private fun Execution.updateState(): suspend (ParallelState, ParallelState) -> ParallelState =
     if (references.isEmpty()) ParallelState::plus
     else { state, property ->
         references.filterValues { counter -> counter.compareAndSet(0, 0) }
             .map { (type, _) -> type }
             .let { junks -> state + property - junks }
     }
+
+private fun Property.unwrap(): ParallelState = mutableMapOf(this).apply {
+    val composite = first
+    val value = second
+    if (composite is CompositeType && value is Map<*, *>) {
+        require(value.keys == composite.types) { "Provided value $value is not meeting requirements of $composite." }
+        plusAssign(value as ParallelState)
+    }
+}
 
 /**
  * The execution is complete when all required types was accumulated to state.

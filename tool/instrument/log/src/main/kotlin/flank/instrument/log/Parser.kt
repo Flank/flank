@@ -94,5 +94,10 @@ sealed class Instrument {
         const val FAILED = -2
         const val EXCEPTION = -1
         const val SKIPPED = -3
+
+        val errors = setOf(
+            FAILED,
+            EXCEPTION,
+        )
     }
 }

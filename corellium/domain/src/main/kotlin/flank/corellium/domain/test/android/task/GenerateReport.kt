@@ -1,13 +1,17 @@
 package flank.corellium.domain.test.android.task
 
 import flank.corellium.domain.TestAndroid
+import flank.corellium.domain.TestAndroid.Args.ReportConfig.*
 import flank.corellium.domain.TestAndroid.Device
 import flank.corellium.domain.TestAndroid.Dispatch
-import flank.corellium.domain.TestAndroid.ExecuteTests
+import flank.corellium.domain.TestAndroid.TestExecution
 import flank.corellium.domain.TestAndroid.GenerateReport
 import flank.corellium.domain.TestAndroid.OutputDir
+import flank.corellium.domain.TestAndroid.ProcessResults
 import flank.corellium.domain.TestAndroid.context
+import flank.exection.parallel.Parallel
 import flank.exection.parallel.from
+import flank.exection.parallel.select
 import flank.exection.parallel.using
 import flank.instrument.log.Instrument
 import flank.junit.JUnit
@@ -20,15 +24,29 @@ import java.io.File
  * Generated JUnit report is saved as formatted xml file.
  */
 internal val generateReport = GenerateReport from setOf(
-    ExecuteTests,
+    TestExecution,
+    ProcessResults,
     OutputDir
-) using context {
-    val file = File(args.outputDir, JUnit.REPORT_FILE_NAME)
-    testResult
-        .prepareInputForJUnit()
-        .generateJUnitReport()
-        .writeAsXml(file.bufferedWriter())
-    TestAndroid.Created(file).out()
+) using context { state ->
+    val results = (state select TestExecution) + state
+    args.reportConfig.jUnitXml.forEach { (suffix, types) ->
+        val file = File(args.outputDir, JUnit.REPORT_FILE_NAME.replace(".", "$suffix."))
+        val parallelTypes: List<Parallel.Type<List<Device.Result>>> = types.map(JUnitType::asParallel)
+        require(results.keys.containsAll(parallelTypes)) {
+            "Cannot generate report, missing values for types: " + (parallelTypes - state.keys)
+        }
+        types.flatMap { type -> results select type.asParallel() }
+            .prepareInputForJUnit()
+            .generateJUnitReport()
+            .writeAsXml(file.bufferedWriter())
+        TestAndroid.Created(file).out()
+    }
+}
+
+private fun JUnitType.asParallel(): Parallel.Type<List<Device.Result>> = when (this) {
+    JUnitType.Shard -> TestExecution.Results.Shard
+    JUnitType.Rerun -> TestExecution.Results.Rerun
+    JUnitType.Processed -> ProcessResults
 }
 
 /**
@@ -49,6 +67,7 @@ private fun List<Device.Result>.prepareInputForJUnit(): List<JUnit.TestResult> =
                 startAt = status.startTime,
                 endsAt = status.endTime,
                 stack = listOfNotNull(status.details.stack),
+                flaky = status.details.fullName in result.flakes,
                 status = when (status.code) {
                     Instrument.Code.PASSED -> JUnit.TestResult.Status.Passed
                     Instrument.Code.FAILED -> JUnit.TestResult.Status.Failed
@@ -70,3 +89,6 @@ private val Device.Result.suiteName
     }.let { prefix ->
         "${prefix}_${data.index}_$id"
     }
+
+private val Instrument.Status.Details.fullName
+    get() = "$className#$testName"

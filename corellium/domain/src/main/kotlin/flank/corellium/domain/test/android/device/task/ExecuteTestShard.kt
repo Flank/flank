@@ -4,9 +4,10 @@ import flank.corellium.api.AndroidTestPlan
 import flank.corellium.domain.TestAndroid
 import flank.corellium.domain.TestAndroid.Authorize
 import flank.corellium.domain.TestAndroid.Device
-import flank.corellium.domain.TestAndroid.ExecuteTests
-import flank.corellium.domain.TestAndroid.ExecuteTests.Error
-import flank.corellium.domain.TestAndroid.ExecuteTests.Result
+import flank.corellium.domain.TestAndroid.ExecuteTestShard
+import flank.corellium.domain.TestAndroid.TestExecution
+import flank.corellium.domain.TestAndroid.TestExecution.Error
+import flank.corellium.domain.TestAndroid.TestExecution.Result
 import flank.corellium.domain.TestAndroid.InstallApks
 import flank.corellium.domain.TestAndroid.ParseApkInfo
 import flank.exection.parallel.from
@@ -32,20 +33,20 @@ import java.io.File
 /**
  * Executes given test shard on device, and returns the test results.
  *
- * The side effect is console logs from `am instrument` saved inside [TestAndroid.ExecuteTests.ADB_LOG] output subdirectory.
+ * The side effect is console logs from `am instrument` saved inside [TestAndroid.TestExecution.ADB_LOG] output subdirectory.
  *
  * The optional parsing errors are sent through [TestAndroid.Context.out].
  */
-internal val executeTestShard = ExecuteTests from setOf(
+internal val executeTestShard = ExecuteTestShard from setOf(
     ParseApkInfo,
     Authorize,
     InstallApks,
-    ExecuteTests.Results,
+    TestExecution.Results,
 ) using Device.context {
-    val outputDir = File(args.outputDir, ExecuteTests.ADB_LOG).apply { mkdir() }
+    val outputDir = File(args.outputDir, TestExecution.ADB_LOG).apply { mkdir() }
     val testPlan: AndroidTestPlan.Config = prepareTestPlan()
     coroutineScope {
-        ExecuteTests.Plan(testPlan).out()
+        TestExecution.Plan(testPlan).out()
         api.executeTest(testPlan).map { (id, flow) ->
             async {
                 Device.Result(
@@ -55,7 +56,7 @@ internal val executeTestShard = ExecuteTests from setOf(
                 )
             }
         }.awaitAll().also {
-            ExecuteTests.Finish(device.id).out()
+            TestExecution.Finish(device.id).out()
         }
     }
 }

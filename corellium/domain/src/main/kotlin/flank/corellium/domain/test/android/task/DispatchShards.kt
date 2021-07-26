@@ -2,7 +2,7 @@ package flank.corellium.domain.test.android.task
 
 import flank.corellium.domain.TestAndroid
 import flank.corellium.domain.TestAndroid.Dispatch
-import flank.corellium.domain.TestAndroid.ExecuteTests
+import flank.corellium.domain.TestAndroid.TestExecution
 import flank.corellium.domain.TestAndroid.PrepareShards
 import flank.exection.parallel.from
 import flank.exection.parallel.using
@@ -42,6 +42,6 @@ private val TestAndroid.Context.bufferSize: Int
  * The expected amount of events that can be emitted per one shard.
  */
 private val EVENT_COUNT_FOR_SHARD = setOf(
-    ExecuteTests.Dispatch::class,
-    ExecuteTests.Finish::class,
+    TestExecution.Dispatch::class,
+    TestExecution.Finish::class,
 ).size

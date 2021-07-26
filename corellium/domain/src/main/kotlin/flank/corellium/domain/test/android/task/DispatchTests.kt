@@ -1,13 +1,16 @@
 package flank.corellium.domain.test.android.task
 
+import flank.corellium.domain.TestAndroid
 import flank.corellium.domain.TestAndroid.Authorize
 import flank.corellium.domain.TestAndroid.AvailableDevices
 import flank.corellium.domain.TestAndroid.Device
 import flank.corellium.domain.TestAndroid.Dispatch
-import flank.corellium.domain.TestAndroid.ExecuteTests
+import flank.corellium.domain.TestAndroid.ExecuteTestShard
+import flank.corellium.domain.TestAndroid.TestExecution
 import flank.corellium.domain.TestAndroid.ParseApkInfo
 import flank.corellium.domain.TestAndroid.PrepareShards
 import flank.corellium.domain.TestAndroid.context
+import flank.exection.parallel.ParallelState
 import flank.exection.parallel.from
 import flank.exection.parallel.invoke
 import flank.exection.parallel.plus
@@ -31,7 +34,7 @@ val dispatchTests = Dispatch.Tests from setOf(
     PrepareShards,
     AvailableDevices,
     Dispatch.Shards,
-    ExecuteTests.Results,
+    TestExecution.Results,
 ) using context { state ->
     channelFlow {
         var running = 0
@@ -44,14 +47,14 @@ val dispatchTests = Dispatch.Tests from setOf(
                 Dispatch.Data + data,
                 Device.Instance + instance
             )
-            ExecuteTests.Dispatch(instance.id, data).out()
+            TestExecution.Dispatch(instance.id, data).out()
 
             launch {
                 Device
                     .execute(state + seed)
                     .last()
                     .verify()
-                    .select(ExecuteTests)
+                    .select(ExecuteTestShard)
                     .let { send(it) }
 
                 if (--running == 0) {

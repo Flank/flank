@@ -1,5 +1,6 @@
 package flank.exection.parallel
 
+import flank.exection.parallel.internal.CompositeType
 import flank.exection.parallel.internal.ContextProvider
 import flank.exection.parallel.internal.EagerProperties
 import flank.exection.parallel.internal.lazyProperty
@@ -59,7 +60,16 @@ object Parallel {
     /**
      * Common interface for the tasks arguments and return values.
      */
-    interface Type<T : Any>
+    interface Type<T : Any> {
+
+        /**
+         * Allows composing collection of types. Useful when single task is returning more than one value.
+         * All entries from [ParallelState] of [Composite] are accumulated to state, and available for the further tasks.
+         *
+         * @param types Expected types that must be included into [ParallelState] value, otherwise the execution will fail.
+         */
+        open class Composite(vararg types: Type<*>) : CompositeType(types), Type<ParallelState>
+    }
 
     /**
      * Structure that is representing single task of execution.

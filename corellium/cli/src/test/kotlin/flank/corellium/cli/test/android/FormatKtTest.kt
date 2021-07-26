@@ -27,7 +27,7 @@ class FormatKtTest {
             TestAndroid.CleanUp event Event.Start,
             TestAndroid.OutputDir event Event.Start,
             TestAndroid.DumpShards event Event.Start,
-            TestAndroid.ExecuteTests event Event.Start,
+            TestAndroid.TestExecution event Event.Start,
             TestAndroid.CompleteTests event Event.Start,
             TestAndroid.GenerateReport event Event.Start,
             TestAndroid.InvokeDevices event Event.Start,
@@ -48,7 +48,7 @@ class FormatKtTest {
             Unit event TestAndroid.InvokeDevices.Status(AndroidInstance.Event.Creating(7)),
             Unit event TestAndroid.InvokeDevices.Status(AndroidInstance.Event.Waiting),
             Unit event TestAndroid.InvokeDevices.Status(AndroidInstance.Event.Ready("123456")),
-            Unit event TestAndroid.ExecuteTests.Result(
+            Unit event TestAndroid.TestExecution.Result(
                 id = "123456",
                 status = Instrument.Status(
                     code = 0,
@@ -58,7 +58,7 @@ class FormatKtTest {
                 ),
                 shard = emptyList()
             ),
-            Unit event TestAndroid.ExecuteTests.Error("1", Exception(), "path/to/log/1", 5..10),
+            Unit event TestAndroid.TestExecution.Error("1", Exception(), "path/to/log/1", 5..10),
             Unit event TestAndroid.Created(File("path/to/apk.apk")),
             Unit event TestAndroid.AlreadyExist(File("path/to/apk.apk")),
         )
