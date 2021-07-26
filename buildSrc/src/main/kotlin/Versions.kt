@@ -67,7 +67,7 @@ object Versions {
     const val KTOR = "1.6.1"
 
     // https://github.com/qos-ch/logback/releases
-    const val LOGBACK = "1.2.3"
+    const val LOGBACK = "1.2.4"
 
     // https://github.com/square/okhttp/releases
     const val OKHTTP = "4.9.1"
@@ -90,7 +90,7 @@ object Versions {
     const val COMMON_TEXT = "1.9"
 
     // https://github.com/fusesource/jansi/releases
-    const val JANSI = "2.3.3"
+    const val JANSI = "2.3.4"
 
     // https://github.com/ben-manes/gradle-versions-plugin/releases
     const val BEN_MANES = "0.39.0"
@@ -108,6 +108,6 @@ object Versions {
     const val FUEL = "2.3.1"
     const val CLIKT = "2.8.0"
     const val JCABI_GITHUB = "1.1.2"
-    const val SLF4J_NOP = "1.7.31"
+    const val SLF4J_NOP = "1.7.32"
     const val GLASSFISH_JSON = "1.1.4"
 }
