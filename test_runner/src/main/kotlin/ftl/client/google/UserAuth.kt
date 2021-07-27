@@ -5,7 +5,7 @@ import com.google.auth.oauth2.MemoryTokensStorage
 import com.google.auth.oauth2.UserAuthorizer
 import com.google.auth.oauth2.UserCredentials
 import flank.common.dotFlank
-import flank.common.logLn
+import ftl.api.LoginState
 import ftl.config.FtlConstants
 import ftl.run.exception.FlankGeneralError
 import io.ktor.application.call
@@ -15,6 +15,9 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.FileInputStream
@@ -85,37 +88,33 @@ class UserAuth {
         .setTokenStore(tokenStore)
         .build()!!
     private val userId = "flank"
-    val uri: URI = URI.create("http://localhost:8085")
+    private val uri: URI = URI.create("http://localhost:8085")
 
-    private fun printAuthorizationUrl() {
-        val url = authorizer.getAuthorizationUrl(userId, null, uri)
-        logLn("Visit the following URL in your browser:")
-        logLn(url)
-    }
+    fun request(): Flow<LoginState> {
+        if (FtlConstants.useMock) return emptyFlow()
 
-    fun request() {
-        if (FtlConstants.useMock) return
-        printAuthorizationUrl()
+        return flow {
+            emit(LoginState.LoginStarted(authorizer.getAuthorizationUrl(userId, null, uri)))
 
-        server.start(wait = false)
+            server.start(wait = false)
 
-        while (waitingForUserAuth) {
-            runBlocking { delay(1000) }
+            while (waitingForUserAuth) {
+                runBlocking { delay(1000) }
+            }
+
+            // trade OAuth2 authorization code for tokens.
+            //
+            // https://developers.google.com/gdata/docs/auth/oauth#NoLibrary
+            authorizer.getAndStoreCredentialsFromCode(userId, authCode, uri)
+
+            server.stop(0, 0)
+
+            val userCredential = authorizer.getCredentials(userId)
+
+            dotFlank.toFile().mkdirs()
+            ObjectOutputStream(FileOutputStream(userToken.toFile())).writeObject(userCredential)
+
+            emit(LoginState.LoginFinished(userToken.toString()))
         }
-
-        // trade OAuth2 authorization code for tokens.
-        //
-        // https://developers.google.com/gdata/docs/auth/oauth#NoLibrary
-        authorizer.getAndStoreCredentialsFromCode(userId, authCode, uri)
-
-        server.stop(0, 0)
-
-        val userCredential = authorizer.getCredentials(userId)
-
-        dotFlank.toFile().mkdirs()
-        ObjectOutputStream(FileOutputStream(userToken.toFile())).writeObject(userCredential)
-
-        logLn()
-        logLn("User token saved to $userToken")
     }
 }
