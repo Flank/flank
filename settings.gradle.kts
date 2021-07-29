@@ -4,6 +4,7 @@ import org.gradle.kotlin.dsl.support.serviceOf
 rootProject.name = "flank"
 
 includeBuild("maven_version_check")
+includeBuild("check_version_updated")
 
 include(
     ":test_runner",

@@ -6,6 +6,7 @@ object Plugins {
     const val NEXUS_STAGING = "io.codearte.nexus-staging"
     const val BEN_MANES_PLUGIN = "com.github.ben-manes.versions"
     const val MAVEN_VERSION_CHECK = "maven-version-check"
+    const val CHECK_VERSION_UPDATED = "check-version-updated"
     object Kotlin {
         const val PLUGIN_JVM = "jvm"
         const val PLUGIN_SERIALIZATION = "plugin.serialization"

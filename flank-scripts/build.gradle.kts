@@ -8,6 +8,7 @@ plugins {
     kotlin(Plugins.Kotlin.PLUGIN_SERIALIZATION) version Versions.KOTLIN
     id(Plugins.PLUGIN_SHADOW_JAR) version Versions.SHADOW
     id(Plugins.MAVEN_PUBLISH)
+    id(Plugins.CHECK_VERSION_UPDATED)
 }
 
 val artifactID = "flank-scripts"
@@ -25,7 +26,7 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.9.24"
+version = "1.9.25"
 group = "com.github.flank"
 
 application {
@@ -125,29 +126,6 @@ val download by tasks.registering(Exec::class) {
     }
 }
 
-// TODO replace with plugin in #2063
-val checkIfVersionUpdated by tasks.registering(Exec::class) {
-    group = "verification"
-    commandLine("git", "fetch", "--no-tags")
-
-    doLast {
-        val changedFiles = execAndGetStdout("git", "diff", "origin/master", "HEAD", "--name-only").split("\n") +
-            execAndGetStdout("git", "diff", "origin/master", "--name-only").split("\n")
-        val isVersionChanged = changedFiles.any { it.startsWith("flank-scripts") }.not() ||
-            (changedFiles.contains("flank-scripts/build.gradle.kts") && isVersionChangedInBuildGradle())
-
-        if (isVersionChanged.not()) {
-            throw GradleException(
-                """
-                   Flank scripts version is not updated, but files changed.
-                   Please update version according to schema: <breaking change>.<feature added>.<fix/minor change>
-                """.trimIndent()
-
-            )
-        }
-    }
-}
-
 val releaseFlankScripts by tasks.registering(Exec::class) {
     dependsOn(":flank-scripts:publish")
     commandLine(
@@ -157,5 +135,3 @@ val releaseFlankScripts by tasks.registering(Exec::class) {
         "-p"
     )
 }
-
-tasks["lintKotlin"].dependsOn(checkIfVersionUpdated)
