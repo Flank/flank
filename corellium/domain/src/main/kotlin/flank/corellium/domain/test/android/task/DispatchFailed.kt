@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * Collects each [ExecuteTests.Results] and checks its status.
- * Each failed is dispatched again at most as many times as specified in flakyTestsAttempts argument.
+ * Each failed test is dispatched again at most as many times as specified in flakyTestsAttempts argument.
  * Rerunning failed tests help detect flakiness.
  */
 internal val dispatchFailedTests = Dispatch.Failed from setOf(
@@ -55,9 +55,10 @@ private val errorCodes = setOf(
 )
 
 /**
- * Create new [InstanceShard] that contains only one test with basing on given [name].
+ * Creates new [InstanceShard] that contains only one test basing on the given [name].
  *
- * If given [name] refers parameterized test method, algorithm will return [InstanceShard] with test case class instead of test case method.
+ * If the given [name] refers parameterized test method, the algorithm will return [InstanceShard] with a test case for the whole class instead of the test case method.
+ * This behaviour is required because parameterized test methods are produced in runtime based on annotations and cannot be run separately due to limitations of android instrumentation.
  */
 private fun InstanceShard.reduceTo(
     name: String,
