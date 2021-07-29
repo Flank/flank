@@ -1,7 +1,8 @@
 package flank.corellium.domain.test.android.device.task
 
+import flank.corellium.domain.TestAndroid.AvailableDevices
 import flank.corellium.domain.TestAndroid.Device
-import flank.corellium.domain.TestAndroid.ExecuteTests
+import flank.corellium.domain.TestAndroid.ExecuteTestShard
 import flank.corellium.domain.TestAndroid.InstallApks
 import flank.corellium.domain.TestAndroid.ReleaseDevice
 import flank.exection.parallel.from
@@ -12,7 +13,8 @@ import flank.exection.parallel.using
  */
 internal val releaseDevice = ReleaseDevice from setOf(
     InstallApks,
-    ExecuteTests
+    ExecuteTestShard,
+    AvailableDevices,
 ) using Device.context {
     release.send(device + installedApks)
 }

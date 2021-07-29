@@ -1,0 +1,28 @@
+@startuml
+
+skinparam componentStyle rectangle
+
+legend left
+  |= Color |= Description |
+  |<#373737>| The final task that completes the whole execution |
+  |<#9b9b9b>| Brighter tasks are required by the darker tasks |
+  |<#ffffff>| Tasks that are starting first |
+  |<#LightYellow>| Explicitly declared dependencies that need to be delivered from the outside of execution. |
+  * The brightness means how fast the task will start.
+  * Explicitly declaring initial dependencies for tasks is optional, so they may not be included in diagram.
+end legend
+
+[InstallApks] #ffffff
+[ExecuteTestShard] #9b9b9b
+[ReleaseDevice] #373737
+
+[InstallApks] --> [Authorize]
+[ExecuteTestShard] --> [ParseApkInfo]
+[ExecuteTestShard] --> [Authorize]
+[ExecuteTestShard] --> [InstallApks]
+[ExecuteTestShard] --> [ExecuteTests.Results]
+[ReleaseDevice] --> [InstallApks]
+[ReleaseDevice] --> [ExecuteTestShard]
+[ReleaseDevice] --> [AvailableDevices]
+
+@enduml

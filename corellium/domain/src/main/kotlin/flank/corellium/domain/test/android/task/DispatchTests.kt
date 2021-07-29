@@ -4,6 +4,7 @@ import flank.corellium.domain.TestAndroid.Authorize
 import flank.corellium.domain.TestAndroid.AvailableDevices
 import flank.corellium.domain.TestAndroid.Device
 import flank.corellium.domain.TestAndroid.Dispatch
+import flank.corellium.domain.TestAndroid.ExecuteTestShard
 import flank.corellium.domain.TestAndroid.ExecuteTests
 import flank.corellium.domain.TestAndroid.ParseApkInfo
 import flank.corellium.domain.TestAndroid.PrepareShards
@@ -51,7 +52,7 @@ val dispatchTests = Dispatch.Tests from setOf(
                     .execute(state + seed)
                     .last()
                     .verify()
-                    .select(ExecuteTests)
+                    .select(ExecuteTestShard)
                     .let { send(it) }
 
                 if (--running == 0) {

@@ -21,11 +21,15 @@ internal fun generatePlantUmlString(
 
 skinparam componentStyle rectangle
 
-note as N #ffffff
-* Brighter tasks are required by the darker tasks.
-* The brightness means how fast the task will start.
-* White tasks are starting first.
-end note
+legend left
+  |= Color |= Description |
+  |<${calculateColor(maxDepth, maxDepth)}>| The final task that completes the whole execution |
+  |<${calculateColor(maxDepth, maxDepth / 2)}>| Brighter tasks are required by the darker tasks |
+  |<${calculateColor(maxDepth, 0)}>| Tasks that are starting first |
+  |<#LightYellow>| Explicitly declared dependencies that needs be delivered from outside of execution |
+  * The brightness means how fast the task will start.
+  * Explicitly declaring initial dependencies for tasks is optional, so they may not be included in diagram.
+end legend
 
 ${colors.printColors(name)}
 
@@ -44,7 +48,7 @@ private typealias Colors = Map<Node, String>
 
 private fun calculateColor(maxDepth: Int, value: Int): String {
     val c = (COLOR_MAX / maxDepth) * (maxDepth - value) + COLOR_OFFSET
-    return Integer.toHexString(Color(c, c, c).rgb).drop(2) // drop alpha
+    return "#" + Integer.toHexString(Color(c, c, c).rgb).drop(2) // drop alpha
 }
 
 private const val COLOR_MAX = 200
@@ -71,7 +75,7 @@ private fun <T> Map<T, Set<T>>.calculateDepth(): Map<T, Int> {
 private fun Colors.printColors(
     name: Node.() -> String
 ) = toList().joinToString("\n") { (node, value) ->
-    "${node.name()} #$value"
+    "${node.name()} $value"
 }
 
 private fun Graph.printRelations(

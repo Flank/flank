@@ -4,6 +4,7 @@ import flank.corellium.api.AndroidTestPlan
 import flank.corellium.domain.TestAndroid
 import flank.corellium.domain.TestAndroid.Authorize
 import flank.corellium.domain.TestAndroid.Device
+import flank.corellium.domain.TestAndroid.ExecuteTestShard
 import flank.corellium.domain.TestAndroid.ExecuteTests
 import flank.corellium.domain.TestAndroid.ExecuteTests.Error
 import flank.corellium.domain.TestAndroid.ExecuteTests.Result
@@ -36,7 +37,7 @@ import java.io.File
  *
  * The optional parsing errors are sent through [TestAndroid.Context.out].
  */
-internal val executeTestShard = ExecuteTests from setOf(
+internal val executeTestShard = ExecuteTestShard from setOf(
     ParseApkInfo,
     Authorize,
     InstallApks,

@@ -193,6 +193,8 @@ object TestAndroid {
         }
     }
 
+    object ExecuteTestShard : Parallel.Type<List<Device.Result>>
+
     object ExecuteTests : Parallel.Type<List<Device.Result>> {
         const val ADB_LOG = "adb_log"
 

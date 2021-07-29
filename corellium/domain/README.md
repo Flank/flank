@@ -13,11 +13,22 @@ This module is specifying public API and internal implementation of Flank-Corell
 
 Execution can be represented as a graph of tasks relations without cycles.
 
-
 #### Version from master branch:
 
-![TestAndroid.execute graph](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/corellium/domain/TestAndroid-execute.puml)
+Core execution
+
+![TestAndroid.execute](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/corellium/domain/TestAndroid-execute.puml)
+
+Device execution
+
+![TestAndroid.Device.execute](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/corellium/domain/TestAndroid_Device-execute.puml)
 
 ### New version draft:
 
-![TestAndroid.execute graph](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2083_test_dispatch_flow/corellium/domain/TestAndroid-execute.puml)
+Core execution
+
+![TestAndroid.execute](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2083_test_dispatch_flow/corellium/domain/TestAndroid-execute.puml)
+
+Device execution
+
+![TestAndroid.Device.execute](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2083_test_dispatch_flow/corellium/domain/TestAndroid_Device-execute.puml)
