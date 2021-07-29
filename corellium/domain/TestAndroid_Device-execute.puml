@@ -7,7 +7,7 @@ legend left
   |<#373737>| The final task that completes the whole execution |
   |<#9b9b9b>| Brighter tasks are required by the darker tasks |
   |<#ffffff>| Tasks that are starting first |
-  |<#LightYellow>| Explicitly declared dependencies that need to be delivered from the outside of execution. |
+  |<#LightYellow>| Explicitly declared dependencies that needs be delivered from outside of execution |
   * The brightness means how fast the task will start.
   * Explicitly declaring initial dependencies for tasks is optional, so they may not be included in diagram.
 end legend
