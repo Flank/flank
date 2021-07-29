@@ -1,7 +1,7 @@
 package ftl.analytics
 
 import com.google.common.truth.Truth.assertThat
-import flank.tool.analytics.mixpanel.send
+import flank.tool.analytics.mixpanel.Mixpanel
 import ftl.args.AndroidArgs
 import ftl.test.util.FlankTestRunner
 import ftl.util.readVersion
@@ -9,7 +9,6 @@ import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
-import org.json.JSONObject
 import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -38,16 +37,16 @@ class UsageStatisticsTest {
 
     @Test
     fun `should not run send configuration if unit tests`() {
-        mockkStatic(JSONObject::send)
+        mockkStatic(Mixpanel::send)
 
         AndroidArgs.default().reportConfiguration()
 
-        verify(inverse = true) { any<JSONObject>().send() }
+        verify(inverse = true) { any<Mixpanel>().send() }
     }
 
     @Test
     fun `should not run send configuration if disable statistic param set`() {
-        mockkStatic(JSONObject::send)
+        mockkStatic(Mixpanel::send)
         mockkStatic(::readVersion)
 
         every { readVersion() } returns "test"
@@ -57,6 +56,6 @@ class UsageStatisticsTest {
                 .reportConfiguration()
         }
 
-        verify(inverse = true) { any<JSONObject>().send() }
+        verify(inverse = true) { any<Mixpanel>().send() }
     }
 }

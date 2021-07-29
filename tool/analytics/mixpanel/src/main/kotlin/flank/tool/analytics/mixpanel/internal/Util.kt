@@ -1,4 +1,4 @@
-package flank.tool.analytics.mixpanel
+package flank.tool.analytics.mixpanel.internal
 
 import com.fasterxml.jackson.core.type.TypeReference
 import java.util.UUID
@@ -22,4 +22,5 @@ val sessionId by lazy {
     UUID.randomUUID().toString()
 }
 
-fun Any.objectToMap(): Map<String, Any> = objectMapper.convertValue(this, object : TypeReference<Map<String, Any>>() {})
+fun Any.objectToMap(): Map<String, Any> =
+    objectMapper.convertValue(this, object : TypeReference<Map<String, Any>>() {})

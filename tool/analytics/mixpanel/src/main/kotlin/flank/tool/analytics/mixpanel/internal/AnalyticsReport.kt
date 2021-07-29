@@ -1,9 +1,9 @@
-package flank.tool.analytics.mixpanel
+package flank.tool.analytics.mixpanel.internal
 
 const val schemaVersion = "1.0"
 
 var analyticsReport = AnalyticsReport()
-    private set
+    internal set
 
 data class AnalyticsReport(
     val projectName: String = "",
@@ -22,4 +22,5 @@ fun AnalyticsReport.add(key: String, reportNode: Any) = also {
     }
 }
 
-fun AnalyticsReport.send() = sendConfiguration(analyticsReport.projectName, data)
+fun AnalyticsReport.send(eventName: String) =
+    sendConfiguration(analyticsReport.projectName, data, eventName)

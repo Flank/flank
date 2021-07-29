@@ -1,11 +1,9 @@
-package flank.tool.analytics.mixpanel
+package flank.tool.analytics.mixpanel.internal
 
 import com.fasterxml.jackson.module.kotlin.jsonMapper
 import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.mixpanel.mixpanelapi.MessageBuilder
 import com.mixpanel.mixpanelapi.MixpanelAPI
-import flank.common.toJSONObject
-import org.json.JSONObject
 import kotlin.reflect.KClass
 
 private const val MIXPANEL_API_TOKEN = "d9728b2c8e6ca9fd6de1fcd32dd8cdc2"
@@ -32,10 +30,3 @@ fun initializeStatisticsClient(blockUsageStatistics: Boolean, vararg statisticCl
     blockSendUsageStatistics = blockUsageStatistics
     classesForStatistics = statisticClasses.asList()
 }
-
-fun JSONObject.send() = apiClient.sendMessage(this)
-
-fun Map<String, Any?>.toEvent(projectId: String, eventName: String): JSONObject =
-    (this + Pair(SESSION_ID, sessionId)).run {
-        messageBuilder.event(projectId, eventName, toJSONObject())
-    }

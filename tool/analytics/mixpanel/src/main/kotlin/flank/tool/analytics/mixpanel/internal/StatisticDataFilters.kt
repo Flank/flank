@@ -1,4 +1,4 @@
-package flank.tool.analytics.mixpanel
+package flank.tool.analytics.mixpanel.internal
 
 import flank.tool.analytics.AnonymizeInStatistics
 import flank.tool.analytics.IgnoreInStatistics

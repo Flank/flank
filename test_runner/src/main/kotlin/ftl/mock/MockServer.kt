@@ -1,6 +1,9 @@
 package ftl.mock
 
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jsonMapper
+import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.api.services.toolresults.model.AppStartTime
 import com.google.api.services.toolresults.model.CPUInfo
@@ -41,7 +44,6 @@ import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
 import com.google.testing.model.ToolResultsExecution
 import com.google.testing.model.ToolResultsStep
-import flank.tool.analytics.mixpanel.objectToMap
 import ftl.client.google.run.toClientInfoDetailList
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.JSON_FACTORY
@@ -404,6 +406,10 @@ object MockServer {
             .setName(clientName)
             .setClientInfoDetails(allClientDetails.toClientInfoDetailList())
     }
+
+    private fun Any.objectToMap(): Map<String, Any> = objectMapper.convertValue(this, object : TypeReference<Map<String, Any>>() {})
+
+    private val objectMapper by lazy { jsonMapper { addModule(kotlinModule()) } }
 
     fun start() {
         if (isStarted) return

@@ -1,8 +1,6 @@
 package ftl.run
 
-import flank.tool.analytics.mixpanel.add
-import flank.tool.analytics.mixpanel.analyticsReport
-import flank.tool.analytics.mixpanel.send
+import flank.tool.analytics.mixpanel.Mixpanel
 import ftl.api.TestMatrix
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
@@ -47,7 +45,7 @@ suspend fun IArgs.newTestRun() = withTimeoutOrNull(parsedTimeout) {
         matrixMap.printMatricesWebLinks(project)
         outputReport.log(matrixMap)
         matrixMap.reportTestResults()
-        analyticsReport.send()
+        Mixpanel.send()
         matrixMap.validate(ignoreFailedTests)
         addStepTime("Generating reports", duration)
     }
@@ -66,12 +64,12 @@ private fun MatrixMap.reportTestResults() {
             overheadTime = result.overheadTime + overview.overheadTime
         )
     }
-    analyticsReport.add(
+    Mixpanel.add(
         "shards_count",
         map.values.flatMap { it.testExecutions }.maxOf { testExecution -> testExecution.shardIndex ?: 0 } + 1
     )
-    analyticsReport.add("outcome", outcomes)
-    analyticsReport.add(
+    Mixpanel.add("outcome", outcomes)
+    Mixpanel.add(
         "tests",
         mapOf(
             "total" to testsSummary.total,

@@ -1,7 +1,7 @@
 package com.github.flank.wrapper.internal
 
 import flank.common.config.isTest
-import flank.tool.analytics.mixpanel.sessionId
+import flank.tool.analytics.mixpanel.internal.sessionId
 import io.sentry.Sentry
 
 private const val SESSION_ID = "session.id"
