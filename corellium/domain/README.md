@@ -15,20 +15,20 @@ Execution can be represented as a graph of tasks relations without cycles.
 
 #### Version from master branch:
 
-Core execution
+Core execution.
 
 ![TestAndroid.execute](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/corellium/domain/TestAndroid-execute.puml)
 
-Device execution
+Device sub-execution triggered for each shard or rerun by the `Device.Tests` task.
 
 ![TestAndroid.Device.execute](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/corellium/domain/TestAndroid_Device-execute.puml)
 
 ### New version draft:
 
-Core execution
+Core execution.
 
 ![TestAndroid.execute](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2083_test_dispatch_flow/corellium/domain/TestAndroid-execute.puml)
 
-Device execution
+Device sub-execution triggered for each shard or rerun by the `Device.Tests` task.
 
 ![TestAndroid.Device.execute](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2083_test_dispatch_flow/corellium/domain/TestAndroid_Device-execute.puml)
