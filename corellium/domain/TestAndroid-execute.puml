@@ -14,29 +14,41 @@ end note
 [ParseTestCases] #fbfbfb
 [LoadPreviousDurations] #dfdfdf
 [PrepareShards] #c3c3c3
+[Dispatch.Shards] #a7a7a7
 [DumpShards] #a7a7a7
-[InvokeDevices] #a7a7a7
-[InstallApks] #8b8b8b
+[ExecuteTests.Results] #a7a7a7
+[AvailableDevices] #a7a7a7
+[Dispatch.Tests] #8b8b8b
+[Dispatch.Failed] #8b8b8b
+[InvokeDevices] #8b8b8b
 [ExecuteTests] #6f6f6f
 [GenerateReport] #535353
 [CompleteTests] #373737
 
+[Dispatch.Shards] --> [PrepareShards]
+[Dispatch.Tests] --> [ParseApkInfo]
+[Dispatch.Tests] --> [Authorize]
+[Dispatch.Tests] --> [PrepareShards]
+[Dispatch.Tests] --> [AvailableDevices]
+[Dispatch.Tests] --> [Dispatch.Shards]
+[Dispatch.Tests] --> [ExecuteTests.Results]
+[Dispatch.Failed] --> [PrepareShards]
+[Dispatch.Failed] --> [Dispatch.Shards]
+[Dispatch.Failed] --> [ExecuteTests.Results]
 [DumpShards] --> [PrepareShards]
 [DumpShards] --> [OutputDir]
-[ExecuteTests] --> [PrepareShards]
-[ExecuteTests] --> [ParseApkInfo]
-[ExecuteTests] --> [Authorize]
 [ExecuteTests] --> [InvokeDevices]
-[ExecuteTests] --> [InstallApks]
+[ExecuteTests] --> [Dispatch.Tests]
+[ExecuteTests] --> [Dispatch.Failed]
 [CompleteTests] --> [GenerateReport]
 [CompleteTests] --> [DumpShards]
 [GenerateReport] --> [ExecuteTests]
 [GenerateReport] --> [OutputDir]
-[InstallApks] --> [Authorize]
-[InstallApks] --> [PrepareShards]
-[InstallApks] --> [InvokeDevices]
+[ExecuteTests.Results] --> [PrepareShards]
+[AvailableDevices] --> [PrepareShards]
 [InvokeDevices] --> [Authorize]
 [InvokeDevices] --> [PrepareShards]
+[InvokeDevices] --> [AvailableDevices]
 [LoadPreviousDurations] --> [ParseTestCases]
 [PrepareShards] --> [ParseTestCases]
 [PrepareShards] --> [LoadPreviousDurations]

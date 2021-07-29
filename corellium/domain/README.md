@@ -20,4 +20,4 @@ Execution can be represented as a graph of tasks relations without cycles.
 
 ### New version draft:
 
-![TestAndroid.execute graph](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2083_Add_module_tool-execution-parallel-plantuml/corellium/domain/TestAndroid-execute.puml)
+![TestAndroid.execute graph](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2083_test_dispatch_flow/corellium/domain/TestAndroid-execute.puml)
