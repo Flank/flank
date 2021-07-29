@@ -2,7 +2,6 @@ package flank.corellium.domain.test.android.task
 
 import flank.corellium.domain.TestAndroid.Dispatch
 import flank.corellium.domain.TestAndroid.ExecuteTests
-import flank.corellium.domain.TestAndroid.PrepareShards
 import flank.corellium.domain.TestAndroid.context
 import flank.exection.parallel.from
 import flank.exection.parallel.using
@@ -17,7 +16,6 @@ import java.util.concurrent.atomic.AtomicInteger
  * Rerunning failed tests help detect flakiness.
  */
 internal val dispatchFailedTests = Dispatch.Failed from setOf(
-    PrepareShards,
     Dispatch.Shards,
     ExecuteTests.Results,
 ) using context {

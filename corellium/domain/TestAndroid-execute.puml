@@ -36,7 +36,6 @@ end legend
 [Dispatch.Tests] --> [AvailableDevices]
 [Dispatch.Tests] --> [Dispatch.Shards]
 [Dispatch.Tests] --> [ExecuteTests.Results]
-[Dispatch.Failed] --> [PrepareShards]
 [Dispatch.Failed] --> [Dispatch.Shards]
 [Dispatch.Failed] --> [ExecuteTests.Results]
 [DumpShards] --> [PrepareShards]
