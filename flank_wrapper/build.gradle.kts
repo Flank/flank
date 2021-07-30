@@ -6,6 +6,7 @@ plugins {
     kotlin(Plugins.Kotlin.PLUGIN_JVM)
     id(Plugins.PLUGIN_SHADOW_JAR) version Versions.SHADOW
     id(Plugins.MAVEN_PUBLISH)
+    id(Plugins.CHECK_VERSION_UPDATED)
 }
 
 val artifactID = "flank_wrapper"
@@ -23,7 +24,7 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.2.0"
+version = "1.2.1"
 group = "com.github.flank"
 
 repositories {
@@ -101,29 +102,6 @@ application {
     mainClass.set(runnerClass)
 }
 
-// TODO replace with plugin in #2063
-val checkIfVersionUpdated by tasks.registering(Exec::class) {
-    group = "verification"
-    commandLine("git", "fetch", "--no-tags")
-
-    doLast {
-        val changedFiles = execAndGetStdout("git", "diff", "origin/master", "HEAD", "--name-only").split("\n") +
-            execAndGetStdout("git", "diff", "origin/master", "--name-only").split("\n")
-        val isVersionChanged = changedFiles.any { it.startsWith("flank_wrapper") }.not() ||
-            (changedFiles.contains("flank_wrapper/build.gradle.kts") && isVersionChangedInBuildGradle())
-
-        if (isVersionChanged.not()) {
-            throw GradleException(
-                """
-                   Flank wrapper version is not updated, but files changed.
-                   Please update version according to schema: <breaking change>.<feature added>.<fix/minor change>
-                """.trimIndent()
-
-            )
-        }
-    }
-}
-
 val prepareJar by tasks.registering(Copy::class) {
     dependsOn("shadowJar")
     from("$buildDir/libs")
@@ -143,5 +121,3 @@ val setWrapperVersion by tasks.registering {
 tasks.processResources {
     dependsOn(setWrapperVersion)
 }
-
-tasks["lintKotlin"].dependsOn(checkIfVersionUpdated)
