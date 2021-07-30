@@ -2,11 +2,15 @@
 
 skinparam componentStyle rectangle
 
-note as N #ffffff
-* Brighter tasks are required by the darker tasks.
-* The brightness means how fast the task will start.
-* White tasks are starting first.
-end note
+legend left
+  |= Color |= Description |
+  |<#373737>| The final task that completes the whole execution |
+  |<#a7a7a7>| Brighter tasks are required by the darker tasks |
+  |<#fbfbfb>| Tasks that are starting first |
+  |<#LightYellow>| Explicitly declared dependencies that needs be delivered from outside of execution |
+  * The brightness means how fast the task will start.
+  * Explicitly declaring initial dependencies for tasks is optional, so they may not be included in diagram.
+end legend
 
 [Authorize] #fbfbfb
 [OutputDir] #fbfbfb
@@ -14,29 +18,40 @@ end note
 [ParseTestCases] #fbfbfb
 [LoadPreviousDurations] #dfdfdf
 [PrepareShards] #c3c3c3
+[Dispatch.Shards] #a7a7a7
 [DumpShards] #a7a7a7
-[InvokeDevices] #a7a7a7
-[InstallApks] #8b8b8b
+[ExecuteTests.Results] #a7a7a7
+[AvailableDevices] #a7a7a7
+[Dispatch.Tests] #8b8b8b
+[Dispatch.Failed] #8b8b8b
+[InvokeDevices] #8b8b8b
 [ExecuteTests] #6f6f6f
 [GenerateReport] #535353
 [CompleteTests] #373737
 
+[Dispatch.Shards] --> [PrepareShards]
+[Dispatch.Tests] --> [ParseApkInfo]
+[Dispatch.Tests] --> [Authorize]
+[Dispatch.Tests] --> [PrepareShards]
+[Dispatch.Tests] --> [AvailableDevices]
+[Dispatch.Tests] --> [Dispatch.Shards]
+[Dispatch.Tests] --> [ExecuteTests.Results]
+[Dispatch.Failed] --> [Dispatch.Shards]
+[Dispatch.Failed] --> [ExecuteTests.Results]
 [DumpShards] --> [PrepareShards]
 [DumpShards] --> [OutputDir]
-[ExecuteTests] --> [PrepareShards]
-[ExecuteTests] --> [ParseApkInfo]
-[ExecuteTests] --> [Authorize]
 [ExecuteTests] --> [InvokeDevices]
-[ExecuteTests] --> [InstallApks]
+[ExecuteTests] --> [Dispatch.Tests]
+[ExecuteTests] --> [Dispatch.Failed]
 [CompleteTests] --> [GenerateReport]
 [CompleteTests] --> [DumpShards]
 [GenerateReport] --> [ExecuteTests]
 [GenerateReport] --> [OutputDir]
-[InstallApks] --> [Authorize]
-[InstallApks] --> [PrepareShards]
-[InstallApks] --> [InvokeDevices]
+[ExecuteTests.Results] --> [PrepareShards]
+[AvailableDevices] --> [PrepareShards]
 [InvokeDevices] --> [Authorize]
 [InvokeDevices] --> [PrepareShards]
+[InvokeDevices] --> [AvailableDevices]
 [LoadPreviousDurations] --> [ParseTestCases]
 [PrepareShards] --> [ParseTestCases]
 [PrepareShards] --> [LoadPreviousDurations]
