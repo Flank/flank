@@ -6,7 +6,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 object UpdateCatalogFixtures {
-    private const val root = "./test_runner/src/test/kotlin/ftl/fixtures/"
+    private const val root = "./test_runner/src/main/resources/"
 
     private fun write(fileName: String, content: GenericJson) {
         Files.write(Paths.get(root, fileName), content.toPrettyString().toByteArray())

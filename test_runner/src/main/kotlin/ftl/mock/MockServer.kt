@@ -70,8 +70,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.BindException
 import java.nio.charset.StandardCharsets.UTF_8
-import java.nio.file.Files
-import java.nio.file.Paths
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.zip.GZIPInputStream
 
@@ -83,9 +81,9 @@ object MockServer {
     private var isStarted: Boolean = false
 
     private inline fun <reified T> loadCatalog(fileName: String): T {
-        val jsonPath = Paths.get("./src/test/kotlin/ftl/fixtures/$fileName")
-        if (!Files.exists(jsonPath)) throw FlankGeneralError("Path doesn't exist: $fileName")
-        return JSON_FACTORY.fromReader(Files.newBufferedReader(jsonPath), T::class.java)
+        val jsonPath = {}.javaClass.classLoader.getResourceAsStream(fileName)
+            ?: throw FlankGeneralError("File doesn't exist: $fileName")
+        return JSON_FACTORY.fromReader(jsonPath.bufferedReader(), T::class.java)
     }
 
     private val androidCatalog by lazy { loadCatalog<AndroidDeviceCatalog>("android_catalog.json") }
