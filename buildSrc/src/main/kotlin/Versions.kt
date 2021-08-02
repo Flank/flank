@@ -43,7 +43,7 @@ object Versions {
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
     // https://github.com/googleapis/google-oauth-java-client/issues/251#issuecomment-504565533
-    const val GOOGLE_AUTH = "0.27.0"
+    const val GOOGLE_AUTH = "1.0.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
     const val GOOGLE_NIO = "0.123.3"
@@ -64,10 +64,10 @@ object Versions {
     const val JSOUP = "1.13.1"
 
     // https://github.com/ktorio/ktor/releases
-    const val KTOR = "1.6.1"
+    const val KTOR = "1.6.2"
 
     // https://github.com/qos-ch/logback/releases
-    const val LOGBACK = "1.2.4"
+    const val LOGBACK = "1.2.5"
 
     // https://github.com/square/okhttp/releases
     const val OKHTTP = "4.9.1"
@@ -96,7 +96,7 @@ object Versions {
     const val BEN_MANES = "0.39.0"
 
     // https://github.com/Guardsquare/proguard
-    const val PROGUARD = "7.1.0"
+    const val PROGUARD = "7.1.1"
 
     // https://mvnrepository.com/artifact/org.json/json
     const val JSON = "20210307"
