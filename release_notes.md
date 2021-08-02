@@ -1,3 +1,16 @@
+## v21.08.0
+### Features
+- [#2118](https://github.com/Flank/flank/pull/2118) Added project ID to sentry ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#2113](https://github.com/Flank/flank/pull/2113) Get apk details with retry ([pawelpasterz](https://github.com/pawelpasterz))
+- [#2108](https://github.com/Flank/flank/pull/2108) Added Gradle Plugin to check if helpers modules version get updated ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#2092](https://github.com/Flank/flank/pull/2092) Rerun failed tests ([jan-gogo](https://github.com/jan-gogo))
+### Bug Fixes
+- [#2110](https://github.com/Flank/flank/pull/2110) Fix dry run ([pawelpasterz](https://github.com/pawelpasterz))
+### Refactor
+- [#2106](https://github.com/Flank/flank/pull/2106) Structural output login google ([piotradamczyk5](https://github.com/piotradamczyk5))
+### Documentation
+- [#2102](https://github.com/Flank/flank/pull/2102) Generate tasks diagram ([jan-gogo](https://github.com/jan-gogo))
+
 ## v21.07.2
 ### Features
 - [#2096](https://github.com/Flank/flank/pull/2096) Add num-flaky-test-attempts CLI option ([jan-gogo](https://github.com/jan-gogo))
