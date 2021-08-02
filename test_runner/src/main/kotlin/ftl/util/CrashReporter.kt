@@ -17,6 +17,7 @@ const val FLANK_VERSION = "flank.version"
 const val FLANK_REVISION = "flank.revision"
 const val DEVICE_SYSTEM = "device.system"
 const val TEST_TYPE = "test.type"
+const val PROJECT_ID = "project.id"
 
 private val configureCrashReporter by lazy { initCrashReporter() }
 
