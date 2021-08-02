@@ -11,6 +11,7 @@ import ftl.adapter.google.getFilePathToDownload
 import ftl.api.Artifacts.DownloadPath
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
+import ftl.client.google.getAndroidAppDetails
 import ftl.http.executeWithRetry
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.LocalGcs
@@ -162,6 +163,11 @@ class TestRunnerTest {
             getMockedTestMatrix().apply { state = "RUNNING" },
             getMockedTestMatrix()
         )
+        mockkStatic("ftl.client.google.AppDetailsKt")
+        every {
+            getAndroidAppDetails(any())
+        } returns ""
+
         runBlocking {
             localConfig.newTestRun()
         }
