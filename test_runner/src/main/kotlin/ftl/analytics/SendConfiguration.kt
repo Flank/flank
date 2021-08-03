@@ -17,6 +17,7 @@ import ftl.environment.VIRTUAL_DEVICE
 import ftl.util.readVersion
 
 fun AndroidArgs.reportConfiguration() {
+    addCommonData()
     add(Mixpanel.CONFIGURATION, createEventMap())
     add(
         Mixpanel.DEVICE_TYPES,

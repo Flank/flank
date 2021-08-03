@@ -6,6 +6,7 @@ import ftl.args.AndroidArgs
 import ftl.test.util.FlankTestRunner
 import ftl.util.readVersion
 import io.mockk.every
+import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
@@ -37,25 +38,28 @@ class UsageStatisticsTest {
 
     @Test
     fun `should not run send configuration if unit tests`() {
-        mockkStatic(Mixpanel::send)
+        mockkObject(Mixpanel)
+
+        every { Mixpanel.send(any()) }
 
         AndroidArgs.default().reportConfiguration()
 
-        verify(inverse = true) { any<Mixpanel>().send() }
+        verify(inverse = true) { Mixpanel.send(any()) }
     }
 
     @Test
     fun `should not run send configuration if disable statistic param set`() {
-        mockkStatic(Mixpanel::send)
+        mockkObject(Mixpanel)
         mockkStatic(::readVersion)
 
         every { readVersion() } returns "test"
+        every { Mixpanel.send(any()) }
 
         AndroidArgs.default().run {
             copy(commonArgs = commonArgs.copy(disableUsageStatistics = true))
                 .reportConfiguration()
         }
 
-        verify(inverse = true) { any<Mixpanel>().send() }
+        verify(inverse = true) { Mixpanel.send(any()) }
     }
 }
