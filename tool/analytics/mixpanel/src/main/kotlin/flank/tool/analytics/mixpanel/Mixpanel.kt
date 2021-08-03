@@ -2,10 +2,9 @@ package flank.tool.analytics.mixpanel
 
 import flank.tool.analytics.mixpanel.internal.addToReport
 import flank.tool.analytics.mixpanel.internal.configureReport
-import flank.tool.analytics.mixpanel.internal.filterSensitiveValues
+import flank.tool.analytics.mixpanel.internal.removeSensitiveValues
 import flank.tool.analytics.mixpanel.internal.objectToMap
 import flank.tool.analytics.mixpanel.internal.removeNotNeededKeys
-import flank.tool.analytics.mixpanel.internal.initStatisticsClient
 import flank.tool.analytics.mixpanel.internal.sendReport
 import java.util.UUID
 import kotlin.reflect.KClass
@@ -29,16 +28,23 @@ object Mixpanel {
 
     val sessionId by lazy { UUID.randomUUID().toString() }
 
-    fun configure(projectName: String): Unit = configureReport(projectName)
+    fun configure(
+        projectName: String,
+        blockUsageStatistics: Boolean = false,
+        vararg statisticClasses: KClass<*>
+    ): Unit = configureReport(
+        projectName = projectName,
+        blockUsageStatistics = blockUsageStatistics,
+        statisticClasses = statisticClasses
+    )
+
+    fun removeSensitiveValues(map: ObjectMap): ObjectMap = map.removeNotNeededKeys().removeSensitiveValues()
 
     fun add(key: String, reportNode: Any): Unit = addToReport(key, reportNode)
 
     fun send(eventName: String): Unit = sendReport(eventName)
-
-    fun initializeStatisticsClient(blockUsageStatistics: Boolean, vararg statisticClasses: KClass<*>): Unit =
-        initStatisticsClient(blockUsageStatistics, statisticClasses)
 }
 
-fun Any.objectToMap(): Map<String, Any> = objectToMap()
+fun Any.toMap(): ObjectMap = objectToMap()
 
-fun Map<String, Any>.filterSensitiveValues() = removeNotNeededKeys().filterSensitiveValues()
+typealias ObjectMap = Map<String, Any>
