@@ -4,18 +4,22 @@ import flank.tool.analytics.AnonymizeInStatistics
 import flank.tool.analytics.IgnoreInStatistics
 import kotlin.reflect.KClass
 
-internal val keysToRemove by lazy {
+internal fun Map<String, Any>.removeNotNeededKeys(): Map<String, Any> =
+    filterNot { (key, _) -> key in keysToRemove }
+
+internal fun Map<String, Any>.filterSensitiveValues(): Map<String, Any> =
+    mapValues { it.anonymousSensitiveValues() }
+
+private val keysToRemove by lazy {
     getClassesForStatisticsOrThrow().map(findMembersWithAnnotation(IgnoreInStatistics::class)).flatten()
 }
 
-internal val keysToAnonymize by lazy {
+private val keysToAnonymize by lazy {
     getClassesForStatisticsOrThrow().map(findMembersWithAnnotation(AnonymizeInStatistics::class)).flatten()
 }
 
 private fun getClassesForStatisticsOrThrow() =
-    (classesForStatistics ?: throw NullPointerException("Analytics client should be initialized first"))
-
-internal var classesForStatistics: List<KClass<*>>? = null
+    (AnalyticsReport.classesForStatistics ?: throw NullPointerException("Analytics client should be initialized first"))
 
 private fun findMembersWithAnnotation(
     annotationType: KClass<*>
@@ -26,13 +30,6 @@ private fun findMembersWithAnnotation(
         it.name
     }
 }
-
-fun Map<String, Any>.removeNotNeededKeys() =
-    filterNot { (key, _) ->
-        key in keysToRemove
-    }
-
-fun Map<String, Any>.filterSensitiveValues() = mapValues { it.anonymousSensitiveValues() }
 
 private fun Map.Entry<String, Any>.anonymousSensitiveValues() =
     if (keysToAnonymize.contains(key)) value.toAnonymous()

@@ -1,7 +1,7 @@
 package com.github.flank.wrapper.internal
 
 import flank.common.config.isTest
-import flank.tool.analytics.mixpanel.internal.sessionId
+import flank.tool.analytics.mixpanel.Mixpanel
 import io.sentry.Sentry
 
 private const val SESSION_ID = "session.id"
@@ -17,7 +17,7 @@ fun setupCrashReporter() {
         }
 
         logTags(
-            SESSION_ID to sessionId,
+            SESSION_ID to Mixpanel.sessionId,
             OS_NAME to osName,
             FLANK_WRAPPER_VERSION to flankWrapperVersion,
         )

@@ -45,11 +45,13 @@ suspend fun IArgs.newTestRun() = withTimeoutOrNull(parsedTimeout) {
         matrixMap.printMatricesWebLinks(project)
         outputReport.log(matrixMap)
         matrixMap.reportTestResults()
-        Mixpanel.send()
+        Mixpanel.send(FIREBASE_TEST_LAB_RUN)
         matrixMap.validate(ignoreFailedTests)
         addStepTime("Generating reports", duration)
     }
 }
+
+private const val FIREBASE_TEST_LAB_RUN = "firebase test lab run"
 
 private fun MatrixMap.reportTestResults() {
     val outcomes = map.flatMap { it.value.axes }

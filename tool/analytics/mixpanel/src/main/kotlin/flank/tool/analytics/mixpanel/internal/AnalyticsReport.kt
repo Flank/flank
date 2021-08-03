@@ -1,26 +1,28 @@
 package flank.tool.analytics.mixpanel.internal
 
-const val schemaVersion = "1.0"
+import kotlin.reflect.KClass
 
-var analyticsReport = AnalyticsReport()
-    internal set
-
-data class AnalyticsReport(
-    val projectName: String = "",
-    val data: AnalyticsData = mapOf()
-)
-
-private typealias AnalyticsData = Map<String, Any>
-
-fun AnalyticsReport.configure(projectName: String) {
-    analyticsReport = copy(projectName = projectName)
+internal object AnalyticsReport {
+    var projectName: String = ""
+    var blockSendUsageStatistics: Boolean = false
+    var classesForStatistics: List<KClass<*>>? = null
+    val data: MutableMap<String, Any> = mutableMapOf()
 }
 
-fun AnalyticsReport.add(key: String, reportNode: Any) = also {
-    if (blockSendUsageStatistics.not()) {
-        analyticsReport = copy(data = analyticsReport.data + (key to reportNode))
-    }
+internal fun initStatisticsClient(blockUsageStatistics: Boolean, statisticClasses: Array<out KClass<*>>) {
+    if (AnalyticsReport.classesForStatistics != null) return
+    AnalyticsReport.blockSendUsageStatistics = blockUsageStatistics
+    AnalyticsReport.classesForStatistics = statisticClasses.asList()
 }
 
-fun AnalyticsReport.send(eventName: String) =
-    sendConfiguration(analyticsReport.projectName, data, eventName)
+internal fun configureReport(projectName: String) {
+    AnalyticsReport.projectName = projectName
+}
+
+internal fun addToReport(key: String, reportNode: Any) {
+    AnalyticsReport.data[key] = reportNode
+}
+
+internal fun sendReport(eventName: String) {
+    sendConfiguration(AnalyticsReport.projectName, AnalyticsReport.data, eventName)
+}

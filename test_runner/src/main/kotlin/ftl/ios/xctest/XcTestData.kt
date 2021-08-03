@@ -2,7 +2,6 @@ package ftl.ios.xctest
 
 import com.dd.plist.NSDictionary
 import flank.tool.analytics.mixpanel.Mixpanel
-import flank.tool.analytics.mixpanel.internal.APP_ID
 import ftl.args.ArgsHelper.calculateShards
 import ftl.args.IosArgs
 import ftl.args.isXcTest
@@ -60,7 +59,7 @@ private fun IosArgs.calculateXcTest(): XcTestRunData {
     )
 }
 
-private fun IosArgs.reportBundleId() = Mixpanel.add(APP_ID, getBundleId())
+private fun IosArgs.reportBundleId() = Mixpanel.add(Mixpanel.APP_ID, getBundleId())
 
 private inline fun <reified T> createCustomSharding(shardingJsonPath: String) =
     fromJson<T>(Paths.get(shardingJsonPath).toFile().readText())
