@@ -1,0 +1,37 @@
+name: Github Action Integration Dogfood
+
+on:
+  schedule:
+    - cron: '0 0 1 * *' # At 00:00 on day-of-month 1. i.e. once a month on the first day.
+
+jobs:
+  run-it-full-suite:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ macos-latest, windows-latest, ubuntu-latest ]
+      fail-fast: false
+    outputs:
+      job_status: ${{ job.status }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create service account
+        run: echo '${{ secrets.GCLOUD_KEY }}' > service_account_created.json
+
+      - name: flank android Test
+        id: flank_android_run
+        uses: Flank/flank@master
+        with:
+          service_account: './service_account_created.json'
+          platform: android
+          flank_configuration_file: './integration_tests/src/test/resources/cases/all_test_filtered_android.yml'
+
+      - name: flank iOS Test
+        id: flank_ios_run
+        uses: Flank/flank@master
+        with:
+          service_account: './service_account_created.json'
+          platform: ios
+          flank_configuration_file: './integration_tests/src/test/resources/cases/all_test_filtered_ios.yml'
