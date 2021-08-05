@@ -3,6 +3,7 @@ package ftl.adapter.google
 import com.google.testing.model.FileReference
 import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
+import flank.common.toJSONObject
 import ftl.api.TestMatrix.Data
 import ftl.api.TestMatrix.Outcome
 import ftl.api.TestMatrix.SuiteOverview
@@ -17,7 +18,6 @@ import ftl.util.getGcsRootBucket
 import ftl.util.timeoutToSeconds
 import ftl.util.webLink
 import ftl.util.webLinkWithoutExecutionDetails
-import org.json.JSONObject
 
 fun TestMatrix.toApiModel(identity: ftl.api.TestMatrix.Identity? = null) = Data(
     projectId = projectId.orEmpty(),
@@ -95,7 +95,7 @@ private fun TestMatrix.extractFileName(fileName: TestFilesPathWrapper.() -> Stri
         iosTestLoop
     )
         .firstOrNull { it != null }
-        ?.let(::JSONObject)
+        ?.toJSONObject()
         ?.let { prettyPrint.fromJson(it.toString(), TestFilesPathWrapper::class.java).fileName() }
         ?.substringAfterLast('/')
 }
