@@ -1,8 +1,7 @@
 package ftl.util
 
 import flank.common.config.isTest
-import flank.tool.analytics.mixpanel.SESSION_ID
-import flank.tool.analytics.mixpanel.sessionId
+import flank.tool.analytics.mixpanel.Mixpanel
 import io.sentry.Sentry
 import io.sentry.SentryLevel
 import java.io.File
@@ -53,7 +52,7 @@ private fun initializeCrashReportWrapper() {
         it.release = readRevision()
     }
     setCrashReportTag(
-        SESSION_ID to sessionId,
+        Mixpanel.SESSION_ID to Mixpanel.sessionId,
         OS_NAME to System.getProperty("os.name"),
         FLANK_VERSION to readVersion(),
         FLANK_REVISION to readRevision()
