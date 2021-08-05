@@ -2,6 +2,7 @@ package ftl.analytics
 
 import com.google.common.truth.Truth.assertThat
 import flank.tool.analytics.mixpanel.Mixpanel
+import flank.tool.analytics.mixpanel.toMap
 import ftl.args.AndroidArgs
 import ftl.test.util.FlankTestRunner
 import ftl.util.readVersion
@@ -27,7 +28,7 @@ class UsageStatisticsTest {
         val default = AndroidArgs.default()
         val args = default.copy(environmentVariables = mapOf("testKey" to "testValue", "testKey2" to "testValue2"))
         args.initUsageStatistics()
-        val nonDefaultArgs = args.createEventMap()
+        val nonDefaultArgs = args.toMap()
         (nonDefaultArgs["environmentVariables"] as? Map<*, *>)?.let { environmentVariables ->
             assertThat(environmentVariables.count()).isEqualTo(2)
             assertThat(environmentVariables.values.all { it == "..." }).isTrue()
