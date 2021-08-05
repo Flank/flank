@@ -5,30 +5,34 @@ skinparam componentStyle rectangle
 legend left
   |= Color |= Description |
   |<#373737>| The final task that completes the whole execution |
-  |<#a7a7a7>| Brighter tasks are required by the darker tasks |
-  |<#fbfbfb>| Tasks that are starting first |
+  |<#9b9b9b>| Brighter tasks are required by the darker tasks |
+  |<#ffffff>| Tasks that are starting first |
   |<#LightYellow>| Explicitly declared dependencies that needs be delivered from outside of execution |
   * The brightness means how fast the task will start.
   * Explicitly declaring initial dependencies for tasks is optional, so they may not be included in diagram.
 end legend
 
-[Authorize] #fbfbfb
-[OutputDir] #fbfbfb
-[ParseApkInfo] #fbfbfb
-[ParseTestCases] #fbfbfb
-[LoadPreviousDurations] #dfdfdf
-[PrepareShards] #c3c3c3
-[Dispatch.Shards] #a7a7a7
-[DumpShards] #a7a7a7
-[ExecuteTests.Results] #a7a7a7
-[AvailableDevices] #a7a7a7
-[Dispatch.Tests] #8b8b8b
-[Dispatch.Failed] #8b8b8b
-[InvokeDevices] #8b8b8b
-[ExecuteTests] #6f6f6f
-[GenerateReport] #535353
+[Authorize] #ffffff
+[OutputDir] #ffffff
+[ParseApkInfo] #ffffff
+[ParseTestCases] #ffffff
+[LoadPreviousDurations] #e6e6e6
+[PrepareShards] #cdcdcd
+[AvailableDevices] #b4b4b4
+[Dispatch.Shards] #b4b4b4
+[DumpShards] #b4b4b4
+[ExecuteTests.Results] #b4b4b4
+[Dispatch.Failed] #9b9b9b
+[Dispatch.Tests] #9b9b9b
+[InvokeDevices] #9b9b9b
+[ExecuteTests] #828282
+[ProcessedResults] #696969
+[GenerateReport] #505050
 [CompleteTests] #373737
 
+[AvailableDevices] --> [PrepareShards]
+[Dispatch.Failed] --> [Dispatch.Shards]
+[Dispatch.Failed] --> [ExecuteTests.Results]
 [Dispatch.Shards] --> [PrepareShards]
 [Dispatch.Tests] --> [ParseApkInfo]
 [Dispatch.Tests] --> [Authorize]
@@ -36,8 +40,6 @@ end legend
 [Dispatch.Tests] --> [AvailableDevices]
 [Dispatch.Tests] --> [Dispatch.Shards]
 [Dispatch.Tests] --> [ExecuteTests.Results]
-[Dispatch.Failed] --> [Dispatch.Shards]
-[Dispatch.Failed] --> [ExecuteTests.Results]
 [DumpShards] --> [PrepareShards]
 [DumpShards] --> [OutputDir]
 [ExecuteTests] --> [InvokeDevices]
@@ -46,14 +48,15 @@ end legend
 [CompleteTests] --> [GenerateReport]
 [CompleteTests] --> [DumpShards]
 [GenerateReport] --> [ExecuteTests]
+[GenerateReport] --> [ProcessedResults]
 [GenerateReport] --> [OutputDir]
 [ExecuteTests.Results] --> [PrepareShards]
-[AvailableDevices] --> [PrepareShards]
 [InvokeDevices] --> [Authorize]
 [InvokeDevices] --> [PrepareShards]
 [InvokeDevices] --> [AvailableDevices]
 [LoadPreviousDurations] --> [ParseTestCases]
 [PrepareShards] --> [ParseTestCases]
 [PrepareShards] --> [LoadPreviousDurations]
+[ProcessedResults] --> [ExecuteTests]
 
 @enduml
