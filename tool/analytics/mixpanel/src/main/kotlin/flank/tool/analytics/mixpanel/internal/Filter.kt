@@ -3,10 +3,10 @@ package flank.tool.analytics.mixpanel.internal
 import flank.tool.analytics.mixpanel.ObjectMap
 
 internal fun ObjectMap.removeNotNeededKeys(
-    keysToRemove: Set<String> = Report.keysToAnonymize
+    keysToRemove: Set<String> = Report.keysToRemove
 ): ObjectMap =
     if (keysToRemove.isEmpty()) this
-    else filterNot { (key, _) -> key in Report.keysToRemove }
+    else filterNot { (key, _) -> key in keysToRemove }
 
 internal fun ObjectMap.anonymizeSensitiveValues(
     keysToAnonymize: Set<String> = Report.keysToAnonymize,

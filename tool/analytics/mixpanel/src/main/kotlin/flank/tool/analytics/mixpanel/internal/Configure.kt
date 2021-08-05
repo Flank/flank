@@ -11,8 +11,8 @@ internal fun configureReport(
 ) {
     Report.projectName = projectName
     Report.blockSendUsageStatistics = blockUsageStatistics
-    Report.keysToRemove = statisticClasses getMembersWith AnonymizeInStatistics::class
-    Report.keysToAnonymize = statisticClasses getMembersWith IgnoreInStatistics::class
+    Report.keysToRemove = statisticClasses getMembersWith IgnoreInStatistics::class
+    Report.keysToAnonymize = statisticClasses getMembersWith AnonymizeInStatistics::class
 }
 
 private infix fun Array<out KClass<*>>.getMembersWith(

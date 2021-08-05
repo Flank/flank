@@ -30,7 +30,7 @@ class UsageStatisticsTest {
         val default = AndroidArgs.default()
         val args = default.copy(environmentVariables = mapOf("testKey" to "testValue", "testKey2" to "testValue2"))
         args.initUsageStatistics()
-        val nonDefaultArgs = args.toMap()
+        val nonDefaultArgs = Mixpanel.removeSensitiveValues(args.toMap())
         (nonDefaultArgs["environmentVariables"] as? Map<*, *>)?.let { environmentVariables ->
             assertThat(environmentVariables.count()).isEqualTo(2)
             assertThat(environmentVariables.values.all { it == "..." }).isTrue()
