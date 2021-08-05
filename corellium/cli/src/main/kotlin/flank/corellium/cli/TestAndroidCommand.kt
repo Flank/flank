@@ -161,6 +161,7 @@ class TestAndroidCommand :
                 "A map of name suffixes related to set of result types required to include in custom junit report. " +
                     "As results, this option will generate additional amount of junit reports named `JUnitReport-\$suffix.xml`." +
                     "Available result types to include are: [Skipped, Passed, Failed, Flaky]." +
+                    "For example the default configuration will generate JUnitReport-failures.xml." +
                     "Default value is `--junit-report-config=failures=Failed,Flaky;`"
             ]
         )

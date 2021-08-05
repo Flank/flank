@@ -135,6 +135,17 @@ apks:
 ## This option is hiding sensitive details about tests.
 ## default: false
 # obfuscate: true
+
+### Configure JUnit reports
+## A map of name suffixes related to set of result types required to include in custom junit report.
+## Available result types to include are: [Skipped, Passed, Failed, Flaky] (values are not case-sensitive).
+## As results, this option will generate additional amount of junit reports named `JUnitReport-$suffix.xml`.
+## For example the default configuration will generate JUnitReport-failures.xml.  
+## default: failures: [Failed, Flaky]
+# junit-report-config:
+#   skipped: [Skipped]
+#   passed: [PASSED]
+#   failures: [failed, flaky]
 ```
 
 ### Command-line arguments
@@ -168,7 +179,9 @@ The process during its runtime is printing detailed information about execution 
 
 The successful run should generate the following files:
 
-* JUnitReport.xml
+* JUnitReport.xml - raw report with reruns.
+  * JUnitReport_failures.xml - only failed and flaky tests.
+  * or any report files generated according to `junit-report-config` option.
 * android_shards.json
 * adb_log
   * Directory that contains dumped log from `am instrument` commands.
@@ -207,6 +220,7 @@ To see the source of the problem check the log file referenced in the error mess
 * Creating or reusing instances (devices).
 * Installing APKs on remote devices.
 * Running android tests.
+* Flaky test detection.
 * Dumping shards to file.
 * Parsing `adb am instrument` logs.
 * Generating JUnit report.
@@ -214,6 +228,5 @@ To see the source of the problem check the log file referenced in the error mess
 # Roadmap
 
 * Cleaning devices after test execution.
-* Flaky test detection.
 * iOS support.
 * and much more...
