@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import flank.tool.analytics.mixpanel.Mixpanel
 import flank.tool.analytics.mixpanel.toMap
 import ftl.args.AndroidArgs
+import ftl.args.IosArgs
 import ftl.test.util.FlankTestRunner
 import ftl.util.readVersion
 import io.mockk.every
@@ -12,6 +13,7 @@ import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.After
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -62,5 +64,29 @@ class UsageStatisticsTest {
         }
 
         verify(inverse = true) { Mixpanel.send(any()) }
+    }
+
+    @Test
+    fun `should ignore commonArgs from AndroidArgs`() {
+        // given
+        val args = AndroidArgs.default()
+
+        // when
+        val data = args.toMap()
+
+        // then
+        assertTrue(args::commonArgs.name !in data)
+    }
+
+    @Test
+    fun `should ignore commonArgs from IosArgs`() {
+        // given
+        val args = IosArgs.default()
+
+        // when
+        val data = args.toMap()
+
+        // then
+        assertTrue(args::commonArgs.name !in data)
     }
 }
