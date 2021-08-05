@@ -1,4 +1,4 @@
-package flank.tool.analytics.mixpanel.internal.send
+package flank.tool.analytics.mixpanel.internal
 
 import com.mixpanel.mixpanelapi.MessageBuilder
 import com.mixpanel.mixpanelapi.MixpanelAPI
@@ -6,19 +6,16 @@ import flank.tool.analytics.mixpanel.Mixpanel.PROJECT_ID
 import flank.tool.analytics.mixpanel.Mixpanel.PROJECT_NAME
 import flank.tool.analytics.mixpanel.Mixpanel.SESSION_ID
 import flank.tool.analytics.mixpanel.Mixpanel.sessionId
-import flank.tool.analytics.mixpanel.internal.Report
 import org.json.JSONObject
 
-internal fun sendConfiguration(
-    project: String,
-    events: Map<String, Any?>,
-    eventName: String
+internal fun sendReport(
+    eventName: String,
 ) {
     !Report.blockSendUsageStatistics || return
-    project.isNotBlank() || return
+    Report.projectName.isNotBlank() || return
     listOf(
-        createUser(project),
-        createEvent(project, eventName, events),
+        createUser(Report.projectName),
+        createEvent(Report.projectName, eventName, Report.data),
     ).forEach(apiClient::sendMessage)
 }
 
@@ -46,10 +43,7 @@ private fun createEvent(
         JSONObject(data + (SESSION_ID to sessionId))
     )
 
-internal val messageBuilder by lazy { MessageBuilder(MIXPANEL_API_TOKEN) }
-
-internal val apiClient by lazy { MixpanelAPI() }
+private val messageBuilder by lazy { MessageBuilder(MIXPANEL_API_TOKEN) }
+private val apiClient by lazy { MixpanelAPI() }
 
 private const val MIXPANEL_API_TOKEN = "d9728b2c8e6ca9fd6de1fcd32dd8cdc2"
-
-

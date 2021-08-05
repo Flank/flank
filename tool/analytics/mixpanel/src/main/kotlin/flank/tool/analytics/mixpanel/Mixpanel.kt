@@ -1,8 +1,8 @@
 package flank.tool.analytics.mixpanel
 
 import flank.tool.analytics.mixpanel.internal.addToReport
+import flank.tool.analytics.mixpanel.internal.anonymizeSensitiveValues
 import flank.tool.analytics.mixpanel.internal.configureReport
-import flank.tool.analytics.mixpanel.internal.removeSensitiveValues
 import flank.tool.analytics.mixpanel.internal.objectToMap
 import flank.tool.analytics.mixpanel.internal.removeNotNeededKeys
 import flank.tool.analytics.mixpanel.internal.sendReport
@@ -38,7 +38,7 @@ object Mixpanel {
         statisticClasses = statisticClasses
     )
 
-    fun removeSensitiveValues(map: ObjectMap): ObjectMap = map.removeNotNeededKeys().removeSensitiveValues()
+    fun removeSensitiveValues(map: ObjectMap): ObjectMap = map.removeNotNeededKeys().anonymizeSensitiveValues()
 
     fun add(key: String, reportNode: Any): Unit = addToReport(key, reportNode)
 
