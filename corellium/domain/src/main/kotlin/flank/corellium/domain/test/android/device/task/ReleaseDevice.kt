@@ -20,4 +20,7 @@ internal val releaseDevice = ReleaseDevice from setOf(
 }
 
 private operator fun Device.Instance.plus(apks: Iterable<String>) =
-    copy(apks = this.apks + apks)
+    copy(
+        apks = this.apks + apks,
+        releaseTime = System.currentTimeMillis(),
+    )

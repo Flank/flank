@@ -1,5 +1,6 @@
 package flank.corellium.domain.test.android.task
 
+import flank.corellium.domain.TestAndroid.AnalyticsReport
 import flank.corellium.domain.TestAndroid.CompleteTests
 import flank.corellium.domain.TestAndroid.DumpShards
 import flank.corellium.domain.TestAndroid.GenerateReport
@@ -11,5 +12,6 @@ import flank.exection.parallel.using
  */
 internal val finish = CompleteTests from setOf(
     GenerateReport,
-    DumpShards
+    DumpShards,
+    AnalyticsReport,
 ) using { }
