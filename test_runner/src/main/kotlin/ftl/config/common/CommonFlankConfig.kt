@@ -129,6 +129,18 @@ data class CommonFlankConfig @JsonIgnore constructor(
     var ignoreFailedTests: Boolean? by data
 
     @set:CommandLine.Option(
+        names = ["--ignore-non-global-tests"],
+        description = [
+            "Test discovery for iOS considers by default global tests only. " +
+                "Disabling this flag will result in test discovery for private, public and global tests" +
+                "The technical difference is the flag used for nm test discovery. " +
+                "true: 'nm -gU' vs false: 'nm -U'"
+        ]
+    )
+    @set:JsonProperty("ignore-non-global-tests")
+    var ignoreNonGlobalTests: Boolean? by data
+
+    @set:CommandLine.Option(
         names = ["--keep-file-path"],
         description = [
             "Keeps the full path of downloaded files. " +
@@ -245,6 +257,7 @@ data class CommonFlankConfig @JsonIgnore constructor(
             outputReport = OutputReportType.NONE.name
             skipConfigValidation = false
             customShardingJson = ""
+            ignoreNonGlobalTests = true
         }
     }
 }

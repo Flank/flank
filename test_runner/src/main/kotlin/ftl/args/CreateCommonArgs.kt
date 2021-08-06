@@ -56,7 +56,8 @@ fun CommonConfig.createCommonArgs(
     disableUsageStatistics = flank.disableUsageStatistics ?: false,
     outputReportType = OutputReportType.fromName(flank.outputReport),
     skipConfigValidation = flank::skipConfigValidation.require(),
-    customShardingJson = flank::customShardingJson.require()
+    customShardingJson = flank::customShardingJson.require(),
+    ignoreNonGlobalTests = flank::ignoreNonGlobalTests.require(),
 ).apply {
     ArgsHelper.createJunitBucket(project, smartFlankGcsPath)
 }
