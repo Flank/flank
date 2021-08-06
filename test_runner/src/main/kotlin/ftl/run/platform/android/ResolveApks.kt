@@ -44,7 +44,7 @@ private fun AndroidArgs.additionalApksContexts() = additionalAppTestApks.map {
     InstrumentationTestContext(
         app = appApk.asFileReference(),
         test = it.test.asFileReference(),
-        environmentVariables = it.environmentVariables,
+        environmentVariables = it.environmentVariables.takeIf { envs -> envs.isNotEmpty() } ?: environmentVariables,
         testTargetsForShard = testTargetsForShard,
         args = copy(
             commonArgs = commonArgs.copy(
@@ -52,8 +52,10 @@ private fun AndroidArgs.additionalApksContexts() = additionalAppTestApks.map {
                 devices = it.devices ?: devices,
                 clientDetails = it.clientDetails ?: clientDetails
             ),
+            testApk = it.test,
             testTargets = it.testTargets ?: testTargets,
-            parameterizedTests = it.parameterizedTests ?: parameterizedTests
+            parameterizedTests = it.parameterizedTests ?: parameterizedTests,
+            environmentVariables = it.environmentVariables.takeIf { envs -> envs.isNotEmpty() } ?: environmentVariables,
         )
     )
 }.toTypedArray()
