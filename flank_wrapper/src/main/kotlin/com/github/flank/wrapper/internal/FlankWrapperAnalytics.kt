@@ -1,20 +1,19 @@
 package com.github.flank.wrapper.internal
 
-import flank.tool.analytics.mixpanel.send
-import flank.tool.analytics.mixpanel.toEvent
+import flank.tool.analytics.mixpanel.Mixpanel
 
 private const val FLANK_WRAPPER = "flank_wrapper"
 private const val EVENT_RUN = "flank run"
 private const val EVENT_NEW_FLANK_VERSION_DOWNLOADED = "new_version_downloaded"
 
 internal fun sendAnalyticsNewFlankVersionDownloaded() {
-    eventWithoutProperties(EVENT_NEW_FLANK_VERSION_DOWNLOADED).send()
+    Mixpanel.configure(FLANK_WRAPPER)
+    Mixpanel.add(FLANK_WRAPPER, EVENT_NEW_FLANK_VERSION_DOWNLOADED)
+    Mixpanel.send(FLANK_WRAPPER)
 }
 
 internal fun sendAnalyticsFlankRun() {
-    eventWithoutProperties(EVENT_RUN).send()
+    Mixpanel.configure(FLANK_WRAPPER)
+    Mixpanel.add(FLANK_WRAPPER, EVENT_RUN)
+    Mixpanel.send(FLANK_WRAPPER)
 }
-
-private fun eventWithoutProperties(
-    eventName: String
-) = emptyMap<String, Any>().toEvent(FLANK_WRAPPER, eventName)

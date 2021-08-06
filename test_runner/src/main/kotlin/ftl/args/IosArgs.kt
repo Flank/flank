@@ -12,6 +12,7 @@ import ftl.run.exception.FlankConfigurationError
 import java.nio.file.Paths
 
 data class IosArgs(
+    @get:JsonIgnore
     val commonArgs: CommonArgs,
 
     @property:AnonymizeInStatistics

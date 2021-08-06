@@ -4,7 +4,7 @@ package ftl.util
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import flank.common.logLn
-import flank.tool.analytics.mixpanel.sessionId
+import flank.tool.analytics.mixpanel.Mixpanel
 import ftl.run.exception.FlankGeneralError
 import java.io.File
 import java.io.InputStream
@@ -74,7 +74,7 @@ private fun getResource(name: String): InputStream {
 fun printVersionInfo() {
     logLn("version: ${readVersion()}")
     logLn("revision: ${readRevision()}")
-    logLn("session id: $sessionId")
+    logLn("session id: ${Mixpanel.sessionId}")
     logLn()
 }
 

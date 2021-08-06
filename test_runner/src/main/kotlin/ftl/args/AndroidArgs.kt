@@ -1,5 +1,6 @@
 package ftl.args
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import flank.tool.analytics.AnonymizeInStatistics
 import flank.tool.analytics.IgnoreInStatistics
 import ftl.api.ShardChunks
@@ -10,6 +11,7 @@ import ftl.run.model.AndroidTestShards
 import java.nio.file.Paths
 
 data class AndroidArgs(
+    @get:JsonIgnore
     val commonArgs: CommonArgs,
 
     @property:AnonymizeInStatistics
