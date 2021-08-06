@@ -59,30 +59,30 @@ class FindTestsForTargetKtTest {
         Files.write(tmpXml, inputXml.toByteArray())
         tmpXml.toFile().deleteOnExit()
 
-        val actualTests = findTestsForTestTarget("EarlGreyExampleSwiftTests", tmpXml.toFile()).sorted()
+        val actualTests = findTestsForTestTarget("EarlGreyExampleSwiftTests", tmpXml.toFile(), true).sorted()
         assertThat(actualTests).isEqualTo(listOf("EarlGreyExampleSwiftTests/testBasicSelection"))
     }
 
     @Test
     fun findTestNamesForTestTarget() {
         assumeFalse(isWindows)
-        val names = findTestsForTestTarget(testTarget = "EarlGreyExampleSwiftTests", xctestrun = File(swiftXcTestRunV1)).sorted()
+        val names = findTestsForTestTarget(testTarget = "EarlGreyExampleSwiftTests", xctestrun = File(swiftXcTestRunV1), true).sorted()
         assertThat(swiftTestsV1).isEqualTo(names)
     }
 
     @Test(expected = FlankGeneralError::class)
     fun `findTestNames for nonexisting test target`() {
         assumeFalse(isWindows)
-        findTestsForTestTarget(testTarget = "Incorrect", xctestrun = File(swiftXcTestRunV1)).sorted()
+        findTestsForTestTarget(testTarget = "Incorrect", xctestrun = File(swiftXcTestRunV1), true).sorted()
     }
 
     @Test
     fun `find test names for xctestrun file containing multiple test targets`() {
         assumeFalse(isWindows)
-        val names = findTestsForTestTarget(testTarget = "FlankExampleTests", xctestrun = File(multiTargetsSwiftXcTestRunV1)).sorted()
+        val names = findTestsForTestTarget(testTarget = "FlankExampleTests", xctestrun = File(multiTargetsSwiftXcTestRunV1), true).sorted()
         assertThat(names).isEqualTo(listOf("FlankExampleTests/test1", "FlankExampleTests/test2"))
 
-        val names2 = findTestsForTestTarget(testTarget = "FlankExampleSecondTests", xctestrun = File(multiTargetsSwiftXcTestRunV1)).sorted()
+        val names2 = findTestsForTestTarget(testTarget = "FlankExampleSecondTests", xctestrun = File(multiTargetsSwiftXcTestRunV1), true).sorted()
         assertThat(names2).isEqualTo(listOf("FlankExampleSecondTests/test3", "FlankExampleSecondTests/test4"))
     }
 }

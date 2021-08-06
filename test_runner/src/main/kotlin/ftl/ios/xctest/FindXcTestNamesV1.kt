@@ -6,7 +6,8 @@ import ftl.ios.xctest.common.isMetadata
 
 internal fun findXcTestNamesV1(
     xcTestRoot: String,
-    xcTestNsDictionary: NSDictionary
+    xcTestNsDictionary: NSDictionary,
+    globalTestInclusion: Boolean = true,
 ): Map<String, List<String>> =
     xcTestNsDictionary
         .allKeys()
@@ -16,6 +17,7 @@ internal fun findXcTestNamesV1(
                 testRoot = xcTestRoot,
                 testTargetDict = xcTestNsDictionary[testTarget] as NSDictionary,
                 testTargetName = testTarget,
+                globalTestInclusion = globalTestInclusion
             )
         }
         .distinct()

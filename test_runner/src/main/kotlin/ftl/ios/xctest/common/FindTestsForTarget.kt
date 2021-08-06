@@ -14,9 +14,10 @@ internal fun findTestsForTarget(
     testRoot: String,
     testTargetDict: NSDictionary,
     testTargetName: String,
+    globalTestInclusion: Boolean,
 ): List<String> = testTargetDict
     .findXcTestTargets(testTargetName)
-    .findBinaryTests(testRoot) - testTargetDict
+    .findBinaryTests(testRoot, globalTestInclusion) - testTargetDict
     .findTestsToSkip()
 
 private fun NSDictionary.findXcTestTargets(
@@ -27,14 +28,14 @@ private fun NSDictionary.findXcTestTargets(
         ?.first { product -> product.toString().contains("/$testTarget.xctest") }
         ?: throw FlankGeneralError("Test target $testTarget doesn't exist")
 
-private fun NSObject.findBinaryTests(testRoot: String): List<String> {
+private fun NSObject.findBinaryTests(testRoot: String, globalTestInclusion: Boolean): List<String> {
     val binaryRoot = toString().replace("__TESTROOT__/", testRoot)
     logLn("Found xctest: $binaryRoot")
 
     val binaryName = File(binaryRoot).nameWithoutExtension
     val binaryPath = Paths.get(binaryRoot, binaryName).toString()
 
-    return (parseObjcTests(binaryPath) + parseSwiftTests(binaryPath)).distinct()
+    return (parseObjcTests(binaryPath) + parseSwiftTests(binaryPath, globalTestInclusion)).distinct()
 }
 
 private fun NSDictionary.findTestsToSkip(): List<String> =
@@ -44,8 +45,8 @@ private fun NSDictionary.findTestsToSkip(): List<String> =
         ?: emptyList()
 
 @VisibleForTesting // TODO Remove it, cause is used only in tests
-internal fun findTestsForTestTarget(testTarget: String, xctestrun: File): List<String> =
+internal fun findTestsForTestTarget(testTarget: String, xctestrun: File, globalTestInclusion: Boolean): List<String> =
     parseToNSDictionary(xctestrun)[testTarget]
         ?.let { it as? NSDictionary }
-        ?.let { findTestsForTarget(xctestrun.parent + "/", it, testTarget) }
+        ?.let { findTestsForTarget(xctestrun.parent + "/", it, testTarget, globalTestInclusion) }
         ?: throw FlankGeneralError("Test target $testTarget doesn't exist")

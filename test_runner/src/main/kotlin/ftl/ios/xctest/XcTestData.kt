@@ -111,7 +111,8 @@ private fun IosArgs.calculateConfigurationShards(
     filterTestConfigurationsIfNeeded(
         findXcTestNames(
             xcTestRoot = xcTestRoot,
-            xcTestNsDictionary = xcTestNsDictionary
+            xcTestNsDictionary = xcTestNsDictionary,
+            globalTestInclusion = ignoreNonGlobalTests
         )
     ).mapValues { (_, targets: Map<String, List<String>>) ->
         calculateConfigurationShards(targets, regexList)
@@ -119,11 +120,12 @@ private fun IosArgs.calculateConfigurationShards(
 
 private fun findXcTestNames(
     xcTestRoot: String,
-    xcTestNsDictionary: NSDictionary
+    xcTestNsDictionary: NSDictionary,
+    globalTestInclusion: Boolean
 ): Map<String, Map<String, List<String>>> =
     when (xcTestNsDictionary.getXcTestRunVersion()) {
-        V1 -> mapOf("" to findXcTestNamesV1(xcTestRoot, xcTestNsDictionary))
-        V2 -> findXcTestNamesV2(xcTestRoot, xcTestNsDictionary)
+        V1 -> mapOf("" to findXcTestNamesV1(xcTestRoot, xcTestNsDictionary, globalTestInclusion))
+        V2 -> findXcTestNamesV2(xcTestRoot, xcTestNsDictionary, globalTestInclusion)
     }
 
 private fun IosArgs.calculateConfigurationShards(

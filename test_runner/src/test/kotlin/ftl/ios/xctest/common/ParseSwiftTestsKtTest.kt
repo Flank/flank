@@ -14,7 +14,7 @@ class ParseSwiftTestsKtTest {
     fun parseSwiftTests() {
         assumeFalse(isWindows)
 
-        val results = parseSwiftTests(swiftBinary).sorted()
+        val results = parseSwiftTests(swiftBinary, true).sorted()
         checkSwiftTests(results)
     }
 
@@ -22,21 +22,21 @@ class ParseSwiftTestsKtTest {
     fun `parseSwiftTests fileNotFound`() {
         assumeFalse(isWindows)
 
-        parseSwiftTests("./BinaryThatDoesNotExist")
+        parseSwiftTests("./BinaryThatDoesNotExist", true)
     }
 
     @Test(expected = FlankGeneralError::class)
     fun `parseSwiftTests tmpFolder`() {
         assumeFalse(isWindows)
 
-        parseSwiftTests("/tmp")
+        parseSwiftTests("/tmp", true)
     }
 
     @Test
     fun `Parse Swift with space in path`() {
         assumeFalse(isWindows)
 
-        val results = parseSwiftTests("$FIXTURES_PATH/sp ace/swift/EarlGreyExampleSwiftTests").sorted()
+        val results = parseSwiftTests("$FIXTURES_PATH/sp ace/swift/EarlGreyExampleSwiftTests", true).sorted()
         checkSwiftTests(results)
     }
 }
