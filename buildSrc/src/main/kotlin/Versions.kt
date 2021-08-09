@@ -46,10 +46,10 @@ object Versions {
     const val GOOGLE_AUTH = "1.0.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.123.3"
+    const val GOOGLE_NIO = "0.123.4"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "1.118.0"
+    const val GOOGLE_STORAGE = "1.118.1"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.8.7"
