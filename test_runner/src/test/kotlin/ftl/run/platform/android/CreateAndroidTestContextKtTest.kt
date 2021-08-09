@@ -56,14 +56,24 @@ class CreateAndroidTestContextKtTest {
                 test = should { local.endsWith("app-single-success-debug-androidTest.apk") },
                 shards = should { size == 1 },
                 ignoredTestCases = should { size == 2 },
-                args = should { maxTestShards == 1 }
+                environmentVariables = should { equals(args.environmentVariables) },
+                args = should {
+                    maxTestShards == 1 &&
+                        testApk?.endsWith("app-single-success-debug-androidTest.apk") == true &&
+                        environmentVariables == args.environmentVariables
+                }
             ),
             InstrumentationTestContext(
                 app = should { local.endsWith("app-debug.apk") },
                 test = should { local.endsWith("app-multiple-flaky-debug-androidTest.apk") },
                 shards = should { size == 2 },
                 ignoredTestCases = should { size == 2 },
-                args = should { testTargets == listOf("class com.example.test_app.InstrumentedTest") }
+                environmentVariables = should { equals(args.environmentVariables) },
+                args = should {
+                    testTargets == listOf("class com.example.test_app.InstrumentedTest") &&
+                        testApk?.endsWith("app-multiple-flaky-debug-androidTest.apk") == true &&
+                        environmentVariables == args.environmentVariables
+                }
             )
         )
 
