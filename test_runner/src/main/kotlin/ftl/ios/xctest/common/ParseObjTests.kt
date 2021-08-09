@@ -3,7 +3,8 @@ package ftl.ios.xctest.common
 import flank.common.appDataDirectory
 import flank.common.isMacOS
 import flank.common.isWindows
-import ftl.util.Bash
+import ftl.api.Command
+import ftl.api.runCommand
 
 internal fun parseObjcTests(binary: String): List<String> {
     installBinaries
@@ -15,12 +16,16 @@ internal fun parseObjcTests(binary: String): List<String> {
     var cmd = if (!isWindows) "nm -U ${binary.quote()}" else "llvm-nm.exe -U ${binary.quote()}"
     if (!isMacOS) cmd = if (isWindows) cmd.replace("\\", "/") else "PATH=~/.flank $cmd"
 
-    val path = if (isWindows) listOf(Pair("Path", "$appDataDirectory\\.flank\\;C:\\Windows\\System32\\"))
-    else emptyList()
+    val command = Command(
+        cmd = cmd,
+        additionalPath = if (isWindows) {
+            listOf(Pair("Path", "$appDataDirectory\\.flank\\;C:\\Windows\\System32\\"))
+        } else {
+            emptyList()
+        }
+    )
 
-    val output = Bash.execute(cmd, path)
-
-    output.lines().forEach { line ->
+    runCommand(command).lines().forEach { line ->
         // 000089b0 t -[EarlGreyExampleTests testLayout]
         // 00008330 t -[EarlGreyExampleTests testCustomAction]
         val pattern = """.+\st\s-\[(.+\stest.+)]""".toRegex()
