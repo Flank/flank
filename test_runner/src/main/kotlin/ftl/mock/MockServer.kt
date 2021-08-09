@@ -44,12 +44,13 @@ import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
 import com.google.testing.model.ToolResultsExecution
 import com.google.testing.model.ToolResultsStep
+import ftl.api.Command
+import ftl.api.runCommand
 import ftl.client.google.run.toClientInfoDetailList
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.log.LogbackLogger
 import ftl.run.exception.FlankGeneralError
-import ftl.util.Bash
 import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.flaky
 import ftl.util.StepOutcome.inconclusive
@@ -420,9 +421,9 @@ object MockServer {
         try {
             server.start(wait = false)
         } catch (e: BindException) {
-            val lsofOutput = Bash.execute("lsof -i :$port")
+            val lsofOutput = runCommand(Command("lsof -i :$port"))
             val pid = lsofOutput.split("\n").last().split(Regex("\\s+"))[1]
-            Bash.execute("kill -9 $pid")
+            runCommand(Command("kill -9 $pid"))
             Thread.sleep(2000)
             server.start(wait = false)
         }
