@@ -58,7 +58,7 @@ class ResolveApksKtTest {
                 InstrumentationTestContext(
                     app = "app".asFileReference(),
                     test = "test".asFileReference(),
-                    args = args
+                    args = args.copy(testApk = "test")
                 )
             ),
             args.resolveApks().toTypedArray()

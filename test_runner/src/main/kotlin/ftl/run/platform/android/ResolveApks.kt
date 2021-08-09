@@ -41,10 +41,11 @@ private fun AndroidArgs.mainApkContext() = appApk?.let { appApk ->
 private fun AndroidArgs.additionalApksContexts() = additionalAppTestApks.map {
     val appApk = (it.app ?: appApk)
         ?: throw FlankGeneralError("Cannot create app-test apks pair for instrumentation tests, missing app apk for test ${it.test}")
+    val envs = it.environmentVariables.takeIf { envs -> envs.isNotEmpty() } ?: environmentVariables
     InstrumentationTestContext(
         app = appApk.asFileReference(),
         test = it.test.asFileReference(),
-        environmentVariables = it.environmentVariables,
+        environmentVariables = envs,
         testTargetsForShard = testTargetsForShard,
         args = copy(
             commonArgs = commonArgs.copy(
@@ -52,8 +53,10 @@ private fun AndroidArgs.additionalApksContexts() = additionalAppTestApks.map {
                 devices = it.devices ?: devices,
                 clientDetails = it.clientDetails ?: clientDetails
             ),
+            testApk = it.test,
             testTargets = it.testTargets ?: testTargets,
-            parameterizedTests = it.parameterizedTests ?: parameterizedTests
+            parameterizedTests = it.parameterizedTests ?: parameterizedTests,
+            environmentVariables = envs
         )
     )
 }.toTypedArray()
