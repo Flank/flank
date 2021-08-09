@@ -3,8 +3,11 @@ package ftl.util
 import com.google.common.truth.Truth.assertThat
 import flank.common.isMacOS
 import flank.common.isWindows
+import ftl.api.Command
+import ftl.api.runCommand
 import ftl.run.exception.FlankGeneralError
 import ftl.test.util.FlankTestRunner
+import org.junit.Assume.assumeFalse
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
@@ -14,31 +17,31 @@ class BashTest {
 
     @Test
     fun executeStderr() {
-        if (isWindows) return
-        assertThat(Bash.execute("echo a 1>&2")).isEqualTo("a")
+        assumeFalse(isWindows)
+        assertThat(runCommand(Command("echo a 1>&2"))).isEqualTo("a")
     }
 
     @Test(expected = FlankGeneralError::class)
     fun executeStderrExitCode1() {
         if (isWindows) throw FlankGeneralError("Failure as is windows")
-        assertThat(Bash.execute("echo not an error 1>&2; exit 1")).isEmpty()
+        assertThat(runCommand(Command("echo not an error 1>&2; exit 1"))).isEmpty()
     }
 
     @Test
     fun executeNoOutput() {
-        if (isWindows) return
-        assertThat(Bash.execute(" ")).isEmpty()
+        assumeFalse(isWindows)
+        assertThat(runCommand(Command(" "))).isEmpty()
     }
 
     @Test
     fun executeSmallOutput() {
-        if (isWindows) return
-        assertThat(Bash.execute("echo ok")).isEqualTo("ok")
+        assumeFalse(isWindows)
+        assertThat(runCommand(Command("echo ok"))).isEqualTo("ok")
     }
 
     @Test
     fun executeLargeOutput() {
-        if (isWindows) return
+        assumeFalse(isWindows)
         // gohello is a binary that outputs 100k 'hi' to stdout
         val os = if (isMacOS) {
             "mac"
@@ -48,6 +51,6 @@ class BashTest {
         val cmd = "./src/test/kotlin/ftl/fixtures/tmp/gohello/bin/$os/gohello"
         // ensure binary is marked executable. unzip may have removed the executable bit.
         File(cmd).setExecutable(true)
-        assertThat(Bash.execute(cmd).length).isEqualTo(200_000)
+        assertThat(runCommand(Command(cmd)).length).isEqualTo(200_000)
     }
 }
