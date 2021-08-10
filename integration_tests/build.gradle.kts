@@ -17,6 +17,7 @@ repositories {
 
 dependencies {
     implementation(project(Modules.COMMON))
+    implementation(Dependencies.KOTLIN_REFLECT)
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.JACKSON_XML)
     testImplementation(Dependencies.JACKSON_KOTLIN)
