@@ -101,6 +101,8 @@ interface IArgs {
     val shouldValidateConfig: Boolean
         get() = !skipConfigValidation
 
+    val ignoreNonGlobalTests: Boolean
+
     @AnonymizeInStatistics
     val customShardingJson: String
 

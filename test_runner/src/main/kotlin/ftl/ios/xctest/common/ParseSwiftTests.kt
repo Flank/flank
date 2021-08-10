@@ -7,7 +7,10 @@ import flank.common.isWindows
 import ftl.api.Command
 import ftl.api.runCommand
 
-internal fun parseSwiftTests(binary: String): List<String> {
+internal fun parseSwiftTests(
+    binary: String,
+    globalTestInclusion: Boolean
+): List<String> {
     installBinaries
     validateIsFile(binary)
     val results = mutableListOf<String>()
@@ -17,10 +20,11 @@ internal fun parseSwiftTests(binary: String): List<String> {
     // Windows has different limits
     val argMax = if (isWindows) 250_36 else 262_144
     val xargsOption = binary.quote().determineXArgsCommand(argMax)
+    val nmOption = determineNMOption(globalTestInclusion)
     val cmd = when {
-        isMacOS -> "nm -gU ${binary.quote()} | xargs $xargsOption xcrun swift-demangle"
-        isLinux -> "export LD_LIBRARY_PATH=~/.flank; export PATH=~/.flank:\$PATH; nm -gU ${binary.quote()} | xargs $xargsOption swift-demangle"
-        isWindows -> "llvm-nm.exe -gU ${binary.quote().replace("\\", "/")} | xargs.exe $xargsOption swift-demangle.exe"
+        isMacOS -> "nm $nmOption ${binary.quote()} | xargs $xargsOption xcrun swift-demangle"
+        isLinux -> "export LD_LIBRARY_PATH=~/.flank; export PATH=~/.flank:\$PATH; nm $nmOption ${binary.quote()} | xargs $xargsOption swift-demangle"
+        isWindows -> "llvm-nm.exe $nmOption ${binary.quote().replace("\\", "/")} | xargs.exe $xargsOption swift-demangle.exe"
         else -> throw RuntimeException("Unsupported OS for Integration Tests")
     }
 
@@ -44,6 +48,8 @@ internal fun parseSwiftTests(binary: String): List<String> {
     }
     return results.distinct()
 }
+
+private fun determineNMOption(globalTestInclusion: Boolean) = if (globalTestInclusion) "-gU" else "-U"
 
 private fun String.determineXArgsCommand(argsMax: Int) = if (this.length > argsMax) {
     println("WARNING: The amount of characters has exceeded the OS threshold for xArgs. -n1 will be used to ensure the command completes successfully. It may increase completion time substantially.")

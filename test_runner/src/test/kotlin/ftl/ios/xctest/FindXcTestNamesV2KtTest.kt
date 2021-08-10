@@ -19,7 +19,8 @@ class FindXcTestNamesV2KtTest {
         // when
         val names = findXcTestNamesV2(
             xcTestRoot = xctestrun.parent + "/",
-            xcTestNsDictionary = parseToNSDictionary(xctestrun)
+            xcTestNsDictionary = parseToNSDictionary(xctestrun),
+            globalTestInclusion = true
         )
 
         // then

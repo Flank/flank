@@ -290,6 +290,7 @@ IosArgs
       output-report: json
       skip-config-validation: false
       custom-sharding-json: 
+      ignore-global-tests: true
             """.trimIndent()
         )
     }
@@ -356,6 +357,7 @@ IosArgs
       output-report: none
       skip-config-validation: false
       custom-sharding-json: 
+      ignore-global-tests: true
             """.trimIndent(),
             args.toString()
         )

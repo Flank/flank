@@ -102,6 +102,7 @@ IosArgs
       output-report: $outputReportType
       skip-config-validation: $skipConfigValidation
       custom-sharding-json: $customShardingJson
+      ignore-global-tests: $ignoreNonGlobalTests
         """.trimIndent()
     }
 }
