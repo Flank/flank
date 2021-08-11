@@ -19,6 +19,5 @@ dependencies {
     implementation(project(Modules.COMMON))
     implementation(project(Modules.ANALYTICS))
 
-
     testImplementation(Dependencies.JUNIT)
 }

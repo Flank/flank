@@ -1,7 +1,6 @@
 
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jmailen.gradle.kotlinter.tasks.LintTask
 import java.nio.file.Paths
 
