@@ -1,6 +1,7 @@
 package ftl.util
 
 import com.google.common.truth.Truth.assertThat
+import flank.tool.resource.readTextResource
 import ftl.adapter.google.toApiModel
 import ftl.api.TestMatrix
 import ftl.api.TestMatrixTest.Companion.createResultsStorage

@@ -1,13 +1,13 @@
 package ftl.reports
 
 import com.google.gson.Gson
+import flank.tool.resource.readTextResource
 import ftl.api.JUnitTest
 import ftl.args.IArgs
 import ftl.domain.junit.failed
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.util.ReportManager
-import ftl.util.readTextResource
 import java.nio.file.Files
 import java.nio.file.Paths
 

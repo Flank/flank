@@ -30,6 +30,7 @@ dependencies {
     api(project(":tool:instrument:log"))
     api(project(":tool:junit"))
     api(project(":tool:log"))
+    api(project(":tool:resource"))
     api(project(Modules.ANALYTICS))
     api(project(Modules.MIXPANEL_ANALYTICS))
 

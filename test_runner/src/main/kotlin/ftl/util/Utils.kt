@@ -4,10 +4,11 @@ package ftl.util
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import flank.common.logLn
+import flank.tool.resource.readRevision
+import flank.tool.resource.readVersion
 import flank.tool.analytics.mixpanel.Mixpanel
 import ftl.run.exception.FlankGeneralError
 import java.io.File
-import java.io.InputStream
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -64,12 +65,6 @@ fun uniqueObjectName(): String {
     return bucketName.toString()
 }
 
-private val classLoader = Thread.currentThread().contextClassLoader
-
-private fun getResource(name: String): InputStream {
-    return classLoader.getResourceAsStream(name)
-        ?: throw FlankGeneralError("Unable to find resource: $name")
-}
 
 fun printVersionInfo() {
     logLn("version: ${readVersion()}")
@@ -78,19 +73,6 @@ fun printVersionInfo() {
     logLn()
 }
 
-// app version: flank_snapshot
-fun readVersion(): String {
-    return readTextResource("version.txt").trim()
-}
-
-// git commit name: 5b0d23215e3bd90e5f9c1c57149320634aad8008
-fun readRevision(): String {
-    return readTextResource("revision.txt").trim()
-}
-
-fun readTextResource(name: String): String {
-    return getResource(name).bufferedReader().use { it.readText() }
-}
 
 fun <R : MutableMap<String, Any>, T> mutableMapProperty(
     name: String? = null,

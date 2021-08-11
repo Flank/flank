@@ -41,6 +41,7 @@ include(
     ":tool:analytics",
     ":tool:analytics:mixpanel",
     ":tool:execution:linear",
+    ":tool:resource",
 )
 
 plugins {

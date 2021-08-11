@@ -209,6 +209,7 @@ dependencies {
     implementation(project(":firebase_apis:test_api"))
 
     implementation(project(":corellium:cli"))
+    implementation(project(":tool:resource"))
 
     implementation(project(Modules.ANALYTICS))
     implementation(project(Modules.MIXPANEL_ANALYTICS))

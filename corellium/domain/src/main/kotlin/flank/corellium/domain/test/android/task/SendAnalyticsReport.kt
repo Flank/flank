@@ -9,9 +9,9 @@ import flank.corellium.domain.TestAndroid.TestDuration
 import flank.corellium.domain.TestAndroid.context
 import flank.exection.parallel.from
 import flank.exection.parallel.using
+import flank.tool.resource.readRevision
 import flank.tool.analytics.mixpanel.Mixpanel
 import flank.tool.analytics.mixpanel.toMap
-import java.io.InputStream
 
 internal val sendAnalyticsReport = AnalyticsReport from setOf(
     PrepareShards,
@@ -32,20 +32,3 @@ internal val sendAnalyticsReport = AnalyticsReport from setOf(
         add(statistics)
     }
 }
-
-//==============================================================
-
-// TODO Stolen from `ftl.util.UtilsKt`, before merge expose the common logic as dedicated tool.
-
-fun readRevision(): String =
-    readTextResource("revision.txt").trim()
-
-fun readTextResource(name: String): String =
-    getResource(name).bufferedReader().use { it.readText() }
-
-private fun getResource(name: String): InputStream =
-    requireNotNull(
-        Thread.currentThread()
-            .contextClassLoader
-            .getResourceAsStream(name)
-    ) { "Unable to find resource: $name" }

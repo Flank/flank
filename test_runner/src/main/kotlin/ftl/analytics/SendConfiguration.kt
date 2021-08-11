@@ -1,5 +1,6 @@
 package ftl.analytics
 
+import flank.tool.resource.readVersion
 import flank.tool.analytics.mixpanel.Mixpanel
 import flank.tool.analytics.mixpanel.Mixpanel.CONFIGURATION
 import flank.tool.analytics.mixpanel.Mixpanel.DEVICE_TYPES
@@ -11,7 +12,6 @@ import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.environment.PHYSICAL_DEVICE
 import ftl.environment.VIRTUAL_DEVICE
-import ftl.util.readVersion
 
 fun AndroidArgs.reportConfiguration() {
     initUsageStatistics()
