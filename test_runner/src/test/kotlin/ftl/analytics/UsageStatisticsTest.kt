@@ -1,9 +1,9 @@
 package ftl.analytics
 
 import com.google.common.truth.Truth.assertThat
-import flank.tool.resource.readVersion
 import flank.tool.analytics.mixpanel.Mixpanel
 import flank.tool.analytics.mixpanel.toMap
+import flank.tool.resource.readVersion
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
 import ftl.test.util.FlankTestRunner

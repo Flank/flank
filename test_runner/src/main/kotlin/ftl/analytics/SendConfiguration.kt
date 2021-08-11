@@ -1,12 +1,12 @@
 package ftl.analytics
 
-import flank.tool.resource.readVersion
 import flank.tool.analytics.mixpanel.Mixpanel
 import flank.tool.analytics.mixpanel.Mixpanel.CONFIGURATION
 import flank.tool.analytics.mixpanel.Mixpanel.DEVICE_TYPES
 import flank.tool.analytics.mixpanel.Mixpanel.add
 import flank.tool.analytics.mixpanel.Mixpanel.removeSensitiveValues
 import flank.tool.analytics.mixpanel.toMap
+import flank.tool.resource.readVersion
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs

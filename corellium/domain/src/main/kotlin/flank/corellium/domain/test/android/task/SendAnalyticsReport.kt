@@ -9,9 +9,9 @@ import flank.corellium.domain.TestAndroid.TestDuration
 import flank.corellium.domain.TestAndroid.context
 import flank.exection.parallel.from
 import flank.exection.parallel.using
-import flank.tool.resource.readRevision
 import flank.tool.analytics.mixpanel.Mixpanel
 import flank.tool.analytics.mixpanel.toMap
+import flank.tool.resource.readRevision
 
 internal val sendAnalyticsReport = AnalyticsReport from setOf(
     PrepareShards,

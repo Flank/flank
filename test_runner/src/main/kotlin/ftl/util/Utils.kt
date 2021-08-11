@@ -4,9 +4,9 @@ package ftl.util
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import flank.common.logLn
+import flank.tool.analytics.mixpanel.Mixpanel
 import flank.tool.resource.readRevision
 import flank.tool.resource.readVersion
-import flank.tool.analytics.mixpanel.Mixpanel
 import ftl.run.exception.FlankGeneralError
 import java.io.File
 import java.time.Instant
@@ -65,14 +65,12 @@ fun uniqueObjectName(): String {
     return bucketName.toString()
 }
 
-
 fun printVersionInfo() {
     logLn("version: ${readVersion()}")
     logLn("revision: ${readRevision()}")
     logLn("session id: ${Mixpanel.sessionId}")
     logLn()
 }
-
 
 fun <R : MutableMap<String, Any>, T> mutableMapProperty(
     name: String? = null,

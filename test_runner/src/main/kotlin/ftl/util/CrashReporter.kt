@@ -1,9 +1,9 @@
 package ftl.util
 
 import flank.common.config.isTest
+import flank.tool.analytics.mixpanel.Mixpanel
 import flank.tool.resource.readRevision
 import flank.tool.resource.readVersion
-import flank.tool.analytics.mixpanel.Mixpanel
 import io.sentry.Sentry
 import io.sentry.SentryLevel
 import java.io.File
