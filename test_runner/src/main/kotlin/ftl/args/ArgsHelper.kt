@@ -243,6 +243,11 @@ object ArgsHelper {
             ) // Avoid unnecessary computing if we already know there aren't tests to run.
         }
         val (ignoredTests, testsToExecute) = filteredTests.partition { it.ignored }
+
+        if (testsToExecute.isEmpty()) {
+            return CalculateShardsResult(listOf(), ignoredTests.map { it.testName })
+        }
+
         val shards = if (args.disableSharding) {
             listOf(
                 Chunk(
