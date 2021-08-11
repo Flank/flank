@@ -21,6 +21,7 @@ import flank.corellium.domain.test.android.task.dispatchShards
 import flank.corellium.domain.test.android.task.dispatchTests
 import flank.corellium.domain.test.android.task.dumpShards
 import flank.corellium.domain.test.android.task.executeTestQueue
+import flank.corellium.domain.test.android.task.fetchDeviceCostPerSecond
 import flank.corellium.domain.test.android.task.finish
 import flank.corellium.domain.test.android.task.generateReport
 import flank.corellium.domain.test.android.task.initResultsChannel
@@ -172,6 +173,8 @@ object TestAndroid {
         val processedResults: Map<String, List<Device.Result>> by -ProcessedResults
         val testResult: List<Device.Result> by -ExecuteTests
         val testDuration: Long by -TestDuration
+        val devicesDuration: Map<String, Long> by -DevicesDuration
+        val costPerSecond: Long by -DeviceCostPerSecond
     }
 
     internal val context = Parallel.Function(::Context)
@@ -255,6 +258,7 @@ object TestAndroid {
 
     object TestDuration : Parallel.Type<Long>
     object DevicesDuration : Parallel.Type<Map<String, Long>>
+    object DeviceCostPerSecond: Parallel.Type<Long>
 
     object CleanUp : Parallel.Type<Unit>
     object GenerateReport : Parallel.Type<Unit>
@@ -354,6 +358,7 @@ object TestAndroid {
             dispatchTests,
             dumpShards,
             executeTestQueue,
+            fetchDeviceCostPerSecond,
             finish,
             generateReport,
             initResultsChannel,

@@ -14,6 +14,7 @@ end legend
 
 [Authorize] #ffffff
 [OutputDir] #ffffff
+[DeviceCostPerSecond] #ffffff
 [ParseApkInfo] #ffffff
 [ParseTestCases] #ffffff
 [LoadPreviousDurations] #e6e6e6
@@ -67,6 +68,8 @@ end legend
 [ProcessedResults] --> [ExecuteTests]
 [AnalyticsReport] --> [PrepareShards]
 [AnalyticsReport] --> [ParseApkInfo]
+[AnalyticsReport] --> [ExecuteTests]
+[AnalyticsReport] --> [DeviceCostPerSecond]
 [AnalyticsReport] --> [DevicesDuration]
 [AnalyticsReport] --> [TestDuration]
 
