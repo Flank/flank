@@ -4,6 +4,7 @@ import ftl.args.yml.Type
 import ftl.config.IosConfig
 import ftl.config.ios.IosFlankConfig
 import ftl.config.ios.IosGcloudConfig
+import ftl.util.parseEnvsIfNeeded
 import ftl.util.require
 
 fun createIosArgs(
@@ -30,7 +31,7 @@ private fun createIosArgs(
     xctestrunFile = gcloud.xctestrunFile?.normalizeFilePath().orEmpty(),
     xcodeVersion = gcloud.xcodeVersion,
     additionalIpas = gcloud::additionalIpas.require().map { it.normalizeFilePath() },
-    testTargets = flank.testTargets?.filterNotNull().orEmpty(),
+    testTargets = flank.testTargets?.filterNotNull().orEmpty().parseEnvsIfNeeded(),
     obfuscateDumpShards = obfuscate,
     app = gcloud.app?.normalizeFilePath().orEmpty(),
     testSpecialEntitlements = gcloud.testSpecialEntitlements ?: false,

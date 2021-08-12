@@ -204,7 +204,8 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
                 "(default: run all test targets). Each target filter must be fully qualified with the package name, class name, " +
                 "or test annotation desired. Any test filter supported by am instrument -e … is supported. " +
                 "See https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner for more " +
-                "information."
+                "information. You can also pass values as environment variables: \$TEST_TARGETS_IN_ENV. This can be also list of " +
+                "strings delimited by coma."
         ]
     )
     @set:JsonProperty("test-targets")

@@ -5,6 +5,7 @@ import ftl.config.android.AndroidFlankConfig
 import ftl.config.android.AndroidGcloudConfig
 import ftl.run.common.fromJson
 import ftl.run.model.AndroidTestShards
+import ftl.util.parseEnvsIfNeeded
 import ftl.util.require
 import java.nio.file.Paths
 
@@ -20,7 +21,7 @@ fun createAndroidArgs(
     appApk = gcloud.app?.normalizeFilePath(),
     testApk = gcloud.test?.normalizeFilePath(),
     useOrchestrator = gcloud::useOrchestrator.require(),
-    testTargets = gcloud::testTargets.require().filterNotNull(),
+    testTargets = gcloud::testTargets.require().filterNotNull().parseEnvsIfNeeded(),
     testRunnerClass = gcloud.testRunnerClass,
     roboDirectives = gcloud::roboDirectives.require().parseRoboDirectives(),
     performanceMetrics = gcloud::performanceMetrics.require(),
@@ -35,6 +36,7 @@ fun createAndroidArgs(
         it.copy(
             app = it.app?.normalizeFilePath(),
             test = it.test.normalizeFilePath(),
+            testTargets = it.testTargets?.parseEnvsIfNeeded()
         )
     } ?: emptyList(),
     useLegacyJUnitResult = flank::useLegacyJUnitResult.require(),
