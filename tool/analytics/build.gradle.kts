@@ -15,6 +15,7 @@ dependencies {
     implementation(Dependencies.MIXPANEL)
     implementation(Dependencies.JACKSON_KOTLIN)
     implementation(Dependencies.JACKSON_YAML)
+    implementation(Dependencies.KOTLIN_REFLECT)
 
     testImplementation(Dependencies.JUNIT)
 }
