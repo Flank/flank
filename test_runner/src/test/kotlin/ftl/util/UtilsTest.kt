@@ -66,7 +66,7 @@ class UtilsTest {
     @After
     fun tearDown() = unmockkAll()
 
-    @Test(expected = FlankGeneralError::class)
+    @Test(expected = Error::class)
     fun `readTextResource errors`() {
         readTextResource("does not exist")
     }
