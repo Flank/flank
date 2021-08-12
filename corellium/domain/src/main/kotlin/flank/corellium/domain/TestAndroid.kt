@@ -258,7 +258,7 @@ object TestAndroid {
 
     object TestDuration : Parallel.Type<Long>
     object DevicesDuration : Parallel.Type<Map<String, Long>>
-    object DeviceCostPerSecond: Parallel.Type<Long>
+    object DeviceCostPerSecond : Parallel.Type<Long>
 
     object CleanUp : Parallel.Type<Unit>
     object GenerateReport : Parallel.Type<Unit>
