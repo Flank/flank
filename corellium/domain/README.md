@@ -27,8 +27,8 @@ Device sub-execution triggered for each shard or rerun by the `Device.Tests` tas
 
 Core execution.
 
-![TestAndroid.execute](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2083_Calculate_flaky_tests_from_reruns/corellium/domain/TestAndroid-execute.puml)
+![TestAndroid.execute](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2044_Flank_metrics_for_corellium/corellium/domain/TestAndroid-execute.puml)
 
 Device sub-execution triggered for each shard or rerun by the `Device.Tests` task.
 
-![TestAndroid.Device.execute](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2083_Calculate_flaky_tests_from_reruns/corellium/domain/TestAndroid_Device-execute.puml)
+![TestAndroid.Device.execute](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2044_Flank_metrics_for_corellium/corellium/domain/TestAndroid_Device-execute.puml)
