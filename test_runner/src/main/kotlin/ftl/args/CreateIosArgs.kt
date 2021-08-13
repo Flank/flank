@@ -4,7 +4,6 @@ import ftl.args.yml.Type
 import ftl.config.IosConfig
 import ftl.config.ios.IosFlankConfig
 import ftl.config.ios.IosGcloudConfig
-import ftl.util.parseEnvsIfNeeded
 import ftl.util.require
 
 fun createIosArgs(

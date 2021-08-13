@@ -128,14 +128,3 @@ fun <T> KMutableProperty<T?>.require() =
 fun getGACPathOrEmpty(): String = System.getenv("GOOGLE_APPLICATION_CREDENTIALS").orEmpty()
 
 fun saveToFlankLinks(vararg links: String) = File("flank-links.log").writeText(links.joinToString(System.lineSeparator()))
-
-fun getEnv(name: String): String? = System.getenv(name)
-
-fun List<String>.parseEnvsIfNeeded() = this
-    .partition { it.startsWith("$") }
-    .let { (envs, commonTestTargets) ->
-        commonTestTargets + envs
-            .mapNotNull { getEnv(it.drop(1)) }
-            .flatMap { it.split(",") }
-            .map { it.trim() }
-    }
