@@ -13,6 +13,8 @@ import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import ftl.test.util.TestHelper.getString
+import io.mockk.every
+import io.mockk.mockkStatic
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -101,6 +103,18 @@ class AndroidArgsFileTest {
             common.flank.maxTestShards = maxTestShards
         }
     )
+
+    @Test
+    fun `should parse test-targets from env`() {
+        mockkStatic("ftl.args.ArgsHelperKt")
+        every { getEnv("FROM_ENV") } returns "class from.env.Class,notAnnotation from.env.Annotation"
+        val config = AndroidArgs.load(localYamlFile)
+        assertThat(config.testTargets).containsExactly(
+            "class from.env.Class",
+            "notAnnotation from.env.Annotation",
+            "class com.example.app.ExampleUiTest#testPasses"
+        )
+    }
 
     @Test
     fun `calculateShards additionalAppTestApks`() {

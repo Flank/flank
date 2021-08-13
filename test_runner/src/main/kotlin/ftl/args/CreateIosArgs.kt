@@ -30,7 +30,7 @@ private fun createIosArgs(
     xctestrunFile = gcloud.xctestrunFile?.normalizeFilePath().orEmpty(),
     xcodeVersion = gcloud.xcodeVersion,
     additionalIpas = gcloud::additionalIpas.require().map { it.normalizeFilePath() },
-    testTargets = flank.testTargets?.filterNotNull().orEmpty(),
+    testTargets = flank.testTargets?.filterNotNull().orEmpty().parseEnvsIfNeeded(),
     obfuscateDumpShards = obfuscate,
     app = gcloud.app?.normalizeFilePath().orEmpty(),
     testSpecialEntitlements = gcloud.testSpecialEntitlements ?: false,

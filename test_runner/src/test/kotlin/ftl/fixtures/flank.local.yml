@@ -10,6 +10,7 @@ gcloud:
   async: true
   test-targets:
   - class com.example.app.ExampleUiTest#testPasses
+  - $FROM_ENV
   device:
   - model: NexusLowRes
     version: 23

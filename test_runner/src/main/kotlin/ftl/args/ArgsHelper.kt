@@ -291,3 +291,14 @@ fun String.normalizeFilePath(): String =
 fun List<String>.normalizeToTestTargets(): ShardChunks =
     if (isEmpty()) emptyList()
     else map { it.split(',', ';') }
+
+fun getEnv(name: String): String? = System.getenv(name)
+
+fun List<String>.parseEnvsIfNeeded() = this
+    .partition { it.startsWith("$") }
+    .let { (envs, commonTestTargets) ->
+        commonTestTargets + envs
+            .mapNotNull { getEnv(it.drop(1)) }
+            .flatMap { it.split(",") }
+            .map { it.trim() }
+    }
