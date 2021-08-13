@@ -1,7 +1,6 @@
 package ftl.reports.util
 
 import com.google.common.annotations.VisibleForTesting
-import flank.common.logLn
 import ftl.api.JUnitTest
 import ftl.api.RemoteStorage
 import ftl.api.ShardChunks
@@ -20,6 +19,8 @@ import ftl.domain.junit.mergeTestTimes
 import ftl.domain.junit.removeStackTraces
 import ftl.json.MatrixMap
 import ftl.json.isAllSuccessful
+import ftl.presentation.cli.firebase.test.reportmanager.ReportManagerState
+import ftl.presentation.publish
 import ftl.reports.CostReport
 import ftl.reports.FullJUnitReport
 import ftl.reports.HtmlErrorReport
@@ -36,7 +37,6 @@ import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.Date
-import kotlin.math.roundToInt
 
 object ReportManager {
 
@@ -105,12 +105,12 @@ object ReportManager {
     private fun getWebLink(matrices: MatrixMap, xmlFile: File): String =
         xmlFile.getMatrixPath(matrices.runPath)
             ?.findMatrixPath(matrices)
-            ?: "".also { logLn("WARNING: Matrix path not found in JSON.") }
+            ?: "".also { ReportManagerState.Warning("Matrix path not found in JSON.").publish() }
 
     private fun String.findMatrixPath(matrices: MatrixMap) = matrices.map.values
         .firstOrNull { savedMatrix -> savedMatrix.gcsPath.endsWithTextWithOptionalSlashAtTheEnd(this) }
         ?.webLink
-        ?: "".also { logLn("WARNING: Matrix path not found in JSON. $this") }
+        ?: "".also { ReportManagerState.Warning("Matrix path not found in JSON. $this").publish() }
 
     @VisibleForTesting
     internal fun String.endsWithTextWithOptionalSlashAtTheEnd(text: String) =
@@ -227,11 +227,7 @@ object ReportManager {
     ) {
         val list = createShardEfficiencyList(oldResult, newResult, args, testShardChunks)
 
-        logLn(
-            "Actual shard times:\n" + list.joinToString("\n") {
-                "  ${it.shard}: Expected: ${it.expectedTime.roundToInt()}s, Actual: ${it.finalTime.roundToInt()}s, Diff: ${it.timeDiff.roundToInt()}s"
-            } + "\n"
-        )
+        ReportManagerState.ShardTimes(list).publish()
     }
 
     private fun processJunitXml(

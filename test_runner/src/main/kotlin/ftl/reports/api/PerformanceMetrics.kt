@@ -1,13 +1,14 @@
 package ftl.reports.api
 
 import com.google.testing.model.TestExecution
-import flank.common.logLn
 import ftl.api.PerfMetrics
 import ftl.api.RemoteStorage
 import ftl.api.fetchPerformanceMetrics
 import ftl.api.uploadToRemoteStorage
 import ftl.args.IArgs
 import ftl.client.google.AndroidCatalog
+import ftl.presentation.cli.firebase.test.reportmanager.ReportManagerState
+import ftl.presentation.publish
 import ftl.run.common.prettyPrint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -72,5 +73,5 @@ internal fun uploadPerformanceMetrics(
             RemoteStorage.Data("performanceMetrics.json", prettyPrint.toJson(perfMetricsSummary).toByteArray())
         )
     }.onFailure {
-        logLn("Cannot upload performance metrics ${it.message}")
+        ReportManagerState.Log("Cannot upload performance metrics ${it.message}").publish()
     }.getOrNull()

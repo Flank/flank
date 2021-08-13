@@ -106,6 +106,7 @@ object GcStorage {
         path: String,
         name: String
     ) {
+        // TODO #2136 handle messages with state
         runWithProgress(
             startMessage = "Uploading [$name] to ${GCS_STORAGE_LINK + join(bucket, path).replace(name, "")}..",
             action = { storage.create(BlobInfo.newBuilder(bucket, path).build(), this) },

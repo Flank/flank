@@ -2,12 +2,12 @@ package ftl.presentation.cli
 
 import ftl.log.setDebugLogging
 import ftl.presentation.cli.firebase.CancelCommand
-import ftl.presentation.cli.firebase.RefreshCommand
 import ftl.presentation.cli.firebase.test.AndroidCommand
 import ftl.presentation.cli.firebase.test.IPBlocksCommand
 import ftl.presentation.cli.firebase.test.IosCommand
 import ftl.presentation.cli.firebase.test.NetworkProfilesCommand
 import ftl.presentation.cli.firebase.test.ProvidedSoftwareCommand
+import ftl.presentation.cli.firebase.test.refresh.RefreshCommand
 import ftl.util.PrintHelpCommand
 import ftl.util.printVersionInfo
 import picocli.CommandLine

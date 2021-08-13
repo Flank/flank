@@ -7,6 +7,10 @@ import ftl.config.createConfiguration
 import ftl.domain.RunTestAndroid
 import ftl.domain.invoke
 import ftl.presentation.cli.firebase.test.CommonRunCommand
+import ftl.presentation.cli.firebase.test.reportmanager.ReportManagerState
+import ftl.presentation.cli.firebase.test.reportmanager.handleReportManagerState
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
 import ftl.run.ANDROID_SHARD_FILE
 import picocli.CommandLine
 import picocli.CommandLine.Command
@@ -52,4 +56,12 @@ class AndroidRunCommand :
     }
 
     override fun run() = invoke()
+
+    override val out = outputLogger {
+        // TODO add more types in #1870
+        when (this) {
+            is ReportManagerState -> handleReportManagerState(this)
+            else -> throwUnknownType()
+        }
+    }
 }

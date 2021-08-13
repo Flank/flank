@@ -7,6 +7,10 @@ import ftl.config.ios.IosGcloudConfig
 import ftl.domain.RunIosTest
 import ftl.domain.invoke
 import ftl.presentation.cli.firebase.test.CommonRunCommand
+import ftl.presentation.cli.firebase.test.reportmanager.ReportManagerState
+import ftl.presentation.cli.firebase.test.reportmanager.handleReportManagerState
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
 import ftl.run.IOS_SHARD_FILE
 import picocli.CommandLine
 import picocli.CommandLine.Command
@@ -52,4 +56,12 @@ class IosRunCommand :
     }
 
     override fun run() = invoke()
+
+    override val out = outputLogger {
+        // TODO add more types in #1871
+        when (this) {
+            is ReportManagerState -> handleReportManagerState(this)
+            else -> throwUnknownType()
+        }
+    }
 }

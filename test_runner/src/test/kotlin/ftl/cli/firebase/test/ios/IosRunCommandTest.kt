@@ -50,6 +50,7 @@ class IosRunCommandTest {
         runCmd.run()
 
         val output = systemOutRule.log
+
         assertThat(output).contains("1 / 1 (100.00%)")
     }
 
