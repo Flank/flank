@@ -33,11 +33,13 @@ object Mixpanel {
         projectName: String,
         blockUsageStatistics: Boolean = false,
         vararg statisticClasses: KClass<*>
-    ): Unit = configureReport(
-        projectName = projectName,
-        blockUsageStatistics = blockUsageStatistics,
-        statisticClasses = statisticClasses
-    )
+    ) {
+        configureReport(
+            projectName = projectName,
+            blockUsageStatistics = blockUsageStatistics,
+            statisticClasses = statisticClasses
+        )
+    }
 
     fun removeSensitiveValues(map: ObjectMap): ObjectMap = map.removeNotNeededKeys().anonymizeSensitiveValues()
 
