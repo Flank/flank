@@ -37,10 +37,6 @@ jobs:
       with:
         arguments: "clean build"
 
-    - uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        commit_message: "[Auto-commit] Added files fixed by Detekt"
-
     - name: Codecov
       uses: codecov/codecov-action@v1
       with:

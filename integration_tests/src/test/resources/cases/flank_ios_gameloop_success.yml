@@ -8,4 +8,4 @@ gcloud:
       version: 13.6
       orientation: portrait
       locale: en_US
-      disable-usage-statistics: true
+  disable-usage-statistics: true
