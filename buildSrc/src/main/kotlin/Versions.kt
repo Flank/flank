@@ -9,7 +9,7 @@ object Versions {
     const val DD_PLIST = "1.23"
 
     // https://github.com/jeremymailen/kotlinter-gradle
-    const val KTLINT_GRADLE = "3.4.5"
+    const val KTLINT_GRADLE = "3.5.0"
 
     const val KTLINT = "0.40.0"
 
@@ -35,7 +35,7 @@ object Versions {
     const val PICOCLI = "4.6.1"
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
-    const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20210325-1.32.1"
+    const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20210809-1.32.1"
 
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
     const val GOOGLE_API = "1.32.1"
@@ -46,10 +46,10 @@ object Versions {
     const val GOOGLE_AUTH = "1.0.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.123.4"
+    const val GOOGLE_NIO = "0.123.6"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "1.118.1"
+    const val GOOGLE_STORAGE = "2.0.1"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.8.7"
@@ -103,7 +103,7 @@ object Versions {
 
     // ============== flank-scripts ==============
     const val KOTLIN_SERIALIZATION = "1.2.2"
-    const val ARCHIVE_LIB = "1.1.0"
+    const val ARCHIVE_LIB = "1.2.0"
     const val TUKAANI_XZ = "1.9"
     const val FUEL = "2.3.1"
     const val CLIKT = "2.8.0"

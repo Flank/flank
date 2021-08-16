@@ -30,13 +30,10 @@ import java.util.concurrent.atomic.AtomicInteger
  */
 internal operator fun Execution.invoke(): Flow<ParallelState> =
     channel.consumeAsFlow()
-
         // Abort the execution if any task was failed and returned the throwable value.
         .onEach { (type, value) -> if (value is Throwable && isNotClosed()) abortBy(type, value) }
-
         // Accumulate each received value in state.
         .scan(initial, updateState())
-
         // Handle state changes.
         .onEach { state: ParallelState ->
             when {
@@ -57,10 +54,8 @@ internal operator fun Execution.invoke(): Flow<ParallelState> =
                 }
             }
         }
-
         // Cancel the coroutine scope for tasks.
         .onCompletion { scope.cancel() }
-
         // Drop first element which is always the initial state
         .drop(1)
 
