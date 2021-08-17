@@ -16,7 +16,7 @@ internal fun sendReport(
     listOf(
         createUser(Report.projectName),
         createEvent(Report.projectName, eventName, Report.data),
-    ).forEach(apiClient::sendMessage)
+    ).forEach(::send)
 }
 
 private fun createUser(
@@ -42,6 +42,10 @@ private fun createEvent(
         eventName,
         JSONObject(data + (SESSION_ID to sessionId))
     )
+
+private fun send(message: JSONObject) {
+    retryWithSilentFailure { apiClient.sendMessage(message) }
+}
 
 private val messageBuilder by lazy { MessageBuilder(MIXPANEL_API_TOKEN) }
 private val apiClient by lazy { MixpanelAPI() }

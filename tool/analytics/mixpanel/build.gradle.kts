@@ -8,6 +8,11 @@ repositories {
     mavenCentral()
 }
 
+tasks.test {
+    maxHeapSize = "2048m"
+    minHeapSize = "512m"
+}
+
 tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
 
 dependencies {
@@ -20,4 +25,5 @@ dependencies {
     implementation(project(Modules.ANALYTICS))
 
     testImplementation(Dependencies.JUNIT)
+    testImplementation(Dependencies.MOCKK)
 }
