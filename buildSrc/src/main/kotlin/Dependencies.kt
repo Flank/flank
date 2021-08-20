@@ -56,6 +56,7 @@ object Dependencies {
     const val SYSTEM_RULES = "com.github.stefanbirkner:system-rules:${Versions.SYSTEM_RULES}"
     const val TRUTH = "com.google.truth:truth:${Versions.TRUTH}"
     const val MOCKK = "io.mockk:mockk:${Versions.MOCKK}"
+    const val KOTLIN_COROUTINES_TEST = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.KOTLIN_COROUTINES}"
     //endregion
 
     const val COMMON_TEXT = "org.apache.commons:commons-text:${Versions.COMMON_TEXT}"

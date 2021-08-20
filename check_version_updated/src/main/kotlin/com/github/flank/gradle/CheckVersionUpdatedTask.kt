@@ -11,8 +11,12 @@ open class CheckVersionUpdatedTask : DefaultTask() {
     @TaskAction
     fun action() {
         project.execAndGetStdout("git", "fetch", "--no-tags")
-        val changedFiles = project.execAndGetStdout("git", "diff", "origin/master", "HEAD", "--name-only").split("\n") +
-            project.execAndGetStdout("git", "diff", "origin/master", "--name-only").split("\n")
+        val changedFiles = (project.execAndGetStdout("git", "diff", "origin/master", "HEAD", "--name-only").split("\n") +
+            project.execAndGetStdout("git", "diff", "origin/master", "--name-only").split("\n"))
+            .toSet()
+            .filterNot { file -> ignoredFiles.any { ignoredFile -> file.endsWith(ignoredFile) } }
+
+
         val isVersionChanged = changedFiles.any { it.startsWith(project.name) }.not() ||
             (changedFiles.contains("${project.name}/build.gradle.kts") && project.isVersionChangedInBuildGradle())
 
@@ -44,4 +48,6 @@ open class CheckVersionUpdatedTask : DefaultTask() {
         return (commitedResultsStream + localResultsStream)
             .any { it.startsWith("-version = ") || it.startsWith("+version = ") }
     }
+
+    private val ignoredFiles = listOf("gradle-wrapper.properties", "main/resources/version.txt")
 }
