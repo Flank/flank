@@ -27,6 +27,7 @@ import flank.corellium.domain.test.android.task.loadPreviousDurations
 import flank.corellium.domain.test.android.task.parseApksInfo
 import flank.corellium.domain.test.android.task.parseTestCasesFromApks
 import flank.corellium.domain.test.android.task.prepareShards
+import flank.corellium.domain.test.android.task.processResults
 import flank.exection.parallel.Parallel
 import flank.exection.parallel.type
 import flank.instrument.log.Instrument
@@ -67,6 +68,7 @@ object TestAndroid {
         val gpuAcceleration: Boolean = true,
         val scanPreviousDurations: Int = 10,
         val flakyTestsAttempts: Int = 0,
+        val junitReport: JUnitReportConfig = Report.JUnit.Default,
     ) {
 
         companion object : Parallel.Type<Args> {
@@ -78,7 +80,7 @@ object TestAndroid {
         /**
          * Default output directory scheme.
          *
-         * @property new Directory name in format: `results/corellium/android/yyyy-MM-dd_HH-mm-ss-SSS`.
+         * @property new A directory name in format: `results/corellium/android/yyyy-MM-dd_HH-mm-ss-SSS`.
          */
         object DefaultOutputDir {
             internal const val ROOT = "results/corellium/android/"
@@ -111,6 +113,19 @@ object TestAndroid {
                 override val path: String
             ) : Apk()
         }
+
+        /**
+         * Report configuration file.
+         */
+        object Report {
+            object JUnit {
+                enum class Type { Skipped, Passed, Failed, Flaky }
+
+                val Default = mapOf(
+                    "failures" to setOf(Type.Failed, Type.Flaky)
+                )
+            }
+        }
     }
 
     // Context
@@ -132,7 +147,8 @@ object TestAndroid {
      * @property dispatch Channel for dispatching test shards to execute.
      * @property devices Channel for providing devices that are available and ready to use.
      * @property ids the ids of corellium device instances.
-     * @property testResult Execution results.
+     * @property rawResults Execution results.
+     * @property processResults Results processed according to [Args.junitReport] configuration.
      */
     internal class Context : Parallel.Context() {
         val api by !type<CorelliumApi>()
@@ -147,7 +163,8 @@ object TestAndroid {
         val dispatch: Channel<Dispatch.Data> by -Dispatch.Shards
         val devices: Channel<Device.Instance> by -AvailableDevices
         val ids: List<String> by -InvokeDevices
-        val testResult: List<Device.Result> by -ExecuteTests
+        val rawResults: List<Device.Result> by -ExecuteTests
+        val processedResults: Map<String, List<Device.Result>> by -ProcessedResults
     }
 
     internal val context = Parallel.Function(::Context)
@@ -226,6 +243,8 @@ object TestAndroid {
     }
 
     object ReleaseDevice : Parallel.Type<Unit>
+    object ProcessedResults : Parallel.Type<Map<String, List<Device.Result>>>
+
     object CleanUp : Parallel.Type<Unit>
     object GenerateReport : Parallel.Type<Unit>
     object CompleteTests : Parallel.Type<Unit>
@@ -292,6 +311,7 @@ object TestAndroid {
             val id: String,
             val data: Dispatch.Data,
             val value: List<Instrument>,
+            val flakes: Set<String> = emptySet(),
         )
 
         internal val execute by lazy {
@@ -307,24 +327,34 @@ object TestAndroid {
 
     // Evaluate lazy to avoid strange NullPointerException.
     val execute by lazy {
+        // Keep alphabetic order.
         setOf(
             context.validate,
             authorize,
+            availableDevices,
             createOutputDir,
+            dispatchFailedTests,
             dispatchShards,
             dispatchTests,
-            dispatchFailedTests,
             dumpShards,
             executeTestQueue,
             finish,
             generateReport,
             initResultsChannel,
-            availableDevices,
             invokeDevices,
             loadPreviousDurations,
             parseApksInfo,
             parseTestCasesFromApks,
             prepareShards,
+            processResults,
         )
     }
 }
+
+/**
+ * JUnit report configuration.
+ *
+ * key - suffix that will be added to [JUnit.REPORT_FILE_NAME] for creating custom JUnitReport file name.
+ * value - set of required results to include in report.
+ */
+typealias JUnitReportConfig = Map<String, Set<TestAndroid.Args.Report.JUnit.Type>>

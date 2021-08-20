@@ -150,6 +150,28 @@ class TestAndroidCommand :
         )
         @set:JsonProperty("num-flaky-test-attempts")
         var flakyTestAttempts: Int? by data
+
+        @set:JsonProperty("junit-report-config")
+        var junitReport: Map<String, Set<Args.Report.JUnit.Type>>? by data
+
+        @CommandLine.Option(
+            names = ["--junit-report-config"],
+            split = ";",
+            description = [
+                "A map of name suffixes related to set of result types required to include in custom junit report. " +
+                    "As results, this option will generate additional amount of junit reports named `JUnitReport-\$suffix.xml`." +
+                    "Available result types to include are: [Skipped, Passed, Failed, Flaky]." +
+                    "For example the default configuration will generate JUnitReport-failures.xml." +
+                    "Default value is `--junit-report-config=failures=Failed,Flaky;`"
+            ]
+        )
+        fun setJUnitReport(map: Map<String, String>) {
+            junitReport = map.mapValues { (_, types) ->
+                types.split(",")
+                    .map { type -> type.lowercase().replaceFirstChar(Char::uppercaseChar) }
+                    .map(Args.Report.JUnit.Type::valueOf).toSet()
+            }
+        }
     }
 
     @CommandLine.Option(

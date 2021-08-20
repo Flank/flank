@@ -40,6 +40,7 @@ class ArgsKtTest {
                 gpuAcceleration = gpuAcceleration!!,
                 scanPreviousDurations = scanPreviousDurations!!,
                 flakyTestsAttempts = flakyTestAttempts!!,
+                junitReport = junitReport!!,
             )
         }
 

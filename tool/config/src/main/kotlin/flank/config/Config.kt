@@ -1,5 +1,6 @@
 package flank.config
 
+import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
@@ -36,5 +37,7 @@ inline fun <reified T> loadYaml(path: String): T =
     yamlMapper.readValue(File(path), T::class.java)
 
 val yamlMapper: ObjectMapper by lazy {
-    ObjectMapper(YAMLFactory()).registerKotlinModule()
+    ObjectMapper(YAMLFactory())
+        .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+        .registerKotlinModule()
 }

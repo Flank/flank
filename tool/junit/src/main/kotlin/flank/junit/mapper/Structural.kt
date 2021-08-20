@@ -11,6 +11,7 @@ internal fun List<JUnit.TestResult>.mapToTestSuites(): List<JUnit.Suite> = this
             failures = cases.count { it.status == JUnit.TestResult.Status.Failed },
             errors = cases.count { it.status == JUnit.TestResult.Status.Error },
             skipped = cases.count { it.status == JUnit.TestResult.Status.Skipped },
+            flakes = cases.count { it.flaky },
             timestamp = JUnit.dateFormat.format(cases.map { it.startAt }.minOrNull() ?: 0),
             time = cases.filterNot { it.status == JUnit.TestResult.Status.Skipped }.run {
                 if (isEmpty()) 0.0
@@ -23,7 +24,8 @@ internal fun List<JUnit.TestResult>.mapToTestSuites(): List<JUnit.Suite> = this
                     time = (case.endsAt - case.startAt).toDouble() / 1000,
                     error = if (case.status == JUnit.TestResult.Status.Error) case.stack else emptyList(),
                     failure = if (case.status == JUnit.TestResult.Status.Failed) case.stack else emptyList(),
-                    skipped = if (case.status == JUnit.TestResult.Status.Skipped) null else Unit
+                    skipped = if (case.status == JUnit.TestResult.Status.Skipped) null else Unit,
+                    flaky = case.flaky,
                 )
             }
         )
@@ -48,7 +50,8 @@ internal fun List<JUnit.Suite>.mapToTestResults(): List<JUnit.TestResult> =
                     case.skipped == null -> JUnit.TestResult.Status.Skipped
                     else -> JUnit.TestResult.Status.Passed
                 },
-                stack = case.run { error + failure }
+                stack = case.run { error + failure },
+                flaky = case.flaky,
             )
         }
     }

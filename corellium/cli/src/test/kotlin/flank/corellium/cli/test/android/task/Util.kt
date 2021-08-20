@@ -2,6 +2,9 @@ package flank.corellium.cli.test.android.task
 
 import flank.corellium.cli.TestAndroidCommand
 import flank.corellium.domain.TestAndroid
+import flank.corellium.domain.TestAndroid.Args.Report.JUnit.Type.Failed
+import flank.corellium.domain.TestAndroid.Args.Report.JUnit.Type.Flaky
+import flank.corellium.domain.TestAndroid.Args.Report.JUnit.Type.Passed
 
 /**
  * Apply test values to config. Each value should be different than default.
@@ -34,4 +37,8 @@ fun TestAndroidCommand.Config.applyTestValues() = apply {
     gpuAcceleration = false
     scanPreviousDurations = 123
     flakyTestAttempts = Int.MAX_VALUE
+    junitReport = mapOf(
+        "test1" to setOf(Passed),
+        "test2" to setOf(Failed, Flaky),
+    )
 }

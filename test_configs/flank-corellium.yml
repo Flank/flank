@@ -11,3 +11,4 @@ apks:
 max-test-shards: 3
 gpu-acceleration: false
 scan-previous-durations: 3
+num-flaky-test-attempts: 6

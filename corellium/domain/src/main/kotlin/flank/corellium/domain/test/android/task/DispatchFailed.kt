@@ -24,12 +24,9 @@ internal val dispatchFailedTests = Dispatch.Failed from setOf(
     var index = 0
     results.consumeEach { result ->
         if (result.status is Instrument.Status) {
-            if (result.status.code in errorCodes) {
-                val shard = result.shard
-                    .reduceTo(result.status.details.fullTestName)
-                val attempt = runs
-                    .getOrPut(shard, counter)
-                    .getAndIncrement()
+            if (result.status.code in Instrument.Code.errors) {
+                val shard = result.shard.reduceTo(result.status.name)
+                val attempt = runs.getOrPut(shard, counter).getAndIncrement()
                 if (attempt < args.flakyTestsAttempts)
                     dispatch.send(
                         Dispatch.Data(
@@ -43,14 +40,6 @@ internal val dispatchFailedTests = Dispatch.Failed from setOf(
     }
     runs.mapValues { (_, value) -> value.get() }
 }
-
-/**
- * Set of [Instrument] error codes.
- */
-private val errorCodes = setOf(
-    Instrument.Code.FAILED,
-    Instrument.Code.EXCEPTION,
-)
 
 /**
  * Creates new [InstanceShard] that contains only one test basing on the given [name].
@@ -73,5 +62,3 @@ private fun InstanceShard.reduceTo(
             }.takeIf { it.isNotEmpty() }?.let { test.copy(cases = it) }
         }.takeIf { it.isNotEmpty() }?.let { app.copy(tests = it) }
     }
-
-private val Instrument.Status.Details.fullTestName get() = "$className#$testName"

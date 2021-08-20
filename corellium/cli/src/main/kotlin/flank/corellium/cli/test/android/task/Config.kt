@@ -30,6 +30,7 @@ private operator fun Config.plusAssign(args: TestAndroid.Args) {
     gpuAcceleration = args.gpuAcceleration
     scanPreviousDurations = args.scanPreviousDurations
     flakyTestAttempts = args.flakyTestsAttempts
+    junitReport = args.junitReport
 }
 
 internal fun yamlConfig(path: String?): Config =
