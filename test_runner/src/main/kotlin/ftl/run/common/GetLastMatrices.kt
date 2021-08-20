@@ -1,10 +1,11 @@
 package ftl.run.common
 
-import flank.common.logLn
 import ftl.api.TestMatrix
 import ftl.args.IArgs
 import ftl.config.FtlConstants
+import ftl.domain.RefreshLastRunState
 import ftl.json.MatrixMap
+import ftl.presentation.publish
 import ftl.run.exception.FlankGeneralError
 import java.nio.file.Paths
 
@@ -12,7 +13,7 @@ import java.nio.file.Paths
 internal fun getLastMatrices(args: IArgs): MatrixMap {
     val lastRun = args.getLastGcsPath() ?: throw FlankGeneralError("no runs found in results/ folder")
 
-    logLn("Loading run $lastRun")
+    RefreshLastRunState.LoadingRun(lastRun).publish()
     return matrixPathToObj(lastRun, args)
 }
 

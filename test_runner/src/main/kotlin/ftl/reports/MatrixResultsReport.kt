@@ -10,6 +10,8 @@ import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
 import ftl.json.asPrintableTable
 import ftl.json.isFailed
+import ftl.presentation.cli.firebase.test.reportmanager.ReportManagerState
+import ftl.presentation.publish
 import ftl.reports.output.log
 import ftl.reports.output.outputReport
 import ftl.reports.util.IReport
@@ -36,7 +38,7 @@ object MatrixResultsReport : IReport {
 
     override fun run(matrices: MatrixMap, result: JUnitTest.Result?, printToStdout: Boolean, args: IArgs) {
         val output = generate(matrices)
-        if (printToStdout) log(output)
+        if (printToStdout) ReportManagerState.Log(output).publish()
         write(matrices, output, args)
         ReportManager.uploadReportResult(output, args, fileName())
     }

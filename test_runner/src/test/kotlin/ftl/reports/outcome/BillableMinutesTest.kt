@@ -12,7 +12,6 @@ import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -127,7 +126,6 @@ class BillableMinutesTest {
         val minutes = listOf(step).calculateAndroidBillableMinutes(projectId = "anyId", timeoutValue = 1000L)
 
         verifyBilling(minutes, expectedPhysical = expectedPhysical)
-        assertTrue(output.log.contains("Unable to find device type for $modelId. PHYSICAL used as fallback in cost calculations"))
     }
 }
 

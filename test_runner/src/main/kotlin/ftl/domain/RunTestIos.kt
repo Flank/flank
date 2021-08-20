@@ -10,6 +10,8 @@ import ftl.config.defaultIosConfig
 import ftl.config.loadIosConfig
 import ftl.config.plus
 import ftl.mock.MockServer
+import ftl.presentation.Output
+import ftl.presentation.runBlockingWithObservingRunState
 import ftl.reports.addStepTime
 import ftl.reports.output.configure
 import ftl.reports.output.log
@@ -24,10 +26,9 @@ import ftl.util.TEST_TYPE
 import ftl.util.loadFile
 import ftl.util.printVersionInfo
 import ftl.util.setCrashReportTag
-import kotlinx.coroutines.runBlocking
 import java.nio.file.Paths
 
-interface RunIosTest {
+interface RunIosTest : Output {
     val configPath: String
     val config: IosConfig
     val dryRun: Boolean
@@ -63,7 +64,7 @@ operator fun RunIosTest.invoke() {
         if (dumpShards.not()) logLn(this)
     }.validate().run {
         if (dumpShards) dumpShards()
-        else runBlocking {
+        else runBlockingWithObservingRunState {
             addStepTime("Preparation", prepareStopWatch.check())
             newTestRun()
         }

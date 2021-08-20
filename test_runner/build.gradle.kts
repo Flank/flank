@@ -217,6 +217,7 @@ dependencies {
     testImplementation(Dependencies.SYSTEM_RULES)
     testImplementation(Dependencies.TRUTH)
     testImplementation(Dependencies.MOCKK)
+    testImplementation(Dependencies.KOTLIN_COROUTINES_TEST)
 }
 
 buildscript {
@@ -231,6 +232,10 @@ buildscript {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.freeCompilerArgs += listOf(
+        "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+        "-Xopt-in=kotlinx.coroutines.FlowPreview",
+    )
 }
 
 // https://github.com/gradle/kotlin-dsl/blob/master/samples/task-dependencies/build.gradle.kts#L41
