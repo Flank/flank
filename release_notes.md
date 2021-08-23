@@ -1,3 +1,20 @@
+## v21.08.1
+### Features
+- [#2121](https://github.com/Flank/flank/pull/2121) Calculate flaky tests from reruns ([jan-gogo](https://github.com/jan-gogo))
+- [#2131](https://github.com/Flank/flank/pull/2131) Implement env parsing ([pawelpasterz](https://github.com/pawelpasterz))
+### Refactor
+- [#2139](https://github.com/Flank/flank/pull/2139) Structural output refresh last run ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#2127](https://github.com/Flank/flank/pull/2127) Bash command execution ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#2107](https://github.com/Flank/flank/pull/2107) Mixpanel module API & implementation ([jan-gogo](https://github.com/jan-gogo), [adamfilipow92](https://github.com/adamfilipow92))
+### Bug Fixes
+- [#2142](https://github.com/Flank/flank/pull/2142) Add retry and silent crash to mixpanel send method ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#2140](https://github.com/Flank/flank/pull/2140) Disable mixpanel in tests ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#2129](https://github.com/Flank/flank/pull/2129) Fix output of calculateShards() when all tests are filtered out ([doodla](https://github.com/doodla))
+- [#2124](https://github.com/Flank/flank/pull/2124) IOS nm global tests discovery ([Sloox](https://github.com/Sloox))
+- [#2122](https://github.com/Flank/flank/pull/2122) Envs from additional apks not override default values ([pawelpasterz](https://github.com/pawelpasterz))
+### CI Changes
+- [#2119](https://github.com/Flank/flank/pull/2119) Simple GHA Dogfood script ([Sloox](https://github.com/Sloox))
+
 ## v21.08.0
 ### Features
 - [#2118](https://github.com/Flank/flank/pull/2118) Added project ID to sentry ([piotradamczyk5](https://github.com/piotradamczyk5))
