@@ -82,7 +82,7 @@ class CustomShardingIT {
             assertTestPass(multipleSuccessfulTests)
             assertTestFail(multipleFailedTests)
 
-            assertThat(testSuites.size).isEqualTo(9)
+            assertThat(testSuites.size).isEqualTo(2)
             assertThat(testSuites.filter { it.name == "junit-ignored" }.size).isEqualTo(1)
         }
 
