@@ -19,7 +19,7 @@ fun <T> AbstractGoogleJsonClientRequest<T>.executeWithRetry(): T = withRetry { t
 
 private inline fun <T> withRetry(crossinline block: () -> T): T = runBlocking {
     var lastError: IOException? = null
-    repeat(4) {
+    repeat(5) {
         try {
             return@runBlocking block()
         } catch (err: IOException) {
