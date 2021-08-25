@@ -9,6 +9,7 @@ class HttpTimeoutIncrease(credentials: Credentials) : HttpCredentialsAdapter(cre
     override fun initialize(request: HttpRequest?) {
         super.initialize(request)
 
+        request?.headers?.put("X-Server-Timeout", 60)
         request?.connectTimeout = 60 * 1000
         request?.readTimeout = 60 * 1000
     }
