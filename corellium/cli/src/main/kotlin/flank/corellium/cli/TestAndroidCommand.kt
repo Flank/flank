@@ -11,6 +11,7 @@ import flank.corellium.cli.test.android.task.args
 import flank.corellium.cli.test.android.task.config
 import flank.corellium.cli.test.android.task.corelliumApi
 import flank.corellium.cli.test.android.task.jUnitApi
+import flank.corellium.domain.TestAndroid.AnalyticsReport
 import flank.corellium.domain.TestAndroid.Args
 import flank.corellium.domain.TestAndroid.CompleteTests
 import flank.corellium.domain.TestAndroid.execute
@@ -197,7 +198,7 @@ class TestAndroidCommand :
         )
         runBlocking {
             resolve(seed).last().verify().let { args ->
-                execute(CompleteTests)(args).last().verify()
+                execute(CompleteTests, AnalyticsReport)(args).last().verify()
             }
         }
     }

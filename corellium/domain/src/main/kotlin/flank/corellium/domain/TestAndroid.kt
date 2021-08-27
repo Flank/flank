@@ -23,6 +23,7 @@ import flank.corellium.domain.test.android.task.dumpShards
 import flank.corellium.domain.test.android.task.executeTestQueue
 import flank.corellium.domain.test.android.task.fetchDeviceCostPerSecond
 import flank.corellium.domain.test.android.task.finish
+import flank.corellium.domain.test.android.task.generateCostReport
 import flank.corellium.domain.test.android.task.generateReport
 import flank.corellium.domain.test.android.task.initResultsChannel
 import flank.corellium.domain.test.android.task.invokeDevices
@@ -43,6 +44,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import java.io.File
 import java.lang.System.currentTimeMillis
+import java.math.BigDecimal
 import java.text.SimpleDateFormat
 
 /**
@@ -174,7 +176,8 @@ object TestAndroid {
         val testResult: List<Device.Result> by -ExecuteTests
         val testDuration: Long by -TestDuration
         val devicesDuration: Map<String, Long> by -DevicesDuration
-        val costPerSecond: Long by -DeviceCostPerSecond
+        val costMicroCents: Map<String, Long> by -DeviceCost
+        val costReport by -GenerateCostReport
     }
 
     internal val context = Parallel.Function(::Context)
@@ -258,10 +261,11 @@ object TestAndroid {
 
     object TestDuration : Parallel.Type<Long>
     object DevicesDuration : Parallel.Type<Map<String, Long>>
-    object DeviceCostPerSecond : Parallel.Type<Long>
+    object DeviceCost : Parallel.Type<Map<String, Long>>
 
     object CleanUp : Parallel.Type<Unit>
     object GenerateReport : Parallel.Type<Unit>
+    object GenerateCostReport : Parallel.Type<Map<String, BigDecimal>>
     object AnalyticsReport : Parallel.Type<Unit>
     object CompleteTests : Parallel.Type<Unit>
 
@@ -360,6 +364,7 @@ object TestAndroid {
             executeTestQueue,
             fetchDeviceCostPerSecond,
             finish,
+            generateCostReport,
             generateReport,
             initResultsChannel,
             invokeDevices,

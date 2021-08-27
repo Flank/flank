@@ -5,41 +5,38 @@ skinparam componentStyle rectangle
 legend left
   |= Color |= Description |
   |<#373737>| The final task that completes the whole execution |
-  |<#9b9b9b>| Brighter tasks are required by the darker tasks |
-  |<#ffffff>| Tasks that are starting first |
+  |<#a7a7a7>| Brighter tasks are required by the darker tasks |
+  |<#fbfbfb>| Tasks that are starting first |
   |<#LightYellow>| Explicitly declared dependencies that needs be delivered from outside of execution |
   * The brightness means how fast the task will start.
   * Explicitly declaring initial dependencies for tasks is optional, so they may not be included in diagram.
 end legend
 
-[Authorize] #ffffff
-[OutputDir] #ffffff
-[DeviceCostPerSecond] #ffffff
-[ParseApkInfo] #ffffff
-[ParseTestCases] #ffffff
-[LoadPreviousDurations] #e6e6e6
-[PrepareShards] #cdcdcd
-[AvailableDevices] #b4b4b4
-[Dispatch.Shards] #b4b4b4
-[DumpShards] #b4b4b4
-[ExecuteTests.Results] #b4b4b4
-[Dispatch.Failed] #9b9b9b
-[Dispatch.Tests] #9b9b9b
-[InvokeDevices] #9b9b9b
-[DevicesDuration] #828282
-[ExecuteTests] #828282
-[TestDuration] #696969
-[ProcessedResults] #696969
-[GenerateReport] #505050
-[AnalyticsReport] #505050
+[Authorize] #fbfbfb
+[OutputDir] #fbfbfb
+[ParseApkInfo] #fbfbfb
+[ParseTestCases] #fbfbfb
+[LoadPreviousDurations] #dfdfdf
+[PrepareShards] #c3c3c3
+[Dispatch.Shards] #a7a7a7
+[DumpShards] #a7a7a7
+[ExecuteTests.Results] #a7a7a7
+[AvailableDevices] #a7a7a7
+[Dispatch.Tests] #8b8b8b
+[Dispatch.Failed] #8b8b8b
+[InvokeDevices] #8b8b8b
+[DevicesDuration] #6f6f6f
+[ExecuteTests] #6f6f6f
+[DeviceCost] #6f6f6f
+[TestDuration] #535353
+[GenerateCostReport] #535353
+[GenerateReport] #535353
 [CompleteTests] #373737
+[AnalyticsReport] #373737
 
-[AvailableDevices] --> [PrepareShards]
 [DevicesDuration] --> [AvailableDevices]
 [DevicesDuration] --> [Dispatch.Tests]
 [TestDuration] --> [ExecuteTests]
-[Dispatch.Failed] --> [Dispatch.Shards]
-[Dispatch.Failed] --> [ExecuteTests.Results]
 [Dispatch.Shards] --> [PrepareShards]
 [Dispatch.Tests] --> [ParseApkInfo]
 [Dispatch.Tests] --> [Authorize]
@@ -47,30 +44,34 @@ end legend
 [Dispatch.Tests] --> [AvailableDevices]
 [Dispatch.Tests] --> [Dispatch.Shards]
 [Dispatch.Tests] --> [ExecuteTests.Results]
+[Dispatch.Failed] --> [Dispatch.Shards]
+[Dispatch.Failed] --> [ExecuteTests.Results]
 [DumpShards] --> [PrepareShards]
 [DumpShards] --> [OutputDir]
 [ExecuteTests] --> [InvokeDevices]
 [ExecuteTests] --> [Dispatch.Tests]
 [ExecuteTests] --> [Dispatch.Failed]
+[DeviceCost] --> [InvokeDevices]
 [CompleteTests] --> [GenerateReport]
+[CompleteTests] --> [GenerateCostReport]
 [CompleteTests] --> [DumpShards]
-[CompleteTests] --> [AnalyticsReport]
+[GenerateCostReport] --> [ExecuteTests]
+[GenerateCostReport] --> [DevicesDuration]
+[GenerateCostReport] --> [DeviceCost]
 [GenerateReport] --> [ExecuteTests]
-[GenerateReport] --> [ProcessedResults]
 [GenerateReport] --> [OutputDir]
 [ExecuteTests.Results] --> [PrepareShards]
+[AvailableDevices] --> [PrepareShards]
 [InvokeDevices] --> [Authorize]
 [InvokeDevices] --> [PrepareShards]
 [InvokeDevices] --> [AvailableDevices]
 [LoadPreviousDurations] --> [ParseTestCases]
 [PrepareShards] --> [ParseTestCases]
 [PrepareShards] --> [LoadPreviousDurations]
-[ProcessedResults] --> [ExecuteTests]
 [AnalyticsReport] --> [PrepareShards]
 [AnalyticsReport] --> [ParseApkInfo]
 [AnalyticsReport] --> [ExecuteTests]
-[AnalyticsReport] --> [DeviceCostPerSecond]
-[AnalyticsReport] --> [DevicesDuration]
+[AnalyticsReport] --> [GenerateCostReport]
 [AnalyticsReport] --> [TestDuration]
 
 @enduml

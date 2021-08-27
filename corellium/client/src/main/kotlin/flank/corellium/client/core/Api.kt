@@ -264,3 +264,18 @@ suspend fun Corellium.connectConsole(
         }.url
         connectConsole(url, token)
     }
+
+/**
+ * Returns the cost, in microcents, for the instance in the on and off state. Instances are charged $0.25 / day for storage (off) and $0.25 per core per hour (on).
+ *
+ * @param instanceId
+ */
+suspend fun Corellium.rate(
+    instanceId: String
+): Instance.RateInfo =
+    withRetry {
+        client.get {
+            url("$urlBase/instances/$instanceId/rate")
+            header("Authorization", token)
+        }
+    }

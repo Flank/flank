@@ -61,6 +61,17 @@ data class Instance(
             const val KALLOC = "kalloc"
         }
     }
+
+    /**
+     * Convert microcents to USD using rate / 1000000 / 100 * seconds where rate is rateInfo.on or rateInfo.off and seconds is the number of seconds the instance is running.
+     * @param onRateMicrocents - The cost, in microcents, that this instance costs per second to be running.
+     * @param offRateMicrocents - The cost, in microcents, that this instance costs per second to be stored.
+     */
+    @Serializable
+    data class RateInfo(
+        val onRateMicrocents: Long,
+        val offRateMicrocents: Long,
+    )
 }
 
 @Serializable

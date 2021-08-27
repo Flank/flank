@@ -1,5 +1,6 @@
 package flank.corellium.api
 
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -39,4 +40,22 @@ object AndroidInstance {
         class Ready(val id: String) : Event()
         object AllReady : Event()
     }
+
+
+    fun interface GetRate : (InstanceId) -> Deferred<RateInfo>
+
+    /**
+     * Contains info about cost in micro cents per second.
+     *
+     * Conversion microcents to USD:
+     * `rate / 1000000 / 100 * seconds`
+     * where rate is rateInfo.on or rateInfo.off and seconds is the number of seconds the instance is running.
+     *
+     * @param onRateMicroCents - The cost, in microcents, that this instance costs per second to be running.
+     * @param offRateMicroCents - The cost, in microcents, that this instance costs per second to be stored.
+     */
+    data class RateInfo(
+        val onRateMicroCents: Long,
+        val offRateMicroCents: Long,
+    )
 }

@@ -15,6 +15,8 @@ import flank.exection.parallel.validate
 import flank.exection.parallel.verify
 import flank.instrument.log.Instrument
 import flank.junit.JUnit
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.collect
@@ -92,6 +94,11 @@ class TestAndroidParsingTest {
                             ).lineSequence().forEach { emit(it) }
                         }
                     }.buffer(Int.MAX_VALUE)
+                }
+            },
+            getRate = {
+                GlobalScope.async {
+                    AndroidInstance.RateInfo(10_000_000, 1_000_000)
                 }
             },
         ),
