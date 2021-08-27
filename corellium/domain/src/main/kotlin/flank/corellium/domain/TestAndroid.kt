@@ -258,7 +258,6 @@ object TestAndroid {
     object ReleaseDevice : Parallel.Type<Unit>
     object ProcessedResults : Parallel.Type<Map<String, List<Device.Result>>>
 
-
     object TestDuration : Parallel.Type<Long>
     object DevicesDuration : Parallel.Type<Map<String, Long>>
     object DeviceCost : Parallel.Type<Map<String, Long>>
