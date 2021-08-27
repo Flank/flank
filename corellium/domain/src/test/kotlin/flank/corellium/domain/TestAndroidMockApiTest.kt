@@ -12,6 +12,8 @@ import flank.exection.parallel.type
 import flank.exection.parallel.validate
 import flank.exection.parallel.verify
 import flank.junit.JUnit
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.emptyFlow
@@ -77,6 +79,11 @@ class TestAndroidMockApiTest {
                 println(instances)
                 emptyList()
             },
+            getRate = {
+                GlobalScope.async {
+                    AndroidInstance.RateInfo(10_000_000, 1_000_000)
+                }
+            }
         ),
 
         type<Apk.Api>() to Apk.Api(

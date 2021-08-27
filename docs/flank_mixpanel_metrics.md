@@ -82,11 +82,22 @@ This property contains information about the outcome of the entire run. More inf
 
 With these event's we can realize the report ```How many millions per month is spent on Firebase Test lab by way of using Flank? ```
 
+### FTL
+
 Fields:
 
 - ```virtual```
 - ```physical```
 - ```total```
+
+### Corellium
+
+Cost is denominated in cents.
+
+Fields:
+
+- ```testing``` - cost of tests.  
+- ```device``` - cost of device usage including device initialization, tests execution, idling, etc. 
 
 ## Configuration [configuration]
 

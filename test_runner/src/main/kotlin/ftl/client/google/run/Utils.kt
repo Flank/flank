@@ -3,8 +3,8 @@ package ftl.client.google.run
 import com.google.testing.model.ClientInfoDetail
 import com.google.testing.model.FileReference
 import com.google.testing.model.IosDeviceFile
-import ftl.util.readRevision
-import ftl.util.readVersion
+import flank.tool.resource.readRevision
+import flank.tool.resource.readVersion
 
 internal fun List<String>.mapGcsPathsToFileReference(): List<FileReference> = map { it.toFileReference() }
 

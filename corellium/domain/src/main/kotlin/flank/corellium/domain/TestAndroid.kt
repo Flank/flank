@@ -13,13 +13,17 @@ import flank.corellium.domain.test.android.device.task.installApks
 import flank.corellium.domain.test.android.device.task.releaseDevice
 import flank.corellium.domain.test.android.task.authorize
 import flank.corellium.domain.test.android.task.availableDevices
+import flank.corellium.domain.test.android.task.calculateDevicesDuration
+import flank.corellium.domain.test.android.task.calculateTestDuration
 import flank.corellium.domain.test.android.task.createOutputDir
 import flank.corellium.domain.test.android.task.dispatchFailedTests
 import flank.corellium.domain.test.android.task.dispatchShards
 import flank.corellium.domain.test.android.task.dispatchTests
 import flank.corellium.domain.test.android.task.dumpShards
 import flank.corellium.domain.test.android.task.executeTestQueue
+import flank.corellium.domain.test.android.task.fetchDeviceCostPerSecond
 import flank.corellium.domain.test.android.task.finish
+import flank.corellium.domain.test.android.task.generateCostReport
 import flank.corellium.domain.test.android.task.generateReport
 import flank.corellium.domain.test.android.task.initResultsChannel
 import flank.corellium.domain.test.android.task.invokeDevices
@@ -28,6 +32,7 @@ import flank.corellium.domain.test.android.task.parseApksInfo
 import flank.corellium.domain.test.android.task.parseTestCasesFromApks
 import flank.corellium.domain.test.android.task.prepareShards
 import flank.corellium.domain.test.android.task.processResults
+import flank.corellium.domain.test.android.task.sendAnalyticsReport
 import flank.exection.parallel.Parallel
 import flank.exection.parallel.type
 import flank.instrument.log.Instrument
@@ -39,6 +44,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import java.io.File
 import java.lang.System.currentTimeMillis
+import java.math.BigDecimal
 import java.text.SimpleDateFormat
 
 /**
@@ -59,6 +65,7 @@ object TestAndroid {
      * @param scanPreviousDurations Scan the specified amount of JUnitReport.xml files to obtain test cases durations necessary for optimized sharding. The [outputDir] is used for searching JUnit reports.
      */
     data class Args(
+        val project: String = "",
         val credentials: Authorization.Credentials = Authorization.Empty,
         val apks: List<Apk.App> = emptyList(),
         val testTargets: List<String> = emptyList(),
@@ -157,6 +164,7 @@ object TestAndroid {
         val args by !Args
 
         val shards: List<List<Shard.App>> by -PrepareShards
+        val packageNames: Map<String, String> by ParseApkInfo { packageNames }
         val testCases: Map<String, List<String>> by -ParseTestCases
         val previousDurations: Map<String, Long> by -LoadPreviousDurations
         val results: Channel<ExecuteTests.Result> by -ExecuteTests.Results
@@ -165,6 +173,11 @@ object TestAndroid {
         val ids: List<String> by -InvokeDevices
         val rawResults: List<Device.Result> by -ExecuteTests
         val processedResults: Map<String, List<Device.Result>> by -ProcessedResults
+        val testResult: List<Device.Result> by -ExecuteTests
+        val testDuration: Long by -TestDuration
+        val devicesDuration: Map<String, Long> by -DevicesDuration
+        val costMicroCents: Map<String, Long> by -DeviceCost
+        val costReport by -GenerateCostReport
     }
 
     internal val context = Parallel.Function(::Context)
@@ -245,8 +258,14 @@ object TestAndroid {
     object ReleaseDevice : Parallel.Type<Unit>
     object ProcessedResults : Parallel.Type<Map<String, List<Device.Result>>>
 
+    object TestDuration : Parallel.Type<Long>
+    object DevicesDuration : Parallel.Type<Map<String, Long>>
+    object DeviceCost : Parallel.Type<Map<String, Long>>
+
     object CleanUp : Parallel.Type<Unit>
     object GenerateReport : Parallel.Type<Unit>
+    object GenerateCostReport : Parallel.Type<Map<String, BigDecimal>>
+    object AnalyticsReport : Parallel.Type<Unit>
     object CompleteTests : Parallel.Type<Unit>
 
     // Data
@@ -302,7 +321,9 @@ object TestAndroid {
 
         data class Instance(
             val id: String,
-            val apks: Set<String> = emptySet()
+            val apks: Set<String> = emptySet(),
+            val startTime: Long = currentTimeMillis(),
+            val releaseTime: Long = 0,
         ) {
             companion object : Parallel.Type<Instance>
         }
@@ -332,13 +353,17 @@ object TestAndroid {
             context.validate,
             authorize,
             availableDevices,
+            calculateDevicesDuration,
+            calculateTestDuration,
             createOutputDir,
             dispatchFailedTests,
             dispatchShards,
             dispatchTests,
             dumpShards,
             executeTestQueue,
+            fetchDeviceCostPerSecond,
             finish,
+            generateCostReport,
             generateReport,
             initResultsChannel,
             invokeDevices,
@@ -347,6 +372,7 @@ object TestAndroid {
             parseTestCasesFromApks,
             prepareShards,
             processResults,
+            sendAnalyticsReport,
         )
     }
 }

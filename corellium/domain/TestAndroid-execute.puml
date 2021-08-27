@@ -25,12 +25,20 @@ end legend
 [Dispatch.Failed] #9b9b9b
 [Dispatch.Tests] #9b9b9b
 [InvokeDevices] #9b9b9b
+[DevicesDuration] #828282
 [ExecuteTests] #828282
+[DeviceCost] #828282
+[TestDuration] #696969
+[GenerateCostReport] #696969
 [ProcessedResults] #696969
 [GenerateReport] #505050
+[AnalyticsReport] #505050
 [CompleteTests] #373737
 
 [AvailableDevices] --> [PrepareShards]
+[DevicesDuration] --> [AvailableDevices]
+[DevicesDuration] --> [Dispatch.Tests]
+[TestDuration] --> [ExecuteTests]
 [Dispatch.Failed] --> [Dispatch.Shards]
 [Dispatch.Failed] --> [ExecuteTests.Results]
 [Dispatch.Shards] --> [PrepareShards]
@@ -45,8 +53,13 @@ end legend
 [ExecuteTests] --> [InvokeDevices]
 [ExecuteTests] --> [Dispatch.Tests]
 [ExecuteTests] --> [Dispatch.Failed]
+[DeviceCost] --> [InvokeDevices]
 [CompleteTests] --> [GenerateReport]
+[CompleteTests] --> [GenerateCostReport]
 [CompleteTests] --> [DumpShards]
+[GenerateCostReport] --> [ExecuteTests]
+[GenerateCostReport] --> [DevicesDuration]
+[GenerateCostReport] --> [DeviceCost]
 [GenerateReport] --> [ExecuteTests]
 [GenerateReport] --> [ProcessedResults]
 [GenerateReport] --> [OutputDir]
@@ -58,5 +71,10 @@ end legend
 [PrepareShards] --> [ParseTestCases]
 [PrepareShards] --> [LoadPreviousDurations]
 [ProcessedResults] --> [ExecuteTests]
+[AnalyticsReport] --> [PrepareShards]
+[AnalyticsReport] --> [ParseApkInfo]
+[AnalyticsReport] --> [ExecuteTests]
+[AnalyticsReport] --> [GenerateCostReport]
+[AnalyticsReport] --> [TestDuration]
 
 @enduml

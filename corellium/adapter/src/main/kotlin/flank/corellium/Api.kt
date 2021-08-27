@@ -2,6 +2,7 @@ package flank.corellium
 
 import flank.corellium.adapter.executeAndroidTestPlan
 import flank.corellium.adapter.getCorellium
+import flank.corellium.adapter.getRateInfo
 import flank.corellium.adapter.installAndroidApps
 import flank.corellium.adapter.invokeAndroidDevices
 import flank.corellium.adapter.requestAuthorization
@@ -18,4 +19,5 @@ fun corelliumApi(
         projectName = projectName
     ),
     executeTest = executeAndroidTestPlan(getCorellium),
+    getRate = getRateInfo(getCorellium),
 )

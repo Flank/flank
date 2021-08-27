@@ -6,12 +6,12 @@ import flank.tool.analytics.mixpanel.Mixpanel.DEVICE_TYPES
 import flank.tool.analytics.mixpanel.Mixpanel.add
 import flank.tool.analytics.mixpanel.Mixpanel.removeSensitiveValues
 import flank.tool.analytics.mixpanel.toMap
+import flank.tool.resource.readVersion
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.environment.PHYSICAL_DEVICE
 import ftl.environment.VIRTUAL_DEVICE
-import ftl.util.readVersion
 
 fun AndroidArgs.reportConfiguration() {
     initUsageStatistics()

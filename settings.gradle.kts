@@ -33,6 +33,7 @@ include(
     ":tool:instrument:command",
     ":tool:instrument:log",
     ":tool:junit",
+    ":tool:json",
     ":tool:log",
     ":tool:log:format",
     ":tool:execution:parallel",
@@ -41,6 +42,7 @@ include(
     ":tool:analytics",
     ":tool:analytics:mixpanel",
     ":tool:execution:linear",
+    ":tool:resource",
 )
 
 plugins {
