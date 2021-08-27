@@ -41,7 +41,6 @@ object AndroidInstance {
         object AllReady : Event()
     }
 
-
     fun interface GetRate : (InstanceId) -> Deferred<RateInfo>
 
     /**
