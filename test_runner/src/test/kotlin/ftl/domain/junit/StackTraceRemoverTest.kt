@@ -15,7 +15,7 @@ class StackTraceRemoverTest {
     fun `Should remove stack traces for flaky tests`() {
         // given
         val testcases = mutableListOf(
-            JUnitTest.Case("name", "class", "time", failures = listOf("fail"), errors = listOf("error")),
+            JUnitTest.Case("name", "class", "time", failures = listOf("fail"), errors = listOf("error"), flaky = true),
             JUnitTest.Case("name2", "class2", "time2", failures = listOf("fail2"), errors = listOf("error2")),
         )
         val junitTestResult = testResultsFor(testcases, flaky = true)
@@ -27,6 +27,7 @@ class StackTraceRemoverTest {
         actual.testsuites?.forEach { suite ->
             assertThat(suite.testcases?.all { testCase -> testCase.failures == null }).isTrue()
             assertThat(suite.testcases?.all { testCase -> testCase.errors == null }).isTrue()
+            assertThat(suite.testcases?.any { testCase -> testCase.flaky == true }).isTrue()
         }
     }
 
