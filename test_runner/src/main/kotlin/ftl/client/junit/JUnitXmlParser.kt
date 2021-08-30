@@ -26,6 +26,8 @@ internal fun getDeviceString(deviceString: String): String {
 
 private fun JUnitTest.Result.updateTestSuites(deviceName: String) = apply {
     testsuites?.forEach { testSuite ->
-        testSuite.name = "$deviceName#${testSuite.name}"
+        val classNamePrefix = "$deviceName#${testSuite.name}"
+        testSuite.testcases = testSuite.testcases?.map { it.copy(classname = "$classNamePrefix.${it.classname}") }?.toMutableList()
+        testSuite.name = ""
     }
 }
