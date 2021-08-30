@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/getsentry/sentry-java/releases
-    const val SENTRY = "5.1.1"
+    const val SENTRY = "5.1.2"
 
     // https://github.com/mixpanel/mixpanel-java/releases
     const val MIXPANEL = "1.5.0"
@@ -46,7 +46,7 @@ object Versions {
     const val GOOGLE_AUTH = "1.1.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.123.7"
+    const val GOOGLE_NIO = "0.123.8"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
     const val GOOGLE_STORAGE = "2.1.0"
@@ -56,7 +56,7 @@ object Versions {
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
-    const val JACKSON = "2.12.4"
+    const val JACKSON = "2.12.5"
 
     const val JUNIT = "4.13.2"
 
@@ -64,7 +64,7 @@ object Versions {
     const val JSOUP = "1.13.1"
 
     // https://github.com/ktorio/ktor/releases
-    const val KTOR = "1.6.2"
+    const val KTOR = "1.6.3"
 
     // https://github.com/qos-ch/logback/releases
     const val LOGBACK = "1.2.5"
