@@ -1,3 +1,12 @@
+## v21.09.0
+### Features
+- [#2158](https://github.com/Flank/flank/pull/2158) Adapt new iOS xml structure ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#2123](https://github.com/Flank/flank/pull/2123) Flank-Corellium metrics ([jan-gogo](https://github.com/jan-gogo), [adamfilipow92](https://github.com/adamfilipow92))
+- [#2154](https://github.com/Flank/flank/pull/2154) Increase timeout for http request ([pawelpasterz](https://github.com/pawelpasterz))
+### Bug Fixes
+- [#2156](https://github.com/Flank/flank/pull/2156) Fix flaky flag ([pawelpasterz](https://github.com/pawelpasterz))
+- [#2151](https://github.com/Flank/flank/pull/2151) Merging results for non legacy Android run ([piotradamczyk5](https://github.com/piotradamczyk5))
+
 ## v21.08.1
 ### Features
 - [#2121](https://github.com/Flank/flank/pull/2121) Calculate flaky tests from reruns ([jan-gogo](https://github.com/jan-gogo))
