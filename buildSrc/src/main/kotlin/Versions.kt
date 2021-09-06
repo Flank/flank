@@ -9,7 +9,7 @@ object Versions {
     const val DD_PLIST = "1.23"
 
     // https://github.com/jeremymailen/kotlinter-gradle
-    const val KTLINT_GRADLE = "3.5.1"
+    const val KTLINT_GRADLE = "3.6.0"
 
     const val KTLINT = "0.40.0"
 
@@ -29,7 +29,7 @@ object Versions {
     const val KOTLIN = "1.5.30"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    const val KOTLIN_COROUTINES = "1.5.1"
+    const val KOTLIN_COROUTINES = "1.5.2"
 
     // https://github.com/remkop/picocli/releases
     const val PICOCLI = "4.6.1"
@@ -46,10 +46,10 @@ object Versions {
     const val GOOGLE_AUTH = "1.1.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.123.8"
+    const val GOOGLE_NIO = "0.123.10"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "2.1.0"
+    const val GOOGLE_STORAGE = "2.1.1"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.8.8"
