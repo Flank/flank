@@ -67,7 +67,7 @@ object Versions {
     const val KTOR = "1.6.3"
 
     // https://github.com/qos-ch/logback/releases
-    const val LOGBACK = "1.2.5"
+    const val LOGBACK = "1.2.6"
 
     // https://github.com/square/okhttp/releases
     const val OKHTTP = "4.9.1"
