@@ -39,7 +39,7 @@ internal suspend fun IArgs.afterRunTests(
     val gcsBucket = GCS_STORAGE_LINK + resultsBucket + "/" + matrixMap.runPath
     logLn("${FtlConstants.indent}Raw results will be stored in your GCS bucket at [$gcsBucket]")
     matrixMap.printMatricesWebLinks(project)
-    addStepTime("Running tests", stopwatch.check())
+    addStepTime("Scheduling tests", stopwatch.check())
 }
 
 private fun List<TestMatrix.Data>.toSavedMatrixMap() =
