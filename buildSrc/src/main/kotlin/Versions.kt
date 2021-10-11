@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/getsentry/sentry-java/releases
-    const val SENTRY = "5.2.0"
+    const val SENTRY = "5.2.1"
 
     // https://github.com/mixpanel/mixpanel-java/releases
     const val MIXPANEL = "1.5.0"
@@ -17,7 +17,7 @@ object Versions {
     const val NEXUS_STAGING = "0.30.0"
 
     // https://github.com/johnrengelman/shadow/releases
-    const val SHADOW = "7.0.0"
+    const val SHADOW = "7.1.0"
 
     // https://github.com/linkedin/dex-test-parser/releases
     const val DEX_TEST_PARSER = "2.3.3"
@@ -49,7 +49,7 @@ object Versions {
     const val GOOGLE_NIO = "0.123.14"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "2.1.6"
+    const val GOOGLE_STORAGE = "2.1.7"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.8.8"
