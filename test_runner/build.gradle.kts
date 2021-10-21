@@ -195,6 +195,7 @@ dependencies {
     implementation(Dependencies.KOTLIN_REFLECT)
 
     implementation(Dependencies.LOGBACK)
+    implementation(Dependencies.JBOSS_LOGGING)
 
     implementation(Dependencies.PICOCLI)
     annotationProcessor(Dependencies.PICOCLI_CODEGEN)

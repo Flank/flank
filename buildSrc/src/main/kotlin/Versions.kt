@@ -89,6 +89,9 @@ object Versions {
     // https://commons.apache.org/proper/commons-text/
     const val COMMON_TEXT = "1.9"
 
+    // https://github.com/jboss-logging/commons-logging-jboss-logging
+    const val JBOSS_LOGGING = "1.0.0.Final"
+
     // https://github.com/fusesource/jansi/releases
     const val JANSI = "2.4.0"
 
