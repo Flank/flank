@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/getsentry/sentry-java/releases
-    const val SENTRY = "5.2.4"
+    const val SENTRY = "5.3.0"
 
     // https://github.com/mixpanel/mixpanel-java/releases
     const val MIXPANEL = "1.5.0"
@@ -52,7 +52,7 @@ object Versions {
     const val GOOGLE_STORAGE = "2.1.9"
 
     // https://github.com/google/gson/releases
-    const val GSON = "2.8.8"
+    const val GSON = "2.8.9"
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
