@@ -1061,7 +1061,7 @@ and flank's example [gradle-export-api](https://github.com/Flank/flank/tree/mast
 
 7) > How do I run Flank with a proxy?
   
-  `java -Dhttps.proxyHost=localhost -Dhttps.proxyPort=8080 -Dhttps.proxyUser=user -Dhttps.proxyPassword=pass -jar ./test_runner/build/libs/flank.jar firebase test android run`
+  `java -Dhttp.proxyHost=localhost -Dhttp.proxyPort=8080 -Dhttp.proxyUser=user -Dhttp.proxyPassword=pass -jar ./test_runner/build/libs/flank.jar firebase test android run`
    
   See [google-auth-library-java](https://github.com/googleapis/google-auth-library-java#configuring-a-proxy) for details.
   
