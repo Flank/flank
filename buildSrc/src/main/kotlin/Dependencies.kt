@@ -36,6 +36,7 @@ object Dependencies {
     //endregion ktor
 
     const val LOGBACK = "ch.qos.logback:logback-classic:${Versions.LOGBACK}"
+    const val JBOSS_LOGGING = "org.jboss.logging:commons-logging-jboss-logging:${Versions.JBOSS_LOGGING}"
 
     const val WOODSTOX = "com.fasterxml.woodstox:woodstox-core:${Versions.WOODSTOX}"
 
