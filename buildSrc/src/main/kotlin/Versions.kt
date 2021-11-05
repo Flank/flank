@@ -90,6 +90,8 @@ object Versions {
     const val COMMON_TEXT = "1.9"
 
     // https://github.com/jboss-logging/commons-logging-jboss-logging
+    // JBoss logging dep is used by the Google Auth library when configuring a proxy.
+    // https://github.com/googleapis/google-auth-library-java#configuring-a-proxy
     const val JBOSS_LOGGING = "1.0.0.Final"
 
     // https://github.com/fusesource/jansi/releases
