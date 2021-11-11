@@ -32,7 +32,7 @@ object Versions {
     const val KOTLIN_COROUTINES = "1.5.2"
 
     // https://github.com/remkop/picocli/releases
-    const val PICOCLI = "4.6.1"
+    const val PICOCLI = "4.6.2"
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
     const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20210809-1.32.1"
@@ -49,7 +49,7 @@ object Versions {
     const val GOOGLE_NIO = "0.123.16"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "2.1.9"
+    const val GOOGLE_STORAGE = "2.2.0"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.8.9"
@@ -64,7 +64,7 @@ object Versions {
     const val JSOUP = "1.13.1"
 
     // https://github.com/ktorio/ktor/releases
-    const val KTOR = "1.6.4"
+    const val KTOR = "1.6.5"
 
     // https://github.com/qos-ch/logback/releases
     const val LOGBACK = "1.2.6"
