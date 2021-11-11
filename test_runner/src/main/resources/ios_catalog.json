@@ -152,89 +152,11 @@
       "screenY": 2436,
       "supportedVersionIds": [
         "13.3",
-        "14.1"
+        "14.1",
+        "14.7"
       ],
       "tags": [
         "deprecated=14.1"
-      ]
-    },
-    {
-      "deviceCapabilities": [
-        "accelerometer",
-        "arm64",
-        "armv6",
-        "armv7",
-        "auto-focus-camera",
-        "bluetooth-le",
-        "front-facing-camera",
-        "gamekit",
-        "gyroscope",
-        "location-services",
-        "magnetometer",
-        "metal",
-        "microphone",
-        "opengles-1",
-        "opengles-2",
-        "opengles-3",
-        "peer-peer",
-        "still-camera",
-        "video-camera",
-        "wifi",
-        "arkit",
-        "camera-flash",
-        "gps",
-        "healthkit",
-        "sms",
-        "telephony"
-      ],
-      "formFactor": "PHONE",
-      "id": "iphone6s",
-      "name": "iPhone 6s",
-      "screenDensity": 326,
-      "screenX": 750,
-      "screenY": 1334,
-      "supportedVersionIds": [
-        "12.0"
-      ]
-    },
-    {
-      "deviceCapabilities": [
-        "accelerometer",
-        "arm64",
-        "armv6",
-        "armv7",
-        "auto-focus-camera",
-        "bluetooth-le",
-        "front-facing-camera",
-        "gamekit",
-        "gyroscope",
-        "location-services",
-        "magnetometer",
-        "metal",
-        "microphone",
-        "opengles-1",
-        "opengles-2",
-        "opengles-3",
-        "peer-peer",
-        "still-camera",
-        "video-camera",
-        "wifi",
-        "arkit",
-        "camera-flash",
-        "gps",
-        "healthkit",
-        "nfc",
-        "sms",
-        "telephony"
-      ],
-      "formFactor": "PHONE",
-      "id": "iphone7",
-      "name": "iPhone 7",
-      "screenDensity": 326,
-      "screenX": 750,
-      "screenY": 1334,
-      "supportedVersionIds": [
-        "12.3"
       ]
     },
     {
@@ -321,7 +243,8 @@
         "12.0",
         "12.4",
         "13.6",
-        "14.1"
+        "14.1",
+        "14.7"
       ],
       "tags": [
         "deprecated=14.1",
@@ -365,8 +288,7 @@
       "screenX": 1080,
       "screenY": 1920,
       "supportedVersionIds": [
-        "12.0",
-        "12.3"
+        "12.0"
       ]
     },
     {
@@ -447,8 +369,7 @@
       "screenX": 1242,
       "screenY": 2688,
       "supportedVersionIds": [
-        "12.1",
-        "12.3"
+        "12.1"
       ]
     }
   ],
@@ -3351,10 +3272,7 @@
       "minorVersion": 3,
       "supportedXcodeVersionIds": [
         "10.3",
-        "11.6",
         "11.7",
-        "12.1",
-        "12.3",
         "12.5"
       ]
     },
@@ -3364,10 +3282,7 @@
       "minorVersion": 2,
       "supportedXcodeVersionIds": [
         "10.3",
-        "11.6",
         "11.7",
-        "12.1",
-        "12.3",
         "12.5"
       ]
     },
@@ -3377,10 +3292,7 @@
       "minorVersion": 4,
       "supportedXcodeVersionIds": [
         "10.3",
-        "11.6",
         "11.7",
-        "12.1",
-        "12.3",
         "12.5"
       ]
     },
@@ -3389,10 +3301,7 @@
       "majorVersion": 12,
       "supportedXcodeVersionIds": [
         "10.3",
-        "11.6",
         "11.7",
-        "12.1",
-        "12.3",
         "12.5"
       ]
     },
@@ -3402,10 +3311,7 @@
       "minorVersion": 1,
       "supportedXcodeVersionIds": [
         "10.3",
-        "11.6",
         "11.7",
-        "12.1",
-        "12.3",
         "12.5"
       ]
     },
@@ -3415,10 +3321,7 @@
       "minorVersion": 2,
       "supportedXcodeVersionIds": [
         "10.3",
-        "11.6",
         "11.7",
-        "12.1",
-        "12.3",
         "12.5"
       ]
     },
@@ -3428,10 +3331,7 @@
       "minorVersion": 3,
       "supportedXcodeVersionIds": [
         "10.3",
-        "11.6",
         "11.7",
-        "12.1",
-        "12.3",
         "12.5"
       ]
     },
@@ -3440,10 +3340,8 @@
       "majorVersion": 12,
       "minorVersion": 4,
       "supportedXcodeVersionIds": [
-        "11.6",
+        "10.3",
         "11.7",
-        "12.1",
-        "12.3",
         "12.5"
       ]
     },
@@ -3452,10 +3350,7 @@
       "majorVersion": 13,
       "minorVersion": 2,
       "supportedXcodeVersionIds": [
-        "11.6",
         "11.7",
-        "12.1",
-        "12.3",
         "12.5"
       ]
     },
@@ -3464,10 +3359,7 @@
       "majorVersion": 13,
       "minorVersion": 3,
       "supportedXcodeVersionIds": [
-        "11.6",
         "11.7",
-        "12.1",
-        "12.3",
         "12.5"
       ]
     },
@@ -3476,10 +3368,7 @@
       "majorVersion": 13,
       "minorVersion": 6,
       "supportedXcodeVersionIds": [
-        "11.6",
         "11.7",
-        "12.1",
-        "12.3",
         "12.5"
       ]
     },
@@ -3488,8 +3377,14 @@
       "majorVersion": 14,
       "minorVersion": 1,
       "supportedXcodeVersionIds": [
-        "12.1",
-        "12.3",
+        "12.5"
+      ]
+    },
+    {
+      "id": "14.7",
+      "majorVersion": 14,
+      "minorVersion": 7,
+      "supportedXcodeVersionIds": [
         "12.5"
       ],
       "tags": [
@@ -3502,25 +3397,7 @@
       "version": "10.3"
     },
     {
-      "tags": [
-        "deprecated"
-      ],
-      "version": "11.6"
-    },
-    {
       "version": "11.7"
-    },
-    {
-      "tags": [
-        "deprecated"
-      ],
-      "version": "12.1"
-    },
-    {
-      "tags": [
-        "deprecated"
-      ],
-      "version": "12.3"
     },
     {
       "tags": [
