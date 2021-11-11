@@ -17,7 +17,7 @@ object AndroidCatalog {
     private val modelMap: MutableMap<String, List<String>> = mutableMapOf()
     private val versionMap: MutableMap<String, List<String>> = mutableMapOf()
 
-    private fun deviceCatalog(projectId: String) = catalogMap.getOrPut(projectId) {
+    private fun androidDeviceCatalog(projectId: String) = catalogMap.getOrPut(projectId) {
         GcTesting.get.testEnvironmentCatalog()
             .get("android")
             .setProjectId(projectId)
@@ -29,18 +29,18 @@ object AndroidCatalog {
     private fun AndroidDeviceCatalog.filterDevicesWithoutSupportedVersions() =
         setModels(models.filterNotNull().filter { it.supportedVersionIds?.isNotEmpty() ?: false })
 
-    fun getModels(projectId: String): List<AndroidModel> = deviceCatalog(projectId).models.orEmpty()
+    fun getModels(projectId: String): List<AndroidModel> = androidDeviceCatalog(projectId).models.orEmpty()
 
     fun supportedOrientations(projectId: String): List<Orientation> =
-        deviceCatalog(projectId).runtimeConfiguration.orientations
+        androidDeviceCatalog(projectId).runtimeConfiguration.orientations
 
-    internal fun getLocales(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.locales
+    internal fun getLocales(projectId: String) = androidDeviceCatalog(projectId).runtimeConfiguration.locales
 
     fun androidModelIds(projectId: String) =
-        modelMap.getOrPut(projectId) { deviceCatalog(projectId).models.map { it.id } }
+        modelMap.getOrPut(projectId) { androidDeviceCatalog(projectId).models.map { it.id } }
 
     fun androidVersionIds(projectId: String) =
-        versionMap.getOrPut(projectId) { deviceCatalog(projectId).versions.map { it.id } }
+        versionMap.getOrPut(projectId) { androidDeviceCatalog(projectId).versions.map { it.id } }
 
     fun isVirtualDevice(device: AndroidDevice?, projectId: String): Boolean = device
         ?.androidModelId
@@ -48,7 +48,12 @@ object AndroidCatalog {
         ?: false
 
     fun isVirtualDevice(modelId: String, projectId: String): Boolean {
-        val form = deviceCatalog(projectId).models
+        // iOS catalog raises errors due to FTL backend blocking access from non-white listed project ids
+        // work around this by manually looking for iphone/ipad in the model id.
+        val isIos = listOf("ipad", "iphone").any { modelId.contains(it, ignoreCase = true) }
+        if (isIos) return false
+
+        val form = androidDeviceCatalog(projectId).models
             .find { it.id.equals(modelId, ignoreCase = true) }?.form
             ?: DeviceType.PHYSICAL.name.also {
                 ReportManagerState.Log(
