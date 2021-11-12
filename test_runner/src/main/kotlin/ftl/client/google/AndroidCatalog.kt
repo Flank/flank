@@ -48,9 +48,7 @@ object AndroidCatalog {
         ?: false
 
     fun isVirtualDevice(modelId: String, projectId: String): Boolean {
-        // iOS catalog raises errors due to FTL backend blocking access from non-white listed project ids
-        // work around this by manually looking for iphone/ipad in the model id.
-        val isIos = listOf("ipad", "iphone").any { modelId.contains(it, ignoreCase = true) }
+        val isIos = IosCatalog.getModels(projectId).any { it.id.equals(modelId, ignoreCase = true) }
         if (isIos) return false
 
         val form = androidDeviceCatalog(projectId).models
