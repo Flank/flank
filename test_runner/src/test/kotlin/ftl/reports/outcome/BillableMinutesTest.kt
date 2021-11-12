@@ -7,6 +7,7 @@ import ftl.client.google.DeviceType
 import ftl.client.google.GcTesting
 import ftl.client.google.calculateAndroidBillableMinutes
 import ftl.http.executeWithRetry
+import ftl.test.util.FlankTestRunner
 import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
@@ -16,7 +17,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
+import org.junit.runner.RunWith
 
+@RunWith(FlankTestRunner::class)
 class BillableMinutesTest {
 
     @get:Rule
