@@ -1,3 +1,11 @@
+## v21.11.0
+### Bug Fixes
+- [#2182](https://github.com/Flank/flank/pull/2182) Detect iOS devices as physical ()
+### Documentation
+- [#2177](https://github.com/Flank/flank/pull/2177) Use correct proxy property names. ()
+### Features
+- [#2176](https://github.com/Flank/flank/pull/2176) Support HTTP proxies with credentials. ()
+
 ## v21.09.0
 ### Features
 - [#2158](https://github.com/Flank/flank/pull/2158) Adapt new iOS xml structure ([piotradamczyk5](https://github.com/piotradamczyk5))
