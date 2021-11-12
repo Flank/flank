@@ -1,10 +1,8 @@
 ## v21.11.0
 ### Bug Fixes
-- [#2182](https://github.com/Flank/flank/pull/2182) Detect iOS devices as physical ()
-### Documentation
-- [#2177](https://github.com/Flank/flank/pull/2177) Use correct proxy property names. ()
+- [#2182](https://github.com/Flank/flank/pull/2182) Detect iOS devices as physical ([bootstraponline](https://github.com/bootstraponline))
 ### Features
-- [#2176](https://github.com/Flank/flank/pull/2176) Support HTTP proxies with credentials. ()
+- [#2176](https://github.com/Flank/flank/pull/2176) Support HTTP proxies with credentials. ([jdm-square](https://github.com/jdm-square))
 
 ## v21.09.0
 ### Features
