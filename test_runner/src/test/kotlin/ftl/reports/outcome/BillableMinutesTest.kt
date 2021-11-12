@@ -2,12 +2,12 @@ package ftl.reports.outcome
 
 import com.google.api.services.toolresults.model.Step
 import com.google.testing.model.AndroidModel
+import com.google.testing.model.IosModel
 import ftl.client.google.BillableMinutes
 import ftl.client.google.DeviceType
 import ftl.client.google.GcTesting
 import ftl.client.google.calculateAndroidBillableMinutes
 import ftl.http.executeWithRetry
-import ftl.test.util.FlankTestRunner
 import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
@@ -17,9 +17,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
-import org.junit.runner.RunWith
 
-@RunWith(FlankTestRunner::class)
 class BillableMinutesTest {
 
     @get:Rule
@@ -32,6 +30,11 @@ class BillableMinutesTest {
         make { id = "sailfish"; form = DeviceType.PHYSICAL.name; supportedVersionIds = listOf("26", "27", "28", "29") },
         make { id = "noVersions"; form = DeviceType.PHYSICAL.name; supportedVersionIds = emptyList<String>() },
         make { id = "nullVersions"; form = DeviceType.PHYSICAL.name; supportedVersionIds = null }
+    )
+
+    private val iosModels = listOf<IosModel>(
+        make { id = "iphone11"; supportedVersionIds = listOf("13.3", "13.6") },
+        make { id = "ipad5"; supportedVersionIds = listOf("14.1") }
     )
 
     @Before
@@ -47,6 +50,7 @@ class BillableMinutesTest {
                 .executeWithRetry()
         } returns make {
             androidDeviceCatalog = make { models = androidModels }
+            iosDeviceCatalog = make { models = iosModels }
         }
     }
 
