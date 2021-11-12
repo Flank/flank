@@ -1,6 +1,7 @@
 gcloud:
   app: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app_many_tests-debug.apk
   test: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app_many_tests-debug-androidTest.apk
+  use-orchestrator: false
 
 flank:
   disable-sharding: true
