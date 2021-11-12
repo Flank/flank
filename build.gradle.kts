@@ -1,4 +1,3 @@
-
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 import org.jmailen.gradle.kotlinter.tasks.LintTask
@@ -86,10 +85,16 @@ val resolveArtifacts by tasks.registering {
             "flankScripts.bat" else "flankScripts"
         val flankScriptsPath = Paths.get("flank-scripts", "bash", flankScriptsRunnerName).toString()
         val rootFlankScriptsPath = rootDir.resolve(flankScriptsPath).absolutePath
-        println(rootFlankScriptsPath)
-        exec {
-            commandLine(rootFlankScriptsPath, "testArtifacts", "-p", rootDir.absolutePath, "resolve")
-            workingDir = rootDir
+        try {
+            exec {
+                val cmd = listOf(rootFlankScriptsPath, "testArtifacts", "-p", rootDir.absolutePath, "resolve")
+                println(cmd.joinToString(" "))
+                commandLine(cmd)
+                workingDir = rootDir
+            }
+        } catch (e: Exception) {
+            // avoid breaking all gradle builds if github has rate limited us by not throwing the exception
+            e.printStackTrace()
         }
     }
 }

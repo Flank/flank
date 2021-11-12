@@ -2,6 +2,7 @@ package ftl.reports.outcome
 
 import com.google.api.services.toolresults.model.Step
 import com.google.testing.model.AndroidModel
+import com.google.testing.model.IosModel
 import ftl.client.google.BillableMinutes
 import ftl.client.google.DeviceType
 import ftl.client.google.GcTesting
@@ -31,6 +32,11 @@ class BillableMinutesTest {
         make { id = "nullVersions"; form = DeviceType.PHYSICAL.name; supportedVersionIds = null }
     )
 
+    private val iosModels = listOf<IosModel>(
+        make { id = "iphone11"; supportedVersionIds = listOf("13.3", "13.6") },
+        make { id = "ipad5"; supportedVersionIds = listOf("14.1") }
+    )
+
     @Before
     fun setUp() {
         output.clearLog()
@@ -44,6 +50,7 @@ class BillableMinutesTest {
                 .executeWithRetry()
         } returns make {
             androidDeviceCatalog = make { models = androidModels }
+            iosDeviceCatalog = make { models = iosModels }
         }
     }
 
