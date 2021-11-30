@@ -2,12 +2,14 @@ package ftl.args
 
 import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.TestSpecification
+import flank.tool.analytics.mixpanel.Mixpanel
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.IArgs.Companion.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE
 import ftl.args.yml.AppTestPair
 import ftl.args.yml.Type
 import ftl.client.google.GcStorage
 import ftl.client.google.GcStorage.exist
+import ftl.client.google.getAndroidAppDetails
 import ftl.client.google.run.android.setupAndroidTest
 import ftl.config.Device
 import ftl.config.FtlConstants.defaultAndroidModel
@@ -31,17 +33,12 @@ import ftl.test.util.TestHelper.getPath
 import ftl.test.util.TestHelper.getThrowable
 import ftl.test.util.assertThrowsWithMessage
 import ftl.util.asFileReference
-import io.mockk.every
-import io.mockk.mockkObject
-import io.mockk.mockkStatic
-import io.mockk.unmockkAll
+import ftl.util.getMockedTestMatrix
+import ftl.util.mockTestMatrices
+import io.mockk.*
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertTrue
-import org.junit.Assert.fail
+import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
@@ -50,7 +47,7 @@ import picocli.CommandLine
 import java.io.StringReader
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.UUID
+import java.util.*
 
 @Suppress("TooManyFunctions")
 @RunWith(FlankTestRunner::class)
@@ -62,6 +59,7 @@ class AndroidArgsTest {
 
     private val empty = emptyList<String>()
     private val appApk = "../test_projects/android/apks/app-debug.apk"
+    private val appAab = "../test_projects/android/bundle/app-debug.aab"
     private val invalidApk = "../test_projects/android/apks/invalid.apk"
     private val nonExistingApk = "../test_projects/android/apks/app-debug_non_existing.apk"
     private val testApk = "../test_projects/android/apks/app-debug-androidTest.apk"
@@ -1715,6 +1713,34 @@ AndroidArgs
             .forEach {
                 assertTrue(it !in expectedTests)
             }
+    }
+
+    @Test
+    fun `should send no package name to mixpanel for aab format`() {
+        val yaml = """
+        gcloud:
+          app: $appAab
+          test: $testApk
+        """.trimIndent()
+
+        val parsedYml = AndroidArgs.load(yaml).validate()
+
+        mockTestMatrices(
+            getMockedTestMatrix().apply { state = "RUNNING" },
+            getMockedTestMatrix().apply { state = "RUNNING" },
+            getMockedTestMatrix()
+        )
+
+        mockkStatic("ftl.client.google.AppDetailsKt")
+        every {
+            getAndroidAppDetails(any())
+        } returns "com.example.test_app"
+
+        mockkObject(Mixpanel)
+
+        runBlocking { parsedYml.runAndroidTests() }
+
+        verify(exactly = 0) { Mixpanel.add(any<String>(), any()) }
     }
 
     @Test

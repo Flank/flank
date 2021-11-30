@@ -13,18 +13,8 @@ import ftl.args.shardsFilePath
 import ftl.client.google.getAndroidAppDetails
 import ftl.config.FtlConstants
 import ftl.run.exception.FlankGeneralError
-import ftl.run.model.AndroidMatrixTestShards
-import ftl.run.model.AndroidTestContext
-import ftl.run.model.GameLoopContext
-import ftl.run.model.InstrumentationTestContext
-import ftl.run.model.RoboTestContext
-import ftl.run.model.SanityRoboTestContext
-import ftl.run.model.TestResult
-import ftl.run.platform.android.asMatrixTestShards
-import ftl.run.platform.android.createAndroidTestConfig
-import ftl.run.platform.android.createAndroidTestContexts
-import ftl.run.platform.android.createAndroidTestMatrixType
-import ftl.run.platform.android.upload
+import ftl.run.model.*
+import ftl.run.platform.android.*
 import ftl.run.platform.common.afterRunTests
 import ftl.run.platform.common.beforeRunMessage
 import ftl.run.platform.common.beforeRunTests
@@ -50,7 +40,10 @@ internal suspend fun AndroidArgs.runAndroidTests(): TestResult = coroutineScope 
                 ignoredTestsShardChunks += context.ignoredTestCases
                 allTestShardChunks += context.shards
             }
-            context.reportPackageName()
+
+            if (args.appApk?.endsWith(".aab") != true) {
+                context.reportPackageName()
+            }
         }
         .map { createTestSetup(it) }
         .run { executeTestMatrixAndroid(this) }

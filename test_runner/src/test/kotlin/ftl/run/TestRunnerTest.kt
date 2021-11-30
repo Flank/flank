@@ -15,6 +15,8 @@ import ftl.client.google.getAndroidAppDetails
 import ftl.http.executeWithRetry
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.LocalGcs
+import ftl.util.getMockedTestMatrix
+import ftl.util.mockTestMatrices
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
@@ -155,10 +157,7 @@ class TestRunnerTest {
     @Test
     fun `flank should stop updating web link if matrix has invalid state`() {
         val localConfig = AndroidArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.local.yml"))
-        mockkStatic("ftl.http.ExecuteWithRetryKt")
-        every {
-            any<Testing.Projects.TestMatrices.Get>().executeWithRetry()
-        } returnsMany listOf(
+        mockTestMatrices(
             getMockedTestMatrix().apply { state = "RUNNING" },
             getMockedTestMatrix().apply { state = "RUNNING" },
             getMockedTestMatrix()
@@ -181,17 +180,4 @@ class TestRunnerTest {
         verify(exactly = 3) { any<Testing.Projects.TestMatrices.Get>().executeWithRetry() }
     }
 
-    private fun getMockedTestMatrix() = TestMatrix().apply {
-        state = "INVALID"
-        testMatrixId = "matrix-12345"
-        testExecutions = listOf(
-            TestExecution().apply {
-                resultStorage = ResultStorage().apply {
-                    googleCloudStorage = GoogleCloudStorage().apply {
-                        gcsPath = "any/Path"
-                    }
-                }
-            }
-        )
-    }
 }
