@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/getsentry/sentry-java/releases
-    const val SENTRY = "5.4.1"
+    const val SENTRY = "5.4.2"
 
     // https://github.com/mixpanel/mixpanel-java/releases
     const val MIXPANEL = "1.5.0"
@@ -64,7 +64,7 @@ object Versions {
     const val JSOUP = "1.13.1"
 
     // https://github.com/ktorio/ktor/releases
-    const val KTOR = "1.6.5"
+    const val KTOR = "1.6.6"
 
     // https://github.com/qos-ch/logback/releases
     const val LOGBACK = "1.2.7"
