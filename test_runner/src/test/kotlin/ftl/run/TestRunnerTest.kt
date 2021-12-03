@@ -2,10 +2,6 @@ package ftl.run
 
 import com.google.common.truth.Truth.assertThat
 import com.google.testing.Testing
-import com.google.testing.model.GoogleCloudStorage
-import com.google.testing.model.ResultStorage
-import com.google.testing.model.TestExecution
-import com.google.testing.model.TestMatrix
 import flank.common.isWindows
 import ftl.adapter.google.getFilePathToDownload
 import ftl.api.Artifacts.DownloadPath
@@ -179,5 +175,4 @@ class TestRunnerTest {
         assertFalse(output.contains(matrixLink))
         verify(exactly = 3) { any<Testing.Projects.TestMatrices.Get>().executeWithRetry() }
     }
-
 }

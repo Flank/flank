@@ -35,10 +35,18 @@ import ftl.test.util.assertThrowsWithMessage
 import ftl.util.asFileReference
 import ftl.util.getMockedTestMatrix
 import ftl.util.mockTestMatrices
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockkObject
+import io.mockk.mockkStatic
+import io.mockk.unmockkAll
+import io.mockk.verify
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
@@ -47,7 +55,7 @@ import picocli.CommandLine
 import java.io.StringReader
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.*
+import java.util.UUID
 
 @Suppress("TooManyFunctions")
 @RunWith(FlankTestRunner::class)
