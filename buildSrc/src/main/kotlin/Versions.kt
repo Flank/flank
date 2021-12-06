@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/getsentry/sentry-java/releases
-    const val SENTRY = "5.4.2"
+    const val SENTRY = "5.4.3"
 
     // https://github.com/mixpanel/mixpanel-java/releases
     const val MIXPANEL = "1.5.0"
@@ -81,7 +81,7 @@ object Versions {
     // https://github.com/FasterXML/woodstox/releases
     const val WOODSTOX = "6.2.4"
 
-    const val KOTLIN_LOGGING = "2.1.0"
+    const val KOTLIN_LOGGING = "2.1.10"
 
     // https://github.com/mockk/mockk
     const val MOCKK = "1.12.1"
@@ -104,7 +104,7 @@ object Versions {
     const val PROGUARD = "7.1.1"
 
     // https://mvnrepository.com/artifact/org.json/json
-    const val JSON = "20210307"
+    const val JSON = "20211205"
 
     // ============== flank-scripts ==============
     const val KOTLIN_SERIALIZATION = "1.3.1"
