@@ -46,10 +46,10 @@ object Versions {
     const val GOOGLE_AUTH = "1.3.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.123.16"
+    const val GOOGLE_NIO = "0.123.17"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "2.2.1"
+    const val GOOGLE_STORAGE = "2.2.2"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.8.9"
@@ -64,7 +64,7 @@ object Versions {
     const val JSOUP = "1.13.1"
 
     // https://github.com/ktorio/ktor/releases
-    const val KTOR = "1.6.6"
+    const val KTOR = "1.6.7"
 
     // https://github.com/qos-ch/logback/releases
     const val LOGBACK = "1.2.7"
@@ -81,7 +81,7 @@ object Versions {
     // https://github.com/FasterXML/woodstox/releases
     const val WOODSTOX = "6.2.4"
 
-    const val KOTLIN_LOGGING = "2.1.10"
+    const val KOTLIN_LOGGING = "2.1.16"
 
     // https://github.com/mockk/mockk
     const val MOCKK = "1.12.1"
