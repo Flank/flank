@@ -9,7 +9,6 @@ import ftl.args.yml.AppTestPair
 import ftl.args.yml.Type
 import ftl.client.google.GcStorage
 import ftl.client.google.GcStorage.exist
-import ftl.client.google.getAndroidAppDetails
 import ftl.client.google.run.android.setupAndroidTest
 import ftl.config.Device
 import ftl.config.FtlConstants.defaultAndroidModel
@@ -1739,16 +1738,11 @@ AndroidArgs
             getMockedTestMatrix()
         )
 
-        mockkStatic("ftl.client.google.AppDetailsKt")
-        every {
-            getAndroidAppDetails(any())
-        } returns "com.example.test_app"
-
         mockkObject(Mixpanel)
 
         runBlocking { parsedYml.runAndroidTests() }
 
-        verify(exactly = 0) { Mixpanel.add(any<String>(), any()) }
+        verify { Mixpanel.add(Mixpanel.APP_ID, "") }
     }
 
     @Test
