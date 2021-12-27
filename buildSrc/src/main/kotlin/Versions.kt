@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/getsentry/sentry-java/releases
-    const val SENTRY = "5.4.3"
+    const val SENTRY = "5.5.2"
 
     // https://github.com/mixpanel/mixpanel-java/releases
     const val MIXPANEL = "1.5.0"
@@ -9,7 +9,7 @@ object Versions {
     const val DD_PLIST = "1.23"
 
     // https://github.com/jeremymailen/kotlinter-gradle
-    const val KTLINT_GRADLE = "3.7.0"
+    const val KTLINT_GRADLE = "3.8.0"
 
     const val KTLINT = "0.40.0"
 
@@ -17,7 +17,7 @@ object Versions {
     const val NEXUS_STAGING = "0.30.0"
 
     // https://github.com/johnrengelman/shadow/releases
-    const val SHADOW = "7.1.0"
+    const val SHADOW = "7.1.1"
 
     // https://github.com/linkedin/dex-test-parser/releases
     const val DEX_TEST_PARSER = "2.3.3"
@@ -29,7 +29,7 @@ object Versions {
     const val KOTLIN = "1.6.0"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    const val KOTLIN_COROUTINES = "1.5.2"
+    const val KOTLIN_COROUTINES = "1.6.0"
 
     // https://github.com/remkop/picocli/releases
     const val PICOCLI = "4.6.2"
@@ -56,7 +56,7 @@ object Versions {
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
-    const val JACKSON = "2.13.0"
+    const val JACKSON = "2.13.1"
 
     const val JUNIT = "4.13.2"
 
@@ -67,7 +67,7 @@ object Versions {
     const val KTOR = "1.6.7"
 
     // https://github.com/qos-ch/logback/releases
-    const val LOGBACK = "1.2.7"
+    const val LOGBACK = "1.2.10"
 
     // https://github.com/square/okhttp/releases
     const val OKHTTP = "4.9.1"
@@ -81,7 +81,7 @@ object Versions {
     // https://github.com/FasterXML/woodstox/releases
     const val WOODSTOX = "6.2.4"
 
-    const val KOTLIN_LOGGING = "2.1.16"
+    const val KOTLIN_LOGGING = "2.1.21"
 
     // https://github.com/mockk/mockk
     const val MOCKK = "1.12.1"
@@ -107,7 +107,7 @@ object Versions {
     const val JSON = "20211205"
 
     // ============== flank-scripts ==============
-    const val KOTLIN_SERIALIZATION = "1.3.1"
+    const val KOTLIN_SERIALIZATION = "1.3.2"
     const val ARCHIVE_LIB = "1.2.0"
     const val TUKAANI_XZ = "1.9"
     const val FUEL = "2.3.1"
