@@ -5,7 +5,17 @@ lint:
   linters:
     - name: detekt
       run_linter_from: workspace
-      command: [detekt-cli, --build-upon-default-config, --config, .detekt.yaml, --input, "${target}", --report, "sarif:${tmpfile}"]
+      command:
+        [
+          detekt-cli,
+          --build-upon-default-config,
+          --config,
+          .detekt.yaml,
+          --input,
+          "${target}",
+          --report,
+          "sarif:${tmpfile}",
+        ]
       cache_results: true
 
     - name: ktlint
@@ -37,8 +47,8 @@ lint:
         - "**/*Generated.kt"
         - "**/gradlew"
         # third party
-        - firebase_apis/test_api/
+        - firebase_apis/test_api/ # see update_firebase_api GH action
+        - test_projects/android/cucumber_sample_app/ # https://github.com/cucumber/cucumber-android
     - linters: [ktlint]
       paths:
         - test_runner/src/test/kotlin/ftl/
-
