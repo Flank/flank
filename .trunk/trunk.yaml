@@ -5,7 +5,7 @@ lint:
   linters:
     - name: detekt
       run_linter_from: workspace
-      command: [detekt-cli, --build-upon-default-config, --config, .detekt.yml, --input, "${target}", --report, "sarif:${tmpfile}"]
+      command: [detekt-cli, --build-upon-default-config, --config, .detekt.yaml, --input, "${target}", --report, "sarif:${tmpfile}"]
       cache_results: true
 
     - name: ktlint
