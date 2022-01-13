@@ -1,0 +1,54 @@
+root: true
+
+env:
+  browser: true
+  commonjs: true
+  es2021: true
+
+extends:
+  # Order matters, later configs purposefully override settings from earlier configs
+  - eslint:recommended
+  - plugin:@typescript-eslint/recommended
+  - plugin:import/recommended
+  - plugin:import/typescript
+  - prettier # this actually turns OFF all prettier rules running via eslint
+
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: 12
+  sourceType: module
+
+plugins:
+  - simple-import-sort
+
+rules:
+  "@typescript-eslint/lines-between-class-members": [error, always, { exceptAfterSingleLine: true }]
+  "@typescript-eslint/no-shadow": error
+  "@typescript-eslint/no-unused-vars": [error, { argsIgnorePattern: ^_ }]
+  "@typescript-eslint/no-use-before-define": [error]
+  import/no-unresolved: off
+  import/prefer-default-export: off
+  import/no-extraneous-dependencies:
+    [
+      "error",
+      { "devDependencies": ["**/*.test.ts", "**/*.test.tsx", "trunk/vscode/docker_tests/**"] },
+    ]
+  jsx-a11y/label-has-associated-control: [error, { required: { some: [nesting, id] } }] # reduce requirements on <label> to be "one of" not "all" for layout
+  lines-between-class-members: off
+  no-param-reassign: ["error", { props: false }]
+  no-restricted-syntax: off
+  no-shadow: off # we use @typescript-eslint/no-shadow instead
+  no-unused-expressions: off
+  no-unused-vars: off # we use @typescript-eslint/no-unused-vars instead
+  no-use-before-define: off # we use @typescript-eslint/no-use-before-define instead
+  simple-import-sort/exports: error
+  simple-import-sort/imports: error
+  "import/extensions":
+    ["error", "ignorePackages", { "js": "never", "jsx": "never", "ts": "never", "tsx": "never" }]
+
+settings:
+  import/resolver:
+    # use <root>/tsconfig.json
+    typescript:
+      alwaysTryTypes: true
