@@ -32,9 +32,12 @@ lint:
         # test data
         - test_runner/src/main/resources/inline.html
         # generated
+        - LICENSE
         - docs/ascii/
         - "**/*Generated.kt"
         - "**/gradlew"
+        # third party
+        - firebase_apis/test_api/
     - linters: [ktlint]
       paths:
         - test_runner/src/test/kotlin/ftl/
