@@ -1,0 +1,39 @@
+version: 0.1
+cli:
+  version: 0.5.0-beta
+lint:
+  linters:
+    - name: detekt
+      run_linter_from: workspace
+      command: [detekt-cli, --build-upon-default-config, --config, .detekt.yml, --input, "${target}", --report, "sarif:${tmpfile}"]
+      cache_results: true
+
+    - name: ktlint
+      environment:
+        - name: PATH
+          list: ["${linter}"]
+        - name: LANG
+          value: C.UTF-8
+  enabled:
+    - actionlint@1.6.4
+    - detekt@1.19.0
+    - gitleaks@7.6.1
+    - gofmt@1.16.7
+    - golangci-lint@1.42.1
+    - ktlint@0.43.2
+    - markdownlint@0.29.0
+    - prettier@2.4.1
+    - shellcheck@0.7.2
+    - shfmt@3.4.0
+  ignore:
+    - linters: [ALL]
+      paths:
+        # test data
+        - test_runner/src/main/resources/inline.html
+        # generated
+        - docs/ascii/
+        - "**/*Generated.kt"
+    - linters: [ktlint]
+      paths:
+        - test_runner/src/test/kotlin/ftl/
+

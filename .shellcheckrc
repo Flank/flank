@@ -1,0 +1,6 @@
+# Following source doesn't work in most setups
+disable=SC1090
+disable=SC1091
+
+# We generally prefer backticks to $() for command substitution (111 instances)
+disable=SC2006
