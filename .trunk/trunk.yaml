@@ -13,7 +13,8 @@ lint:
         - name: PATH
           list: ["${linter}"]
         - name: LANG
-          value: C.UTF-8
+          value: en_US.UTF-8
+
   enabled:
     - actionlint@1.6.4
     - detekt@1.19.0
