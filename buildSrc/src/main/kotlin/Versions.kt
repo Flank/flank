@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/getsentry/sentry-java/releases
-    const val SENTRY = "5.5.2"
+    const val SENTRY = "5.5.3"
 
     // https://github.com/mixpanel/mixpanel-java/releases
     const val MIXPANEL = "1.5.0"
@@ -38,12 +38,12 @@ object Versions {
     const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20210809-1.32.1"
 
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
-    const val GOOGLE_API = "1.33.0"
+    const val GOOGLE_API = "1.33.1"
 
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
     // https://github.com/googleapis/google-oauth-java-client/issues/251#issuecomment-504565533
-    const val GOOGLE_AUTH = "1.3.0"
+    const val GOOGLE_AUTH = "1.4.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
     const val GOOGLE_NIO = "0.123.18"
