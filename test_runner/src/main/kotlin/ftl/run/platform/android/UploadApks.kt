@@ -37,7 +37,7 @@ private fun InstrumentationTestContext.upload(rootGcsBucket: String, runGcsPath:
 
 private fun RoboTestContext.upload(rootGcsBucket: String, runGcsPath: String) = copy(
     app = app.uploadIfNeeded(rootGcsBucket, runGcsPath),
-    roboScript = roboScript.uploadIfNeeded(rootGcsBucket, runGcsPath)
+    roboScript = roboScript?.uploadIfNeeded(rootGcsBucket, runGcsPath)
 )
 
 private fun GameLoopContext.upload(rootGcsBucket: String, runGcsPath: String) = copy(

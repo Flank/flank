@@ -6,6 +6,7 @@ import ftl.args.yml.Type
 import ftl.run.exception.FlankGeneralError
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.SanityRoboTestContext
+import ftl.test.util.FlankTestRunner
 import ftl.util.asFileReference
 import io.mockk.every
 import io.mockk.mockk
@@ -13,7 +14,9 @@ import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Assert.assertArrayEquals
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(FlankTestRunner::class)
 class ResolveApksKtTest {
 
     @After
@@ -89,6 +92,7 @@ class ResolveApksKtTest {
             every { additionalAppTestApks } returns emptyList()
             every { roboScript } returns null
             every { type } returns Type.ROBO
+            every { roboDirectives } returns emptyList()
         }
         assertArrayEquals(
             arrayOf(SanityRoboTestContext("app".asFileReference(), androidArgs)),
