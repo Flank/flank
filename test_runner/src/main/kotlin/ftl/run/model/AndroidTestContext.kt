@@ -20,7 +20,7 @@ data class InstrumentationTestContext(
 
 data class RoboTestContext(
     val app: FileReference,
-    val roboScript: FileReference,
+    val roboScript: FileReference?,
     override val args: AndroidArgs
 ) : AndroidTestContext(args)
 

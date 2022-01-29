@@ -32,6 +32,11 @@ private fun AndroidArgs.mainApkContext() = appApk?.let { appApk ->
             roboScript = roboScript.asFileReference(),
             this
         )
+        roboDirectives.isNotEmpty() -> RoboTestContext(
+            app = appApk.asFileReference(),
+            roboScript = null,
+            this
+        )
         isSanityRobo -> SanityRoboTestContext(app = appApk.asFileReference(), this)
         isGameLoop -> GameLoopContext(appApk.asFileReference(), scenarioLabels, scenarioNumbers, this)
         else -> null

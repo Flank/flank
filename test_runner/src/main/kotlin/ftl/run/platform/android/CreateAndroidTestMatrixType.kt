@@ -48,7 +48,7 @@ internal fun AndroidArgs.createRoboConfig(
 ) = TestMatrixAndroid.Type.Robo(
     appApkGcsPath = testApk.app.remote,
     flankRoboDirectives = roboDirectives,
-    roboScriptGcsPath = testApk.roboScript.remote
+    roboScriptGcsPath = testApk.roboScript?.remote
 )
 
 internal fun createSanityRoboConfig(
