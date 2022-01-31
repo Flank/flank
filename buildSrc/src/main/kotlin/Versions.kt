@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/getsentry/sentry-java/releases
-    const val SENTRY = "5.5.3"
+    const val SENTRY = "5.6.0"
 
     // https://github.com/mixpanel/mixpanel-java/releases
     const val MIXPANEL = "1.5.0"
@@ -101,7 +101,7 @@ object Versions {
     const val BEN_MANES = "0.41.0"
 
     // https://github.com/Guardsquare/proguard
-    const val PROGUARD = "7.1.1"
+    const val PROGUARD = "7.2.0"
 
     // https://mvnrepository.com/artifact/org.json/json
     const val JSON = "20211205"
@@ -113,6 +113,6 @@ object Versions {
     const val FUEL = "2.3.1"
     const val CLIKT = "2.8.0"
     const val JCABI_GITHUB = "1.1.2"
-    const val SLF4J_NOP = "1.7.33"
+    const val SLF4J_NOP = "1.7.35"
     const val GLASSFISH_JSON = "1.1.4"
 }
