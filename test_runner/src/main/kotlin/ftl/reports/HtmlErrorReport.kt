@@ -78,5 +78,5 @@ private fun JUnitTest.Case.stackTrace(): String {
 private fun List<HtmlErrorReport.Group>.createHtmlReport(): String =
     readTextResource("inline.html").replace(
         oldValue = "\"INJECT-DATA-HERE\"",
-        newValue = "`${Gson().toJson(this)}`"
+        newValue = "`${Gson().toJson(this).toString().replace("\"", "\\\"")}`"
     )
