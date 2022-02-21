@@ -32,13 +32,13 @@ object Versions {
     const val KOTLIN_COROUTINES = "1.6.0"
 
     // https://github.com/remkop/picocli/releases
-    const val PICOCLI = "4.6.2"
+    const val PICOCLI = "4.6.3"
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
     const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20210809-1.32.1"
 
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
-    const val GOOGLE_API = "1.33.1"
+    const val GOOGLE_API = "1.33.2"
 
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
@@ -46,13 +46,13 @@ object Versions {
     const val GOOGLE_AUTH = "1.4.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.123.19"
+    const val GOOGLE_NIO = "0.123.20"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "2.4.0"
+    const val GOOGLE_STORAGE = "2.4.2"
 
     // https://github.com/google/gson/releases
-    const val GSON = "2.8.9"
+    const val GSON = "2.9.0"
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
@@ -113,6 +113,6 @@ object Versions {
     const val FUEL = "2.3.1"
     const val CLIKT = "2.8.0"
     const val JCABI_GITHUB = "1.1.2"
-    const val SLF4J_NOP = "1.7.35"
+    const val SLF4J_NOP = "1.7.36"
     const val GLASSFISH_JSON = "1.1.4"
 }
