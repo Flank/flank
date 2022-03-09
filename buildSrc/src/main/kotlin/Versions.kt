@@ -20,7 +20,7 @@ object Versions {
     const val SHADOW = "7.1.2"
 
     // https://github.com/linkedin/dex-test-parser/releases
-    const val DEX_TEST_PARSER = "2.3.3"
+    const val DEX_TEST_PARSER = "2.3.4"
 
     // https://github.com/hsiafan/apk-parser
     const val APK_PARSER = "2.6.10"
