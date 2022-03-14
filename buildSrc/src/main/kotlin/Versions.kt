@@ -56,7 +56,7 @@ object Versions {
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
-    const val JACKSON = "2.13.2"
+    const val JACKSON = "2.13.1"
 
     const val JUNIT = "4.13.2"
 
