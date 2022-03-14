@@ -13,9 +13,9 @@ class CheckVersionUpdated : Plugin<Project> {
 
         project.tasks.register(taskName, CheckVersionUpdatedTask::class.java)
 
-        project.afterEvaluate {
-            project.tasks["lintKotlin"].dependsOn(taskName)
-        }
+        // project.afterEvaluate {
+        //     project.tasks["lintKotlin"].dependsOn(taskName)
+        // }
     }
 
     private fun Project.execAndGetStdout(vararg args: String): String {

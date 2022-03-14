@@ -1,6 +1,6 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
-import org.jmailen.gradle.kotlinter.tasks.LintTask
+// import org.jmailen.gradle.kotlinter.tasks.LintTask
 import java.nio.file.Paths
 
 // Fix Exception in thread "main" java.lang.NoSuchMethodError: com.google.common.hash.Hashing.crc32c()Lcom/google/common/hash/HashFunction;
@@ -15,7 +15,7 @@ configurations.all {
 
 plugins {
     kotlin(Plugins.Kotlin.PLUGIN_JVM) version Versions.KOTLIN
-    id(Plugins.KTLINT_GRADLE_PLUGIN) version Versions.KTLINT_GRADLE
+    // id(Plugins.KTLINT_GRADLE_PLUGIN) version Versions.KTLINT_GRADLE
     id(Plugins.BEN_MANES_PLUGIN) version Versions.BEN_MANES
     id(Plugins.NEXUS_STAGING) version Versions.NEXUS_STAGING
 }
@@ -26,16 +26,16 @@ nexusStaging {
     packageGroup = "com.github.flank"
 }
 
-tasks {
-    "lintKotlinMain"(LintTask::class) {
-        exclude(
-            "**/*Generated.kt" // we can expand this list
-        )
-    }
-}
+// tasks {
+//     "lintKotlinMain"(LintTask::class) {
+//         exclude(
+//             "**/*Generated.kt" // we can expand this list
+//         )
+//     }
+// }
 
 subprojects {
-    apply(plugin = Plugins.KTLINT_GRADLE_PLUGIN)
+    // apply(plugin = Plugins.KTLINT_GRADLE_PLUGIN)
     afterEvaluate {
         if (tasks.findByName("test") != null) {
             tasks.test {

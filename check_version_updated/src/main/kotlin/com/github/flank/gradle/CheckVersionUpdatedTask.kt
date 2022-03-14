@@ -21,7 +21,7 @@ open class CheckVersionUpdatedTask : DefaultTask() {
             (changedFiles.contains("${project.name}/build.gradle.kts") && project.isVersionChangedInBuildGradle())
 
         if (isVersionChanged.not()) {
-            throw GradleException(
+            System.out.println(
                 """
                    ${project.path} version is not updated, but files changed.
                    Please update version according to schema: <breaking change>.<feature added>.<fix/minor change>
