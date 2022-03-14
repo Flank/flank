@@ -1,10 +1,10 @@
 ## v22.03.0
 ### Bug Fixes
-- [#2225](https://github.com/Flank/flank/pull/2225) Revert jackson upgrade ()
-- [#2223](https://github.com/Flank/flank/pull/2223) Fix BufferUnderflowException when parsing dex file with Espresso 3.4.0 Fixes #2203 ()
-- [#2207](https://github.com/Flank/flank/pull/2207) Add support for robo-directives ()
+- [#2225](https://github.com/Flank/flank/pull/2225) Revert jackson upgrade
+- [#2223](https://github.com/Flank/flank/pull/2223) Fix BufferUnderflowException when parsing dex file with Espresso 3.4.0 Fixes #2203
+- [#2207](https://github.com/Flank/flank/pull/2207) Add support for robo-directives
 ### Tests update
-- [#2185](https://github.com/Flank/flank/pull/2185) Update app_many_tests to AndroidX libraries ()
+- [#2185](https://github.com/Flank/flank/pull/2185) Update app_many_tests to AndroidX libraries
 
 ## v21.11.0
 ### Bug Fixes
