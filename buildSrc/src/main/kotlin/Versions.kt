@@ -49,7 +49,7 @@ object Versions {
     const val GOOGLE_NIO = "0.123.25"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "2.4.5"
+    const val GOOGLE_STORAGE = "2.5.0"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.9.0"
