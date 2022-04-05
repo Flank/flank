@@ -41,7 +41,6 @@ private fun TestMatrix.Data.updateProperties(newMatrix: TestMatrix.Data) = copy(
     clientDetails = newMatrix.clientDetails,
     gcsPathWithoutRootBucket = newMatrix.gcsPathWithoutRootBucket,
     gcsRootBucket = newMatrix.gcsRootBucket,
-    webLinkWithoutExecutionDetails = newMatrix.webLinkWithoutExecutionDetails,
     appFileName = newMatrix.appFileName,
     testFileName = newMatrix.testFileName,
     isCompleted = MatrixState.completed(state) &&

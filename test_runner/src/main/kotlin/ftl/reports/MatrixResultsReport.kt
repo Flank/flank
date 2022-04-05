@@ -78,7 +78,7 @@ object MatrixResultsReport : IReport {
         .takeIf { it.isNotEmpty() }
         ?.run {
             writer.println("More details are available at:")
-            forEach { writer.println(it.webLinkWithoutExecutionDetails.orEmpty()) }
+            forEach { writer.println(it.webLink.orEmpty()) }
             writer.println()
         }
 }

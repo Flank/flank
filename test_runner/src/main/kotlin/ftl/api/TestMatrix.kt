@@ -31,7 +31,6 @@ object TestMatrix {
         val clientDetails: Map<String, String>? = null,
         val gcsPathWithoutRootBucket: String = "",
         val gcsRootBucket: String = "",
-        val webLinkWithoutExecutionDetails: String? = "",
         val axes: List<Outcome> = emptyList(),
         val appFileName: String = fallbackAppName,
         val testFileName: String = fallbackTestFileName,

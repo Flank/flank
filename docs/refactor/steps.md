@@ -78,13 +78,13 @@ ftl.domain
 ├── ListIosVersions.kt
 ├── RunIosDoctor.kt
 ├── RunIosTest.kt
-├── DescribeIosTestEnvironment.kt 
-├── ListIPBlocks.kt 
-├── DescribeNetworkProfiles.kt 
-├── ListNetworkProfiles.kt 
-├── ListProvidedSoftware.kt 
-├── CancelLastRun.kt 
-└── RefreshLastRun.kt 
+├── DescribeIosTestEnvironment.kt
+├── ListIPBlocks.kt
+├── DescribeNetworkProfiles.kt
+├── ListNetworkProfiles.kt
+├── ListProvidedSoftware.kt
+├── CancelLastRun.kt
+└── RefreshLastRun.kt
 ```
 
 ## Use FileReference abstraction where possible
@@ -223,7 +223,7 @@ data class NetworkProfile(
 
 ```kotlin
 val networkProfileDescription: suspend NetworkProfile.() -> String = TODO()
-val networkProfileList: suspend List<NetworkProfile>.() -> String = TODO() 
+val networkProfileList: suspend List<NetworkProfile>.() -> String = TODO()
 ```
 
 ### Locales
@@ -457,7 +457,7 @@ object RemoteStorage {
 
     class Data(
         val path: String,
-        val bytes: ByteArray? = null // Use, when file under the given path doesn't exist. 
+        val bytes: ByteArray? = null // Use, when file under the given path doesn't exist.
     )
 
     interface Exist : (Dir) -> Boolean
@@ -492,12 +492,12 @@ object RemoteStorage {
 
 ```kotlin
 object TestMatrix {
-    
+
     data class Result(
         val runPath: String,
         val map: Map<String, Data>,
     )
-    
+
     data class Data(
         val matrixId: String = "",
         val state: String = "",
@@ -508,7 +508,6 @@ object TestMatrix {
         val clientDetails: Map<String, String>? = null,
         val gcsPathWithoutRootBucket: String = "",
         val gcsRootBucket: String = "",
-        val webLinkWithoutExecutionDetails: String? = "",
         val axes: List<Outcome> = emptyList()
     )
 
@@ -930,7 +929,7 @@ object PerfMetrics {
 package ftl.data
 
 object Artifacts {
-    
+
     data class Identity(
         val gcsPathWithoutRootBucket: String,
         val gcsRootBucket: String,
@@ -938,13 +937,13 @@ object Artifacts {
         val blobPath: String,
         val downloadPath: DownloadPath,
     )
-    
+
     data class DownloadPath(
         val localResultDir: String,
         val useLocalResultDir: Boolean,
         val keepFilePath: Boolean,
     )
-    
-    interface Fetch: (Identity) -> List<String> 
+
+    interface Fetch: (Identity) -> List<String>
 }
 ```
