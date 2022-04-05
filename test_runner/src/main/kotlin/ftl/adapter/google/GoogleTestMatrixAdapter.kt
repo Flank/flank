@@ -17,7 +17,6 @@ import ftl.util.getGcsPathWithoutRootBucket
 import ftl.util.getGcsRootBucket
 import ftl.util.timeoutToSeconds
 import ftl.util.webLink
-import ftl.util.webLinkWithoutExecutionDetails
 
 fun TestMatrix.toApiModel(identity: ftl.api.TestMatrix.Identity? = null) = Data(
     projectId = projectId.orEmpty(),
@@ -28,7 +27,6 @@ fun TestMatrix.toApiModel(identity: ftl.api.TestMatrix.Identity? = null) = Data(
     clientDetails = getClientDetails(),
     gcsPathWithoutRootBucket = getGcsPathWithoutRootBucket(),
     gcsRootBucket = getGcsRootBucket(),
-    webLinkWithoutExecutionDetails = webLinkWithoutExecutionDetails(),
     appFileName = extractAppFileName() ?: fallbackAppName,
     testFileName = extractTestFileName() ?: fallbackAppName,
     isCompleted = MatrixState.completed(state) &&
