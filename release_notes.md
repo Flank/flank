@@ -1,3 +1,9 @@
+## v22.04.0
+### Bug Fixes
+- [#2189](https://github.com/Flank/flank/pull/2189) Adds check for .aab format before querying apkDetails ([Xlopec](https://github.com/Xlopec))
+### Features
+- [#2241](https://github.com/Flank/flank/pull/2241) Use Firebase Test Lab matrix details URL for test matrix webLink ([tonybaroneee](https://github.com/tonybaroneee))
+
 ## v22.03.0
 ### Bug Fixes
 - [#2225](https://github.com/Flank/flank/pull/2225) Revert jackson upgrade
