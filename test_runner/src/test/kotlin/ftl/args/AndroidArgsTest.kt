@@ -2,6 +2,7 @@ package ftl.args
 
 import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.TestSpecification
+import flank.tool.analytics.mixpanel.Mixpanel
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.IArgs.Companion.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE
 import ftl.args.yml.AppTestPair
@@ -31,10 +32,13 @@ import ftl.test.util.TestHelper.getPath
 import ftl.test.util.TestHelper.getThrowable
 import ftl.test.util.assertThrowsWithMessage
 import ftl.util.asFileReference
+import ftl.util.getMockedTestMatrix
+import ftl.util.mockTestMatrices
 import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
+import io.mockk.verify
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -62,6 +66,7 @@ class AndroidArgsTest {
 
     private val empty = emptyList<String>()
     private val appApk = "../test_projects/android/apks/app-debug.apk"
+    private val appAab = "../test_projects/android/bundle/app-debug.aab"
     private val invalidApk = "../test_projects/android/apks/invalid.apk"
     private val nonExistingApk = "../test_projects/android/apks/app-debug_non_existing.apk"
     private val testApk = "../test_projects/android/apks/app-debug-androidTest.apk"
@@ -1715,6 +1720,29 @@ AndroidArgs
             .forEach {
                 assertTrue(it !in expectedTests)
             }
+    }
+
+    @Test
+    fun `should send no package name to mixpanel for aab format`() {
+        val yaml = """
+        gcloud:
+          app: $appAab
+          test: $testApk
+        """.trimIndent()
+
+        val parsedYml = AndroidArgs.load(yaml).validate()
+
+        mockTestMatrices(
+            getMockedTestMatrix().apply { state = "RUNNING" },
+            getMockedTestMatrix().apply { state = "RUNNING" },
+            getMockedTestMatrix()
+        )
+
+        mockkObject(Mixpanel)
+
+        runBlocking { parsedYml.runAndroidTests() }
+
+        verify { Mixpanel.add(Mixpanel.APP_ID, "") }
     }
 
     @Test

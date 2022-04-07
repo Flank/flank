@@ -50,6 +50,7 @@ internal suspend fun AndroidArgs.runAndroidTests(): TestResult = coroutineScope 
                 ignoredTestsShardChunks += context.ignoredTestCases
                 allTestShardChunks += context.shards
             }
+
             context.reportPackageName()
         }
         .map { createTestSetup(it) }
