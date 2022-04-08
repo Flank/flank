@@ -10,7 +10,7 @@ https://github.com/Flank/flank/releases/latest/download/flank.jar
 
 ## Sponsors
 
-See [docs/error_monitoring.md](./docs/error_monitoring.md) to disable Sentry error monitoring.
+See [error monitoring docs](./error_monitoring.md) to disable Sentry error monitoring.
 
 ## Contributing
 
@@ -920,7 +920,7 @@ Bitrise has an official [flank step](https://github.com/bitrise-steplib/bitrise-
 [fladle]: https://github.com/runningcode/fladle
 
 ## Flank on Windows
-In order to build or run Flank using Windows please follow [guide](docs/windows_wsl_guide.md) of building/running it using Windows WSL.
+In order to build or run Flank using Windows please follow [guide](windows_wsl_guide.md) of building/running it using Windows WSL.
 Native support is not currently supported.
 
 ## Authenticate with a Google account
@@ -1053,7 +1053,7 @@ and flank's example [gradle-export-api](https://github.com/Flank/flank/tree/mast
     
 5) > Does Flank support Cucumber?
    
-   Please check [document](docs/cucumber_support.md) for more info
+   Please check [document](cucumber_support.md) for more info
 
 6) > How can I find project id?
    
