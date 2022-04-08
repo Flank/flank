@@ -10,7 +10,7 @@ https://github.com/Flank/flank/releases/latest/download/flank.jar
 
 ## Sponsors
 
-See [docs/error_monitoring.md](./error_monitoring.md) to disable Sentry error monitoring.
+See [error monitoring docs](./error_monitoring.md) to disable Sentry error monitoring.
 
 ## Contributing
 
