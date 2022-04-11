@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/getsentry/sentry-java/releases
-    const val SENTRY = "5.7.1"
+    const val SENTRY = "5.7.2"
 
     // https://github.com/mixpanel/mixpanel-java/releases
     const val MIXPANEL = "1.5.0"
@@ -29,7 +29,7 @@ object Versions {
     const val KOTLIN = "1.6.0"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    const val KOTLIN_COROUTINES = "1.6.0"
+    const val KOTLIN_COROUTINES = "1.6.1"
 
     // https://github.com/remkop/picocli/releases
     const val PICOCLI = "4.6.3"
@@ -64,7 +64,7 @@ object Versions {
     const val JSOUP = "1.13.1"
 
     // https://github.com/ktorio/ktor/releases
-    const val KTOR = "1.6.8"
+    const val KTOR = "2.0.0"
 
     // https://github.com/qos-ch/logback/releases
     const val LOGBACK = "1.2.11"
