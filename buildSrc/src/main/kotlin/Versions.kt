@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/getsentry/sentry-java/releases
-    const val SENTRY = "5.7.1"
+    const val SENTRY = "5.7.3"
 
     // https://github.com/mixpanel/mixpanel-java/releases
     const val MIXPANEL = "1.5.0"
@@ -29,7 +29,7 @@ object Versions {
     const val KOTLIN = "1.6.0"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    const val KOTLIN_COROUTINES = "1.6.0"
+    const val KOTLIN_COROUTINES = "1.6.1"
 
     // https://github.com/remkop/picocli/releases
     const val PICOCLI = "4.6.3"
@@ -38,7 +38,7 @@ object Versions {
     const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20210809-1.32.1"
 
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
-    const val GOOGLE_API = "1.33.4"
+    const val GOOGLE_API = "1.34.0"
 
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
@@ -46,10 +46,10 @@ object Versions {
     const val GOOGLE_AUTH = "1.6.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.123.27"
+    const val GOOGLE_NIO = "0.123.28"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "2.6.0"
+    const val GOOGLE_STORAGE = "2.6.1"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.9.0"
@@ -64,7 +64,7 @@ object Versions {
     const val JSOUP = "1.13.1"
 
     // https://github.com/ktorio/ktor/releases
-    const val KTOR = "1.6.8"
+    const val KTOR = "2.0.0"
 
     // https://github.com/qos-ch/logback/releases
     const val LOGBACK = "1.2.11"
