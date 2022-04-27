@@ -39,7 +39,8 @@ fun IosArgs.dumpShards(
     shardFilePath: String = IOS_SHARD_FILE,
 ) {
     val rawShards: Any = when (xcTestRunData.version) {
-        V1 -> xcTestRunData.shardTargets.values.first()
+        // avoid crashing when shardTargets.values is null
+        V1 -> xcTestRunData.shardTargets.values.firstOrNull() ?: xcTestRunData.shardTargets
         V2 -> xcTestRunData.shardTargets
     }
 
