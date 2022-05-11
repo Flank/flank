@@ -72,6 +72,15 @@ class FlankGeneralError : FlankException {
 }
 
 /**
+ * No tests found. The tests apk is empty or tests have been filtered out.
+ *
+ * Exit code: 3
+ *
+ * @param message [String] message to be printed to [System.err]
+ */
+class FlankNoTestsError(message: String? = null, cause: Throwable? = null) : FlankException(message, cause)
+
+/**
  * Base class for project related exceptions.
  * Should be caught and rewrap to FlankGeneralError with project id info attached.
  *

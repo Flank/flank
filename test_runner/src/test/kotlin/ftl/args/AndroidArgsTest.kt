@@ -16,6 +16,7 @@ import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.presentation.cli.firebase.test.android.AndroidRunCommand
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
+import ftl.run.exception.FlankNoTestsError
 import ftl.run.exception.IncompatibleTestDimensionError
 import ftl.run.model.GameLoopContext
 import ftl.run.model.InstrumentationTestContext
@@ -1655,8 +1656,8 @@ AndroidArgs
         )
     }
 
-    @Test(expected = FlankGeneralError::class)
-    fun `should throw FlankGeneralError if not tests to be run overall`() {
+    @Test(expected = FlankNoTestsError::class)
+    fun `should throw FlankNoTestsError if not tests to be run overall`() {
         val yaml = """
         gcloud:
           app: $appApk
@@ -2807,7 +2808,7 @@ AndroidArgs
         AndroidArgs.load(yaml).validate()
     }
 
-    @Test(expected = FlankGeneralError::class)
+    @Test(expected = FlankNoTestsError::class)
     fun `should throw exception as there are no tests to run - ignore-all parameterized tests`() {
         val yaml = """
         gcloud:

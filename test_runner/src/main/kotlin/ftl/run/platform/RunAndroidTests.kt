@@ -12,7 +12,7 @@ import ftl.args.isInstrumentationTest
 import ftl.args.shardsFilePath
 import ftl.client.google.getAndroidAppDetails
 import ftl.config.FtlConstants
-import ftl.run.exception.FlankGeneralError
+import ftl.run.exception.FlankNoTestsError
 import ftl.run.model.AndroidMatrixTestShards
 import ftl.run.model.AndroidTestContext
 import ftl.run.model.GameLoopContext
@@ -56,7 +56,7 @@ internal suspend fun AndroidArgs.runAndroidTests(): TestResult = coroutineScope 
         .map { createTestSetup(it) }
         .run { executeTestMatrixAndroid(this) }
         .takeIf { it.isNotEmpty() }
-        ?: throw FlankGeneralError("There are no Android tests to run.")
+        ?: throw FlankNoTestsError("There are no Android tests to run.")
 
     logLn(beforeRunMessage(allTestShardChunks))
 

@@ -79,6 +79,11 @@ internal fun withGlobalExceptionHandling(block: () -> Int, exitProcessFunction: 
                 exitProcessFunction(CONFIGURATION_FAIL)
             }
 
+            is FlankNoTestsError -> {
+                printError("\n${t.message}")
+                exitProcessFunction(NO_TESTS_FOUND)
+            }
+
             // We need to cover the case where some component in the call stack starts a non-daemon
             // thread, and then throws an Error that kills the main thread. This is extra safe implementation
             else -> {
