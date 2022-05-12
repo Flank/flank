@@ -12,7 +12,7 @@ import ftl.client.google.run.ios.executeIosTests
 import ftl.config.FtlConstants
 import ftl.ios.xctest.flattenShardChunks
 import ftl.run.dumpShards
-import ftl.run.exception.FlankGeneralError
+import ftl.run.exception.FlankNoTestsError
 import ftl.run.model.TestResult
 import ftl.run.platform.common.afterRunTests
 import ftl.run.platform.common.beforeRunMessage
@@ -48,7 +48,7 @@ internal suspend fun IosArgs.runIosTests(): TestResult = coroutineScope {
         .map { context -> createIosTestMatrixType(context) }
         .repeat(repeatTests)
         .run { executeIosTests(createIosTestConfig(args), toList()) }
-        .takeIf { it.isNotEmpty() } ?: throw FlankGeneralError("There are no iOS tests to run")
+        .takeIf { it.isNotEmpty() } ?: throw FlankNoTestsError("There are no iOS tests to run")
 
     TestResult(
         matrixMap = afterRunTests(

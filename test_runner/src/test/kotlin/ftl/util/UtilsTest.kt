@@ -18,10 +18,12 @@ import ftl.run.exception.FTLError
 import ftl.run.exception.FailedMatrixError
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
+import ftl.run.exception.FlankNoTestsError
 import ftl.run.exception.FlankTimeoutError
 import ftl.run.exception.GENERAL_FAILURE
 import ftl.run.exception.MatrixCanceledError
 import ftl.run.exception.NOT_PASSED
+import ftl.run.exception.NO_TESTS_FOUND
 import ftl.run.exception.SUCCESS
 import ftl.run.exception.UNEXPECTED_ERROR
 import ftl.run.exception.YmlValidationError
@@ -297,14 +299,14 @@ class UtilsTest {
     fun `should terminate process with exit code 1 if there is not tests to run overall`() {
         // given
         val message = "No tests to run"
-        val exception = FlankGeneralError(message)
+        val exception = FlankNoTestsError(message)
 
         // when - then
         withGlobalExceptionHandling(
             block = { throw exception },
             exitProcessFunction = { exitCode ->
                 assertTrue(err.log.contains(message))
-                assertThat(exitCode).isEqualTo(GENERAL_FAILURE)
+                assertThat(exitCode).isEqualTo(NO_TESTS_FOUND)
             }
         )
     }
