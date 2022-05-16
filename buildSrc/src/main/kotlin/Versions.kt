@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/getsentry/sentry-java/releases
-    const val SENTRY = "5.7.1"
+    const val SENTRY = "5.7.4"
 
     // https://github.com/mixpanel/mixpanel-java/releases
     const val MIXPANEL = "1.5.0"
@@ -29,7 +29,7 @@ object Versions {
     const val KOTLIN = "1.6.0"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    const val KOTLIN_COROUTINES = "1.6.0"
+    const val KOTLIN_COROUTINES = "1.6.1"
 
     // https://github.com/remkop/picocli/releases
     const val PICOCLI = "4.6.3"
@@ -38,7 +38,7 @@ object Versions {
     const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20210809-1.32.1"
 
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
-    const val GOOGLE_API = "1.33.4"
+    const val GOOGLE_API = "1.34.1"
 
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
@@ -46,17 +46,17 @@ object Versions {
     const val GOOGLE_AUTH = "1.6.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.123.27"
+    const val GOOGLE_NIO = "0.123.28"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "2.6.0"
+    const val GOOGLE_STORAGE = "2.6.1"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.9.0"
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
-    const val JACKSON = "2.13.2"
+    const val JACKSON = "2.13.3"
 
     const val JUNIT = "4.13.2"
 
@@ -64,7 +64,7 @@ object Versions {
     const val JSOUP = "1.13.1"
 
     // https://github.com/ktorio/ktor/releases
-    const val KTOR = "1.6.8"
+    const val KTOR = "2.0.1"
 
     // https://github.com/qos-ch/logback/releases
     const val LOGBACK = "1.2.11"
@@ -84,7 +84,7 @@ object Versions {
     const val KOTLIN_LOGGING = "2.1.21"
 
     // https://github.com/mockk/mockk
-    const val MOCKK = "1.12.3"
+    const val MOCKK = "1.12.4"
 
     // https://commons.apache.org/proper/commons-text/
     const val COMMON_TEXT = "1.9"
@@ -107,7 +107,7 @@ object Versions {
     const val JSON = "20220320"
 
     // ============== flank-scripts ==============
-    const val KOTLIN_SERIALIZATION = "1.3.2"
+    const val KOTLIN_SERIALIZATION = "1.3.3"
     const val ARCHIVE_LIB = "1.2.0"
     const val TUKAANI_XZ = "1.9"
     const val FUEL = "2.3.1"
