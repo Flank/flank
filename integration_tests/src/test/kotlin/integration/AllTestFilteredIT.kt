@@ -35,7 +35,7 @@ class AllTestFilteredIT {
             testSuite = name
         )
 
-        assertExitCode(result, 1)
+        assertExitCode(result, 3)
 
         val resOutput = result.output.removeUnicode()
 
