@@ -76,7 +76,7 @@ private val ExecutionStatus.Change.views
             ExecutionStatus.View(time, name, message)
         }
     ).let { list ->
-        if (current.error == null || current.error == previous.error) list
+        if (current.error.isNullOrEmpty() || current.error == previous.error) list
         else list + ExecutionStatus.View(time, name, "Error: ${current.error}")
     }.let { list ->
         if (current.state == previous.state) list
