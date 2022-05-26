@@ -76,7 +76,8 @@ private val ExecutionStatus.Change.views
             ExecutionStatus.View(time, name, message)
         }
     ).let { list ->
-        if (current.error == null || current.error == previous.error) list
+        // the null error value from the FTL API is stored as an empty string in Kotlin
+        if (current.error.isNullOrEmpty() || current.error == previous.error) list
         else list + ExecutionStatus.View(time, name, "Error: ${current.error}")
     }.let { list ->
         if (current.state == previous.state) list
