@@ -1,3 +1,7 @@
+## v22.05.0
+### Features
+- [#2250](https://github.com/Flank/flank/pull/2250) Exit with code 3 when there are no tests ([CristianGM](https://github.com/CristianGM))
+
 ## v22.04.0
 ### Bug Fixes
 - [#2189](https://github.com/Flank/flank/pull/2189) Adds check for .aab format before querying apkDetails ([Xlopec](https://github.com/Xlopec))
