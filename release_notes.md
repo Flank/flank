@@ -1,4 +1,6 @@
 ## v22.05.0
+### Bug Fixes
+- [#2255](https://github.com/Flank/flank/pull/2255) Check if error is empty before printing ([bootstraponline](https://github.com/bootstraponline))
 ### Features
 - [#2250](https://github.com/Flank/flank/pull/2250) Exit with code 3 when there are no tests ([CristianGM](https://github.com/CristianGM))
 
