@@ -4,13 +4,17 @@ import com.google.common.truth.Truth.assertThat
 import io.mockk.mockk
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 class RunStateTest {
 
     @Test
-    fun `should publish new run state`() = runBlockingTest {
+    // https://github.com/Kotlin/kotlinx.coroutines/blob/d737da6f109784b67977af579fe3274c250857c9/kotlinx-coroutines-test/MIGRATION.md#replace-runblockingtest-with-runtestunconfinedtestdispatcher
+    // Replace runBlockingTest with runTest(UnconfinedTestDispatcher())
+    fun `should publish new run state`() = runTest(UnconfinedTestDispatcher()) {
         // given
         val testItem = object : RunState {}
 

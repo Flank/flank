@@ -16,13 +16,6 @@ include(
     ":common",
     ":flank_wrapper",
 
-    ":corellium:cli",
-    ":corellium:domain",
-    ":corellium:api",
-    ":corellium:adapter",
-    ":corellium:client",
-    ":corellium:sandbox",
-
     ":tool:apk",
     ":tool:config",
     ":tool:filter",
