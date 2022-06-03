@@ -38,7 +38,6 @@ class MainTest {
                 "  -v, --version   Prints the version\n" +
                 "Commands:\n" +
                 "  firebase\n" +
-                "  corellium\n" +
                 "  ios\n" +
                 "  android\n"
         )

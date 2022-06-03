@@ -17,7 +17,6 @@ import picocli.CommandLine
     synopsisHeading = "",
     subcommands = [
         FirebaseCommand::class,
-        CorelliumCommand::class,
         IosCommand::class,
         AndroidCommand::class,
         RefreshCommand::class,
