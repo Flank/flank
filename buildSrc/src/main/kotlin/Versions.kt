@@ -38,7 +38,7 @@ object Versions {
     const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20210809-1.32.1"
 
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
-    const val GOOGLE_API = "1.34.1"
+    const val GOOGLE_API = "1.35.0"
 
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
@@ -101,7 +101,7 @@ object Versions {
     const val BEN_MANES = "0.42.0"
 
     // https://github.com/Guardsquare/proguard
-    const val PROGUARD = "7.2.0"
+    const val PROGUARD = "7.2.2"
 
     // https://mvnrepository.com/artifact/org.json/json
     const val JSON = "20220320"
