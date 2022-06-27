@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/getsentry/sentry-java/releases
-    const val SENTRY = "6.1.1"
+    const val SENTRY = "6.1.3"
 
     // https://github.com/mixpanel/mixpanel-java/releases
     const val MIXPANEL = "1.5.0"
@@ -29,7 +29,7 @@ object Versions {
     const val KOTLIN = "1.6.0"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    const val KOTLIN_COROUTINES = "1.6.2"
+    const val KOTLIN_COROUTINES = "1.6.3"
 
     // https://github.com/remkop/picocli/releases
     const val PICOCLI = "4.6.3"
@@ -46,7 +46,7 @@ object Versions {
     const val GOOGLE_AUTH = "1.7.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.124.5"
+    const val GOOGLE_NIO = "0.124.6"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
     const val GOOGLE_STORAGE = "2.8.1"
