@@ -49,7 +49,7 @@ object Versions {
     const val GOOGLE_NIO = "0.124.7"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "2.9.0"
+    const val GOOGLE_STORAGE = "2.9.3"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.9.0"
@@ -112,7 +112,7 @@ object Versions {
     const val TUKAANI_XZ = "1.9"
     const val FUEL = "2.3.1"
     const val CLIKT = "2.8.0"
-    const val JCABI_GITHUB = "1.1.2"
+    const val JCABI_GITHUB = "1.2.0"
     const val SLF4J_NOP = "1.7.36"
     const val GLASSFISH_JSON = "1.1.4"
 }
