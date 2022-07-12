@@ -50,6 +50,7 @@ val isCI: Boolean = serviceOf<ProviderFactory>()
 
 gradleEnterprise {
     buildScan {
+        server = "https://flank.gradle-enterprise.cloud/"
         termsOfServiceUrl = "https://gradle.com/terms-of-service"
         termsOfServiceAgree = "yes"
         publishAlwaysIf(isCI)
