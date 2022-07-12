@@ -64,6 +64,7 @@ jobs:
       run: |
           export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
           export HEAD_REF=${{ github.ref }}
+          export GRADLE_ENTERPRISE_ACCESS_KEY=${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           ./gradlew clean build
 
     - name: Prepare Google Service Account
@@ -77,6 +78,7 @@ jobs:
       uses: eskatos/gradle-command-action@v1
       env:
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       with:
         arguments: "--info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml"
 
@@ -84,5 +86,6 @@ jobs:
       uses: eskatos/gradle-command-action@v1
       env:
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       with:
         arguments: "--info :integration_tests:test --tests IntegrationTests.shouldMatchIosSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_ios.yml"

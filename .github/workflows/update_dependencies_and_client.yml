@@ -35,6 +35,7 @@ jobs:
       - name: Download flankScripts and add it to PATH
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         run: |
           ./gradlew :flank-scripts:download
           echo "./flank-scripts/bash" >> $GITHUB_PATH
@@ -79,6 +80,7 @@ jobs:
       - name: Download flankScripts and add it to PATH
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         run: |
           ./gradlew :flank-scripts:download
           echo "./flank-scripts/bash" >> $GITHUB_PATH
@@ -112,6 +114,7 @@ jobs:
       - name: Download flankScripts and add it to PATH
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         run: |
           ./gradlew :flank-scripts:download
           echo "./flank-scripts/bash" >> $GITHUB_PATH
