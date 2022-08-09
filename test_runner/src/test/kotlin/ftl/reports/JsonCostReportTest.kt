@@ -18,7 +18,7 @@ class JsonCostReportTest {
         val mockArgs = mockk<AndroidArgs>(relaxed = true)
         JsonCostReport.run(matrix, null, printToStdout = false, args = mockArgs)
 
-        val actualReport = File("./src/test/kotlin/ftl/fixtures/empty_result/JsonCostReport.json").readText()
+        val actualReport = File("./src/test/kotlin/ftl/fixtures/empty_result/CostReport.json").readText()
         val expectedReport = """
 {
   "currency": "USD",
@@ -44,7 +44,7 @@ class JsonCostReportTest {
         val mockArgs = mockk<AndroidArgs>(relaxed = true)
         JsonCostReport.run(matrix, null, printToStdout = false, args = mockArgs)
 
-        val actualReport = File("./src/test/kotlin/ftl/fixtures/error_result/JsonCostReport.json").readText()
+        val actualReport = File("./src/test/kotlin/ftl/fixtures/error_result/CostReport.json").readText()
         val expectedReport = """
 {
   "currency": "USD",
@@ -70,7 +70,7 @@ class JsonCostReportTest {
         val mockArgs = mockk<AndroidArgs>(relaxed = true)
         JsonCostReport.run(matrix, null, printToStdout = false, args = mockArgs)
 
-        val actualReport = File("./src/test/kotlin/ftl/fixtures/ios_exit_code/JsonCostReport.json").readText()
+        val actualReport = File("./src/test/kotlin/ftl/fixtures/ios_exit_code/CostReport.json").readText()
         val expectedReport = """
 {
   "currency": "USD",
@@ -96,7 +96,7 @@ class JsonCostReportTest {
         val mockArgs = mockk<AndroidArgs>(relaxed = true)
         JsonCostReport.run(matrix, null, printToStdout = false, args = mockArgs)
 
-        val actualReport = File("./src/test/kotlin/ftl/fixtures/success_result/JsonCostReport.json").readText()
+        val actualReport = File("./src/test/kotlin/ftl/fixtures/success_result/CostReport.json").readText()
         val expectedReport = """
 {
   "currency": "USD",

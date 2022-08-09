@@ -13,6 +13,10 @@ import ftl.util.calculateVirtualCost
 /** Calculates cost based on the matrix map. Always run. */
 object JsonCostReport : IReport {
 
+    override fun reportName(): String {
+        return CostReport::class.java.simpleName
+    }
+
     override val extension = ".json"
 
     private fun estimate(matrices: MatrixMap): Map<String, Any> {

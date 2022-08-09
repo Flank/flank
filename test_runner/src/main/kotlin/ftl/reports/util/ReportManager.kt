@@ -53,10 +53,9 @@ object ReportManager {
             val useFlakyTests = args.flakyTestAttempts > 0
             if (useFlakyTests) JUnitDedupe.modify(testSuite)
         }
-        listOf(CostReport, MatrixResultsReport)
-            .map { it.run(matrices, testSuite, printToStdout = true, args = args) }
-
+        CostReport.run(matrices, testSuite, printToStdout = true, args = args)
         JsonCostReport.run(matrices, testSuite, printToStdout = false, args = args)
+        MatrixResultsReport.run(matrices, testSuite, printToStdout = true, args = args)
 
         if (!matrices.isAllSuccessful()) {
             listOf(
