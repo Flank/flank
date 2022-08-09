@@ -25,6 +25,7 @@ import ftl.reports.CostReport
 import ftl.reports.FullJUnitReport
 import ftl.reports.HtmlErrorReport
 import ftl.reports.JUnitReport
+import ftl.reports.JsonCostReport
 import ftl.reports.MatrixResultsReport
 import ftl.reports.api.utcDateFormat
 import ftl.reports.toXmlString
@@ -54,6 +55,8 @@ object ReportManager {
         }
         listOf(CostReport, MatrixResultsReport)
             .map { it.run(matrices, testSuite, printToStdout = true, args = args) }
+
+        JsonCostReport.run(matrices, testSuite, printToStdout = false, args = args)
 
         if (!matrices.isAllSuccessful()) {
             listOf(
