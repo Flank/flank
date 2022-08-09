@@ -34,7 +34,7 @@ object JsonCostReport : IReport {
                 "physical" to physicalCost,
                 "total" to total
             ),
-            "billable-time" to mapOf(
+            "billable-minutes" to mapOf(
                 "virtual" to totalBillableVirtualMinutes,
                 "physical" to totalBillablePhysicalMinutes,
                 "total" to totalBillableVirtualMinutes + totalBillablePhysicalMinutes

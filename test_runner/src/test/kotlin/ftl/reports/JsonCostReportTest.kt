@@ -27,7 +27,7 @@ class JsonCostReportTest {
     "physical": 0.00,
     "total": 0.02
   },
-  "billable-time": {
+  "billable-minutes": {
     "virtual": 1,
     "physical": 0,
     "total": 1
@@ -53,7 +53,7 @@ class JsonCostReportTest {
     "physical": 0.25,
     "total": 0.32
   },
-  "billable-time": {
+  "billable-minutes": {
     "virtual": 4,
     "physical": 3,
     "total": 7
@@ -79,7 +79,7 @@ class JsonCostReportTest {
     "physical": 0.33,
     "total": 0.33
   },
-  "billable-time": {
+  "billable-minutes": {
     "virtual": 0,
     "physical": 4,
     "total": 4
@@ -105,7 +105,7 @@ class JsonCostReportTest {
     "physical": 0.00,
     "total": 0.02
   },
-  "billable-time": {
+  "billable-minutes": {
     "virtual": 1,
     "physical": 0,
     "total": 1
