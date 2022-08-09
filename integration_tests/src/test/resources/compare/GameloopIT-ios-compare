@@ -85,6 +85,7 @@ MatrixResultsReport
 │ success │ matrix-[a-zA-Z0-9]* │.* │ 0 test cases passed │
 └─────────┴──────────────────────┴──────────────────────────────┴─────────────────────┘
   Uploading \[MatrixResultsReport.txt\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
+  Uploading \[JsonCostReport.json\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
   Uploading \[matrix_ids.json\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
 
 FetchArtifacts
