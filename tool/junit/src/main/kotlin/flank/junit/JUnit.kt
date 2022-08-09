@@ -210,5 +210,4 @@ object JUnit {
     internal val dateFormat = SimpleDateFormat(ISO8601_DATETIME_PATTERN)
 
     const val REPORT_FILE_NAME = "JUnitReport.xml"
-    const val COST_REPORT_FILE_NAME = "CostReport.json"
 }
