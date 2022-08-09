@@ -5,8 +5,10 @@
     "gcsPath": "test-lab-jwwvtzdh5d20w-yyju9fnudnpts/2018-09-09_00:38:10.110000_UQjK/shard_0",
     "webLink": "https://console.firebase.google.com/project/delta-essence-114723/testlab/histories/bh.58317d9cd7ab9ba2/matrices/6385582924491679444/executions/bs.bb41d8a3f63489be",
     "downloaded": false,
-    "billableVirtualMinutes": 1,
-    "billablePhysicalMinutes": 0,
+    "billableMinutes": {
+      "virtual": 1,
+      "physical": 0
+    },
     "outcome": "success",
     "testAxises": [
       {
