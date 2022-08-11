@@ -74,9 +74,23 @@ class OutputReportLoggersTest {
         val total: BigDecimal = BigDecimal.ZERO
 
         // when
-        outputReport.log(physical, virtual, total)
+        outputReport.logCosts(physical, virtual, total)
 
         // then
         assertThat(outputReport.outputData).containsKey("cost")
+    }
+
+    @Test
+    fun `should log billable minutes`() {
+        // given
+        val physical: BigDecimal = BigDecimal.ONE
+        val virtual: BigDecimal = BigDecimal.TEN
+        val total: BigDecimal = BigDecimal.ZERO
+
+        // when
+        outputReport.logBillableMinutes(physical, virtual, total)
+
+        // then
+        assertThat(outputReport.outputData).containsKey("billable-minutes")
     }
 }
