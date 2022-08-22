@@ -1,12 +1,12 @@
 object Versions {
     // https://github.com/getsentry/sentry-java/releases
-    const val SENTRY = "6.1.4"
+    const val SENTRY = "6.4.0"
 
     // https://github.com/mixpanel/mixpanel-java/releases
-    const val MIXPANEL = "1.5.0"
+    const val MIXPANEL = "1.5.1"
 
     // https://github.com/3breadt/dd-plist/releases
-    const val DD_PLIST = "1.23"
+    const val DD_PLIST = "1.24"
 
     // https://github.com/jeremymailen/kotlinter-gradle
     const val KTLINT_GRADLE = "3.9.0"
@@ -29,30 +29,30 @@ object Versions {
     const val KOTLIN = "1.6.0"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    const val KOTLIN_COROUTINES = "1.6.3"
+    const val KOTLIN_COROUTINES = "1.6.4"
 
     // https://github.com/remkop/picocli/releases
     const val PICOCLI = "4.6.3"
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
-    const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20210809-1.32.1"
+    const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20220808-2.0.0"
 
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
-    const val GOOGLE_API = "1.35.2"
+    const val GOOGLE_API = "2.0.0"
 
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
     // https://github.com/googleapis/google-oauth-java-client/issues/251#issuecomment-504565533
-    const val GOOGLE_AUTH = "1.8.0"
+    const val GOOGLE_AUTH = "1.10.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.124.7"
+    const val GOOGLE_NIO = "0.124.14"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "2.9.3"
+    const val GOOGLE_STORAGE = "2.11.3"
 
     // https://github.com/google/gson/releases
-    const val GSON = "2.9.0"
+    const val GSON = "2.9.1"
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
@@ -64,7 +64,7 @@ object Versions {
     const val JSOUP = "1.13.1"
 
     // https://github.com/ktorio/ktor/releases
-    const val KTOR = "2.0.3"
+    const val KTOR = "2.1.0"
 
     // https://github.com/qos-ch/logback/releases
     const val LOGBACK = "1.2.11"
@@ -84,7 +84,7 @@ object Versions {
     const val KOTLIN_LOGGING = "2.1.23"
 
     // https://github.com/mockk/mockk
-    const val MOCKK = "1.12.4"
+    const val MOCKK = "1.12.5"
 
     // https://commons.apache.org/proper/commons-text/
     const val COMMON_TEXT = "1.9"
@@ -107,12 +107,12 @@ object Versions {
     const val JSON = "20220320"
 
     // ============== flank-scripts ==============
-    const val KOTLIN_SERIALIZATION = "1.3.3"
+    const val KOTLIN_SERIALIZATION = "1.4.0"
     const val ARCHIVE_LIB = "1.2.0"
     const val TUKAANI_XZ = "1.9"
     const val FUEL = "2.3.1"
     const val CLIKT = "2.8.0"
     const val JCABI_GITHUB = "1.2.0"
-    const val SLF4J_NOP = "1.7.36"
+    const val SLF4J_NOP = "2.0.0"
     const val GLASSFISH_JSON = "1.1.4"
 }
