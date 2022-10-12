@@ -3,15 +3,12 @@
 import ftl.presentation.cli.MainCommand
 import ftl.reports.startDurationMeasurement
 import ftl.run.exception.withGlobalExceptionHandling
-import ftl.util.disableCrashReporting
 import picocli.CommandLine
 import java.io.File
 
 fun main() {
     println(File("").absolutePath)
-    disableCrashReporting()
     // GoogleApiLogger.logAllToStdout()
-
     // for debugging. Run test from IntelliJ IDEA
 
     // run "gradle check" to generate required fixtures

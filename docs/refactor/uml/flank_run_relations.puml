@@ -83,10 +83,6 @@ run_common_pollMatrices --> gc_GcTestMatrix
 run_common_pollMatrices --> run_status_TestMatrixStatusPrinter
 run_common_pollMatrices --> util_MatrixState
 
-run_common_saveSessionId --> args_IArgs
-run_common_saveSessionId --> util_sessionId
-run_common_saveSessionId --> util_sessionId
-
 run_common_updateMatrixFile --> args_IArgs
 run_common_updateMatrixFile --> json_MatrixMap
 
@@ -96,7 +92,6 @@ run_common_getMatrixFilePath --> json_MatrixMap
 
 run_exception_withGlobalExceptionHandling --> json_SavedMatrix
 run_exception_withGlobalExceptionHandling --> run_cancelMatrices
-run_exception_withGlobalExceptionHandling --> util_closeCrashReporter
 run_exception_withGlobalExceptionHandling --> util_report
 
 run_platform_android_createAndroidLoopConfig --> args_AndroidArgs
@@ -169,11 +164,9 @@ run_platform_android_uploadObbFiles --> gc_GcStorage
 run_platform_common_afterRunTests --> args_IArgs
 run_platform_common_afterRunTests --> config_FtlConstants
 run_platform_common_afterRunTests --> config_FtlConstants_GCS_STORAGE_LINK
-run_platform_common_afterRunTests --> gc_GcStorage_uploadSessionId
 run_platform_common_afterRunTests --> gc_GcTestMatrix
 run_platform_common_afterRunTests --> json_MatrixMap
 run_platform_common_afterRunTests --> json_createSavedMatrix
-run_platform_common_afterRunTests --> run_common_saveSessionId
 run_platform_common_afterRunTests --> run_common_updateMatrixFile
 run_platform_common_afterRunTests --> util_StopWatch
 run_platform_common_afterRunTests --> util_isInvalid

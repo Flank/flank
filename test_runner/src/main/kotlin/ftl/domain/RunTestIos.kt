@@ -19,13 +19,9 @@ import ftl.reports.output.outputReport
 import ftl.reports.output.toOutputReportConfiguration
 import ftl.run.dumpShards
 import ftl.run.newTestRun
-import ftl.util.DEVICE_SYSTEM
-import ftl.util.PROJECT_ID
 import ftl.util.StopWatch
-import ftl.util.TEST_TYPE
 import ftl.util.loadFile
 import ftl.util.printVersionInfo
-import ftl.util.setCrashReportTag
 import java.nio.file.Paths
 
 interface RunIosTest : Output {
@@ -53,11 +49,6 @@ operator fun RunIosTest.invoke() {
         setupLogLevel()
         outputReport.configure(toOutputReportConfiguration())
         outputReport.log(this)
-        setCrashReportTag(
-            PROJECT_ID to project,
-            DEVICE_SYSTEM to "ios",
-            TEST_TYPE to type?.name.orEmpty()
-        )
 
         reportConfiguration()
 

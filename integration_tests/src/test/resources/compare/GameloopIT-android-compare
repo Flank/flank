@@ -72,7 +72,6 @@ RunTests
 \s*
   0 test \/ 0 shard
 \s*
-  Uploading \[session_id.txt\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
   1 matrix ids created in \d{1,2}m \d{1,2}s
   Raw results will be stored in your GCS bucket at \[https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9-]*\/[.a-zA-Z0-9_-]*\]
 \s*

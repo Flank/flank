@@ -78,7 +78,6 @@ publishing {
 dependencies {
     implementation(project(Modules.MIXPANEL_ANALYTICS))
     implementation(project(Modules.COMMON))
-    implementation(Dependencies.SENTRY)
     implementation(Dependencies.Fuel.CORE)
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.TRUTH)

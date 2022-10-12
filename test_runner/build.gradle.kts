@@ -173,7 +173,6 @@ tasks.withType<Test> {
 dependencies {
     implementation(project(Modules.COMMON))
     implementation(project(Modules.MIXPANEL_ANALYTICS))
-    implementation(Dependencies.SENTRY)
 
     implementation(Dependencies.DD_PLIST)
     implementation(Dependencies.DEX_TEST_PARSER)

@@ -7,15 +7,11 @@ import ftl.reports.output.generate
 import ftl.reports.output.outputReport
 import ftl.reports.printTotalDuration
 import ftl.run.cancelMatrices
-import ftl.util.closeCrashReporter
-import ftl.util.report
-import io.sentry.SentryLevel
 import kotlinx.coroutines.runBlocking
 import kotlin.system.exitProcess
 
 fun withGlobalExceptionHandling(block: () -> Int) {
     withGlobalExceptionHandling(block) {
-        closeCrashReporter()
         outputReport.generate()
         printTotalDuration()
         exitProcess(it)
@@ -55,7 +51,6 @@ internal fun withGlobalExceptionHandling(block: () -> Int, exitProcessFunction: 
             }
 
             is InfrastructureError -> {
-                t.report(SentryLevel.DEBUG)
                 printError("An infrastructure error occurred.")
                 printError("Details: ${t.messageOrUnavailable}")
                 exitProcessFunction(INFRASTRUCTURE_ERROR)
@@ -67,7 +62,6 @@ internal fun withGlobalExceptionHandling(block: () -> Int, exitProcessFunction: 
             }
 
             is FTLError -> {
-                t.report()
                 t.matrix.logError()
                 exitProcessFunction(UNEXPECTED_ERROR)
             }
@@ -88,7 +82,6 @@ internal fun withGlobalExceptionHandling(block: () -> Int, exitProcessFunction: 
             // thread, and then throws an Error that kills the main thread. This is extra safe implementation
             else -> {
                 t.printStackTrace()
-                t.report()
                 exitProcessFunction(UNEXPECTED_ERROR)
             }
         }
