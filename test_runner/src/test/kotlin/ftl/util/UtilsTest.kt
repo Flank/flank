@@ -264,23 +264,6 @@ class UtilsTest {
     }
 
     @Test
-    fun `should notify sentry if non related flank error occurred`() {
-        // given
-        val message = "not flank related error thrown"
-        val exception = Exception(message)
-        mockkStatic(Throwable::report)
-
-        // when - then
-        withGlobalExceptionHandling(
-            block = { throw exception },
-            exitProcessFunction = { exitCode ->
-                assertThat(exitCode).isEqualTo(UNEXPECTED_ERROR)
-                verify { exception.report() }
-            }
-        )
-    }
-
-    @Test
     fun `should terminate process with exit code 0 if at least one matrix failed and ignore-failed-tests flag is true`() {
         // given
         val exception = FailedMatrixError(

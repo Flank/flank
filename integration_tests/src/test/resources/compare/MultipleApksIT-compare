@@ -87,7 +87,6 @@ RunTests
 [\s\S]*
   11 tests \+ 8 parameterized classes \/ 19 shards
 \s*
-  Uploading \[session_id.txt\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
   4 matrix ids created in \d{1,2}m \d{1,2}s
   Raw results will be stored in your GCS bucket at \[https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\]
 \s*

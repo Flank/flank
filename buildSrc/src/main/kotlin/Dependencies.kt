@@ -1,5 +1,4 @@
 object Dependencies {
-    const val SENTRY = "io.sentry:sentry:${Versions.SENTRY}"
     const val MIXPANEL = "com.mixpanel:mixpanel-java:${Versions.MIXPANEL}"
     const val DD_PLIST = "com.googlecode.plist:dd-plist:${Versions.DD_PLIST}"
     const val DEX_TEST_PARSER = "com.linkedin.dextestparser:parser:${Versions.DEX_TEST_PARSER}"
