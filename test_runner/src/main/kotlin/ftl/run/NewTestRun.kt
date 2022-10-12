@@ -1,6 +1,5 @@
 package ftl.run
 
-import flank.tool.analytics.mixpanel.Mixpanel
 import ftl.api.TestMatrix
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
@@ -44,42 +43,9 @@ suspend fun IArgs.newTestRun() = withTimeoutOrNull(parsedTimeout) {
 
         matrixMap.printMatricesWebLinks(project)
         outputReport.log(matrixMap)
-        matrixMap.reportTestResults()
-        Mixpanel.send(FIREBASE_TEST_LAB_RUN)
         matrixMap.validate(ignoreFailedTests)
         addStepTime("Generating reports", duration)
     }
-}
-
-private const val FIREBASE_TEST_LAB_RUN = "firebase test lab run"
-
-private fun MatrixMap.reportTestResults() {
-    val outcomes = map.flatMap { it.value.axes }
-    val testsSummary = outcomes.map { it.suiteOverview }.fold(TestMatrix.SuiteOverview()) { result, overview ->
-        result.copy(
-            total = result.total + overview.total,
-            errors = result.errors + overview.errors,
-            failures = result.failures + overview.failures,
-            flakes = result.flakes + overview.flakes,
-            skipped = result.skipped + overview.skipped,
-            elapsedTime = result.elapsedTime + overview.elapsedTime,
-            overheadTime = result.overheadTime + overview.overheadTime
-        )
-    }
-    Mixpanel.add(
-        "shards_count",
-        map.values.flatMap { it.testExecutions }.maxOf { testExecution -> testExecution.shardIndex ?: 0 } + 1
-    )
-    Mixpanel.add("outcome", outcomes)
-    Mixpanel.add(
-        "tests",
-        mapOf(
-            "total" to testsSummary.total,
-            "successful" to testsSummary.total - testsSummary.failures,
-            "failed" to testsSummary.failures,
-            "flaky" to testsSummary.flakes,
-        )
-    )
 }
 
 private suspend fun IArgs.runTests(): TestResult =

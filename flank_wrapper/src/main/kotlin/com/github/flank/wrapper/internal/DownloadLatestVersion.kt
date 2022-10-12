@@ -7,7 +7,6 @@ internal fun downloadLatestFlankVersion() {
         sourceUrl = FLANK_JAR_REMOTE_PATH,
         destination = flankRunnerPath
     )
-    sendAnalyticsNewFlankVersionDownloaded()
 }
 
 private const val FLANK_JAR_REMOTE_PATH = "https://github.com/Flank/flank/releases/latest/download/flank.jar"

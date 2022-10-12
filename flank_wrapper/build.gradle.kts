@@ -76,7 +76,6 @@ publishing {
 }
 
 dependencies {
-    implementation(project(Modules.MIXPANEL_ANALYTICS))
     implementation(project(Modules.COMMON))
     implementation(Dependencies.Fuel.CORE)
     testImplementation(Dependencies.JUNIT)

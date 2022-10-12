@@ -1,7 +1,6 @@
 package ftl.domain
 
 import flank.common.logLn
-import ftl.analytics.reportConfiguration
 import ftl.args.createIosArgs
 import ftl.args.setupLogLevel
 import ftl.args.validate
@@ -49,8 +48,6 @@ operator fun RunIosTest.invoke() {
         setupLogLevel()
         outputReport.configure(toOutputReportConfiguration())
         outputReport.log(this)
-
-        reportConfiguration()
 
         if (dumpShards.not()) logLn(this)
     }.validate().run {

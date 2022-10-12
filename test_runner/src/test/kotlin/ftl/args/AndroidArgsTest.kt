@@ -2,7 +2,6 @@ package ftl.args
 
 import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.TestSpecification
-import flank.tool.analytics.mixpanel.Mixpanel
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.IArgs.Companion.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE
 import ftl.args.yml.AppTestPair
@@ -1724,29 +1723,6 @@ AndroidArgs
     }
 
     @Test
-    fun `should send no package name to mixpanel for aab format`() {
-        val yaml = """
-        gcloud:
-          app: $appAab
-          test: $testApk
-        """.trimIndent()
-
-        val parsedYml = AndroidArgs.load(yaml).validate()
-
-        mockTestMatrices(
-            getMockedTestMatrix().apply { state = "RUNNING" },
-            getMockedTestMatrix().apply { state = "RUNNING" },
-            getMockedTestMatrix()
-        )
-
-        mockkObject(Mixpanel)
-
-        runBlocking { parsedYml.runAndroidTests() }
-
-        verify { Mixpanel.add(Mixpanel.APP_ID, "") }
-    }
-
-    @Test
     fun `results-dir (cloud directory) should not throw if it doesn't exist locally`() {
         val resultsDir = UUID.randomUUID().toString()
         val directoryPath = Paths.get(resultsDir)
@@ -2403,8 +2379,8 @@ AndroidArgs
               locale: en
               orientation: portrait
           type: robo
-          scenario-labels: 
-            - test1 
+          scenario-labels:
+            - test1
             - test2
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
@@ -2422,8 +2398,8 @@ AndroidArgs
               locale: en
               orientation: portrait
           type: game-loop
-          scenario-labels: 
-            - test1 
+          scenario-labels:
+            - test1
             - test2
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
@@ -2441,7 +2417,7 @@ AndroidArgs
               locale: en
               orientation: portrait
           type: game-loop
-          scenario-numbers: 
+          scenario-numbers:
             - 1
             - 2
         """.trimIndent()
@@ -2460,8 +2436,8 @@ AndroidArgs
               locale: en
               orientation: portrait
           type: robo
-          scenario-numbers: 
-            - 1 
+          scenario-numbers:
+            - 1
             - 2
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
@@ -2479,7 +2455,7 @@ AndroidArgs
               locale: en
               orientation: portrait
           type: game-loop
-          scenario-numbers: 
+          scenario-numbers:
             - error
             - 2
         """.trimIndent()
@@ -2498,7 +2474,7 @@ AndroidArgs
               locale: en
               orientation: portrait
           type: game-loop
-          scenario-numbers: 
+          scenario-numbers:
             - 1
             - 2
         """.trimIndent()
@@ -2520,7 +2496,7 @@ AndroidArgs
           scenario-labels:
             - label1
             - label2
-          scenario-numbers: 
+          scenario-numbers:
             - 1
             - 2
         """.trimIndent()
@@ -2542,7 +2518,7 @@ AndroidArgs
           scenario-labels:
             - label1
             - label2
-          scenario-numbers: 
+          scenario-numbers:
             - 1
             - 2
         """.trimIndent()
@@ -2588,7 +2564,7 @@ AndroidArgs
               locale: en
               orientation: portrait
           type: game-loop
-          obb-files: 
+          obb-files:
             - $obbFile
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
@@ -2606,7 +2582,7 @@ AndroidArgs
               locale: en
               orientation: portrait
           type: game-loop
-          obb-files: 
+          obb-files:
             - $obbFile
           obb-names:
             - com.test.obb
@@ -2626,7 +2602,7 @@ AndroidArgs
               locale: en
               orientation: portrait
           type: game-loop
-          obb-names: 
+          obb-names:
             - com.test.obb
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
@@ -2644,7 +2620,7 @@ AndroidArgs
               locale: en
               orientation: portrait
           type: game-loop
-          obb-files: 
+          obb-files:
             - error
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
@@ -2662,7 +2638,7 @@ AndroidArgs
               locale: en
               orientation: portrait
           type: robo
-          obb-files: 
+          obb-files:
             - $obbFile
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
@@ -2680,7 +2656,7 @@ AndroidArgs
               locale: en
               orientation: portrait
           type: game-loop
-          obb-files: 
+          obb-files:
             - $obbFile
             - $obbFile
             - $obbFile
@@ -2733,7 +2709,7 @@ AndroidArgs
               orientation: portrait
           type: instrumentation
           test-runner-class: com.foo.TestRunner
-          test-targets-for-shard: 
+          test-targets-for-shard:
             - com.example.test
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
