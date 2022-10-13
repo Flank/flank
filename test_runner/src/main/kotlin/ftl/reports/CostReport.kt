@@ -1,7 +1,6 @@
 package ftl.reports
 
 import flank.common.println
-import flank.tool.analytics.mixpanel.Mixpanel
 import ftl.api.JUnitTest
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
@@ -27,27 +26,7 @@ object CostReport : IReport {
             totalBillableVirtualMinutes += it.billableMinutes.virtual
             totalBillablePhysicalMinutes += it.billableMinutes.physical
         }
-        val virtualCost = calculateVirtualCost(totalBillableVirtualMinutes.toBigDecimal())
-        val physicalCost = calculatePhysicalCost(totalBillablePhysicalMinutes.toBigDecimal())
-        val total = calculateTotalCost(virtualCost, physicalCost)
 
-        Mixpanel.add(
-            "cost",
-            mapOf(
-                "virtual" to virtualCost,
-                "physical" to physicalCost,
-                "total" to total
-            )
-        )
-
-        Mixpanel.add(
-            "test_duration",
-            mapOf(
-                "virtual" to totalBillableVirtualMinutes,
-                "physical" to totalBillablePhysicalMinutes,
-                "total" to totalBillableVirtualMinutes + totalBillablePhysicalMinutes
-            )
-        )
         return estimateCosts(totalBillableVirtualMinutes, totalBillablePhysicalMinutes)
     }
 

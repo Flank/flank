@@ -172,7 +172,6 @@ tasks.withType<Test> {
 
 dependencies {
     implementation(project(Modules.COMMON))
-    implementation(project(Modules.MIXPANEL_ANALYTICS))
 
     implementation(Dependencies.DD_PLIST)
     implementation(Dependencies.DEX_TEST_PARSER)
@@ -209,9 +208,6 @@ dependencies {
     implementation(project(":firebase_apis:test_api"))
 
     implementation(project(":tool:resource"))
-
-    implementation(project(Modules.ANALYTICS))
-    implementation(project(Modules.MIXPANEL_ANALYTICS))
 
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.SYSTEM_RULES)

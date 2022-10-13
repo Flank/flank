@@ -1,7 +1,6 @@
 package ftl.domain
 
 import flank.common.logLn
-import ftl.analytics.reportConfiguration
 import ftl.args.createAndroidArgs
 import ftl.args.setupLogLevel
 import ftl.args.validate
@@ -49,7 +48,6 @@ operator fun RunTestAndroid.invoke() {
 
         outputReport.configure(toOutputReportConfiguration())
         outputReport.log(this)
-        reportConfiguration()
     }.validate().also { args ->
         runBlockingWithObservingRunState {
             if (dumpShards)
