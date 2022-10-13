@@ -118,7 +118,6 @@ command that:
 * `com.google.cloud:google-cloud-nio`
 * `com.google.cloud:google-cloud-storage`
 * `com.google.apis:google-api-services-toolresults`
-* `com.mixpanel:mixpanel-java`
 
 #### List of external API usages in files
 

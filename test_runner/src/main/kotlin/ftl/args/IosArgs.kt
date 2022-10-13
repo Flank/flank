@@ -2,7 +2,6 @@ package ftl.args
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.google.common.annotations.VisibleForTesting
-import flank.tool.analytics.AnonymizeInStatistics
 import ftl.args.yml.Type
 import ftl.ios.xctest.XcTestRunData
 import ftl.ios.xctest.calculateXcTestRunData
@@ -14,29 +13,15 @@ import java.nio.file.Paths
 data class IosArgs(
     @get:JsonIgnore
     val commonArgs: CommonArgs,
-
-    @property:AnonymizeInStatistics
     val xctestrunZip: String,
-
-    @property:AnonymizeInStatistics
     val xctestrunFile: String,
     val xcodeVersion: String?,
-
-    @property:AnonymizeInStatistics
     val testTargets: List<String>,
     val obfuscateDumpShards: Boolean,
-
-    @property:AnonymizeInStatistics
     val additionalIpas: List<String>,
-
-    @property:AnonymizeInStatistics
     val app: String,
     val testSpecialEntitlements: Boolean?,
-
-    @property:AnonymizeInStatistics
     val onlyTestConfiguration: String,
-
-    @property:AnonymizeInStatistics
     val skipTestConfiguration: String
 ) : IArgs by commonArgs {
 

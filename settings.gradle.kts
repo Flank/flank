@@ -32,8 +32,6 @@ include(
     ":tool:execution:parallel",
     ":tool:execution:parallel:plantuml",
     ":tool:execution:synchronized",
-    ":tool:analytics",
-    ":tool:analytics:mixpanel",
     ":tool:execution:linear",
     ":tool:resource",
 )

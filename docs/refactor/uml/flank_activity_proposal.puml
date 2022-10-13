@@ -11,12 +11,6 @@ end split
 :setupLogLevel;
 :configureOutputReport;
 :logArgs;
-split
-:configureAndroidCrashReport;
-split again
-:configureIosCrashReport;
-end split
-:sendConfigurationToMixpanel;
 :validateArgs;
 split
 :setupMocksIfNeeded;
