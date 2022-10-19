@@ -2,7 +2,7 @@ name: macOS-workflow
 
 on:
   push:
-    branches: 
+    branches:
       - master
   pull_request:
     branches:
@@ -37,9 +37,3 @@ jobs:
         HEAD_REF: ${{ github.head_ref }}
       with:
         arguments: "clean build"
-
-    - name: Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        # Repository upload token - get it from codecov.io. Required only for private repositories
-        token: ${{secrets.CODECOV_TOKEN}}

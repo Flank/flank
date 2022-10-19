@@ -235,7 +235,6 @@ tasks.withType<KotlinCompile> {
 }
 
 // https://github.com/gradle/kotlin-dsl/blob/master/samples/task-dependencies/build.gradle.kts#L41
-// https://github.com/codecov/example-gradle/blob/master/build.gradle#L25
 
 val updateFlank by tasks.registering(Exec::class) {
     group = "Build"
