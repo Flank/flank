@@ -60,5 +60,6 @@ jobs:
         labels: |
           automated pr
           release
-        reviewers: bootstraponline
+        team-reviewers: |
+          owners
         draft: false
