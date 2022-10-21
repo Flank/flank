@@ -5,7 +5,6 @@ plugins {
     jacoco
     kotlin(Plugins.Kotlin.PLUGIN_JVM)
     id(Plugins.DETEKT_PLUGIN) version Versions.DETEKT
-    id(Plugins.JFROG_BINTRAY) version Versions.BINTRAY
     id(Plugins.MAVEN_PUBLISH)
     id(Plugins.PLUGIN_SHADOW_JAR) version Versions.SHADOW
     id(Plugins.BEN_MANES_PLUGIN) version Versions.BEN_MANES
