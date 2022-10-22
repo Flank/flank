@@ -978,11 +978,11 @@ v3.0-SNAPSHOT
 ## Maven
 
 You can consume Flank via maven.
-See the [maven repo](https://bintray.com/flank/maven/flank) for all supported versions.
+See the [maven repo](https://mvnrepository.com/artifact/com.github.flank/flank) for all supported versions.
 
 ```
 repositories {
-    maven(url = "https://dl.bintray.com/flank/maven")
+    mavenCentral()
 }
 
 dependencies {

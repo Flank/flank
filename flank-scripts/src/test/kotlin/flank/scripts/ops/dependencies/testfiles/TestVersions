@@ -8,9 +8,6 @@ object Versions {
     // https://github.com/detekt/detekt
     const val DETEKT = "1.11.0"
 
-    // https://github.com/bintray/gradle-bintray-plugin/releases
-    const val BINTRAY = "1.8.5"
-
     // https://github.com/johnrengelman/shadow/releases
     const val SHADOW = "6.0.0"
 
