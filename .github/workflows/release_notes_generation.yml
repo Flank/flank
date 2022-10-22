@@ -60,6 +60,6 @@ jobs:
         labels: |
           automated pr
           release
-        team-reviewers: |
+        reviewers: adamvduke,jakeouellette,tonybaroneee
           owners
         draft: false
