@@ -1,11 +1,10 @@
 ## v22.10.0
 ### Refactor
-- [#2298](https://github.com/Flank/flank/pull/2298) Remove Sentry analytics
-- [#2299](https://github.com/Flank/flank/pull/2299) Remove Sentry analytics
-- [#2306](https://github.com/Flank/flank/pull/2306) Remove Sentry analytics
-
-- [#2287](https://github.com/Flank/flank/pull/2287) Remove Sentry analytics
-- [#2283](https://github.com/Flank/flank/pull/2283) Remove MixPanel analytics
+- [#2306](https://github.com/Flank/flank/pull/2306) Remove references to JFrog and Bintray
+- [#2299](https://github.com/Flank/flank/pull/2299) Remove references to codecov.io
+- [#2298](https://github.com/Flank/flank/pull/2298) Remove references to BugSnag
+- [#2287](https://github.com/Flank/flank/pull/2287) Remove MixPanel analytics
+- [#2283](https://github.com/Flank/flank/pull/2283) Remove Sentry analytics
 
 ## v22.05.0
 ### Bug Fixes
