@@ -17,9 +17,6 @@
       }
     }
   ],
-  "defaultOptions" : {
-    "codeCoverage" : false
-  },
   "testTargets" : [
     {
       "target" : {
