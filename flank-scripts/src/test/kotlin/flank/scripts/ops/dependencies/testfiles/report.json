@@ -8,12 +8,6 @@
                 "name": "logback-classic"
             },
             {
-                "group": "com.bugsnag",
-                "version": "3.6.1",
-                "projectUrl": null,
-                "name": "bugsnag"
-            },
-            {
                 "group": "com.fasterxml.woodstox",
                 "version": "6.2.1",
                 "projectUrl": "https://github.com/FasterXML/woodstox",
