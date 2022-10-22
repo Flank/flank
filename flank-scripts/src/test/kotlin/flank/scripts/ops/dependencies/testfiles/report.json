@@ -38,12 +38,6 @@
                 "name": "dd-plist"
             },
             {
-                "group": "com.jfrog.bintray",
-                "version": "1.8.5",
-                "projectUrl": null,
-                "name": "com.jfrog.bintray.gradle.plugin"
-            },
-            {
                 "group": "com.linkedin.dextestparser",
                 "version": "2.2.1",
                 "projectUrl": "https://github.com/linkedin/dex-test-parser",
