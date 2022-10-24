@@ -1,6 +1,7 @@
 name: publish_mkdocs_site
 
 on:
+  workflow_dispatch:
   push:
     branches: [master]
     paths: ['docs/**']
