@@ -1,4 +1,4 @@
-name: Full Suite Integration Tests
+name: "[Tests] Run integration tests"
 
 on:
   schedule:

@@ -1,4 +1,4 @@
-name: Release Flank Wrapper
+name: "Release Flank Wrapper"
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v2
 
@@ -18,7 +18,7 @@ jobs:
 
     - name: Gradle Upload to Github packages and Github release
       uses: eskatos/gradle-command-action@v1
-      env: 
+      env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       with:

@@ -1,7 +1,7 @@
 # Workflow is unable to retrieve data about previous workflows (the same file).
 # This workflow is a way to preserve last run date for update_dependencies_and_client.yml workflow
 # which is available from within that workflow
-name: Dependencies Update Pointer
+name: "Pointer - Dependencies Update"
 on:
   repository_dispatch:
     types: [ dependencies-pointer ]

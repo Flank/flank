@@ -1,4 +1,4 @@
-name: Create new release
+name: "[Release] Step 2: Tag next release (Autorun)"
 
 on:
   workflow_dispatch:
