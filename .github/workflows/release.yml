@@ -2,6 +2,7 @@ name: RELEASE
 
 # Run when push on master or create tag with version [v*] for only changes to the test_runner/**
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'test_runner/**'
