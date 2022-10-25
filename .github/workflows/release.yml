@@ -1,4 +1,4 @@
-name: RELEASE
+name: "[Release] Step 3: Deploy (Autorun)"
 
 # Run when push on master or create tag with version [v*] for only changes to the test_runner/**
 on:

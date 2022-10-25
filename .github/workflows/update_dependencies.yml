@@ -1,4 +1,4 @@
-name: Update dependencies
+name: "[Code Health] Run update dependencies"
 
 on:
   schedule:

@@ -30,7 +30,7 @@ You could configure it using your own Windows machine or you could use GitHub ac
 
 ### GitHub actions
 
-1. Setup WSL on `windows-2019` runner 
+1. Setup WSL on `windows-2019` runner
     ```
     runs-on: windows-2019
     ```
@@ -60,12 +60,12 @@ You could configure it using your own Windows machine or you could use GitHub ac
     ```
     ./gradlew clean build
     ```
-1. For reference please check [Flank team implementation of WSL workflow](https://github.com/Flank/flank/tree/master/.github/workflows/wsl-workflow.yml)
+1. For reference please check [Flank team implementation of WSL workflow](https://github.com/Flank/flank/tree/master/.github/workflows/wsl_workflow.yml)
 
 ## Running
 
-After building using the above steps or downloading using the command   
-`wget --quiet https://github.com/Flank/flank/releases/download/XXX/flank.jar -O ./flank.jar`  
+After building using the above steps or downloading using the command
+`wget --quiet https://github.com/Flank/flank/releases/download/XXX/flank.jar -O ./flank.jar`
 where `XXX` is the latest version of flank from [Flank releases on GitHub](https://github.com/Flank/flank/releases)
 You could run Flank both on your own machine or GitHub actions typing the command:
 `java -jar <PATH TO FLANK> <COMMANDS> <OPTIONS>`
