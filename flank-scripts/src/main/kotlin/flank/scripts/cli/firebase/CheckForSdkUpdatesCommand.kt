@@ -10,9 +10,8 @@ object CheckForSdkUpdatesCommand : CliktCommand(
     help = "Check for new SDK features and create update tasks for it"
 ) {
     private val githubToken by option(help = "Git Token").required()
-    private val zenhubToken by option(help = "Zenhub Token").required()
 
     override fun run() {
-        checkForSDKUpdate(githubToken, zenhubToken)
+        checkForSDKUpdate(githubToken)
     }
 }
