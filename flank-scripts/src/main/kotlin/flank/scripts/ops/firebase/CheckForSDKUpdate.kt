@@ -20,7 +20,7 @@ import java.time.Instant
 
 private val RAW_GITHUB = "https://raw.githubusercontent.com/$flankGcloudCLIRepository"
 
-fun checkForSDKUpdate(githubToken: String, zenhubToken: String) = runBlocking {
+fun checkForSDKUpdate(githubToken: String) = runBlocking {
     val lastRun by lazy { runBlocking { getLastSDKUpdateRunDate(githubToken) } }
     val openedUpdates by lazy { runBlocking { checkForOpenedUpdates(githubToken) } }
 
@@ -40,13 +40,14 @@ fun checkForSDKUpdate(githubToken: String, zenhubToken: String) = runBlocking {
         return@runBlocking
     }
 
-    with(createContext(oldSha, githubToken, zenhubToken, openedUpdates)) {
+    with(createContext(oldSha, githubToken, openedUpdates)) {
         println("** New version $newVersion")
         println("** Old version $oldVersion")
         when {
             oldVersion >= newVersion -> println("** No new features")
             openedUpdates != null -> updateOpenedEpic()
             openedUpdates == null -> createEpicIssue()
+            else -> return@runBlocking
         }
     }
 }
@@ -72,7 +73,7 @@ private suspend fun checkForOpenedUpdates(token: String) = getGitHubIssueList(
         else println("** No opened issue")
     }
 
-private fun createContext(sha: String, githubToken: String, zenhubToken: String, openedUpdates: GithubPullRequest?) =
+private fun createContext(sha: String, githubToken: String, openedUpdates: GithubPullRequest?) =
     SDKUpdateContext(
         oldVersion = getVersionBySHA(sha),
         newVersion = getVersionBySHA("master"),
@@ -82,7 +83,6 @@ private fun createContext(sha: String, githubToken: String, zenhubToken: String,
             notes.toFile().apply { deleteOnExit() }.readText()
         },
         githubToken = githubToken,
-        zenhubToken = zenhubToken,
         openedIssue = openedUpdates
     )
 

@@ -24,7 +24,6 @@ class SDKUpdateTest {
             newVersion = parseToVersion("321.0.0"),
             oldVersion = parseToVersion("319"),
             githubToken = "success",
-            zenhubToken = "success",
             openedIssue = null,
             updatesLazy = { multi }
         )
@@ -76,56 +75,49 @@ private val multi = """
     |  * huge update
     |## 319
     |### Firebase Test Lab
-    |  * should not be included 
+    |  * should not be included
 """.trimMargin().normalizeLineEnding()
 
 private val expectMulti = """
     |** Create linked issues
     |** Issue created:
     |     url:    https://bla.org
-    |     number: 123 
+    |     number: 123
     |** Issue created:
     |     url:    https://bla.org
-    |     number: 123 
+    |     number: 123
     |** Issue created:
     |     url:    https://bla.org
-    |     number: 123 
+    |     number: 123
     |** Issue created:
     |     url:    https://bla.org
-    |     number: 123 
+    |     number: 123
     |** Issue created:
     |     url:    https://bla.org
-    |     number: 123 
+    |     number: 123
     |** Issue created:
     |     url:    https://bla.org
-    |     number: 123 
-    |** Create new epic
-    |** Issue created:
-    |     url:    https://bla.org
-    |     number: 123 
-    |** Issue 123 successfully converted to an epic
+    |     number: 123
 """.trimMargin().normalizeLineEnding()
 
 private val expectOpened = """
     |** Create linked issues
     |** Issue created:
     |     url:    https://bla.org
-    |     number: 123 
+    |     number: 123
     |** Issue created:
     |     url:    https://bla.org
-    |     number: 123 
+    |     number: 123
     |** Issue created:
     |     url:    https://bla.org
-    |     number: 123 
+    |     number: 123
     |** Issue created:
     |     url:    https://bla.org
-    |     number: 123 
+    |     number: 123
     |** Issue created:
     |     url:    https://bla.org
-    |     number: 123 
+    |     number: 123
     |** Issue created:
     |     url:    https://bla.org
-    |     number: 123 
-    |** Update existing epic
-    |** Issues successfully added to the issue 123
+    |     number: 123
 """.trimMargin().normalizeLineEnding()

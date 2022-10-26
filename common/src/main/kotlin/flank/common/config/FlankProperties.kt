@@ -5,7 +5,6 @@ import flank.common.isCI
 import java.nio.file.Paths
 import java.util.Properties
 
-private const val ZENHUB_REPO_ID = "zenhub.repo-id"
 private const val FLANK_REPO = "repo.flank"
 private const val GCLOUD_REPO = "repo.gcloud_cli"
 private const val ARTIFACTS_REPO = "repo.test-artifacts"
@@ -15,7 +14,6 @@ private const val SDK_WORKFLOW = "sdk-check.workflow-filename"
 private const val SDK_USER = "sdk-check.issue-poster"
 
 private val defaults = Properties().apply {
-    setProperty(ZENHUB_REPO_ID, "84221974")
     setProperty(FLANK_REPO, "Flank/flank")
     setProperty(GCLOUD_REPO, "Flank/gcloud_cli")
     setProperty(ARTIFACTS_REPO, "Flank/test_artifacts")
@@ -42,7 +40,6 @@ private val props = SafeProperties(defaults).also { prop ->
     }
 }
 
-val zenhubRepositoryID = Integer.parseInt(props[ZENHUB_REPO_ID])
 val flankRepository = props[FLANK_REPO]
 val flankGcloudCLIRepository = props[GCLOUD_REPO]
 val flankTestArtifactsRepository = props[ARTIFACTS_REPO]
