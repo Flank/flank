@@ -1,9 +1,7 @@
 name: "[Code Health] Run update dependencies"
 
 on:
-  schedule:
-    - cron: '0 5 * * 1' # At 05:00 on Monday
-  workflow_dispatch:    # or manually
+  workflow_dispatch:
 
 jobs:
   get_date:
