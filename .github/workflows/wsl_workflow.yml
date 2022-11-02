@@ -1,4 +1,4 @@
-name:  Flank WSL
+name: wsl-workflow
 
 on:
   workflow_dispatch:
@@ -73,7 +73,7 @@ jobs:
           GCLOUD_DIR="$HOME/.config/gcloud/"
           mkdir -p "$GCLOUD_DIR"
           echo "$GCLOUD_KEY" | base64 --ignore-garbage --decode > "$GCLOUD_DIR/application_default_credentials.json"
-          
+
     - name: Gradle Integration Tests Android
       uses: eskatos/gradle-command-action@v1
       env:

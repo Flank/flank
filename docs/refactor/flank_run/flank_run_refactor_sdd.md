@@ -2,19 +2,19 @@
 
 # References
 
-* `https://github.com/Flank/flank/issues/1317` 
+* `https://github.com/Flank/flank/issues/1317`
 
 # Motivation
 
-Flank run is getting bigger over the time. 
-Currently, the amount of code related to test run is large, 
+Flank run is getting bigger over the time.
+Currently, the amount of code related to test run is large,
 so it could be hard to understand and keep in mind the whole process.
 To make the work more convenient, faster and scalable, we should re-think
 and reorganize the code between packages and files.
 
 # Goals
 
-* `All logic related to flank run grouped in one root package` 
+* `All logic related to flank run grouped in one root package`
 * `Package structure flat as possible.`
 * `Flank run process simplified to sequence of synchronous atomic steps.`
 * `Packages and code are easy to identify as steps.`
@@ -32,7 +32,7 @@ and reorganize the code between packages and files.
 # API
 
 > What will the proposed API look like?
-  
+
 # Results
 
 > What was the outcome of the project?
@@ -60,7 +60,6 @@ ftl/run/
 │   ├── GetLastMatrices.kt
 │   ├── PollMatrices.kt
 │   ├── PrettyPrint.kt
-│   ├── SaveSessionId.kt
 │   └── UpdateMatrixFile.kt
 ├── exception
 │   ├── ExceptionHandler.kt
@@ -142,7 +141,6 @@ ftl/run/
 * `ftl/shard/Shard.kt`
 * `ftl/shard/TestCasesCreator.kt`
 * `ftl/util/Artifacts.kt`
-* `ftl/util/CrashReporter.kt`
 * `ftl/util/FileReference.kt`
 * `ftl/util/FlankTestMethod.kt`
 * `ftl/util/FlowExt.kt`

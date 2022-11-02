@@ -2,18 +2,12 @@ package flank.scripts.ops.firebase.common
 
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.onError
-import flank.common.config.zenhubRepositoryID
 import flank.common.newLine
 import flank.scripts.data.github.objects.GitHubCreateIssueRequest
 import flank.scripts.data.github.objects.GitHubCreateIssueResponse
 import flank.scripts.data.github.objects.GitHubUpdateIssueRequest
 import flank.scripts.data.github.patchIssue
 import flank.scripts.data.github.postNewIssue
-import flank.scripts.data.zenhub.convertIssueToEpic
-import flank.scripts.data.zenhub.objects.ConvertToEpicRequest
-import flank.scripts.data.zenhub.objects.Issue
-import flank.scripts.data.zenhub.objects.UpdateEpicRequest
-import flank.scripts.data.zenhub.updateEpic
 import flank.scripts.ops.firebase.SDKUpdateContext
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -21,20 +15,11 @@ import kotlinx.coroutines.coroutineScope
 import kotlin.system.exitProcess
 
 internal suspend fun SDKUpdateContext.createEpicIssue() = coroutineScope {
-    val (updates, subIssues) = createSubIssues()
-
-    println("** Create new epic")
-    val epic = createEpic(updates)
-
-    convertIssueToEpic(
-        zenhubToken = zenhubToken,
-        issueNumber = epic,
-        payload = ConvertToEpicRequest(subIssues)
-    )
+    createSubIssues()
 }
 
 internal suspend fun SDKUpdateContext.updateOpenedEpic() = coroutineScope {
-    val (updates, subIssues) = createSubIssues()
+    val (updates) = createSubIssues()
     requireNotNull(openedIssue)
 
     println("** Update existing epic")
@@ -45,12 +30,6 @@ internal suspend fun SDKUpdateContext.updateOpenedEpic() = coroutineScope {
             title = "Implement new gcloud features [$newVersion]",
             body = openedIssue.body + newLine + updates
         )
-    )
-
-    updateEpic(
-        zenhubToken = zenhubToken,
-        issueNumber = openedIssue.number,
-        payload = UpdateEpicRequest(toAdd = subIssues, toRemove = emptyList())
     )
 }
 
@@ -73,8 +52,6 @@ private suspend fun SDKUpdateContext.createSubIssues() = coroutineScope {
                 ).handleRequest()
             }
         }
-            .awaitAll()
-            .map { Issue(zenhubRepositoryID, it.number) }
     }
 }
 
@@ -121,6 +98,6 @@ private fun logIssueCreated(issue: GitHubCreateIssueResponse) = println(
     """
 ** Issue created:
      url:    ${issue.htmlUrl}
-     number: ${issue.number} 
+     number: ${issue.number}
     """.trimIndent()
 )

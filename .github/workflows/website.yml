@@ -1,6 +1,7 @@
-name: publish_mkdocs_site
+name: "[Docs] Publish docs site (via MkDocs)"
 
 on:
+  workflow_dispatch:
   push:
     branches: [master]
     paths: ['docs/**']

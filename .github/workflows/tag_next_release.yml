@@ -1,13 +1,14 @@
-name: Create new release
+name: "[Release] Step 2: Tag next release (Autorun)"
 
 on:
+  workflow_dispatch:
   pull_request:
     types: [ closed ]
 
 jobs:
   create_release:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'release') && contains(github.event.pull_request.user.login, 'flank-release[bot]') && contains(github.event.pull_request.title, 'release notes for')
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'release') && contains(github.event.pull_request.user.login, 'google-flank-bot[bot]') && contains(github.event.pull_request.title, 'release notes for')
     steps:
       - uses: actions/checkout@v2
       - uses: tibdex/github-app-token@v1
@@ -16,8 +17,8 @@ jobs:
           app_id: ${{ secrets.FLANK_RELEASE_APP_ID }}
           private_key: ${{ secrets.FLANK_RELEASE_PRIVATE_KEY }}
 
-      - name: Download flankScripts and add it to PATH. 
-        env: 
+      - name: Download flankScripts and add it to PATH.
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         run: |
@@ -27,20 +28,11 @@ jobs:
         run: |
           TAG=$(flankScripts release next_tag --token=${{ secrets.GITHUB_TOKEN }})
           echo "NEXT_RELEASE_TAG=$(echo $TAG)" >> $GITHUB_ENV
-          
+
       - name: Push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v5
         with:
           github_token: ${{ steps.generate-token.outputs.token }}
           custom_tag: ${{ env.NEXT_RELEASE_TAG }}
-          tag_prefix: '' 
-
-      - name: Team notification in case of failure
-        uses: Flank/flank_slack_notifier@master
-        if: failure()
-        with:
-          xoxctoken: ${{ secrets.SLACK_ERROR_NOTIFICATION_XOXCTOKEN }}
-          message: There was a problem with Flank release ${{ env.RELEASE_TAG }}. Check <https://github.com/Flank/flank/actions/runs/${{ github.run_id }}| here!>
-          channel: ${{ secrets.SLACK_ERROR_NOTIFICATION_CHANNEL}}
-          cookie: ${{ secrets.SLACK_ERROR_NOTIFICATION_COOKIE}}
+          tag_prefix: ''

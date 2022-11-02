@@ -172,8 +172,6 @@ tasks.withType<Test> {
 
 dependencies {
     implementation(project(Modules.COMMON))
-    implementation(project(Modules.MIXPANEL_ANALYTICS))
-    implementation(Dependencies.SENTRY)
 
     implementation(Dependencies.DD_PLIST)
     implementation(Dependencies.DEX_TEST_PARSER)
@@ -211,9 +209,6 @@ dependencies {
 
     implementation(project(":tool:resource"))
 
-    implementation(project(Modules.ANALYTICS))
-    implementation(project(Modules.MIXPANEL_ANALYTICS))
-
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.SYSTEM_RULES)
     testImplementation(Dependencies.TRUTH)
@@ -240,7 +235,6 @@ tasks.withType<KotlinCompile> {
 }
 
 // https://github.com/gradle/kotlin-dsl/blob/master/samples/task-dependencies/build.gradle.kts#L41
-// https://github.com/codecov/example-gradle/blob/master/build.gradle#L25
 
 val updateFlank by tasks.registering(Exec::class) {
     group = "Build"

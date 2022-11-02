@@ -1,10 +1,7 @@
-name: "Generate release notes for next commit"
+name: "[Release] Step 1: Generate release notes"
 
-on: 
+on:
   workflow_dispatch:
-# Temporary disable automatic Flank stable releases
-#  schedule:
-#    - cron: 0 7 1 * *
 
 jobs:
   generateReleaseNotes:
@@ -25,7 +22,7 @@ jobs:
 #        arguments: "test_runner:processCliAsciiDoc"
 
     - name: Download flankScripts and add it to PATH
-      env: 
+      env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       run: |
@@ -60,14 +57,6 @@ jobs:
         labels: |
           automated pr
           release
-        reviewers: bootstraponline
+        reviewers: adamvduke,jakeouellette,tonybaroneee
+          owners
         draft: false
-
-    - name: Team notification in case of failure
-      uses: Flank/flank_slack_notifier@master
-      if: failure()
-      with:
-        xoxctoken: ${{ secrets.SLACK_ERROR_NOTIFICATION_XOXCTOKEN }}
-        message: There was a problem with Flank release ${{ env.RELEASE_TAG }}. Check <https://github.com/Flank/flank/actions/runs/${{ github.run_id }}| here!>
-        channel: ${{ secrets.SLACK_ERROR_NOTIFICATION_CHANNEL}}
-        cookie: ${{ secrets.SLACK_ERROR_NOTIFICATION_COOKIE}}

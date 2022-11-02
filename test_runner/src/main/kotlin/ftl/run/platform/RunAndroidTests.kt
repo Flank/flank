@@ -2,7 +2,6 @@ package ftl.run.platform
 
 import flank.common.join
 import flank.common.logLn
-import flank.tool.analytics.mixpanel.Mixpanel
 import ftl.api.RemoteStorage
 import ftl.api.TestMatrixAndroid
 import ftl.api.executeTestMatrixAndroid
@@ -50,8 +49,6 @@ internal suspend fun AndroidArgs.runAndroidTests(): TestResult = coroutineScope 
                 ignoredTestsShardChunks += context.ignoredTestCases
                 allTestShardChunks += context.shards
             }
-
-            context.reportPackageName()
         }
         .map { createTestSetup(it) }
         .run { executeTestMatrixAndroid(this) }
@@ -96,12 +93,3 @@ private suspend fun createTestSetup(context: AndroidTestContext) = TestMatrixAnd
     config = createAndroidTestConfig(context.args),
     type = context.args.createAndroidTestMatrixType(context)
 )
-
-private fun AndroidTestContext.reportPackageName() = when (this) {
-    is InstrumentationTestContext -> getAndroidAppDetails(app.remote)
-    is RoboTestContext -> getAndroidAppDetails(app.remote)
-    is SanityRoboTestContext -> getAndroidAppDetails(app.remote)
-    is GameLoopContext -> getAndroidAppDetails(app.remote)
-}.sendPackageName()
-
-private fun String.sendPackageName() = Mixpanel.add(Mixpanel.APP_ID, this)

@@ -1,16 +1,12 @@
-# Flank [![codecov](https://codecov.io/gh/Flank/flank/branch/master/graph/badge.svg)](https://codecov.io/gh/Flank/flank)
+# Flank
 
-Flank is a [massively parallel Android and iOS test runner](https://docs.google.com/presentation/d/1goan9cXpimSJsS3L60WjljnFA_seUyaWb2e-bezm084/edit#slide=id.p1) for [Firebase Test Lab](https://firebase.google.com/docs/test-lab/). 
+Flank is a [massively parallel Android and iOS test runner](https://docs.google.com/presentation/d/1goan9cXpimSJsS3L60WjljnFA_seUyaWb2e-bezm084/edit#slide=id.p1) for [Firebase Test Lab](https://firebase.google.com/docs/test-lab/).
 
 Flank is YAML compatible with [the gcloud CLI](https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test). Flank provides extra features to accelerate velocity and increase quality.
 
 ## Download
 
 https://github.com/Flank/flank/releases/latest/download/flank.jar
-
-## Sponsors
-
-See [error monitoring docs](./error_monitoring.md) to disable Sentry error monitoring.
 
 ## Contributing
 
@@ -37,14 +33,14 @@ See [error monitoring docs](./error_monitoring.md) to disable Sentry error monit
 
 | Exit code  | Description |
 |  ---:      | :---  |
-| 0          | All tests passed 
-| 1          | A general failure occurred. Possible causes include: a filename that does not exist or an HTTP/network error. 
-| 2          | Usually indicates missing or wrong usage of flags, incorrect parameters, errors in config files. 
-| 10         | At least one matrix not finished (usually a FTL internal error) or unexpected error occurred. 
-| 15         | Firebase Test Lab could not determine if the test matrix passed or failed, because of an unexpected error. 
-| 18         | The test environment for this test execution is not supported because of incompatible test dimensions. This error might occur if the selected Android API level is not supported by the selected device type. 
-| 19         | The test matrix was canceled by the user. 
-| 20         | A test infrastructure error occurred. 
+| 0          | All tests passed
+| 1          | A general failure occurred. Possible causes include: a filename that does not exist or an HTTP/network error.
+| 2          | Usually indicates missing or wrong usage of flags, incorrect parameters, errors in config files.
+| 10         | At least one matrix not finished (usually a FTL internal error) or unexpected error occurred.
+| 15         | Firebase Test Lab could not determine if the test matrix passed or failed, because of an unexpected error.
+| 18         | The test environment for this test execution is not supported because of incompatible test dimensions. This error might occur if the selected Android API level is not supported by the selected device type.
+| 19         | The test matrix was canceled by the user.
+| 20         | A test infrastructure error occurred.
 
 ## CLI
 
@@ -70,11 +66,11 @@ Run `test_runner/flank.ios.yml` with flank to verify iOS execution is working.
 # https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/run
 gcloud:
   # -- GcloudYml --
-  
-  ### Results Bucket 
+
+  ### Results Bucket
   ## The name of a Google Cloud Storage bucket where raw test results will be stored
   # results-bucket: tmp_flank
-  
+
   ### Results Directory
   ## The name of a unique Google Cloud Storage object within the results bucket where raw test results will be stored
   ## (default: a timestamp with a random suffix).
@@ -164,7 +160,7 @@ gcloud:
   #   version: 12.0
   #   locale: es_ES
   #   orientation: landscape
-  
+
   ### Directories to Pull
   ## A list of paths that will be copied from the device's storage to the designated results bucket after the test
   ## is complete. These must be absolute paths under /private/var/mobile/Media or /Documents
@@ -180,9 +176,9 @@ gcloud:
   # other-files
   #   com.my.app:/Documents/file.txt: local/file.txt
   #   /private/var/mobile/Media/file.jpg: gs://bucket/file.jpg
-  
+
   ### Additional IPA's
-  ## List of up to 100 additional IPAs to install, in addition to the one being directly tested. 
+  ## List of up to 100 additional IPAs to install, in addition to the one being directly tested.
   ## The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
   # additional-ipas:
   #   - gs://bucket/additional.ipa
@@ -199,10 +195,10 @@ gcloud:
   ### Test type
   ## The type of iOS test to run. TYPE must be one of: xctest, game-loop. Default: xctest
   # type: xctest
-  
+
   ### Application Path
-  ## The path to the application archive (.ipa file) for game-loop testing. 
-  ## The path may be in the local filesystem or in Google Cloud Storage using gs:// notation. 
+  ## The path to the application archive (.ipa file) for game-loop testing.
+  ## The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
   ## This flag is only valid when --type=game-loop is also set
   # app:
   #  - gs://bucket/additional.ipa OR path/to/local/ipa/file.ipa
@@ -328,14 +324,14 @@ flank:
 
   ### Only Test Configuration
   ## Constrains a test action to only test a specified test configuration within a test plan and exclude all other test configurations.
-  ## Flank can combine multiple constraint options, but -only-test-configuration has precedence over -skip-test-configuration. 
+  ## Flank can combine multiple constraint options, but -only-test-configuration has precedence over -skip-test-configuration.
   ## Each test configuration name must match the name of a configuration specified in a test plan and is case-sensitive.
   ## Default: null (run all test configurations)
   # only-test-configuration: en
 
   ### Skip Test Configuration
   ## Constrains a test action to skip a specified test configuration and include all other test configurations.
-  ## Flank can combine multiple constraint options, but -only-test-configuration has precedence over -skip-test-configuration. 
+  ## Flank can combine multiple constraint options, but -only-test-configuration has precedence over -skip-test-configuration.
   ## Each test configuration name must match the name of a configuration specified in a test plan and is case-sensitive.
   ## Default: null (run all test configurations)
   # skip-test-configuration: en
@@ -384,7 +380,7 @@ gcloud:
   ## Enable video recording during the test. Disabled by default. Use --record-video to enable.
   # record-video: true
 
-  ### Timeout 
+  ### Timeout
   ## The max time this test execution can run before it is cancelled (default: 15m).
   ## It does not include any time necessary to prepare and clean up the target device.
   ## The maximum possible testing time is 45m on physical devices and 60m on virtual devices.
@@ -514,7 +510,7 @@ gcloud:
   #  - label2
 
   ### OBB filenames
-  ## A list of OBB required filenames. OBB file name must conform to the format as specified by Android e.g. 
+  ## A list of OBB required filenames. OBB file name must conform to the format as specified by Android e.g.
   ## [main|patch].0300110.com.example.android.obb which will be installed into <shared-storage>/Android/obb/<package-name>/ on the device.
   # obb-names:
   #   - [main|patch].<VERSION>.com.example.android.obb
@@ -579,8 +575,8 @@ gcloud:
   #   version: 27
 
   ### test-targets-for-shard
-  ## Specifies a group of packages, classes, and/or test cases to run in each shard (a group of test cases). 
-  ## The shards are run in parallel on separate devices. You can repeat this flag up to 50 times to specify multiple shards when one or more physical devices are selected, 
+  ## Specifies a group of packages, classes, and/or test cases to run in each shard (a group of test cases).
+  ## The shards are run in parallel on separate devices. You can repeat this flag up to 50 times to specify multiple shards when one or more physical devices are selected,
   ## or up to 500 times when no physical devices are selected.
   ## Note: If you include the flags environment-variable or test-targets when running test-targets-for-shard, the flags are applied to all the shards you create.
   # test-target-for-shard:
@@ -635,7 +631,7 @@ flank:
   ## Default: false
   # use-average-test-time-for-new-tests: true
 
-  ### Default Test Time 
+  ### Default Test Time
   ## Set default test time used for calculating shards.
   ## Default: 120.0
   # default-test-time: 15
@@ -981,12 +977,12 @@ v3.0-SNAPSHOT
 
 ## Maven
 
-You can consume Flank via maven.  
-See the [maven repo](https://bintray.com/flank/maven/flank) for all supported versions.
+You can consume Flank via maven.
+See the [maven repo](https://mvnrepository.com/artifact/com.github.flank/flank) for all supported versions.
 
 ```
 repositories {
-    maven(url = "https://dl.bintray.com/flank/maven")
+    mavenCentral()
 }
 
 dependencies {
@@ -1041,30 +1037,30 @@ and flank's example [gradle-export-api](https://github.com/Flank/flank/tree/mast
 3)  > Test run failed to complete. Expected 786 tests, received 660
 
     Try setting `use-orchestrator: false`. Parameterized tests [are not compatible with orchestrator](https://stackoverflow.com/questions/48735268/unable-to-run-parameterized-tests-with-android-test-orchestrator). Flank uses [orchestrator by default on Android.](https://developer.android.com/training/testing/junit-runner)
-    
+
 4) > I have an issue when attempting to sync the Flank Gradle project
-   > Task 'prepareKotlinBuildScriptModel' not found in project ':test_runner'.  
+   > Task 'prepareKotlinBuildScriptModel' not found in project ':test_runner'.
    > or similar
-    
+
     - Make sure you do not change any module specific settings for Gradle
     - Clear IDE cache using `File > Invalidate Caches / Restart`
     - Re-import project using root `build.gradle.kts`
     - Sync project again
-    
+
 5) > Does Flank support Cucumber?
-   
+
    Please check [document](cucumber_support.md) for more info
 
 6) > How can I find project id?
-   
+
   Please check the [firebase documentation](https://firebase.google.com/docs/projects/learn-more?hl=en#find_the_project_id) about finding the project id
 
 7) > How do I run Flank with a proxy?
-  
+
   `java -Dhttp.proxyHost=localhost -Dhttp.proxyPort=8080 -Dhttp.proxyUser=user -Dhttp.proxyPassword=pass -jar ./test_runner/build/libs/flank.jar firebase test android run`
-   
+
   See [google-auth-library-java](https://github.com/googleapis/google-auth-library-java#configuring-a-proxy) for details.
-  
+
 
 # Resources
 

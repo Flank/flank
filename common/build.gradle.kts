@@ -38,8 +38,6 @@ compileTestKotlin.kotlinOptions {
 file("flank-debug.properties").run {
     if (!exists() && System.getenv("CI") == null) writeText(
         """
-            #zenhub.repo-id=84221974
-            #
             #repo.flank=Flank/flank
             #repo.gcloud_cli=Flank/gcloud_cli
             #repo.test-artifacts=Flank/test_artifacts

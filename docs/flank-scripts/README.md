@@ -8,7 +8,7 @@ This repository contains helper scripts for developing flank. For now, it contai
 To build flank-scripts:
   - Run script `buildFlankScripts.sh` in `flank-scripts/bash/` directory
   - Run command `./gradlew clean flank-scripts:assemble flank-scripts:shadowJar` and manual copy file from `/flank-scripts/build/libs/flank-scripts.jar` to `flank-scripts/bash/`
-  - You could always run/build it from Intellij IDEA 
+  - You could always run/build it from Intellij IDEA
 
 ### Usage
 
@@ -108,7 +108,6 @@ Properties are skipped by git and should not be attached to a commit. Note, the 
 #### List of possible configs
 | Key         | Description         | Default value |
 |:----------------|:---------------------|:---:|
-|`zenhub.repo-id`|Flank's repo ID in zenhub app. Used to create new epics.|`84221974`|
 |`repo.flank`|Flank test runner repo. Essential property for github client.|`Flank/flank`|
 |`repo.gcloud_cli`|Flank's fork of gcloud sdk repo.|`Flank/gcloud_cli`|
 |`repo.test-artifacts`|Flank's source of artifacts (apks, binaries, etc) used for testing|`Flank/test_artifacts`|
@@ -180,26 +179,21 @@ Properties are skipped by git and should not be attached to a commit. Note, the 
 │       ├── UploadCommand.kt
 │       └── ZipCommand.kt
 ├── data
-│   ├── github
-│   │   ├── GitHubErrorResponse.kt
-│   │   ├── GithubApi.kt
-│   │   ├── commons
-│   │   │   └── LastWorkflowRunDate.kt
-│   │   └── objects
-│   │       ├── GitHubCommit.kt
-│   │       ├── GitHubCreateIssue.kt
-│   │       ├── GitHubCreateIssueComment.kt
-│   │       ├── GitHubRelease.kt
-│   │       ├── GitHubSetAssigneesRequest.kt
-│   │       ├── GitHubSetLabelsRequest.kt
-│   │       ├── GitHubUpdateIssue.kt
-│   │       ├── GitHubWorkflowRun.kt
-│   │       └── GithubPullRequest.kt
-│   └── zenhub
-│       ├── ZenHubAPI.kt
-│       ├── ZenHubIssue.kt
+│   └── github
+│       ├── GitHubErrorResponse.kt
+│       ├── GithubApi.kt
+│       ├── commons
+│       │   └── LastWorkflowRunDate.kt
 │       └── objects
-│           └── ConvertToEpicRequest.kt
+│           ├── GitHubCommit.kt
+│           ├── GitHubCreateIssue.kt
+│           ├── GitHubCreateIssueComment.kt
+│           ├── GitHubRelease.kt
+│           ├── GitHubSetAssigneesRequest.kt
+│           ├── GitHubSetLabelsRequest.kt
+│           ├── GitHubUpdateIssue.kt
+│           ├── GitHubWorkflowRun.kt
+│           └── GithubPullRequest.kt
 ├── ops
 │   ├── assemble
 │   │   ├── BuildFlank.kt

@@ -1,9 +1,7 @@
-name: Update dependencies
+name: "[Code Health] Run update dependencies"
 
 on:
-  schedule:
-    - cron: '0 5 * * 1' # At 05:00 on Monday
-  workflow_dispatch:    # or manually
+  workflow_dispatch:
 
 jobs:
   get_date:
@@ -33,7 +31,7 @@ jobs:
           arguments: dependencyUpdates -DoutputFormatter=json -DoutputDir=.
 
       - name: Download flankScripts and add it to PATH
-        env: 
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         run: |
@@ -57,7 +55,7 @@ jobs:
           labels: |
             automated pr
             dependencies
-          reviewers: bootstraponline,jan-gogo,pawelpasterz,adamfilipow92,piotradamczyk5,Sloox,axelzuziak-gogo
+          reviewers: adamvduke,jakeouellette,tonybaroneee
           draft: false
 
   update_firebase_api:
@@ -78,7 +76,7 @@ jobs:
           python-version: '2.x'
 
       - name: Download flankScripts and add it to PATH
-        env: 
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         run: |
@@ -104,7 +102,7 @@ jobs:
           labels: |
             automated pr
             firease_api
-          reviewers: bootstraponline,jan-gogo,pawelpasterz,adamfilipow92,piotradamczyk5,Sloox,axelzuziak-gogo
+          reviewers: adamvduke,jakeouellette,tonybaroneee
           draft: false
 
   check_for_sdk_updates:
@@ -112,7 +110,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Download flankScripts and add it to PATH
-        env: 
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         run: |
@@ -123,7 +121,6 @@ jobs:
         run: |
           flankScripts firebase check_for_sdk_updates \
           --github-token=${{ secrets.GITHUB_TOKEN }} \
-          --zenhub-token=${{ secrets.ZENHUB_API_KEY }}
 
   trigger-pointer:
     runs-on: ubuntu-latest
