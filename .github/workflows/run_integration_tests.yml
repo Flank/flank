@@ -29,7 +29,7 @@ jobs:
         run: |
           PR_URL="${{ github.event.issue.pull_request.url }}"
           PR_NUMBER=${PR_URL##*/}
-          echo "name=number::$PR_NUMBER" >> $GITHUB_OUTPUT
+          echo "number=$PR_NUMBER" >> $GITHUB_OUTPUT
       - uses: khan/pull-request-comment-trigger@master
         if: ${{ github.event_name == 'issue_comment'}}
         id: check_issue_comment
@@ -45,7 +45,7 @@ jobs:
         run: |
           echo "event name: ${{ github.event_name }}"
           echo "issue command found: ${{ steps.check_issue_comment.outputs.triggered == 'true' }}"
-          echo "name=should_run::${{ env.run_it }}" >> $GITHUB_OUTPUT
+          echo "should_run=${{ env.run_it }}" >> $GITHUB_OUTPUT
 
   integration-tests-post-link:
     runs-on: macos-latest
