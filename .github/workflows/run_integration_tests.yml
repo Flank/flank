@@ -119,7 +119,6 @@ jobs:
         uses: eskatos/gradle-command-action@v1.3.3
         id: run-it
         env:
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_REF: ${{ github.ref }}
         with:
@@ -150,7 +149,6 @@ jobs:
       - name: Download flankScripts and add it to PATH
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         run: |
           ./gradlew :flank-scripts:download
           echo "./flank-scripts/bash" >> $GITHUB_PATH

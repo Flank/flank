@@ -32,7 +32,6 @@ jobs:
     - name: Gradle clean build
       uses: eskatos/gradle-command-action@v1
       env:
-        GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         HEAD_REF: ${{ github.head_ref }}
       with:
