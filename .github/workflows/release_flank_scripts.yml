@@ -20,6 +20,5 @@ jobs:
       uses: eskatos/gradle-command-action@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       with:
         arguments: "flank-scripts:releaseFlankScripts -PGITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
