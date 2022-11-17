@@ -43,7 +43,7 @@ IosArgs
       test-targets:
         - nonExisting\/Class
       disable-sharding: false
-      project: flank-open-source
+      project: ftl-flank-open-source
       local-result-dir: results
       run-timeout: -1
       ignore-failed-tests: false

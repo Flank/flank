@@ -14,8 +14,8 @@ export PATH=$PATH:$HOME/$FLANK_REPO/flank/test_projects/android/bash
 export PATH=$PATH:$HOME/Library/Android/sdk/platform-tools
 export PATH=$PATH:$HOME/Library/Python/2.7/bin
 #export PATH=$PATH:$HOME/"path to your local gcloud repository"/gcloud_cli/google-cloud-sdk/bin
-export FLANK_PROJECT_ID=flank-open-source
-export GOOGLE_CLOUD_PROJECT=flank-open-source
+export FLANK_PROJECT_ID=ftl-flank-open-source
+export GOOGLE_CLOUD_PROJECT=ftl-flank-open-source
 export GITHUB_TOKEN="type your gihub token here"
 ```
 

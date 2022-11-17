@@ -11,7 +11,7 @@ flank:
   max-test-shards: 2
   num-test-runs: 1
   additional-app-test-apks:
-    - test: gs://flank-open-source.appspot.com/integration/app-single-success-debug-androidTest.apk
+    - test: gs://flank-integration/app-single-success-debug-androidTest.apk
     - test: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-error-debug-androidTest.apk
     - test: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-success-debug-androidTest.apk
     - test: ../test_projects/android/apks/invalid.apk

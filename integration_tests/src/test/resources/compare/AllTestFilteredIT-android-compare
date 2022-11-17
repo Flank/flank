@@ -49,7 +49,7 @@ AndroidArgs
       files-to-download:
       test-targets-always-run:
       disable-sharding: true
-      project: flank-open-source
+      project: ftl-flank-open-source
       local-result-dir: results
       full-junit-result: false
       # Android Flank Yml

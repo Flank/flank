@@ -110,7 +110,7 @@ val customSharding =
     mapOf(
         "matrix-0" to AndroidTestShards(
             app = "../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk",
-            test = "gs://flank-open-source.appspot.com/integration/app-single-success-debug-androidTest.apk",
+            test = "gs://flank-integration/app-single-success-debug-androidTest.apk",
             shards = mapOf(
                 "shard-0" to listOf(
                     "class com.example.test_app.InstrumentedTest#test"
