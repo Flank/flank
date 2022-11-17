@@ -1,6 +1,6 @@
 gcloud:
-  app: gs://flank-open-source.appspot.com/integration/app-debug.apk
-  test: gs://flank-open-source.appspot.com/integration/app-single-success-debug-androidTest.apk
+  app: gs://flank-integration/app-debug.apk
+  test: gs://flank-integration/app-single-success-debug-androidTest.apk
 
 flank:
   disable-results-upload: true

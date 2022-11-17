@@ -1,6 +1,6 @@
 flank:
   disable-sharding: false
-  project: flank-open-source
+  project: ftl-flank-open-source
 gcloud:
   app: ../test_projects/android/apks/app-debug.apk
     test: ../test_projects/android/apks/app-debug-androidTest.apk
