@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
 
   update_dependencies:
     runs-on: macos-latest
@@ -33,7 +33,6 @@ jobs:
       - name: Download flankScripts and add it to PATH
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         run: |
           ./gradlew :flank-scripts:download
           echo "./flank-scripts/bash" >> $GITHUB_PATH
@@ -78,7 +77,6 @@ jobs:
       - name: Download flankScripts and add it to PATH
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         run: |
           ./gradlew :flank-scripts:download
           echo "./flank-scripts/bash" >> $GITHUB_PATH
@@ -112,7 +110,6 @@ jobs:
       - name: Download flankScripts and add it to PATH
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         run: |
           ./gradlew :flank-scripts:download
           echo "./flank-scripts/bash" >> $GITHUB_PATH

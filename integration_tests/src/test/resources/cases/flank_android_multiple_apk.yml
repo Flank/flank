@@ -16,7 +16,7 @@ flank:
           version: 28
       test-targets:
         - class com.example.test_app.InstrumentedTest#test2
-    - test: gs://flank-open-source.appspot.com/integration/app-single-success-debug-androidTest.apk
+    - test: gs://flank-integration/app-single-success-debug-androidTest.apk
       device:
         - model: Nexus6P
           version: 27

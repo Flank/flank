@@ -251,7 +251,7 @@ class AndroidArgsFileTest {
             defaultAndroidConfig().apply {
                 common.apply {
                     gcloud.resultsBucket = oldConfig.resultsBucket
-                    flank.project = "flank-open-source"
+                    flank.project = "ftl-flank-open-source"
                 }
                 platform.gcloud.apply {
                     app = oldConfig.appApk

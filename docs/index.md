@@ -279,7 +279,7 @@ flank:
 
   ### Billing Project ID
   ## The billing enabled Google Cloud Platform project id to use
-  # project: flank-open-source
+  # project: ftl-flank-open-source
 
   ### Local Result Directory Storage
   ## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.
@@ -659,7 +659,7 @@ flank:
 
   ### Billing Project ID
   ## The billing enabled Google Cloud Platform id name to use
-  # project: flank-open-source
+  # project: ftl-flank-open-source
 
   ### Local Results Directory
   ## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.
@@ -927,6 +927,7 @@ to have a unique non-shared credential. A service account is still recommended f
 ## Authenticate with a service account
 
 Follow the [test lab docs](https://firebase.google.com/docs/test-lab/android/continuous) to create a service account.
+
 - Save the credential to `$HOME/.config/gcloud/application_default_credentials.json` or set `GOOGLE_APPLICATION_CREDENTIALS` when using a custom path.
 - Set the project id in flank.yml or set the `GOOGLE_CLOUD_PROJECT` environment variable.
 - (Since 21.01) if `projectId` is not set in a config yml file, flank uses the first available project ID among the following sources:
