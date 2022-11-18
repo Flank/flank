@@ -198,7 +198,7 @@ object MockServer {
                 }
 
                 // GcTestMatrix.build
-                // http://localhost:8080/v1/projects/flank-open-source/testMatrices
+                // http://localhost:8080/v1/projects/ftl-flank-open-source/testMatrices
                 post("/v1/projects/{project}/testMatrices") {
                     println("Responding to POST ${call.request.uri}")
                     val projectId = call.parameters["project"]
@@ -248,7 +248,7 @@ object MockServer {
                 }
 
                 // GcToolResults.getStepResult(toolResultsStep)
-                // GET /toolresults/v1beta3/projects/flank-open-source/histories/1/executions/1/steps/1
+                // GET /toolresults/v1beta3/projects/ftl-flank-open-source/histories/1/executions/1/steps/1
                 get("/toolresults/v1beta3/projects/{project}/histories/{historyId}/executions/{executionId}/steps/{stepId}") {
                     println("Responding to GET ${call.request.uri}")
                     val stepId = call.parameters["stepId"] ?: ""
@@ -256,14 +256,14 @@ object MockServer {
                 }
 
                 // GcToolResults.getExecutionResult(toolResultsStep)
-                // GET /toolresults/v1beta3/projects/flank-open-source/histories/1/executions/1
+                // GET /toolresults/v1beta3/projects/ftl-flank-open-source/histories/1/executions/1
                 get("/toolresults/v1beta3/projects/{project}/histories/{historyId}/executions/{executionId}") {
                     println("Responding to GET ${call.request.uri}")
                     val executionId = call.parameters["executionId"] ?: ""
                     call.respond(fakeStep(executionId))
                 }
                 // GcToolResults.listTestCases(toolResultsStep)
-                // GET /toolresults/v1beta3/projects/flank-open-source/histories/1/executions/1/steps/1/testCases
+                // GET /toolresults/v1beta3/projects/ftl-flank-open-source/histories/1/executions/1/steps/1/testCases
                 get("/toolresults/v1beta3/projects/{project}/histories/{historyId}/executions/{executionId}/steps/{stepId}/testCases") {
                     println("Responding to GET ${call.request.uri}")
                     val executionId = call.parameters["executionId"] ?: ""

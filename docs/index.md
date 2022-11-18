@@ -279,7 +279,7 @@ flank:
 
   ### Billing Project ID
   ## The billing enabled Google Cloud Platform project id to use
-  # project: flank-open-source
+  # project: ftl-flank-open-source
 
   ### Local Result Directory Storage
   ## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.
@@ -659,7 +659,7 @@ flank:
 
   ### Billing Project ID
   ## The billing enabled Google Cloud Platform id name to use
-  # project: flank-open-source
+  # project: ftl-flank-open-source
 
   ### Local Results Directory
   ## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.

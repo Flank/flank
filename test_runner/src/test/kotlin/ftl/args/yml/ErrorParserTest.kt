@@ -90,7 +90,7 @@ Error node: {
         val testYaml = """
             flank: 
               disable-sharding: false
-              project: flank-open-source
+              project: ftl-flank-open-source
             gcloud: 
               app: ../test_app/apks/app-debug.apk
                 test: ../test_app/apks/app-debug-androidTest.apk
