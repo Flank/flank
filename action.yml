@@ -45,6 +45,6 @@ runs:
       run: |
         file_path=$(find -name "flank-links.log")
         local_directory_file=$(sed -n '1p' < $file_path)
-        echo "::set-output name=local_results_directory::$(dirname $local_directory_file)"
-        echo "::set-output name=gcloud_results_directory::$(sed -n '2p' < $file_path)"
+        echo "local_results_directory=$(dirname $local_directory_file)" >> $GITHUB_OUTPUT
+        echo "gcloud_results_directory=$(sed -n '2p' < $file_path)" >> $GITHUB_OUTPUT
       shell: bash
