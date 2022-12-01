@@ -3,23 +3,29 @@ name: "[Release] Step 1: Generate release notes"
 on:
   workflow_dispatch:
 
+# limit the permissions of the GITHIUB_TOKEN to reading repository contents
+# the subsequent pull request uses a token from the 'generate-token' step
+permissions:
+  contents: read
+
 jobs:
   generateReleaseNotes:
     runs-on: macos-latest
 
     steps:
+    - name: Harden Runner
+      uses: step-security/harden-runner@v2
+      with:
+        egress-policy: audit
+        # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
+
+
     - uses: actions/checkout@v2
     - uses: gradle/wrapper-validation-action@v1
     - name: Get all git tags
       run: |
         git fetch --prune --unshallow --tags
         git tag
-
-# Temporary disable ASCII doc generation because is failing and blocking crucial release.
-#    - name: Generate documentation
-#      uses: eskatos/gradle-command-action@v1
-#      with:
-#        arguments: "test_runner:processCliAsciiDoc"
 
     - name: Download flankScripts and add it to PATH
       env:

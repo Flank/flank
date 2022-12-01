@@ -3,6 +3,10 @@ name: "[Code Health] Run update dependencies"
 on:
   workflow_dispatch:
 
+# TODO: update workflow permissions to least privilege after auditing all the APIs used
+# permissions:  # limit the permissions of the GITHIUB_TOKEN to reading repository contents
+#   contents: read
+
 jobs:
   get_date:
     runs-on: ubuntu-latest
@@ -17,8 +21,13 @@ jobs:
     runs-on: macos-latest
     needs: [ get_date ]
     steps:
-      - uses: actions/checkout@v2
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
 
+      - uses: actions/checkout@v2
       - uses: tibdex/github-app-token@v1
         id: generate-token
         with:
@@ -26,7 +35,7 @@ jobs:
           private_key: ${{ secrets.FLANK_RELEASE_PRIVATE_KEY }}
 
       - name: Gradle dependency updates raport
-        uses: eskatos/gradle-command-action@v1
+        uses: gradle/gradle-build-action@v1
         with:
           arguments: dependencyUpdates -DoutputFormatter=json -DoutputDir=.
 
@@ -61,8 +70,13 @@ jobs:
     runs-on: macos-latest
     needs: [ get_date ]
     steps:
-      - uses: actions/checkout@v2
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
 
+      - uses: actions/checkout@v2
       - uses: tibdex/github-app-token@v1
         id: generate-token
         with:
@@ -106,6 +120,12 @@ jobs:
   check_for_sdk_updates:
     runs-on: macos-latest
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
+
       - uses: actions/checkout@v2
       - name: Download flankScripts and add it to PATH
         env:
@@ -124,6 +144,12 @@ jobs:
     needs: [ check_for_sdk_updates ]
     if: always()
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
+
       - uses: tibdex/github-app-token@v1
         id: generate-token
         with:

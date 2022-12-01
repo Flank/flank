@@ -8,11 +8,23 @@ on:
     branches:
       - '*'
 
+permissions:  # limit the permissions of the GITHIUB_TOKEN to reading repository contents
+  contents: read
+
 jobs:
   build:
+    permissions:
+      actions: write  # for styfle/cancel-workflow-action to cancel/stop running workflows
+      contents: read  # for actions/checkout to fetch code
     runs-on: macos-latest
 
     steps:
+    - name: Harden Runner
+      uses: step-security/harden-runner@v2
+      with:
+        egress-policy: audit
+        # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
+
     - name: Cancel Previous Runs
       uses: styfle/cancel-workflow-action@0.5.0
       with:
@@ -30,7 +42,7 @@ jobs:
           ${{ runner.os }}-2-gradle-
 
     - name: Gradle clean build
-      uses: eskatos/gradle-command-action@v1
+      uses: gradle/gradle-build-action@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         HEAD_REF: ${{ github.head_ref }}

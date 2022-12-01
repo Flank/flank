@@ -7,8 +7,14 @@ on:
   issue_comment:
     types: [ created ]      # or by comment
 
+# TODO: update workflow permissions to least privilege after auditing all the APIs used
+# permissions:  # limit the permissions of the GITHIUB_TOKEN to reading repository contents
+#   contents: read
+
 jobs:
   cancel_previous:
+    permissions:
+      actions: write  # for styfle/cancel-workflow-action to cancel/stop running workflows
     if: ${{ github.event_name != 'issue_comment'}}
     runs-on: macos-latest
     steps:
@@ -23,6 +29,12 @@ jobs:
       run_integration_tests: ${{ steps.should-run-step.outputs.should_run }}
       pr_number: ${{ steps.pr_number.outputs.number }}
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
+
       - name: Get PR number
         id: pr_number
         if: ${{ github.event_name == 'issue_comment'}}
@@ -54,6 +66,12 @@ jobs:
     outputs:
       comment_id: ${{ steps.couc.outputs.comment-id }}
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
+
       - name: Get current time
         uses: 1466587594/get-current-time@v2
         id: current-time
@@ -81,6 +99,12 @@ jobs:
       job_status: ${{ job.status }}
       build-scan-url: ${{ steps.run-it.outputs.build-scan-url }}
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
+
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -116,7 +140,7 @@ jobs:
         shell: bash
 
       - name: Gradle integration tests
-        uses: eskatos/gradle-command-action@v1.3.3
+        uses: gradle/gradle-build-action@v1.3.3
         id: run-it
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -137,6 +161,12 @@ jobs:
     runs-on: macos-latest
     if: always() && github.event_name != 'issue_comment'
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
+
       - name: Import variable
         uses: UnlyEd/github-action-store-variable@v2.1.0
         with:
@@ -166,6 +196,12 @@ jobs:
     runs-on: macos-latest
     if: always() && github.event_name == 'issue_comment'
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
+
       - name: Import variable
         uses: UnlyEd/github-action-store-variable@v2.1.0
         with:
@@ -206,6 +242,12 @@ jobs:
     needs: [ process-results ]
     if: always() && github.event_name != 'issue_comment'
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
+
       - uses: tibdex/github-app-token@v1
         id: generate-token
         with:
