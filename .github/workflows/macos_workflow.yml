@@ -19,12 +19,6 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - name: Harden Runner
-      uses: step-security/harden-runner@v2
-      with:
-        egress-policy: audit
-        # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
-
     - name: Cancel Previous Runs
       uses: styfle/cancel-workflow-action@0.5.0
       with:

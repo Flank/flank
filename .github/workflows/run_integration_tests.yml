@@ -29,12 +29,6 @@ jobs:
       run_integration_tests: ${{ steps.should-run-step.outputs.should_run }}
       pr_number: ${{ steps.pr_number.outputs.number }}
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: audit
-          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
-
       - name: Get PR number
         id: pr_number
         if: ${{ github.event_name == 'issue_comment'}}
@@ -66,12 +60,6 @@ jobs:
     outputs:
       comment_id: ${{ steps.couc.outputs.comment-id }}
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: audit
-          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
-
       - name: Get current time
         uses: 1466587594/get-current-time@v2
         id: current-time
@@ -161,12 +149,6 @@ jobs:
     runs-on: macos-latest
     if: always() && github.event_name != 'issue_comment'
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: audit
-          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
-
       - name: Import variable
         uses: UnlyEd/github-action-store-variable@v2.1.0
         with:
@@ -196,12 +178,6 @@ jobs:
     runs-on: macos-latest
     if: always() && github.event_name == 'issue_comment'
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: audit
-          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
-
       - name: Import variable
         uses: UnlyEd/github-action-store-variable@v2.1.0
         with:
