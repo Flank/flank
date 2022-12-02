@@ -3,11 +3,9 @@ package ftl.util
 import ftl.api.FileReference
 import ftl.api.RemoteStorage
 import ftl.api.downloadFileReference
-import ftl.api.uploadToRemoteStorage
+import ftl.api.uploadFileToRemoteStorage
 import ftl.args.IArgs
 import ftl.config.FtlConstants
-import java.nio.file.Files
-import java.nio.file.Paths
 
 fun String.asFileReference(): FileReference =
     if (startsWith(FtlConstants.GCS_PREFIX)) FileReference(remote = this) else FileReference(local = this)
@@ -28,8 +26,8 @@ fun FileReference.uploadIfNeeded(
 ): FileReference = if (remote.isNotBlank()) this else copy(remote = upload(local, rootGcsBucket, runGcsPath))
 
 fun upload(file: String, rootGcsBucket: String, runGcsPath: String): String {
-    return uploadToRemoteStorage(
+    return uploadFileToRemoteStorage(
         RemoteStorage.Dir(rootGcsBucket, runGcsPath),
-        RemoteStorage.Data(file, Files.readAllBytes(Paths.get(file)))
+        RemoteStorage.File(file)
     )
 }

@@ -9,6 +9,7 @@ import com.google.cloud.storage.StorageOptions
 import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
 import com.google.common.annotations.VisibleForTesting
 import flank.common.join
+import flank.common.log
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
@@ -18,8 +19,8 @@ import ftl.util.runWithProgress
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URI
+import java.nio.ByteBuffer
 import java.nio.file.Files
-import java.nio.file.Paths
 import java.util.concurrent.ConcurrentHashMap
 
 object GcStorage {
@@ -48,17 +49,6 @@ object GcStorage {
         }
     }
 
-    @VisibleForTesting
-    internal fun upload(file: String, rootGcsBucket: String, runGcsPath: String): String {
-        if (file.startsWith(GCS_PREFIX)) return file
-        return upload(
-            filePath = file,
-            fileBytes = Files.readAllBytes(Paths.get(file)),
-            rootGcsBucket = rootGcsBucket,
-            runGcsPath = runGcsPath
-        )
-    }
-
     fun uploadJunitXml(testResultXml: String, args: IArgs) {
         if (args.smartFlankGcsPath.isBlank() || args.smartFlankDisableUpload) return
 
@@ -77,9 +67,9 @@ object GcStorage {
     @VisibleForTesting
     internal fun upload(
         filePath: String,
-        fileBytes: ByteArray,
         rootGcsBucket: String,
-        runGcsPath: String
+        runGcsPath: String,
+        fileBytes: ByteArray? = null
     ): String {
         val file = File(filePath)
         return uploadCache.computeIfAbsent("$runGcsPath-${file.absolutePath}") {
@@ -92,11 +82,18 @@ object GcStorage {
             }
 
             // 404 Not Found error when rootGcsBucket does not exist
-            fileBytes.uploadWithProgress(
-                bucket = rootGcsBucket,
-                path = validGcsPath,
-                name = file.name
-            )
+            when {
+                fileBytes != null -> fileBytes.uploadWithProgress(
+                    bucket = rootGcsBucket,
+                    path = validGcsPath,
+                    name = file.name
+                )
+                else -> file.uploadWithProgress(
+                    bucket = rootGcsBucket,
+                    path = validGcsPath,
+                    name = file.name
+                )
+            }
             GCS_PREFIX + join(rootGcsBucket, validGcsPath)
         }
     }
@@ -110,6 +107,37 @@ object GcStorage {
         runWithProgress(
             startMessage = "Uploading [$name] to ${GCS_STORAGE_LINK + join(bucket, path).replace(name, "")}..",
             action = { storage.create(BlobInfo.newBuilder(bucket, path).build(), this) },
+            onError = { throw FlankGeneralError("Error on uploading $name\nCause: $it") }
+        )
+    }
+
+    private fun File.uploadWithProgress(
+        bucket: String,
+        path: String,
+        name: String
+    ) {
+        // TODO #2136 handle messages with state
+        runWithProgress(
+            startMessage = "Uploading file [$name] to ${GCS_STORAGE_LINK + join(bucket, path).replace(name, "")}..",
+            action = {
+                val blobInfo = BlobInfo.newBuilder(bucket, path).build()
+                if (this.length() < 1_000_000) { // 1_000_000 ~= 1MB
+                    log("Uploaded blob")
+                    val bytes = Files.readAllBytes(this.toPath())
+                    storage.create(blobInfo, bytes)
+                    return@runWithProgress
+                }
+
+                storage.writer(blobInfo).use { writer ->
+                    val buffer = ByteArray(10240)
+                    Files.newInputStream(this.toPath()).use { input ->
+                        var limit: Int
+                        while (input.read(buffer).also { limit = it } >= 0) {
+                            writer.write(ByteBuffer.wrap(buffer, 0, limit))
+                        }
+                    }
+                }
+            },
             onError = { throw FlankGeneralError("Error on uploading $name\nCause: $it") }
         )
     }
@@ -152,10 +180,10 @@ object GcStorage {
 
 internal fun gcStorageUpload(
     filePath: String,
-    fileBytes: ByteArray,
     rootGcsBucket: String,
-    runGcsPath: String
-) = if (filePath.startsWith(GCS_PREFIX)) filePath else GcStorage.upload(filePath, fileBytes, rootGcsBucket, runGcsPath)
+    runGcsPath: String,
+    fileBytes: ByteArray? = null,
+) = if (filePath.startsWith(GCS_PREFIX)) filePath else GcStorage.upload(filePath, rootGcsBucket, runGcsPath, fileBytes)
 
 internal fun gcStorageExist(rootGcsBucket: String, runGcsPath: String) = GcStorage.exist(rootGcsBucket, runGcsPath)
 

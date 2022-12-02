@@ -1,9 +1,11 @@
 package ftl.api
 
 import ftl.adapter.GcStorageExists
+import ftl.adapter.GcStorageFileUpload
 import ftl.adapter.GcStorageUpload
 
 val uploadToRemoteStorage: RemoteStorage.Upload get() = GcStorageUpload
+val uploadFileToRemoteStorage: RemoteStorage.FileUpload get() = GcStorageFileUpload
 val existRemoteStorage: RemoteStorage.Exist get() = GcStorageExists
 
 object RemoteStorage {
@@ -36,7 +38,13 @@ object RemoteStorage {
         }
     }
 
+    data class File(
+        val path: String
+    )
+
     interface Exist : (Dir) -> Boolean
 
     interface Upload : (Dir, Data) -> String
+
+    interface FileUpload : (Dir, File) -> String
 }
