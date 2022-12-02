@@ -5,6 +5,10 @@ name: "Pointer - Dependencies Update"
 on:
   repository_dispatch:
     types: [ dependencies-pointer ]
+
+permissions:  # limit the permissions of the GITHIUB_TOKEN to reading repository contents
+  contents: read
+
 jobs:
   point:
     runs-on: ubuntu-latest
