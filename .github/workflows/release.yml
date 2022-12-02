@@ -11,13 +11,22 @@ on:
       - 'master'
     tags: v*
 
+# TODO: update workflow permissions to least privilege after auditing all the APIs used
+# permissions:  # limit the permissions of the GITHIUB_TOKEN to reading repository contents
+#   contents: read
+
 jobs:
   release:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Harden Runner
+      uses: step-security/harden-runner@v2
+      with:
+        egress-policy: audit
+        # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
 
+    - uses: actions/checkout@v2
     - uses: gradle/wrapper-validation-action@v1
 
     - name: Get all git tags
@@ -53,7 +62,7 @@ jobs:
           echo "$RELEASE_TAG" > ./test_runner/src/main/resources/version.txt
 
     - name: Gradle Build Flank
-      uses: eskatos/gradle-command-action@v1
+      uses: gradle/gradle-build-action@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         HEAD_REF: ${{ github.head_ref }}
@@ -96,20 +105,20 @@ jobs:
         gh release upload $RELEASE_TAG flank.sha256
 
     - name: Gradle Upload to MavenCentral
-      uses: eskatos/gradle-command-action@v1
+      uses: gradle/gradle-build-action@v1
       env:
         PGP_SIGNING_KEY: ${{ secrets.PGP_SIGNING_KEY }}
       with:
         arguments: :test_runner:publishMavenJavaPublicationToMavenCentralRepository -PMVN_CENTRAL_USER=${{ secrets.MVN_CENTRAL_USER }} -PMVN_CENTRAL_PASSWORD=${{ secrets.MVN_CENTRAL_PASSWORD }}
 
     - name: Gradle close staging on MavenCentral
-      uses: eskatos/gradle-command-action@v1
+      uses: gradle/gradle-build-action@v1
       if: startsWith(github.ref, 'refs/tags/v')
       with:
         arguments: closeAndReleaseRepository -PMVN_CENTRAL_USER=${{ secrets.MVN_CENTRAL_USER }} -PMVN_CENTRAL_PASSWORD=${{ secrets.MVN_CENTRAL_PASSWORD }}
 
     - name: Gradle Upload to GitHub packages
-      uses: eskatos/gradle-command-action@v1
+      uses: gradle/gradle-build-action@v1
       if: startsWith(github.ref, 'refs/tags/v')
       env:
         PGP_SIGNING_KEY: ${{ secrets.PGP_SIGNING_KEY }}

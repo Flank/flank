@@ -5,11 +5,21 @@ on:
   pull_request:
     types: [ closed ]
 
+# TODO: update workflow permissions to least privilege after auditing all the APIs used
+# permissions:  # limit the permissions of the GITHIUB_TOKEN to reading repository contents
+#   contents: read
+
 jobs:
   create_release:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'release') && contains(github.event.pull_request.user.login, 'google-flank-bot[bot]') && contains(github.event.pull_request.title, 'release notes for')
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
+
       - uses: actions/checkout@v2
       - uses: tibdex/github-app-token@v1
         id: generate-token
