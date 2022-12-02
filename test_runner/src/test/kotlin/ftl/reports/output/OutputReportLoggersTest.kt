@@ -95,6 +95,6 @@ class OutputReportLoggersTest {
         outputReport.logBillableMinutes(physical, virtual, total)
 
         // then
-        assertThat(outputReport.outputData).containsEntry("billable-minutes", billableMinutes)
+        assertThat(outputReport.outputData).containsEntry("billable_minutes", billableMinutes)
     }
 }
