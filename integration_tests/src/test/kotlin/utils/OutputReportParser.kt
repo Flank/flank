@@ -17,7 +17,7 @@ val OutputReport.firstTestSuiteOverview: SuiteOverview
 data class OutputReport(
     val args: Any,
     val cost: OutputReportCostNode? = null,
-    @JsonProperty("billable-minutes")
+    @JsonProperty("billable_minutes")
     val billableMinutes: OutputReportBillableMinutesNode? = null,
     val weblinks: List<String> = emptyList(),
     @JsonProperty("test_results") val testResults: Map<String, Matrix> = emptyMap(),
