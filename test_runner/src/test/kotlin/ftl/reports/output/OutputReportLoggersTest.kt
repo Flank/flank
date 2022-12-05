@@ -1,6 +1,8 @@
 package ftl.reports.output
 
 import com.google.common.truth.Truth.assertThat
+import flank.common.OutputReportBillableMinutesNode
+import flank.common.OutputReportCostNode
 import ftl.api.TestMatrix
 import ftl.api.TestMatrixTest.Companion.historyId
 import ftl.args.AndroidArgs
@@ -72,11 +74,27 @@ class OutputReportLoggersTest {
         val physical: BigDecimal = BigDecimal.ONE
         val virtual: BigDecimal = BigDecimal.TEN
         val total: BigDecimal = BigDecimal.ZERO
+        val cost = OutputReportCostNode(BigDecimal.ONE, BigDecimal.TEN, BigDecimal.ZERO)
 
         // when
-        outputReport.log(physical, virtual, total)
+        outputReport.logCosts(physical, virtual, total)
 
         // then
-        assertThat(outputReport.outputData).containsKey("cost")
+        assertThat(outputReport.outputData).containsEntry("cost", cost)
+    }
+
+    @Test
+    fun `should log billable minutes`() {
+        // given
+        val physical: BigDecimal = BigDecimal.ONE
+        val virtual: BigDecimal = BigDecimal.TEN
+        val total: BigDecimal = BigDecimal.ZERO
+        val billableMinutes = OutputReportBillableMinutesNode(BigDecimal.ONE, BigDecimal.TEN, BigDecimal.ZERO)
+
+        // when
+        outputReport.logBillableMinutes(physical, virtual, total)
+
+        // then
+        assertThat(outputReport.outputData).containsEntry("billable_minutes", billableMinutes)
     }
 }
