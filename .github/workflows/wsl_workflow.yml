@@ -1,10 +1,12 @@
-name:  Flank WSL
+name: wsl-workflow
 
 on:
   workflow_dispatch:
 
 jobs:
   check_approve_count:
+    permissions:
+      pull-requests: read
     runs-on: ubuntu-latest
     outputs:
       approve_count: ${{ steps.reviews.outputs.approved }}
@@ -20,6 +22,9 @@ jobs:
 
   integration-tests-wsl:
     needs: [check_approve_count]
+    permissions:
+      actions: write  # for styfle/cancel-workflow-action to cancel/stop running workflows
+      contents: read  # for actions/checkout to fetch code
     if: 'needs.check_approve_count.outputs.approve_count >= 2'
     runs-on: windows-2019
     defaults:
@@ -39,9 +44,7 @@ jobs:
           dos2unix
 
     - uses: actions/checkout@v2
-
     - uses: gradle/wrapper-validation-action@v1
-
     - uses: actions/cache@v2
       with:
         path: ~/.gradle/caches
@@ -64,7 +67,6 @@ jobs:
       run: |
           export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
           export HEAD_REF=${{ github.ref }}
-          export GRADLE_ENTERPRISE_ACCESS_KEY=${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           ./gradlew clean build
 
     - name: Prepare Google Service Account
@@ -73,19 +75,17 @@ jobs:
           GCLOUD_DIR="$HOME/.config/gcloud/"
           mkdir -p "$GCLOUD_DIR"
           echo "$GCLOUD_KEY" | base64 --ignore-garbage --decode > "$GCLOUD_DIR/application_default_credentials.json"
-          
+
     - name: Gradle Integration Tests Android
-      uses: eskatos/gradle-command-action@v1
+      uses: gradle/gradle-build-action@v1
       env:
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-        GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       with:
         arguments: "--info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml"
 
     - name: Gradle Integration Tests iOS
-      uses: eskatos/gradle-command-action@v1
+      uses: gradle/gradle-build-action@v1
       env:
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-        GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       with:
         arguments: "--info :integration_tests:test --tests IntegrationTests.shouldMatchIosSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_ios.yml"

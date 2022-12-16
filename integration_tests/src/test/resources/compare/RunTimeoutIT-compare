@@ -9,8 +9,8 @@ AndroidArgs
       network-profile: null
       results-history-name: null
       # Android gcloud
-      app: [0-9a-zA-Z\\\/_.:-]*[\\\/]flank-open-source.appspot.com[\\\/]integration[\\\/]app-debug.apk
-      test: [0-9a-zA-Z\\\/_.:-]*[\\\/]flank-open-source.appspot.com[\\\/]integration[\\\/]app-single-success-debug-androidTest.apk
+      app: [0-9a-zA-Z\\\/_.:-]*[\\\/]ftl-flank-open-source.appspot.com[\\\/]integration[\\\/]app-debug.apk
+      test: [0-9a-zA-Z\\\/_.:-]*[\\\/]ftl-flank-open-source.appspot.com[\\\/]integration[\\\/]app-single-success-debug-androidTest.apk
       additional-apks:
       auto-google-login: false
       use-orchestrator: true
@@ -48,7 +48,7 @@ AndroidArgs
       files-to-download:
       test-targets-always-run:
       disable-sharding: true
-      project: flank-open-source
+      project: ftl-flank-open-source
       local-result-dir: results
       full-junit-result: false
       # Android Flank Yml
@@ -73,7 +73,7 @@ RunTests
   Raw results will be stored in your GCS bucket at \[https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\]
 
 Matrices webLink
-  matrix-[0-9a-zA-Z\/_.-]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
+  matrix-[0-9a-zA-Z\/_.-]* https:\/\/console.firebase.google.com\/project\/ftl-flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
 
 [\s\S]*
 

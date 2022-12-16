@@ -5,8 +5,6 @@ import com.google.api.client.http.HttpResponseException
 import ftl.run.exception.FailureToken
 import ftl.run.exception.PermissionDenied
 import ftl.run.exception.ProjectNotFound
-import ftl.util.report
-import io.sentry.SentryLevel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
@@ -23,10 +21,6 @@ private inline fun <T> withRetry(crossinline block: () -> T): T = runBlocking {
         try {
             return@runBlocking block()
         } catch (err: IOException) {
-            // We want to send every occurrence of Google API error for statistic purposes
-            // https://github.com/Flank/flank/issues/701
-            FlankGoogleApiError(err).report(SentryLevel.DEBUG)
-
             lastError = err
             if (err is HttpResponseException) {
                 // we want to handle some FTL errors with special care
@@ -42,8 +36,6 @@ private inline fun <T> withRetry(crossinline block: () -> T): T = runBlocking {
     }
     throw IOException("Request failed", lastError)
 }
-
-private class FlankGoogleApiError(exception: Throwable) : Error(exception)
 
 private fun HttpResponseException.containsBadTokenMessage() = message?.let {
     it.contains("\"error\": \"invalid_grant\"") && it.contains("https://oauth2.googleapis.com/token")

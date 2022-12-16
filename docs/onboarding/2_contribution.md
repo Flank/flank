@@ -8,18 +8,16 @@ This is good practice to check out those points once a day by someone from the t
 
 ## Looking for a new task
 1. Perform daily monitoring if needed.
-2. Ask the team if someone needs help. 
+2. Ask the team if someone needs help.
 We prefer teamwork over solo-work, our goal is quality so verification is important.
-3. Check flank [zenhub board](https://github.com/Flank/flank/issues/#zenhub). 
-Typically, the most important issues are prioritized descending in the `Ranked` column.
 
 ## Estimating tasks
-In the flank, we are using 3 points scale for estimates tasks complexity (snake, tiger, dragon). 
+In the flank, we are using 3 points scale for estimates tasks complexity (snake, tiger, dragon).
 For more details see [estimation.md](3_estimation.md)
 
 ## Working on a new task
 Perform estimation if needed. If the task looks complex it's good practice asking a team for help.
-Typically, estimates should be already done on a weekly review, but issues reported after review may have a lack of estimation. 
+Typically, estimates should be already done on a weekly review, but issues reported after review may have a lack of estimation.
 According to task complexity choose the best strategy.
 
 #### Snakes
@@ -39,17 +37,17 @@ Typically, every tiger brings some common things to do like:
 * Dedicated YAML config with required assets for manual or integration testing
 
 #### Dragons
-Dragon requires research, so you should always start from writing some documentations draft. 
-This draft should contain any important pieces of information about the task and should be synchronized with the status of knowledge according to any progression. 
-The dragon task may be started by one developer but shouldn't be handle alone too long. 
-The task could be a dragon as long as it's unknown and mysterious when there is a plan on how to deal with it, 
-it's automatically become one or many tigers. 
+Dragon requires research, so you should always start from writing some documentations draft.
+This draft should contain any important pieces of information about the task and should be synchronized with the status of knowledge according to any progression.
+The dragon task may be started by one developer but shouldn't be handle alone too long.
+The task could be a dragon as long as it's unknown and mysterious when there is a plan on how to deal with it,
+it's automatically become one or many tigers.
 So the main goal when deal with a dragon is to prepare documentation on how to solve the problem.
 
 
 ### Documentation
-Be aware, some tasks sometimes couldn't be resolved for many reasons, so it's really important to have documentation always up to date. 
-Having documentation up to date gives the ability to drop work at any moment and back to in the future without loss of any information. 
+Be aware, some tasks sometimes couldn't be resolved for many reasons, so it's really important to have documentation always up to date.
+Having documentation up to date gives the ability to drop work at any moment and back to in the future without loss of any information.
 
 ### Buddy system
 See [buddy_system.md](4_buddy_system.md) to read about team work in a flank.

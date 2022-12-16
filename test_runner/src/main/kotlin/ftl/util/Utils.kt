@@ -4,7 +4,6 @@ package ftl.util
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import flank.common.logLn
-import flank.tool.analytics.mixpanel.Mixpanel
 import flank.tool.resource.readRevision
 import flank.tool.resource.readVersion
 import ftl.run.exception.FlankGeneralError
@@ -68,7 +67,6 @@ fun uniqueObjectName(): String {
 fun printVersionInfo() {
     logLn("version: ${readVersion()}")
     logLn("revision: ${readRevision()}")
-    logLn("session id: ${Mixpanel.sessionId}")
     logLn()
 }
 

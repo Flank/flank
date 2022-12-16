@@ -15,7 +15,6 @@ include(
     "test_projects:android",
     ":common",
     ":flank_wrapper",
-
     ":tool:apk",
     ":tool:config",
     ":tool:filter",
@@ -32,35 +31,6 @@ include(
     ":tool:execution:parallel",
     ":tool:execution:parallel:plantuml",
     ":tool:execution:synchronized",
-    ":tool:analytics",
-    ":tool:analytics:mixpanel",
     ":tool:execution:linear",
     ":tool:resource",
 )
-
-plugins {
-    id("com.gradle.enterprise") version "3.5"
-}
-
-@Suppress("UnstableApiUsage")
-val isCI: Boolean = serviceOf<ProviderFactory>()
-    .environmentVariable("CI")
-    .forUseAtConfigurationTime().map { it == "true" }
-    .getOrElse(false)
-
-gradleEnterprise {
-    buildScan {
-        server = "https://flank.gradle-enterprise.cloud/"
-        termsOfServiceUrl = "https://gradle.com/terms-of-service"
-        termsOfServiceAgree = "yes"
-        publishAlwaysIf(isCI)
-        background {
-            val os = ByteArrayOutputStream()
-            exec {
-                commandLine("git", "rev-parse", "--verify", "HEAD")
-                standardOutput = os
-            }
-            value("Git Commit ID", os.toString())
-        }
-    }
-}

@@ -49,7 +49,7 @@ AndroidArgs
       files-to-download:
       test-targets-always-run:
       disable-sharding: true
-      project: flank-open-source
+      project: ftl-flank-open-source
       local-result-dir: results
       full-junit-result: false
       # Android Flank Yml
@@ -77,12 +77,11 @@ RunTests
 
   1 test \/ 1 shard
 
-  Uploading \[session_id.txt\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
   1 matrix ids created in \d{1,2}m \d{1,2}s
   Raw results will be stored in your GCS bucket at \[https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\]
 \s*
 Matrices webLink
-  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
+  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/ftl-flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
 [\s\S]*
 CostReport
   Virtual devices
@@ -101,4 +100,4 @@ FetchArtifacts
     Updating matrix file
 \s*
 Matrices webLink
-  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
+  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/ftl-flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?

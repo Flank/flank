@@ -2,14 +2,20 @@ name: macOS-workflow
 
 on:
   push:
-    branches: 
+    branches:
       - master
   pull_request:
     branches:
       - '*'
 
+permissions:  # limit the permissions of the GITHIUB_TOKEN to reading repository contents
+  contents: read
+
 jobs:
   build:
+    permissions:
+      actions: write  # for styfle/cancel-workflow-action to cancel/stop running workflows
+      contents: read  # for actions/checkout to fetch code
     runs-on: macos-latest
 
     steps:
@@ -30,16 +36,9 @@ jobs:
           ${{ runner.os }}-2-gradle-
 
     - name: Gradle clean build
-      uses: eskatos/gradle-command-action@v1
+      uses: gradle/gradle-build-action@v1
       env:
-        GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         HEAD_REF: ${{ github.head_ref }}
       with:
         arguments: "clean build"
-
-    - name: Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        # Repository upload token - get it from codecov.io. Required only for private repositories
-        token: ${{secrets.CODECOV_TOKEN}}

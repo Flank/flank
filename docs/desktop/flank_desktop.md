@@ -3,23 +3,23 @@
 ## Prototype Flank options
 
 The prototype will run a simple Android test on a given apk and test the apk with options to specify some flanks flags, as well
-as max tests shards. Those flags are the most popular one based on [mixpanel analytics](https://mixpanel.com/report/2288623/view/2835119/dashboards#id=879189)
+as max tests shards.
 
 - Flags
   - disable sharding
   - disable results upload
-  - fail fast 
-  - disable usage statistics 
+  - fail fast
+  - disable usage statistics
   - auto Google login
-    
+
 - Input
-  - Max tests shards 
-  - apk path 
+  - Max tests shards
+  - apk path
   - test apk path
-    
+
 ## Prototype design
 
-The mockup of the design is shown below:  
+The mockup of the design is shown below:
 
 ![mock](flank_mock.png)
 

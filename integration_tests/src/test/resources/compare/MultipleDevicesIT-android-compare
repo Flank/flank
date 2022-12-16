@@ -56,7 +56,7 @@ AndroidArgs
       files-to-download:
       test-targets-always-run:
       disable-sharding: false
-      project: flank-open-source
+      project: ftl-flank-open-source
       local-result-dir: results
       full-junit-result: false
       # Android Flank Yml
@@ -67,7 +67,7 @@ AndroidArgs
         - app: null
           test: [0-9a-zA-Z\\\/_.:-]*[\\\/]test_runner[\\\/]src[\\\/]test[\\\/]kotlin[\\\/]ftl[\\\/]fixtures[\\\/]tmp[\\\/]apk[\\\/]app-multiple-error-debug-androidTest.apk
         - app: null
-          test: gs:\/\/flank-open-source.appspot.com\/integration\/app-single-success-debug-androidTest.apk
+          test: gs:\/\/ftl-flank-open-source.appspot.com\/integration\/app-single-success-debug-androidTest.apk
       run-timeout: -1
       legacy-junit-result: false
       ignore-failed-tests: false
@@ -97,14 +97,13 @@ RunTests
 [\s\S]*
   11 tests \+ 8 parameterized classes \/ 11 shards
 \s*
-  Uploading \[session_id.txt\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
   3 matrix ids created in \d{1,2}m \d{1,2}s
   Raw results will be stored in your GCS bucket at \[https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9-]*\/[.a-zA-Z0-9_-]*\]
 \s*
 Matrices webLink
-  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
-  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
-  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
+  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/ftl-flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
+  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/ftl-flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
+  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/ftl-flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
 [\s\S]*
 CostReport
   Virtual devices
@@ -117,7 +116,7 @@ MatrixResultsReport
   1 matrices failed
 [\s\S]*
 More details are available at:
-https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
+https:\/\/console.firebase.google.com\/project\/ftl-flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
 \s*
   Uploading \[MatrixResultsReport.txt\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
   Uploading \[HtmlErrorReport.html\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
@@ -128,6 +127,6 @@ FetchArtifacts
     Updating matrix file
 \s*
 Matrices webLink
-  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
-  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
-  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
+  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/ftl-flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
+  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/ftl-flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
+  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/ftl-flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?

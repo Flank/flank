@@ -1,14 +1,26 @@
-name: publish_mkdocs_site
+name: "[Docs] Publish docs site (via MkDocs)"
 
 on:
+  workflow_dispatch:
   push:
     branches: [master]
     paths: ['docs/**']
 
+permissions:  # added using https://github.com/step-security/secure-workflows
+  contents: read
+
 jobs:
   deploy:
+    permissions:
+      contents: write  # for mkdocs gh-deploy to publish docs
     runs-on: ubuntu-latest
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
+
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:

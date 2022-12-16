@@ -1,4 +1,4 @@
-name: Full Suite Integration Tests
+name: "[Tests] Run integration tests"
 
 on:
   schedule:
@@ -7,8 +7,14 @@ on:
   issue_comment:
     types: [ created ]      # or by comment
 
+# TODO: update workflow permissions to least privilege after auditing all the APIs used
+# permissions:  # limit the permissions of the GITHIUB_TOKEN to reading repository contents
+#   contents: read
+
 jobs:
   cancel_previous:
+    permissions:
+      actions: write  # for styfle/cancel-workflow-action to cancel/stop running workflows
     if: ${{ github.event_name != 'issue_comment'}}
     runs-on: macos-latest
     steps:
@@ -29,7 +35,7 @@ jobs:
         run: |
           PR_URL="${{ github.event.issue.pull_request.url }}"
           PR_NUMBER=${PR_URL##*/}
-          echo "::set-output name=number::$PR_NUMBER"
+          echo "number=$PR_NUMBER" >> $GITHUB_OUTPUT
       - uses: khan/pull-request-comment-trigger@master
         if: ${{ github.event_name == 'issue_comment'}}
         id: check_issue_comment
@@ -45,7 +51,7 @@ jobs:
         run: |
           echo "event name: ${{ github.event_name }}"
           echo "issue command found: ${{ steps.check_issue_comment.outputs.triggered == 'true' }}"
-          echo '::set-output name=should_run::${{ env.run_it }}'
+          echo "should_run=${{ env.run_it }}" >> $GITHUB_OUTPUT
 
   integration-tests-post-link:
     runs-on: macos-latest
@@ -81,6 +87,12 @@ jobs:
       job_status: ${{ job.status }}
       build-scan-url: ${{ steps.run-it.outputs.build-scan-url }}
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
+
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -116,10 +128,9 @@ jobs:
         shell: bash
 
       - name: Gradle integration tests
-        uses: eskatos/gradle-command-action@v1.3.3
+        uses: gradle/gradle-build-action@v1.3.3
         id: run-it
         env:
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_REF: ${{ github.ref }}
         with:
@@ -150,7 +161,6 @@ jobs:
       - name: Download flankScripts and add it to PATH
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         run: |
           ./gradlew :flank-scripts:download
           echo "./flank-scripts/bash" >> $GITHUB_PATH
@@ -208,6 +218,12 @@ jobs:
     needs: [ process-results ]
     if: always() && github.event_name != 'issue_comment'
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
+
       - uses: tibdex/github-app-token@v1
         id: generate-token
         with:

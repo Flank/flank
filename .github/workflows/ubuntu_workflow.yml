@@ -8,12 +8,24 @@ on:
     branches:
       - '*'
 
+permissions:  # limit the permissions of the GITHIUB_TOKEN to reading repository contents
+  contents: read
+
 jobs:
   build:
+    permissions:
+      actions: write  # for styfle/cancel-workflow-action to cancel/stop running workflows
+      contents: read  # for actions/checkout to fetch code
     runs-on: ubuntu-latest
     outputs:
       build-scan-url: ${{ steps.build.outputs.build-scan-url }}
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
+
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.5.0
         with:
@@ -31,9 +43,8 @@ jobs:
 
       - id: build
         name: Gradle clean build
-        uses: eskatos/gradle-command-action@v1
+        uses: gradle/gradle-build-action@v1
         env:
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_REF: ${{ github.head_ref }}
         with:
@@ -41,9 +52,17 @@ jobs:
 
   publish-scan-url:
     needs: [ build ]
+    permissions:
+      pull-requests: write # to allow creating or updating a comment
     if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
+
       - name: Get current time
         uses: 1466587594/get-current-time@v2
         id: current-time

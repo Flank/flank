@@ -3,7 +3,7 @@ This document may be incomplete now or in the future, so if you faced any proble
 
 ### Mac
 1. Install a brew, it's not mandatory but may be convenient for installing other software.
-1. Currently, the zsh is the default shell on a mac. If you prefer bash use `chsh -s /bin/bash`.  
+1. Currently, the zsh is the default shell on a mac. If you prefer bash use `chsh -s /bin/bash`.
 
 ### Env config
 Bunch of useful exports. You can paste them to your `.bashrc`
@@ -14,8 +14,8 @@ export PATH=$PATH:$HOME/$FLANK_REPO/flank/test_projects/android/bash
 export PATH=$PATH:$HOME/Library/Android/sdk/platform-tools
 export PATH=$PATH:$HOME/Library/Python/2.7/bin
 #export PATH=$PATH:$HOME/"path to your local gcloud repository"/gcloud_cli/google-cloud-sdk/bin
-export FLANK_PROJECT_ID=flank-open-source
-export GOOGLE_CLOUD_PROJECT=flank-open-source
+export FLANK_PROJECT_ID=ftl-flank-open-source
+export GOOGLE_CLOUD_PROJECT=ftl-flank-open-source
 export GITHUB_TOKEN="type your gihub token here"
 ```
 
@@ -24,8 +24,7 @@ export GITHUB_TOKEN="type your gihub token here"
 1. Ask for an invitation to firebase slack
 1. Ask for access to GitHub repo
 1. Ask for access to test bucket on a google cloud platform
-1. Install [zenhub extension](https://www.zenhub.com/extension) to get access to our board.
-1. Install [Oracle JDK 8](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html) 
+1. Install [Oracle JDK 8](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)
     * Unfortunately there is no official way to download installer without a login account.
     * Unfortunately unofficial instruction from [here](https://gist.github.com/wavezhang/ba8425f24a968ec9b2a8619d7c2d86a6) sometimes isn't working.
 1. Use [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/) to install IDE.
@@ -47,8 +46,8 @@ export GITHUB_TOKEN="type your gihub token here"
     1. Or follow official instruction https://cloud.google.com/sdk/docs/quickstarts
     1. Don't forget about exports for Python and gcloud
 1. Configure pre-commit hook for ktlint code autoformatting
-    1. Make sure you can execute `flank-scripts` from the command line if not navigate to in the command line to `./flank-scripts/bash` 
+    1. Make sure you can execute `flank-scripts` from the command line if not navigate to in the command line to `./flank-scripts/bash`
     1. Run `flankScripts linter apply_to_git_hooks`
 1. Apply Ktlint style to Idea project.
-    1. Make sure you can execute `flank-scripts` from the command line if not navigate to in the command line to `./flank-scripts/bash` 
+    1. Make sure you can execute `flank-scripts` from the command line if not navigate to in the command line to `./flank-scripts/bash`
     1. Run `flankScripts linter apply_to_ide`

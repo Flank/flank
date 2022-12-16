@@ -1,7 +1,6 @@
 package ftl.ios.xctest
 
 import com.dd.plist.NSDictionary
-import flank.tool.analytics.mixpanel.Mixpanel
 import ftl.args.ArgsHelper.calculateShards
 import ftl.args.IosArgs
 import ftl.args.isXcTest
@@ -49,8 +48,6 @@ private fun IosArgs.calculateXcTest(): XcTestRunData {
         )
     }
 
-    reportBundleId()
-
     return XcTestRunData(
         rootDir = xcTestRoot,
         nsDict = xcTestNsDictionary,
@@ -58,8 +55,6 @@ private fun IosArgs.calculateXcTest(): XcTestRunData {
         shardTargets = calculatedShards.mapValues { it.value.second },
     )
 }
-
-private fun IosArgs.reportBundleId() = Mixpanel.add(Mixpanel.APP_ID, getBundleId())
 
 private inline fun <reified T> createCustomSharding(shardingJsonPath: String) =
     fromJson<T>(Paths.get(shardingJsonPath).toFile().readText())

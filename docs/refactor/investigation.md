@@ -118,8 +118,6 @@ command that:
 * `com.google.cloud:google-cloud-nio`
 * `com.google.cloud:google-cloud-storage`
 * `com.google.apis:google-api-services-toolresults`
-* `io.sentry:sentry`
-* `com.mixpanel:mixpanel-java`
 
 #### List of external API usages in files
 
@@ -446,7 +444,7 @@ where
     * `NetworkProfilesListCommand`
     * `IosOrientationsListCommand`
     * `IPBlocksListCommand`
-    
+
 * `AndroidRunCommand`
     * `AndroidArgs/validate`
         * `AndroidArgs/assertDevicesSupported`
@@ -471,7 +469,6 @@ where
         * `GcAndroidTestMatrix/build`
         * `AbstractGoogleJsonClientRequest<T>/executeWithRetry`
         * `IArgs/afterRunTests`
-            * `IArgs/uploadSessionId` -> `GcStorage/upload`
             * `MatrixMap/printMatricesWebLinks` -> `getOrUpdateWebLink` -> `GcTestMatrix/refresh`
     * `pollMatrices` -> `matrixChangesFlow` -> `GcTestMatrix/refresh`
     * `Iterable<TestMatrix>/updateMatrixMap` -> `SavedMatrix/updateWithMatrix` -> `TestMatrix/fetchTestOutcomeContext`
@@ -494,7 +491,7 @@ where
                 * `GcToolResults/listTestCases`
                 * `GcToolResults/getStepResult`
             * `FullJUnitReport.run` -> `GcStorage.uploadReportResult`
-        * `ReportManager/createAndUploadPerformanceMetricsForAndroid` -> `List<Pair<TestExecution, String>>.getAndUploadPerformanceMetrics` -> 
+        * `ReportManager/createAndUploadPerformanceMetricsForAndroid` -> `List<Pair<TestExecution, String>>.getAndUploadPerformanceMetrics` ->
             * `TestExecution.getPerformanceMetric` -> `GcToolResults.getPerformanceMetric`
             * `PerfMetricsSummary.upload` -> `GcStorage.uploadPerformanceMetrics`
         * `GcStorage/uploadMatricesId`
@@ -504,7 +501,7 @@ where
         * `GcStorage.storage.list`
         * `Blob.downloadTo`
     * `MatrixMap/printMatricesWebLinks` -> `getOrUpdateWebLink` -> `GcTestMatrix/refresh`
-    
+
 * `IosRunCommand`
     * `IosArgs/validate`
         * `IosArgs/assertDevicesSupported`
@@ -517,12 +514,12 @@ where
         * `IArgs/uploadOtherFiles` -> `GcStorage/upload`
         * `IosArgs.uploadAdditionalIpas`
         * `IosArgs.dumpShardsIfXcTest` -> `GcStorage/upload`
-        * `IosArgs/createIosTestContexts` 
+        * `IosArgs/createIosTestContexts`
             * `IosArgs.createXcTestContexts`
                 * `IArgs.uploadIfNeeded` -> `FileReference.uploadIfNeeded` -> `GcStorage.upload`
                 * `GcStorage.uploadXCTestFile`
             * `IosArgs.createGameloopTestContexts`
-                * `IArgs.uploadIfNeeded` -> `FileReference.uploadIfNeeded` -> `GcStorage.upload`    
+                * `IArgs.uploadIfNeeded` -> `FileReference.uploadIfNeeded` -> `GcStorage.upload`
         * `GcIosTestMatrix/build`
         * `AbstractGoogleJsonClientRequest<T>/executeWithRetry`
         * `IArgs/afterRunTests` - the rest of steps are same as for android

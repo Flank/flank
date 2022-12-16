@@ -1,6 +1,7 @@
 package ftl.util
 
-import ftl.reports.output.log
+import ftl.reports.output.logBillableMinutes
+import ftl.reports.output.logCosts
 import ftl.reports.output.outputReport
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -33,11 +34,14 @@ private fun estimateCosts(billableVirtualMinutes: BigDecimal, billablePhysicalMi
     val physicalCost = calculatePhysicalCost(billablePhysicalMinutes)
     val totalCost = calculateTotalCost(virtualCost, physicalCost)
 
-    outputReport.log(physicalCost, virtualCost, totalCost)
+    outputReport.logCosts(physicalCost, virtualCost, totalCost)
 
     val billableVirtualTime = prettyTime(billableVirtualMinutes)
     val billablePhysicalTime = prettyTime(billablePhysicalMinutes)
-    val totalTime = prettyTime(billableVirtualMinutes + billablePhysicalMinutes)
+    val billableTotalMinutes = billableVirtualMinutes + billablePhysicalMinutes
+    val totalTime = prettyTime(billableTotalMinutes)
+
+    outputReport.logBillableMinutes(billablePhysicalMinutes, billableVirtualMinutes, billableTotalMinutes)
 
     val displayPhysical = billablePhysicalMinutes.signum() == 1
     val displayVirtual = billableVirtualMinutes.signum() == 1 // 1 = positive number > 0

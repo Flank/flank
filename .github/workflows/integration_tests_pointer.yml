@@ -1,10 +1,14 @@
 # Workflow is unable to retrieve data about previous workflows (the same file).
 # This workflow is a way to preserve last run date for full_suite_integration_tests.yml workflow
 # which is available from within that workflow
-name: Integration Tests Pointer
+name: "Pointer - Integration Tests"
 on:
   repository_dispatch:
     types: [ integration-pointer]
+
+permissions:  # limit the permissions of the GITHIUB_TOKEN to reading repository contents
+  contents: read
+
 jobs:
   point:
     runs-on: ubuntu-latest
