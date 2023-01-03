@@ -1,3 +1,15 @@
+## v23.01.0
+### Bug Fixes
+- [#2274](https://github.com/Flank/flank/pull/2274) Stop loading entire file into memory to fix OOM errors ()
+### Features
+- [#2273](https://github.com/Flank/flank/pull/2273) Add billable minutes to JSON output report ()
+### Tests update
+- [#2331](https://github.com/Flank/flank/pull/2331) Update Google cloud project used in tests ()
+### CI Changes
+- [#2326](https://github.com/Flank/flank/pull/2326) Update scorecard-action version ()
+### Documentation
+- [#2325](https://github.com/Flank/flank/pull/2325) Fix list formatting in "Authenticate with a service account" section ()
+
 ## v22.10.0
 ### Refactor
 - [#2306](https://github.com/Flank/flank/pull/2306) Remove references to JFrog and Bintray
