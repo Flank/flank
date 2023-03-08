@@ -47,6 +47,7 @@ class BillableMinutesTest {
                 .testEnvironmentCatalog()
                 .get(any())
                 .setProjectId(any())
+                .setRequestHeaders(any())
                 .executeWithRetry()
         } returns make {
             androidDeviceCatalog = make { models = androidModels }

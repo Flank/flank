@@ -1,9 +1,11 @@
 package ftl.client.google
 
+import com.google.api.client.http.HttpHeaders
 import com.google.testing.model.IosDeviceCatalog
 import com.google.testing.model.IosModel
 import com.google.testing.model.Orientation
 import ftl.config.Device
+import ftl.config.FtlConstants.GCS_PROJECT_HEADER
 import ftl.environment.getLocaleDescription
 import ftl.environment.ios.getDescription
 import ftl.environment.ios.iosVersionsToCliTable
@@ -50,6 +52,7 @@ object IosCatalog {
             GcTesting.get.testEnvironmentCatalog()
                 .get("ios")
                 .setProjectId(projectId)
+                .setRequestHeaders(HttpHeaders().set(GCS_PROJECT_HEADER, projectId))
                 .executeWithRetry()
                 .iosDeviceCatalog
                 .filterDevicesWithoutSupportedVersions()

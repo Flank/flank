@@ -1,9 +1,11 @@
 package ftl.client.google
 
+import com.google.api.client.http.HttpHeaders
 import com.google.testing.model.AndroidDevice
 import com.google.testing.model.AndroidDeviceCatalog
 import com.google.testing.model.AndroidModel
 import com.google.testing.model.Orientation
+import ftl.config.FtlConstants.GCS_PROJECT_HEADER
 import ftl.http.executeWithRetry
 import ftl.presentation.cli.firebase.test.reportmanager.ReportManagerState
 import ftl.presentation.publish
@@ -21,6 +23,7 @@ object AndroidCatalog {
         GcTesting.get.testEnvironmentCatalog()
             .get("android")
             .setProjectId(projectId)
+            .setRequestHeaders(HttpHeaders().set(GCS_PROJECT_HEADER, projectId))
             .executeWithRetry()
             .androidDeviceCatalog
             .filterDevicesWithoutSupportedVersions()

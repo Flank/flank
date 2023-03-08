@@ -1,5 +1,6 @@
 package ftl.client.google.run.ios
 
+import com.google.api.client.http.HttpHeaders
 import com.google.testing.Testing
 import com.google.testing.model.ClientInfo
 import com.google.testing.model.EnvironmentMatrix
@@ -15,6 +16,7 @@ import ftl.client.google.run.mapGcsPathsToFileReference
 import ftl.client.google.run.mapToIosDeviceFiles
 import ftl.client.google.run.toClientInfoDetailList
 import ftl.client.google.run.toIosDeviceFile
+import ftl.config.FtlConstants.GCS_PROJECT_HEADER
 import ftl.http.executeWithRetry
 import ftl.run.exception.FlankGeneralError
 import ftl.util.timeoutToSeconds
@@ -37,7 +39,9 @@ private suspend fun executeIosTestMatrixAsync(
     config: TestMatrixIos.Config
 ): Deferred<TestMatrix> = coroutineScope {
     async(Dispatchers.IO) {
-        createIosTestMatrix(type, config).executeWithRetry()
+        createIosTestMatrix(type, config)
+            .setRequestHeaders(HttpHeaders().set(GCS_PROJECT_HEADER, config.project))
+            .executeWithRetry()
     }
 }
 
