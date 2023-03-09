@@ -1,5 +1,6 @@
 package ftl.client.google.run.android
 
+import com.google.api.client.http.HttpHeaders
 import com.google.common.annotations.VisibleForTesting
 import com.google.testing.Testing
 import com.google.testing.model.Account
@@ -22,6 +23,7 @@ import ftl.api.TestMatrixAndroid
 import ftl.client.google.GcTesting
 import ftl.client.google.run.toClientInfoDetailList
 import ftl.client.google.run.toFileReference
+import ftl.config.FtlConstants.GCS_PROJECT_HEADER
 import ftl.http.executeWithRetry
 import ftl.run.exception.FlankGeneralError
 import ftl.util.timeoutToSeconds
@@ -45,7 +47,9 @@ private suspend fun executeAndroidTestMatrix(
 ): List<Deferred<TestMatrix>> = coroutineScope {
     (0 until config.repeatTests).map { runIndex ->
         async(Dispatchers.IO) {
-            createAndroidTestMatrix(type, config, typeIndex, runIndex).executeWithRetry()
+            createAndroidTestMatrix(type, config, typeIndex, runIndex)
+                .setRequestHeaders(HttpHeaders().set(GCS_PROJECT_HEADER, config.project))
+                .executeWithRetry()
         }
     }
 }
