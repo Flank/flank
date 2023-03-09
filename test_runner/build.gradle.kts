@@ -95,9 +95,9 @@ publishing {
 
                 developers {
                     developer {
-                        id.set("bootstraponline")
-                        name.set("bootstrap online")
-                        email.set("code@bootstraponline.com")
+                        id.set("Firebase Test Lab")
+                        name.set("Firebase Test Lab")
+                        email.set("firebase-test-lab-team@google.com")
                     }
                 }
 
