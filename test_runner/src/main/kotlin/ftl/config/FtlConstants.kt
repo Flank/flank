@@ -25,7 +25,6 @@ object FtlConstants {
     const val indent = "  "
     const val matrixIdsFile = "matrix_ids.json"
     const val applicationName = "Flank"
-    const val GCS_PROJECT_HEADER = "x-goog-user-project"
     const val GCS_PREFIX = "gs://"
     const val GCS_STORAGE_LINK = "https://console.developers.google.com/storage/browser/"
     const val runTimeout = "-1"
