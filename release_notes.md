@@ -1,3 +1,7 @@
+## v23.03.2
+### Bug Fixes
+- [#2352](https://github.com/Flank/flank/pull/2352) Revert "Fixes missing HTTP header X-Goog-User-Project" ()
+
 ## v23.03.1
 ### Documentation
 - [#2351](https://github.com/Flank/flank/pull/2351) Update developer details
