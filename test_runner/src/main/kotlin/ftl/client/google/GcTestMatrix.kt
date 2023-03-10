@@ -1,9 +1,7 @@
 package ftl.client.google
 
-import com.google.api.client.http.HttpHeaders
 import com.google.testing.model.CancelTestMatrixResponse
 import com.google.testing.model.TestMatrix
-import ftl.config.FtlConstants.GCS_PROJECT_HEADER
 import ftl.http.executeWithRetry
 import ftl.run.exception.FlankGeneralError
 import kotlinx.coroutines.Dispatchers
@@ -40,7 +38,6 @@ object GcTestMatrix {
     suspend fun refresh(testMatrixId: String, projectId: String): TestMatrix {
         val getMatrix = withContext(Dispatchers.IO) {
             GcTesting.get.projects().testMatrices().get(projectId, testMatrixId)
-                .setRequestHeaders(HttpHeaders().set(GCS_PROJECT_HEADER, projectId))
         }
         var failed = 0
         val maxWait = ofHours(1).seconds
@@ -60,7 +57,6 @@ object GcTestMatrix {
     suspend fun cancel(testMatrixId: String, projectId: String): CancelTestMatrixResponse {
         val cancelMatrix = withContext(Dispatchers.IO) {
             GcTesting.get.projects().testMatrices().cancel(projectId, testMatrixId)
-                .setRequestHeaders(HttpHeaders().set(GCS_PROJECT_HEADER, projectId))
         }
         var failed = 0
         val maxTries = 3

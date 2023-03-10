@@ -1,6 +1,5 @@
 package ftl.client.google
 
-import com.google.api.client.http.HttpHeaders
 import com.google.api.services.toolresults.ToolResults
 import com.google.api.services.toolresults.model.Environment
 import com.google.api.services.toolresults.model.Execution
@@ -17,7 +16,6 @@ import com.google.testing.model.ToolResultsHistory
 import com.google.testing.model.ToolResultsStep
 import ftl.args.IArgs
 import ftl.config.FtlConstants
-import ftl.config.FtlConstants.GCS_PROJECT_HEADER
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.config.FtlConstants.applicationName
 import ftl.config.FtlConstants.httpTransport
@@ -46,7 +44,6 @@ object GcToolResults {
             .histories()
             .list(args.project)
             .setFilterByName(args.resultsHistoryName)
-            .setRequestHeaders(HttpHeaders().set(GCS_PROJECT_HEADER, args.project))
             .executeWithRetry()
         return result?.histories ?: emptyList()
     }
@@ -59,7 +56,6 @@ object GcToolResults {
             .projects()
             .histories()
             .create(args.project, history)
-            .setRequestHeaders(HttpHeaders().set(GCS_PROJECT_HEADER, args.project))
             .execute()
     }
 
@@ -94,7 +90,6 @@ object GcToolResults {
                 toolResultsStep.historyId,
                 toolResultsStep.executionId
             )
-            .setRequestHeaders(HttpHeaders().set(GCS_PROJECT_HEADER, testExecution.projectId))
             .executeWithRetry()
     }
 
@@ -110,7 +105,6 @@ object GcToolResults {
                 toolResultsStep.executionId,
                 toolResultsStep.stepId
             )
-            .setRequestHeaders(HttpHeaders().set(GCS_PROJECT_HEADER, toolResultsStep.projectId))
             .executeWithRetry()
     }
 
@@ -127,7 +121,6 @@ object GcToolResults {
             toolResultsStep.executionId,
             toolResultsStep.stepId
         )
-        .setRequestHeaders(HttpHeaders().set(GCS_PROJECT_HEADER, toolResultsStep.projectId))
         .executeWithRetry()
 
     // Lists Test Cases attached to a Step
@@ -148,7 +141,6 @@ object GcToolResults {
                 toolResultsStep.stepId
             )
             .setPageToken(pageToken)
-            .setRequestHeaders(HttpHeaders().set(GCS_PROJECT_HEADER, toolResultsStep.projectId))
             .executeWithRetry()
     }
 
@@ -163,26 +155,12 @@ object GcToolResults {
     }
 
     fun getDefaultBucket(projectId: String, source: String? = null): String? = try {
-        service.Projects().initializeSettings(projectId)
-            .setRequestHeaders(HttpHeaders().set(GCS_PROJECT_HEADER, projectId))
-            .executeWithRetry()
-            .defaultBucket
+        service.Projects().initializeSettings(projectId).executeWithRetry().defaultBucket
     } catch (ftlProjectError: FTLProjectError) {
         // flank needs to rewrap the exception with additional info about project
         when (ftlProjectError) {
-            is PermissionDenied -> throw FlankGeneralError(
-                permissionDeniedErrorMessage(
-                    projectId,
-                    source,
-                    ftlProjectError.message
-                )
-            )
-            is ProjectNotFound -> throw FlankGeneralError(
-                projectNotFoundErrorMessage(
-                    projectId,
-                    ftlProjectError.message
-                )
-            )
+            is PermissionDenied -> throw FlankGeneralError(permissionDeniedErrorMessage(projectId, source, ftlProjectError.message))
+            is ProjectNotFound -> throw FlankGeneralError(projectNotFoundErrorMessage(projectId, ftlProjectError.message))
             is FailureToken -> UserAuth.throwAuthenticationError()
         }
     }
@@ -212,7 +190,6 @@ object GcToolResults {
         )
         .setPageToken(pageToken)
         .setPageSize(100)
-        .setRequestHeaders(HttpHeaders().set(GCS_PROJECT_HEADER, results.projectId))
         .executeWithRetry()
 
     fun listAllSteps(results: ToolResultsExecution): MutableList<Step> {
@@ -240,7 +217,6 @@ object GcToolResults {
         )
         .setPageToken(pageToken)
         .setPageSize(100)
-        .setRequestHeaders(HttpHeaders().set(GCS_PROJECT_HEADER, results.projectId))
         .executeWithRetry()
 }
 
