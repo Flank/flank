@@ -4,6 +4,7 @@ import ftl.api.JUnitTest
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.domain.junit.empty
+import ftl.domain.junit.skipped
 
 fun createTestMethodDurationMap(junitResult: JUnitTest.Result, args: IArgs): Map<String, Double> {
     val junitMap = mutableMapOf<String, Double>()
@@ -12,7 +13,7 @@ fun createTestMethodDurationMap(junitResult: JUnitTest.Result, args: IArgs): Map
 
     junitResult.testsuites?.forEach { testsuite ->
         testsuite.testcases?.forEach { testcase ->
-            if (!testcase.empty() && testcase.time != null) {
+            if (!testcase.empty() && testcase.time != null && !testcase.skipped()) {
                 val key = if (args is AndroidArgs) testcase.androidKey() else testcase.iosKey()
                 val time = testcase.time.toDouble()
                 if (time >= 0) junitMap[key] = time
