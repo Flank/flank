@@ -137,8 +137,8 @@ flank:
 
     @Test
     fun `args invalidDeviceExits`() {
-        assertThrowsWithMessage(Throwable::class, "iOS 11.2 on iphonexsmax is not supported\nSupported version ids for 'iphonexsmax': 12.1") {
-            val invalidDevice = mutableListOf(Device("iphonexsmax", "11.2"))
+        assertThrowsWithMessage(Throwable::class, "iOS 15.0 on iphone13pro is not supported\nSupported version ids for 'iphone13pro': 15.2") {
+            val invalidDevice = mutableListOf(Device("iphone13pro", "15.0"))
             createIosArgs(
                 config = defaultIosConfig().apply {
                     common.gcloud.devices = invalidDevice
@@ -315,8 +315,8 @@ IosArgs
       xctestrun-file: $xctestrunFileAbsolutePath
       xcode-version: null
       device:
-        - model: iphone8
-          version: 13.6
+        - model: iphone13pro
+          version: 15.2
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 0
@@ -386,7 +386,7 @@ IosArgs
             // IosGcloudYml
             assert(xctestrunZip, testAbsolutePath)
             assert(xctestrunFile, xctestrunFileAbsolutePath)
-            assert(devices, listOf(Device("iphone8", "13.6")))
+            assert(devices, listOf(Device("iphone13pro", "15.2")))
             assert(flakyTestAttempts, 0)
 
             // FlankYml

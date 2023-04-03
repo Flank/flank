@@ -185,8 +185,8 @@ IosArgs
       xctestrun-file: /Users/adamfilipowicz/Repos/flank/test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun
       xcode-version: null
       device:
-        - model: iphone8
-          version: 13.6
+        - model: iphone13pro
+          version: 15.2
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 0
@@ -295,7 +295,7 @@ MatrixResultsReport
 ┌─────────┬──────────────────────┬──────────────────────────┬──────────────────────┐
 │ OUTCOME │      MATRIX ID       │     TEST AXIS VALUE      │     TEST DETAILS     │
 ├─────────┼──────────────────────┼──────────────────────────┼──────────────────────┤
-│ success │ matrix-3d331uzs97mlt │ iphone8-13.6-en-portrait │ 17 test cases passed │
+│ success │ matrix-3d331uzs97mlt │ iphone13pro-15.2-en-portrait │ 17 test cases passed │
 └─────────┴──────────────────────┴──────────────────────────┴──────────────────────┘
   Uploading [MatrixResultsReport.txt] to https://console.developers.google.com/storage/browser/test-lab-v9cn46bb990nx-kz69ymd4nm9aq/test_dir/...
   Uploading [JUnitReport.xml] to https://console.developers.google.com/storage/browser/test-lab-v9cn46bb990nx-kz69ymd4nm9aq/test_dir/...
