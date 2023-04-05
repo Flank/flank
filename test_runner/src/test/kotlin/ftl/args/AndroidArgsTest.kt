@@ -225,7 +225,7 @@ class AndroidArgsTest {
           test: $testApk
           device:
           - model: walleye
-            version: 18
+            version: 28
       """
             ).validate()
         }
@@ -2728,7 +2728,7 @@ AndroidArgs
         val errorMessage = getThrowable { AndroidArgs.load(yaml).validate() }.message ?: ""
         val expectedMessage = """
             Incompatible model, 'Nexus7', and version, '28'
-            Supported version ids for 'Nexus7': 19, 21, 22
+            Supported version ids for 'Nexus7': 21, 22
         """.trimIndent()
         assertEquals(expectedMessage, errorMessage)
     }
