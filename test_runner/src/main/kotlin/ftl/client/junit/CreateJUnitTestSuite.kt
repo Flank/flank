@@ -28,7 +28,6 @@ private fun createJUnitTestSuite(
     testcases = createJUnitTestCases(
         testCases = data.testCases,
         toolResultsStep = data.testExecution.toolResultsStep,
-        overheadTime = overview.overheadTime
     ).toMutableList(),
     time = overview.elapsedTime.format()
 )
