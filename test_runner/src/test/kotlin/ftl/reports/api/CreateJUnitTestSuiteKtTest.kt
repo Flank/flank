@@ -42,12 +42,12 @@ class CreateJUnitTestSuiteKtTest {
         // given
         every {
             any<TestExecutionData>().createTestSuiteOverviewData()
-        } returns TestSuiteOverviewData(1, 1, 1, 1, 1, 1.1, 1.1)
+        } returns TestSuiteOverviewData(1, 1, 1, 1, 1, 1.1)
 
         val jUnitTestCase = JUnitTest.Case(null, null, "1.1")
 
         every {
-            createJUnitTestCases(any(), any(), any())
+            createJUnitTestCases(any(), any())
         } returns listOf(jUnitTestCase)
 
         val testExecutionDataList = listOf(

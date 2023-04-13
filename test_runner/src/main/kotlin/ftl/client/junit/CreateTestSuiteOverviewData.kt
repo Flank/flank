@@ -18,19 +18,9 @@ internal fun TestExecutionData.createTestSuiteOverviewData(): TestSuiteOverviewD
             flakes = testCases.countFlakes(),
             skipped = skipped,
             elapsedTime = overview.elapsedTime.millis(),
-            overheadTime = getOverheadTime(overview, testCases)
         )
     }
 
 private fun List<TestCase>.countErrors() = count { !it.flaky && it.status == "error" }
 private fun List<TestCase>.countFailures() = count { !it.flaky && it.status == "failed" }
 private fun List<TestCase>.countFlakes() = count { it.flaky }
-
-private fun getOverheadTime(
-    overview: TestSuiteOverview,
-    testCases: List<TestCase>
-) = if (testCases.isEmpty())
-    0.0 else
-    (overview.elapsedTime.millis() - testCases.sumTime()) / testCases.size
-
-private fun List<TestCase>.sumTime(): Double = sumOf { it.elapsedTime.millis() }

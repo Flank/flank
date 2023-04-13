@@ -70,7 +70,6 @@ object TestMatrix {
         val flakes: Int = 0,
         val skipped: Int = 0,
         val elapsedTime: Double = 0.0,
-        val overheadTime: Double = 0.0
     )
 
     data class BillableMinutes(
