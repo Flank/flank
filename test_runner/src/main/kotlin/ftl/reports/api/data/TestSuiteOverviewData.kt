@@ -10,7 +10,6 @@ data class TestSuiteOverviewData(
     val flakes: Int = 0,
     val skipped: Int = 0,
     val elapsedTime: Double = 0.0,
-    val overheadTime: Double = 0.0
 ) {
     operator fun plus(nextData: TestSuiteOverviewData?) =
         if (nextData == null) this else copy(
@@ -20,7 +19,6 @@ data class TestSuiteOverviewData(
             flakes = this.flakes + nextData.flakes,
             skipped = this.skipped + nextData.skipped,
             elapsedTime = this.elapsedTime + nextData.elapsedTime,
-            overheadTime = this.overheadTime + nextData.overheadTime
         )
 
     operator fun plus(data: TestSuiteOverview) = copy(
