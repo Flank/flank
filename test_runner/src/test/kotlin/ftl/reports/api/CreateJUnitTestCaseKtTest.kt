@@ -50,7 +50,7 @@ class CreateJUnitTestCaseKtTest {
             JUnitTest.Case(
                 name = "test1",
                 classname = "TestClassName",
-                time = "2.200"
+                time = "1.100"
             ).apply {
                 webLink =
                     "https://console.firebase.google.com/project/projectId/testlab/histories/historyId/matrices/executionId/executions/stepId/testcases/test1"
@@ -58,7 +58,7 @@ class CreateJUnitTestCaseKtTest {
             JUnitTest.Case(
                 name = "test2",
                 classname = "TestClassName",
-                time = "2.200",
+                time = "1.100",
                 skipped = null
             ).apply {
                 webLink =
@@ -67,7 +67,7 @@ class CreateJUnitTestCaseKtTest {
             JUnitTest.Case(
                 name = "test3",
                 classname = "TestClassName",
-                time = "2.200",
+                time = "1.100",
                 errors = listOf("exception")
             ).apply {
                 webLink =
@@ -76,7 +76,7 @@ class CreateJUnitTestCaseKtTest {
             JUnitTest.Case(
                 name = "test4",
                 classname = "TestClassName",
-                time = "2.200",
+                time = "1.100",
                 failures = listOf("exception")
             ).apply {
                 webLink =
@@ -85,7 +85,7 @@ class CreateJUnitTestCaseKtTest {
             JUnitTest.Case(
                 name = "test5",
                 classname = "TestClassName",
-                time = "2.200",
+                time = "1.100",
                 failures = listOf("exception")
             ).apply {
                 webLink =
@@ -97,7 +97,6 @@ class CreateJUnitTestCaseKtTest {
         val actual = createJUnitTestCases(
             testCases = testCases,
             toolResultsStep = toolResultsStep,
-            overheadTime = 1.1
         )
 
         // then

@@ -40,7 +40,7 @@ class CreateTestSuiteOverviewDataKtTest {
                         TestSuiteOverview().apply {
                             skippedCount = 1
                             elapsedTime = Duration().apply {
-                                seconds = 8
+                                seconds = 4
                             }
                         }
                     )
@@ -55,8 +55,7 @@ class CreateTestSuiteOverviewDataKtTest {
             failures = 1,
             skipped = 1,
             flakes = 1,
-            elapsedTime = 8.0,
-            overheadTime = 1.0
+            elapsedTime = 4.0,
         )
         val actual = testExecutionData.createTestSuiteOverviewData()
 
