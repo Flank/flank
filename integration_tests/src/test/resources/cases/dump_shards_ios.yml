@@ -1,6 +1,6 @@
 gcloud:
-  test: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExample.zip
-  xctestrun-file: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun
+  test: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/FlankExample/FlankExample.zip
+  xctestrun-file: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/FlankExample/FlankExample.xctestrun
 
 flank:
   disable-sharding: false

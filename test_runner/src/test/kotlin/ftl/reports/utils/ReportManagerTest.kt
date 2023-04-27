@@ -204,7 +204,7 @@ class ReportManagerTest {
         assumeFalse(isWindows) // TODO investigate as to why the pathing fails here completely
         val legacyPath =
             File("results/2020-08-06_12-08-55.641213_jGpY/matrix_0/NexusLowRes-28-en-portrait/test_result_1.xml")
-        val iosPath = File("results/test_dir/shard_0/iphone8-12.0-en-portrait/test_result_0.xml")
+        val iosPath = File("results/test_dir/shard_0/iphone13pro-15.7-en-portrait/test_result_0.xml")
         assertEquals(
             "2020-08-06_12-08-55.641213_jGpY/matrix_0",
             legacyPath.getMatrixPath("2020-08-06_12-08-55.641213_jGpY")
@@ -215,7 +215,7 @@ class ReportManagerTest {
     @Test
     fun `shouldn't contains multiple test_dir in MatrixPath`() {
         assumeFalse(isWindows) // TODO investigate as to why the pathing fails here completely
-        val path = File("results/test_dir/test_dir/shard_0/iphone8-12.0-en-portrait/test_result_0.xml")
+        val path = File("results/test_dir/test_dir/shard_0/iphone13-15.7-en-portrait/test_result_0.xml")
         assertEquals("test_dir/shard_0", path.getMatrixPath("test_dir"))
     }
 

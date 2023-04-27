@@ -23,7 +23,7 @@ internal class OutcomeDetailsFormatterTest {
             every { summary } returns StepOutcome.success
             every { successDetail } returns mockk { every { otherNativeCrash } returns false }
         }
-        val testSuiteOverviewData = TestSuiteOverviewData(12, 0, 0, 3, 2, 0.0, 0.0)
+        val testSuiteOverviewData = TestSuiteOverviewData(12, 0, 0, 3, 2, 0.0)
         val successCount = with(testSuiteOverviewData) { total - errors - failures - flakes - skipped }
         val expectedMessage = "$successCount test cases passed, " +
             "${testSuiteOverviewData.skipped} skipped, " +
@@ -43,7 +43,7 @@ internal class OutcomeDetailsFormatterTest {
             every { summary } returns StepOutcome.success
             every { successDetail } returns mockk { every { otherNativeCrash } returns true }
         }
-        val testSuiteOverviewData = TestSuiteOverviewData(12, 0, 0, 3, 2, 0.0, 0.0)
+        val testSuiteOverviewData = TestSuiteOverviewData(12, 0, 0, 3, 2, 0.0)
         val successCount = with(testSuiteOverviewData) { total - errors - failures - flakes - skipped }
         val expectedMessage = "$successCount test cases passed, " +
             "${testSuiteOverviewData.skipped} skipped, " +
@@ -64,7 +64,7 @@ internal class OutcomeDetailsFormatterTest {
             every { summary } returns StepOutcome.failure
             every { failureDetail } returns mockk(relaxed = true) {}
         }
-        val testSuiteOverviewData = TestSuiteOverviewData(12, 3, 3, 3, 2, 0.0, 0.0)
+        val testSuiteOverviewData = TestSuiteOverviewData(12, 3, 3, 3, 2, 0.0)
         val expectedMessage = "${testSuiteOverviewData.failures} test cases failed, " +
             "${testSuiteOverviewData.errors} errors, " +
             "1 passed, " +

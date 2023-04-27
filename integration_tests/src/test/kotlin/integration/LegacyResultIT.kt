@@ -93,7 +93,7 @@ class LegacyResultIT {
         val testSuiteOverview = outputReport.firstTestSuiteOverview
 
         testSuiteOverview.assertTestCountMatches(
-            total = 17,
+            total = 4,
             skipped = 0
         )
     }
