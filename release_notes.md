@@ -1,3 +1,8 @@
+## v23.04.0
+### Bug Fixes
+- [#2366](https://github.com/Flank/flank/pull/2366) Bringing integration tests back to life ()
+- [#2364](https://github.com/Flank/flank/pull/2364) Removed test case time overhead calculation ()
+
 ## v23.03.2
 ### Bug Fixes
 - [#2352](https://github.com/Flank/flank/pull/2352) Revert "Fixes missing HTTP header X-Goog-User-Project" ()
