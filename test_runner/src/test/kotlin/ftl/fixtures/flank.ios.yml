@@ -6,8 +6,8 @@ gcloud:
   timeout: 60m
   async: true
   device:
-  - model: iphone8
-    version: 11.2
+  - model: iphone13pro
+    version: 15.7
     orientation: portrait
     locale: en_US
 
