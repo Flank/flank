@@ -152,8 +152,8 @@ gcloud:
   ## This flag may be repeated to specify multiple devices.
   ## The four device dimensions are: model, version, locale, and orientation.
   # device:
-  #  - model: iphone8
-  #   version: 12.0
+  #  - model: iphone13pro
+  #   version: 15.7
   #   locale: en
   #   orientation: portrait
   # - model: iphonex

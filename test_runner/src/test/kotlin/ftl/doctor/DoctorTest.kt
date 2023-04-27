@@ -137,7 +137,7 @@ Warning: Version should be string gcloud -> device[Nexus5] -> version[23]
     @Test
     fun iosDoctorTest() {
         val lint = validateYaml(IosArgs, Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.yml"))
-        val expected = "Warning: Version should be string gcloud -> device[iphone8] -> version[11.2]"
+        val expected = "Warning: Version should be string gcloud -> device[iphone13pro] -> version[15.7]"
         assertEquals(expected, lint.summary())
     }
 

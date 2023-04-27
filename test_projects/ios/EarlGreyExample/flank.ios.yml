@@ -3,7 +3,7 @@ gcloud:
   test: ./earlgrey_example.zip
   xctestrun-file: ./dd_tmp/Build/Products/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
   device:
-  - model: iphone8
-    version: 12.0
+  - model: iphone13pro
+    version: 15.7
     orientation: portrait
     locale: en_US
