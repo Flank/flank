@@ -89,8 +89,8 @@ class DumpShardsIT {
         assertThat(shards.count()).isEqualTo(2)
 
         shards.first().values.flatten().let { firstShard ->
-            assertThat(firstShard.count()).isEqualTo(8)
-            assertThat(firstShard).contains("EarlGreyExampleSwiftTests/testWithCustomFailureHandler")
+            assertThat(firstShard.count()).isEqualTo(2)
+            assertThat(firstShard).contains("FlankExampleTests/test2")
         }
     }
 }
