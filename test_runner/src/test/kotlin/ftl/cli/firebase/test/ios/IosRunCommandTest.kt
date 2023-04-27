@@ -239,9 +239,9 @@ class IosRunCommandTest {
     @Test
     fun `device parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parseArgs("--device=model=iphone8,version=11.2,locale=zh_CN,orientation=default")
+        CommandLine(cmd).parseArgs("--device=model=iphone13pro,version=15.7,locale=zh_CN,orientation=default")
 
-        val expectedDevice = Device("iphone8", "11.2", "zh_CN", "default")
+        val expectedDevice = Device("iphone13pro", "15.7", "zh_CN", "default")
         assertThat(cmd.config.common.gcloud.devices?.size).isEqualTo(1)
         assertThat(cmd.config.common.gcloud.devices?.first()).isEqualTo(expectedDevice)
     }
