@@ -61,7 +61,6 @@ fun TestOutcome.toApiModel() = Outcome(
         testSuiteOverview.flakes,
         testSuiteOverview.skipped,
         testSuiteOverview.elapsedTime,
-        testSuiteOverview.overheadTime
     )
 )
 
