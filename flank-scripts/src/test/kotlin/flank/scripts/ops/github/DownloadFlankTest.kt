@@ -10,15 +10,15 @@ class DownloadFlankTest {
 
     @Test
     fun `Should return latest tag if version is null`() {
-        val downloadedVersion = runBlocking { null.getVersion() }
-        val latestVersion = runBlocking { getLatestReleaseTag("").map { it.tag }.get() }
+        val downloadedVersion = runBlocking { null.getVersion(token) }
+        val latestVersion = runBlocking { getLatestReleaseTag(token).map { it.tag }.get() }
         Assert.assertEquals(downloadedVersion, latestVersion)
     }
 
     @Test
     fun `Should return latest tag if version is empty`() {
-        val downloadedVersion = runBlocking { "".getVersion() }
-        val latestVersion = runBlocking { getLatestReleaseTag("").map { it.tag }.get() }
+        val downloadedVersion = runBlocking { "".getVersion(token) }
+        val latestVersion = runBlocking { getLatestReleaseTag(token).map { it.tag }.get() }
         Assert.assertEquals(downloadedVersion, latestVersion)
     }
 
@@ -26,8 +26,12 @@ class DownloadFlankTest {
     fun `Should return specified release tag`() {
         val expectedReleaseTag = "v.1.1.1"
 
-        val downloadedVersion = runBlocking { expectedReleaseTag.getVersion() }
+        val downloadedVersion = runBlocking { expectedReleaseTag.getVersion(token) }
 
         Assert.assertEquals(downloadedVersion, expectedReleaseTag)
+    }
+
+    companion object {
+        private const val token = ""
     }
 }
