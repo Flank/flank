@@ -242,4 +242,39 @@ class ShardTest {
         val shards = createShardsByShardCount(testsToRun, oldTestResult, androidMockedArgs, shardCount)
         assertEquals(1, shards.size)
     }
+
+    @Test
+    fun `old tests annotated with @Ignore should use default test time during shard calculation`() {
+        val androidMockedArgs = mockk<IosArgs>(relaxed = true)
+        val defaultTestTime = 10.0
+        every { androidMockedArgs.maxTestShards } returns 5
+        every { androidMockedArgs.shardTime } returns defaultTestTime.toInt()
+        every { androidMockedArgs.defaultTestTime } returns defaultTestTime
+
+        val testsToRun = listOf(
+            FlankTestMethod("a/a"),
+            FlankTestMethod("b/b"),
+            FlankTestMethod("c/c"),
+            FlankTestMethod("d/d"),
+        )
+
+        val oldTestResult = newSuite(
+            mutableListOf(
+                JUnitTest.Case("a", "a", "7.0"),
+                JUnitTest.Case("b", "b", "7.0"),
+                JUnitTest.Case("c", "c", "7.0"),
+                JUnitTest.Case("d", "d", "0.0", skipped = null),
+            )
+        )
+
+        val shardCount = shardCountByTime(testsToRun, oldTestResult, androidMockedArgs)
+        assertEquals(4, shardCount)
+
+        val shards = createShardsByShardCount(testsToRun, oldTestResult, androidMockedArgs, shardCount)
+        assertEquals(4, shards.size)
+        val shardTimes = shards.flatMap { it.testMethods }.map { it.time }
+        assertTrue(shardTimes.count { it == 7.0 } == 3)
+        assertTrue(shardTimes.count { it == defaultTestTime } == 1)
+    }
+
 }
