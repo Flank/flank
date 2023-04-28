@@ -153,11 +153,11 @@ gcloud:
   ## The four device dimensions are: model, version, locale, and orientation.
   # device:
   #  - model: iphone13pro
-  #   version: 15.2
+  #   version: 15.7
   #   locale: en
   #   orientation: portrait
-  # - model: iphone12pro
-  #   version: 14.8
+  # - model: iphonex
+  #   version: 12.0
   #   locale: es_ES
   #   orientation: landscape
 

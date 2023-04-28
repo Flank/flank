@@ -9,12 +9,12 @@ IosArgs
       network-profile: null
       results-history-name: null
       # iOS gcloud
-      test: [0-9a-zA-Z\/_.-]*\/test_runner\/src\/test\/kotlin\/ftl\/fixtures\/tmp\/ios\/EarlGreyExample\/EarlGreyExample.zip
-      xctestrun-file: [0-9a-zA-Z\/_.-]*\/test_runner\/src\/test\/kotlin\/ftl\/fixtures\/tmp\/ios\/EarlGreyExample\/EarlGreyExampleSwiftTests.xctestrun
+      test: [0-9a-zA-Z\/_.-]*\/test_runner\/src\/test\/kotlin\/ftl\/fixtures\/tmp\/ios\/FlankExample\/FlankExample.zip
+      xctestrun-file: [0-9a-zA-Z\/_.-]*\/test_runner\/src\/test\/kotlin\/ftl\/fixtures\/tmp\/ios\/FlankExample\/FlankExample.xctestrun
       xcode-version: null
       device:
         - model: iphone13pro
-          version: 15.2
+          version: 15.7
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 0

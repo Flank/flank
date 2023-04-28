@@ -74,12 +74,12 @@ class IosArgsTest {
           xctestrun-file: $xctestrunFile
           xcode-version: 9.2
           device:
-          - model: iphone8
-            version: 11.2
+          - model: iphone13pro
+            version: 15.7
             locale: c
             orientation: default
-          - model: iphone8
-            version: 11.2
+          - model: iphone13pro
+            version: 15.7
             locale: c
             orientation: default
           num-flaky-test-attempts: 4
@@ -137,8 +137,8 @@ flank:
 
     @Test
     fun `args invalidDeviceExits`() {
-        assertThrowsWithMessage(Throwable::class, "iOS 15.0 on iphone13pro is not supported\nSupported version ids for 'iphone13pro': 15.2") {
-            val invalidDevice = mutableListOf(Device("iphone13pro", "15.0"))
+        assertThrowsWithMessage(Throwable::class, "iOS 1.0 on iphone13pro is not supported\nSupported version ids for 'iphone13pro': 15.2, 15.7") {
+            val invalidDevice = mutableListOf(Device("iphone13pro", "1.0"))
             createIosArgs(
                 config = defaultIosConfig().apply {
                     common.gcloud.devices = invalidDevice
@@ -190,7 +190,7 @@ flank:
             // IosGcloudYml
             assert(xctestrunZip, testAbsolutePath)
             assert(xctestrunFile, xctestrunFileAbsolutePath)
-            val device = Device("iphone8", "11.2", "c", "default")
+            val device = Device("iphone13pro", "15.7", "c", "default")
             assert(xcodeVersion ?: "", "9.2")
             assert(devices, listOf(device, device))
 
@@ -235,12 +235,12 @@ IosArgs
       xctestrun-file: $xctestrunFileAbsolutePath
       xcode-version: 9.2
       device:
-        - model: iphone8
-          version: 11.2
+        - model: iphone13pro
+          version: 15.7
           locale: c
           orientation: default
-        - model: iphone8
-          version: 11.2
+        - model: iphone13pro
+          version: 15.7
           locale: c
           orientation: default
       num-flaky-test-attempts: 4
@@ -316,7 +316,7 @@ IosArgs
       xcode-version: null
       device:
         - model: iphone13pro
-          version: 15.2
+          version: 15.7
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 0
@@ -386,7 +386,7 @@ IosArgs
             // IosGcloudYml
             assert(xctestrunZip, testAbsolutePath)
             assert(xctestrunFile, xctestrunFileAbsolutePath)
-            assert(devices, listOf(Device("iphone13pro", "15.2")))
+            assert(devices, listOf(Device("iphone13pro", "15.7")))
             assert(flakyTestAttempts, 0)
 
             // FlankYml
@@ -766,7 +766,7 @@ IosArgs
     @Test
     fun `cli device`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parseArgs("--device=model=iphone8,version=12.0,locale=zh_CN,orientation=default")
+        CommandLine(cli).parseArgs("--device=model=iphone13pro,version=15.7,locale=zh_CN,orientation=default")
 
         val yaml = """
         gcloud:
@@ -779,7 +779,7 @@ IosArgs
         assertThat(defaultDevices.size).isEqualTo(1)
 
         val args = IosArgs.load(yaml, cli)
-        val expectedDevice = Device("iphone8", "12.0", "zh_CN", "default")
+        val expectedDevice = Device("iphone13pro", "15.7", "zh_CN", "default")
         val actualDevices = args.devices
         assertThat(actualDevices.first()).isEqualTo(expectedDevice)
         assertThat(actualDevices.size).isEqualTo(1)
@@ -788,7 +788,7 @@ IosArgs
     @Test
     fun `cli device repeat`() {
         val cli = IosRunCommand()
-        val deviceCmd = "--device=model=iphone8,version=12.0,locale=zh_CN,orientation=default"
+        val deviceCmd = "--device=model=iphone13pro,version=15.7,locale=zh_CN,orientation=default"
         CommandLine(cli).parseArgs(deviceCmd, deviceCmd)
 
         val yaml = """
@@ -797,7 +797,7 @@ IosArgs
           xctestrun-file: $testPath
       """
         val args = IosArgs.load(yaml, cli)
-        val expectedDevice = Device("iphone8", "12.0", "zh_CN", "default")
+        val expectedDevice = Device("iphone13pro", "15.7", "zh_CN", "default")
         val actualDevices = args.devices
         assertThat(actualDevices.size).isEqualTo(2)
         assertThat(actualDevices[0]).isEqualTo(expectedDevice)

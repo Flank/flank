@@ -17,7 +17,7 @@ object FtlConstants {
     const val defaultLocale = "en"
     const val defaultOrientation = "portrait"
     const val defaultIosModel = "iphone13pro"
-    const val defaultIosVersion = "15.2"
+    const val defaultIosVersion = "15.7"
     const val defaultAndroidModel = "NexusLowRes"
     const val defaultAndroidVersion = "28"
     const val defaultIosConfig = "./flank.ios.yml"
