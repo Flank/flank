@@ -158,7 +158,7 @@ More details are available at [https://console.firebase.google.com/project/flank
 ┌─────────┬──────────────────────────┬──────────────────────┐
 │ OUTCOME │     TEST_AXIS_VALUE      │     TEST_DETAILS     │
 ├─────────┼──────────────────────────┼──────────────────────┤
-│ Passed  │ iphone13pro-15.2-en-portrait │ 17 test cases passed │
+│ Passed  │ iphone8-11.2-en-portrait │ 17 test cases passed │
 └─────────┴──────────────────────────┴──────────────────────┘
 ```
 
