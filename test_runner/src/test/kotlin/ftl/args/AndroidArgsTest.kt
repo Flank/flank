@@ -225,7 +225,7 @@ class AndroidArgsTest {
           test: $testApk
           device:
           - model: walleye
-            version: 28
+            version: 18
       """
             ).validate()
         }
