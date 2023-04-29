@@ -174,7 +174,7 @@
       "perVersionInfo": [
         {
           "versionId": "27",
-          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM"
+          "deviceCapacity": "DEVICE_CAPACITY_LOW"
         },
         {
           "versionId": "28",
@@ -801,7 +801,7 @@
       "perVersionInfo": [
         {
           "versionId": "24",
-          "deviceCapacity": "DEVICE_CAPACITY_LOW"
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM"
         }
       ]
     },
@@ -848,7 +848,7 @@
       "formFactor": "PHONE",
       "id": "MediumPhone.arm",
       "manufacturer": "Generic",
-      "name": "MediumPhone (ARM)",
+      "name": "Medium Phone, 6.4in/16cm (Arm)",
       "screenDensity": 420,
       "screenX": 1080,
       "screenY": 2400,
@@ -875,7 +875,7 @@
       "formFactor": "TABLET",
       "id": "MediumTablet.arm",
       "manufacturer": "Generic",
-      "name": "MediumTablet (ARM)",
+      "name": "Medium Tablet, 10in/25cm (Arm)",
       "screenDensity": 320,
       "screenX": 1600,
       "screenY": 2560,
@@ -1397,7 +1397,7 @@
       "formFactor": "PHONE",
       "id": "Pixel2.arm",
       "manufacturer": "Google",
-      "name": "Pixel 2 (ARM)",
+      "name": "Pixel 2 (Arm)",
       "screenDensity": 420,
       "screenX": 1080,
       "screenY": 1920,
@@ -1770,7 +1770,7 @@
       "formFactor": "PHONE",
       "id": "SmallPhone.arm",
       "manufacturer": "Generic",
-      "name": "SmallPhone (ARM)",
+      "name": "Small Phone, 4.7in/12cm (Arm)",
       "screenDensity": 320,
       "screenX": 720,
       "screenY": 1280,
@@ -2144,7 +2144,7 @@
         },
         {
           "versionId": "31",
-          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM"
+          "deviceCapacity": "DEVICE_CAPACITY_LOW"
         }
       ]
     },
@@ -2871,7 +2871,7 @@
       "perVersionInfo": [
         {
           "versionId": "23",
-          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM"
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH"
         }
       ]
     },
@@ -4110,7 +4110,7 @@
         },
         {
           "versionId": "33",
-          "deviceCapacity": "DEVICE_CAPACITY_HIGH"
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM"
         }
       ]
     },
@@ -4298,7 +4298,7 @@
         },
         {
           "versionId": "31",
-          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM"
+          "deviceCapacity": "DEVICE_CAPACITY_LOW"
         }
       ]
     },
@@ -4355,7 +4355,7 @@
       "perVersionInfo": [
         {
           "versionId": "25",
-          "deviceCapacity": "DEVICE_CAPACITY_LOW"
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM"
         }
       ]
     },

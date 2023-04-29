@@ -27,17 +27,17 @@
       "formFactor": "TABLET",
       "id": "ipad5",
       "name": "iPad (5th generation)",
-      "perVersionInfo": [
-        {
-          "deviceCapacity": "DEVICE_CAPACITY_LOW",
-          "versionId": "15.4"
-        }
-      ],
       "screenDensity": 264,
       "screenX": 1536,
       "screenY": 2048,
       "supportedVersionIds": [
         "15.4"
+      ],
+      "perVersionInfo": [
+        {
+          "versionId": "15.4",
+          "deviceCapacity": "DEVICE_CAPACITY_LOW"
+        }
       ]
     },
     {
@@ -66,17 +66,17 @@
       "formFactor": "TABLET",
       "id": "ipadmini4",
       "name": "iPad mini 4",
-      "perVersionInfo": [
-        {
-          "deviceCapacity": "DEVICE_CAPACITY_LOW",
-          "versionId": "15.4"
-        }
-      ],
       "screenDensity": 326,
       "screenX": 1536,
       "screenY": 2048,
       "supportedVersionIds": [
         "15.4"
+      ],
+      "perVersionInfo": [
+        {
+          "versionId": "15.4",
+          "deviceCapacity": "DEVICE_CAPACITY_LOW"
+        }
       ]
     },
     {
@@ -112,20 +112,6 @@
       "formFactor": "PHONE",
       "id": "iphone11pro",
       "name": "iPhone 11 Pro",
-      "perVersionInfo": [
-        {
-          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
-          "versionId": "14.7"
-        },
-        {
-          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
-          "versionId": "16.2"
-        },
-        {
-          "deviceCapacity": "DEVICE_CAPACITY_LOW",
-          "versionId": "16.3"
-        }
-      ],
       "screenDensity": 458,
       "screenX": 1125,
       "screenY": 2436,
@@ -136,6 +122,20 @@
       ],
       "tags": [
         "deprecated=16.2"
+      ],
+      "perVersionInfo": [
+        {
+          "versionId": "14.7",
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM"
+        },
+        {
+          "versionId": "16.2",
+          "deviceCapacity": "DEVICE_CAPACITY_LOW"
+        },
+        {
+          "versionId": "16.3",
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM"
+        }
       ]
     },
     {
@@ -171,17 +171,17 @@
       "formFactor": "PHONE",
       "id": "iphone12pro",
       "name": "iPhone 12 Pro",
-      "perVersionInfo": [
-        {
-          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
-          "versionId": "14.8"
-        }
-      ],
       "screenDensity": 460,
       "screenX": 1170,
       "screenY": 2532,
       "supportedVersionIds": [
         "14.8"
+      ],
+      "perVersionInfo": [
+        {
+          "versionId": "14.8",
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM"
+        }
       ]
     },
     {
@@ -217,16 +217,6 @@
       "formFactor": "PHONE",
       "id": "iphone13pro",
       "name": "iPhone 13 Pro",
-      "perVersionInfo": [
-        {
-          "deviceCapacity": "DEVICE_CAPACITY_LOW",
-          "versionId": "15.2"
-        },
-        {
-          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
-          "versionId": "15.7"
-        }
-      ],
       "screenDensity": 460,
       "screenX": 1170,
       "screenY": 2532,
@@ -236,6 +226,16 @@
       ],
       "tags": [
         "default"
+      ],
+      "perVersionInfo": [
+        {
+          "versionId": "15.2",
+          "deviceCapacity": "DEVICE_CAPACITY_LOW"
+        },
+        {
+          "versionId": "15.7",
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH"
+        }
       ]
     },
     {
@@ -271,24 +271,6 @@
       "formFactor": "PHONE",
       "id": "iphone8",
       "name": "iPhone 8",
-      "perVersionInfo": [
-        {
-          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
-          "versionId": "14.7"
-        },
-        {
-          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
-          "versionId": "15.7"
-        },
-        {
-          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
-          "versionId": "16.2"
-        },
-        {
-          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
-          "versionId": "16.3"
-        }
-      ],
       "screenDensity": 326,
       "screenX": 750,
       "screenY": 1334,
@@ -300,6 +282,24 @@
       ],
       "tags": [
         "deprecated=16.2"
+      ],
+      "perVersionInfo": [
+        {
+          "versionId": "14.7",
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM"
+        },
+        {
+          "versionId": "15.7",
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM"
+        },
+        {
+          "versionId": "16.2",
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM"
+        },
+        {
+          "versionId": "16.3",
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH"
+        }
       ]
     }
   ],
@@ -3337,16 +3337,22 @@
   ],
   "xcodeVersions": [
     {
+      "tags": [
+        "deprecated"
+      ],
       "version": "12.5.1"
     },
     {
+      "tags": [
+        "deprecated"
+      ],
       "version": "13.4.1"
     },
     {
-      "version": "14.2",
       "tags": [
         "default"
-      ]
+      ],
+      "version": "14.2"
     }
   ]
 }
