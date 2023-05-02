@@ -31,7 +31,7 @@ runs:
       shell: bash
     - id: download_flank
       run: |
-        ./flankScripts github download_flank --version=${{ inputs.version }} --token=${{ secrets.GITHUB_TOKEN }}
+        ./flankScripts github download_flank --version=${{ inputs.version }}
       shell: bash
     - id: authentication
       run: |
