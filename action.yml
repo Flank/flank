@@ -13,6 +13,9 @@ inputs:
   flank_configuration_file:
     description: 'Flank configuration file'
     required: true
+secrets:
+  github_token:
+    required:true
 outputs:
   local_results_directory:
     description: "Path to local results directory"
@@ -31,7 +34,7 @@ runs:
       shell: bash
     - id: download_flank
       run: |
-        ./flankScripts github download_flank --version=${{ inputs.version }} --token=${{ secrets.GITHUB_TOKEN }}
+        ./flankScripts github download_flank --version=${{ inputs.version }} --token=${{ secrets.github_token }}
       shell: bash
     - id: authentication
       run: |
