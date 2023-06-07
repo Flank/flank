@@ -1,7 +1,7 @@
 package ftl.adapter.google
 
 import ftl.api.Orientation
-import com.google.testing.model.Orientation as GoogleApiOrientation
+import com.google.api.services.testing.model.Orientation as GoogleApiOrientation
 
 internal fun List<GoogleApiOrientation>.toApiModel(): List<Orientation> = map { googleApiOrientation ->
     Orientation(

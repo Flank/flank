@@ -4,8 +4,8 @@ import com.google.api.services.toolresults.model.ListTestCasesResponse
 import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.TestCase
 import com.google.api.services.toolresults.model.Timestamp
-import com.google.testing.model.TestExecution
-import com.google.testing.model.ToolResultsStep
+import com.google.api.services.testing.model.TestExecution
+import com.google.api.services.testing.model.ToolResultsStep
 import ftl.client.google.GcToolResults
 import ftl.client.junit.TestExecutionData
 import ftl.client.junit.createTestExecutionDataListAsync

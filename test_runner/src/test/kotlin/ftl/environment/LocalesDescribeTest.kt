@@ -1,6 +1,6 @@
 package ftl.environment
 
-import com.google.testing.model.Locale
+import com.google.api.services.testing.model.Locale
 import org.junit.Assert
 import org.junit.Test
 

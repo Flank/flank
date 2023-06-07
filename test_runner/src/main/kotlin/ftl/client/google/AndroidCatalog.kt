@@ -1,9 +1,9 @@
 package ftl.client.google
 
-import com.google.testing.model.AndroidDevice
-import com.google.testing.model.AndroidDeviceCatalog
-import com.google.testing.model.AndroidModel
-import com.google.testing.model.Orientation
+import com.google.api.services.testing.model.AndroidDevice
+import com.google.api.services.testing.model.AndroidDeviceCatalog
+import com.google.api.services.testing.model.AndroidModel
+import com.google.api.services.testing.model.Orientation
 import ftl.http.executeWithRetry
 import ftl.presentation.cli.firebase.test.reportmanager.ReportManagerState
 import ftl.presentation.publish

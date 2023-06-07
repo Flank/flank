@@ -1,10 +1,10 @@
 package ftl.util
 
-import com.google.testing.Testing
-import com.google.testing.model.GoogleCloudStorage
-import com.google.testing.model.ResultStorage
-import com.google.testing.model.TestExecution
-import com.google.testing.model.TestMatrix
+import com.google.api.services.testing.Testing
+import com.google.api.services.testing.model.GoogleCloudStorage
+import com.google.api.services.testing.model.ResultStorage
+import com.google.api.services.testing.model.TestExecution
+import com.google.api.services.testing.model.TestMatrix
 import ftl.http.executeWithRetry
 import io.mockk.every
 import io.mockk.mockkStatic

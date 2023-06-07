@@ -1,8 +1,8 @@
 package ftl.client.google.run.android
 
-import com.google.testing.model.AndroidRoboTest
-import com.google.testing.model.FileReference
-import com.google.testing.model.RoboDirective
+import com.google.api.services.testing.model.AndroidRoboTest
+import com.google.api.services.testing.model.FileReference
+import com.google.api.services.testing.model.RoboDirective
 import ftl.api.TestMatrixAndroid
 import ftl.args.FlankRoboDirective
 

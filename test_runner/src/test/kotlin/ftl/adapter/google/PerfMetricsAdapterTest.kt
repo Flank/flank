@@ -8,7 +8,7 @@ import com.google.api.services.toolresults.model.MemoryInfo
 import com.google.api.services.toolresults.model.PerfEnvironment
 import com.google.api.services.toolresults.model.PerfMetricsSummary
 import com.google.common.truth.Truth.assertThat
-import com.google.testing.model.ToolResultsStep
+import com.google.api.services.testing.model.ToolResultsStep
 import ftl.api.PerfMetrics
 import ftl.run.common.prettyPrint
 import ftl.util.Duration

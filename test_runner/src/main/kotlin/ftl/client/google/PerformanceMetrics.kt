@@ -1,6 +1,6 @@
 package ftl.client.google
 
-import com.google.testing.model.TestExecution
+import com.google.api.services.testing.model.TestExecution
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.json.MatrixMap

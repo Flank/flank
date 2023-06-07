@@ -1,6 +1,6 @@
 package ftl.environment.ios
 
-import com.google.testing.model.IosVersion
+import com.google.api.services.testing.model.IosVersion
 import ftl.run.exception.FlankGeneralError
 
 fun List<IosVersion>.getDescription(versionId: String) = findVersion(versionId)?.prepareDescription().orErrorMessage(versionId)

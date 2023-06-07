@@ -4,7 +4,7 @@ import com.google.api.services.toolresults.model.Environment
 import com.google.api.services.toolresults.model.Outcome
 import com.google.api.services.toolresults.model.Step
 import com.google.common.annotations.VisibleForTesting
-import com.google.testing.model.ToolResultsExecution
+import com.google.api.services.testing.model.ToolResultsExecution
 import flank.common.logLn
 import ftl.api.TestMatrix
 import ftl.json.getDetails

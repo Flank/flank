@@ -29,10 +29,10 @@ object Versions {
     const val PICOCLI = "4.6.3"
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
-    const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20210809-1.32.1"
+    const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20230410-2.0.0"
 
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
-    const val GOOGLE_API = "1.35.2"
+    const val GOOGLE_API = "2.2.0"
 
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
