@@ -20,7 +20,7 @@ object Versions {
     const val APK_PARSER = "2.6.10"
 
     // match to Tools -> Kotlin -> Configure Kotlin Plugin Updates -> Update Channel: Stable
-    const val KOTLIN = "1.6.0"
+    const val KOTLIN = "1.8.21"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
     const val KOTLIN_COROUTINES = "1.6.3"
@@ -43,14 +43,14 @@ object Versions {
     const val GOOGLE_NIO = "0.124.7"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "2.9.3"
+    const val GOOGLE_STORAGE = "2.16.0"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.9.0"
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
-    const val JACKSON = "2.13.3"
+    const val JACKSON = "2.15.2"
 
     const val JUNIT = "4.13.2"
 
