@@ -1,9 +1,9 @@
 package ftl.client.google.run.ios
 
-import com.google.testing.model.FileReference
-import com.google.testing.model.IosTestLoop
-import com.google.testing.model.IosXcTest
-import com.google.testing.model.TestSpecification
+import com.google.api.services.testing.model.FileReference
+import com.google.api.services.testing.model.IosTestLoop
+import com.google.api.services.testing.model.IosXcTest
+import com.google.api.services.testing.model.TestSpecification
 import ftl.api.TestMatrixIos
 
 internal fun TestSpecification.setupIosTest(config: TestMatrixIos.Type) = apply {

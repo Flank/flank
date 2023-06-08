@@ -5,7 +5,7 @@ import ftl.api.TestMatrix
 import ftl.api.TestMatrixIos
 import ftl.client.google.run.ios.executeIosTests
 import kotlinx.coroutines.runBlocking
-import com.google.testing.model.TestMatrix as GoogleTestMatrix
+import com.google.api.services.testing.model.TestMatrix as GoogleTestMatrix
 
 object GoogleTestMatrixIos :
     TestMatrixIos.Execute,

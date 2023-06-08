@@ -1,6 +1,6 @@
 package ftl.adapter.google
 
-import com.google.testing.model.DeviceIpBlock
+import com.google.api.services.testing.model.DeviceIpBlock
 import ftl.api.IpBlockList
 import ftl.client.google.prettyDate
 

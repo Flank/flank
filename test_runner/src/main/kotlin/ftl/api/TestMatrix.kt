@@ -1,6 +1,6 @@
 package ftl.api
 
-import com.google.testing.model.ToolResultsStep
+import com.google.api.services.testing.model.ToolResultsStep
 import ftl.adapter.TestMatrixCancel
 import ftl.adapter.TestMatrixFetch
 import ftl.adapter.TestMatrixRefresh

@@ -1,7 +1,7 @@
 package ftl.client.google.run.android
 
-import com.google.testing.model.AndroidTestLoop
-import com.google.testing.model.FileReference
+import com.google.api.services.testing.model.AndroidTestLoop
+import com.google.api.services.testing.model.FileReference
 import ftl.api.TestMatrixAndroid
 
 internal fun createGameLoopTest(config: TestMatrixAndroid.Type.GameLoop) = AndroidTestLoop().apply {

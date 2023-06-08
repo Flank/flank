@@ -1,6 +1,6 @@
 package ftl.api
 
-import com.google.testing.model.ProvidedSoftwareCatalog
+import com.google.api.services.testing.model.ProvidedSoftwareCatalog
 import ftl.adapter.GoogleProvidedSoftwareCatalog
 
 val fetchSoftwareCatalog: SoftwareCatalog.Fetch get() = GoogleProvidedSoftwareCatalog

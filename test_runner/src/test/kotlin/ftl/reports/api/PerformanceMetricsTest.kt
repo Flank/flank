@@ -1,9 +1,9 @@
 package ftl.reports.api
 
 import com.google.common.truth.Truth.assertThat
-import com.google.testing.model.AndroidDevice
-import com.google.testing.model.TestExecution
-import com.google.testing.model.ToolResultsStep
+import com.google.api.services.testing.model.AndroidDevice
+import com.google.api.services.testing.model.TestExecution
+import com.google.api.services.testing.model.ToolResultsStep
 import ftl.api.PerfMetrics
 import ftl.api.fetchPerformanceMetrics
 import ftl.args.IArgs

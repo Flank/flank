@@ -1,7 +1,7 @@
 package ftl.adapter.google
 
-import com.google.testing.model.AndroidModel
-import com.google.testing.model.IosModel
+import com.google.api.services.testing.model.AndroidModel
+import com.google.api.services.testing.model.IosModel
 import ftl.api.DeviceModel
 import ftl.environment.orUnknown
 import ftl.environment.orUnspecified

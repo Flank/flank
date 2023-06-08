@@ -5,7 +5,7 @@ import com.google.api.services.toolresults.model.StackTrace
 import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.TestCase
 import com.google.api.services.toolresults.model.Timestamp
-import com.google.testing.model.TestExecution
+import com.google.api.services.testing.model.TestExecution
 import ftl.client.junit.TestExecutionData
 import ftl.client.junit.flaky
 import ftl.client.junit.prepareForJUnitResult

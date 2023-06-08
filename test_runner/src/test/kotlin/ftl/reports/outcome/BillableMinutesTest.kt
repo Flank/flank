@@ -1,8 +1,8 @@
 package ftl.reports.outcome
 
 import com.google.api.services.toolresults.model.Step
-import com.google.testing.model.AndroidModel
-import com.google.testing.model.IosModel
+import com.google.api.services.testing.model.AndroidModel
+import com.google.api.services.testing.model.IosModel
 import ftl.client.google.BillableMinutes
 import ftl.client.google.DeviceType
 import ftl.client.google.GcTesting

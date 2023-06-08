@@ -1,6 +1,6 @@
 package ftl.run.status
 
-import com.google.testing.model.TestMatrix
+import com.google.api.services.testing.model.TestMatrix
 import ftl.adapter.google.toApiModel
 import ftl.api.TestMatrix.TestExecution
 import ftl.args.IArgs
@@ -15,7 +15,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
-import com.google.testing.model.TestExecution as GoogleTestExecution
+import com.google.api.services.testing.model.TestExecution as GoogleTestExecution
 
 class TestMatrixStatusPrinterTest {
     @Rule

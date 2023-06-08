@@ -1,7 +1,7 @@
 package ftl.adapter.google
 
 import ftl.api.Locale
-import com.google.testing.model.Locale as GoogleApiLocale
+import com.google.api.services.testing.model.Locale as GoogleApiLocale
 
 internal fun List<GoogleApiLocale>.toApiModel(): List<Locale> = map { locale ->
     Locale(

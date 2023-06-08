@@ -1,7 +1,7 @@
 package ftl.client.google.run.android
 
-import com.google.testing.model.AndroidDevice
-import com.google.testing.model.AndroidDeviceList
+import com.google.api.services.testing.model.AndroidDevice
+import com.google.api.services.testing.model.AndroidDeviceList
 import ftl.config.Device
 
 object GcAndroidDevice {

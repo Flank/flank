@@ -3,8 +3,8 @@ package ftl.gc
 import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.google.api.client.http.HttpResponseException
 import com.google.common.truth.Truth.assertThat
-import com.google.testing.model.ToolResultsHistory
-import com.google.testing.model.ToolResultsStep
+import com.google.api.services.testing.model.ToolResultsHistory
+import com.google.api.services.testing.model.ToolResultsStep
 import ftl.args.AndroidArgs
 import ftl.client.google.GcToolResults
 import ftl.config.FtlConstants

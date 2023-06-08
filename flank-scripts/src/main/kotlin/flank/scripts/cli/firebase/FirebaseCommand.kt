@@ -9,8 +9,6 @@ object FirebaseCommand : CliktCommand(
 ) {
     init {
         subcommands(
-            UpdateApiCommand,
-            GenerateClientCommand,
             CheckForSdkUpdatesCommand,
             SaveServiceAccountCommand
         )

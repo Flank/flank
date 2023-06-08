@@ -1,6 +1,6 @@
 package ftl.environment.ios
 
-import com.google.testing.model.IosVersion
+import com.google.api.services.testing.model.IosVersion
 import ftl.test.util.TestHelper.getThrowable
 import org.junit.Assert
 import org.junit.Test

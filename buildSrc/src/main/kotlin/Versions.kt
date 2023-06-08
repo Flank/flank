@@ -20,19 +20,22 @@ object Versions {
     const val APK_PARSER = "2.6.10"
 
     // match to Tools -> Kotlin -> Configure Kotlin Plugin Updates -> Update Channel: Stable
-    const val KOTLIN = "1.6.0"
+    const val KOTLIN = "1.8.21"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    const val KOTLIN_COROUTINES = "1.6.3"
+    const val KOTLIN_COROUTINES = "1.7.1"
 
     // https://github.com/remkop/picocli/releases
     const val PICOCLI = "4.6.3"
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
-    const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20210809-1.32.1"
+    const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20230410-2.0.0"
+
+    // https://search.maven.org/artifact/com.google.apis/google-api-services-testing/v1-rev20230526-2.0.0/jar
+    const val GOOGLE_API_TESTING = "v1-rev20230526-2.0.0"
 
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
-    const val GOOGLE_API = "1.35.2"
+    const val GOOGLE_API = "2.2.0"
 
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
@@ -43,14 +46,14 @@ object Versions {
     const val GOOGLE_NIO = "0.124.7"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "2.9.3"
+    const val GOOGLE_STORAGE = "2.16.0"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.9.0"
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
-    const val JACKSON = "2.13.3"
+    const val JACKSON = "2.15.2"
 
     const val JUNIT = "4.13.2"
 

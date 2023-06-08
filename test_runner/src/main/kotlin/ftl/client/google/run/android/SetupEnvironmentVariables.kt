@@ -1,8 +1,8 @@
 package ftl.client.google.run.android
 
 import com.google.common.annotations.VisibleForTesting
-import com.google.testing.model.EnvironmentVariable
-import com.google.testing.model.TestSetup
+import com.google.api.services.testing.model.EnvironmentVariable
+import com.google.api.services.testing.model.TestSetup
 import ftl.api.TestMatrixAndroid
 
 @VisibleForTesting
