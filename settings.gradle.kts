@@ -8,7 +8,6 @@ includeBuild("check_version_updated")
 
 include(
     ":test_runner",
-    ":firebase_apis:test_api",
     ":flank-scripts",
     ":integration_tests",
     "samples:gradle-export-api",

@@ -31,6 +31,9 @@ object Versions {
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
     const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20230410-2.0.0"
 
+    // https://search.maven.org/artifact/com.google.apis/google-api-services-testing/v1-rev20230526-2.0.0/jar
+    const val GOOGLE_API_TESTING = "v1-rev20230526-2.0.0"
+
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
     const val GOOGLE_API = "2.2.0"
 
