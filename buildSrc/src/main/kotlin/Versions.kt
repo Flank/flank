@@ -23,7 +23,7 @@ object Versions {
     const val KOTLIN = "1.8.21"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    const val KOTLIN_COROUTINES = "1.6.3"
+    const val KOTLIN_COROUTINES = "1.7.1"
 
     // https://github.com/remkop/picocli/releases
     const val PICOCLI = "4.6.3"
