@@ -1,3 +1,9 @@
+## v23.06.0
+### Bug Fixes
+- [#2373](https://github.com/Flank/flank/pull/2373) Update various dependencies ()
+- [#2369](https://github.com/Flank/flank/pull/2369) Remove usage of secrets to fix failing builds ()
+- [#2360](https://github.com/Flank/flank/pull/2360) Rate limiting issue when downloading flank with no version supplied ()
+
 ## v23.04.0
 ### Bug Fixes
 - [#2366](https://github.com/Flank/flank/pull/2366) Bringing integration tests back to life ()
