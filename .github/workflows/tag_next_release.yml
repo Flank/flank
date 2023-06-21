@@ -20,7 +20,7 @@ jobs:
           egress-policy: audit
           # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: tibdex/github-app-token@v1
         id: generate-token
         with:
