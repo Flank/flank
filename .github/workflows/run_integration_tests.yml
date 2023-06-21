@@ -67,7 +67,7 @@ jobs:
           format: 'YYYY-MM-DD HH:mm:ss'
           utcOffset: "+00:00"
       - name: Create comment that tests were triggered
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v3
         id: couc
         with:
           issue-number: ${{ needs.should_run_it.outputs.pr_number }}
@@ -187,7 +187,7 @@ jobs:
 
       - name: Update comment on failure
         if: ${{ needs.run-it-full-suite.outputs.job_status == 'failure' }}
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v3
         with:
           comment-id: ${{ needs.integration-tests-post-link.outputs.comment_id }}
           edit-mode: replace
@@ -201,7 +201,7 @@ jobs:
 
       - name: Update comment on success
         if: ${{ needs.run-it-full-suite.outputs.job_status == 'success' }}
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v3
         with:
           comment-id: ${{ needs.integration-tests-post-link.outputs.comment_id }}
           edit-mode: replace
