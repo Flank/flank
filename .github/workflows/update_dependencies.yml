@@ -72,7 +72,7 @@ jobs:
           private_key: ${{ secrets.FLANK_RELEASE_PRIVATE_KEY }}
 
       - name: Setup python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '2.x'
 
