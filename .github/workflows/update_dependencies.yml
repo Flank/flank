@@ -21,7 +21,7 @@ jobs:
     runs-on: macos-latest
     needs: [ get_date ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: tibdex/github-app-token@v1
         id: generate-token
         with:
@@ -29,7 +29,7 @@ jobs:
           private_key: ${{ secrets.FLANK_RELEASE_PRIVATE_KEY }}
 
       - name: Gradle dependency updates raport
-        uses: gradle/gradle-build-action@v1
+        uses: gradle/gradle-build-action@v2.4.2
         with:
           arguments: dependencyUpdates -DoutputFormatter=json -DoutputDir=.
 
@@ -46,7 +46,7 @@ jobs:
 
       - name: Commit files and create Pull request
         id: pr
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ steps.generate-token.outputs.token }}
           commit-message: "[Automatic PR] Dependencies update"
@@ -64,7 +64,7 @@ jobs:
     runs-on: macos-latest
     needs: [ get_date ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: tibdex/github-app-token@v1
         id: generate-token
         with:
@@ -72,7 +72,7 @@ jobs:
           private_key: ${{ secrets.FLANK_RELEASE_PRIVATE_KEY }}
 
       - name: Setup python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '2.x'
 
@@ -91,7 +91,7 @@ jobs:
 
       - name: Commit files and create Pull request
         id: pr
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ steps.generate-token.outputs.token }}
           commit-message: "[Automatic PR] Firebase API Client update"
@@ -108,7 +108,7 @@ jobs:
   check_for_sdk_updates:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Download flankScripts and add it to PATH
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -139,7 +139,7 @@ jobs:
           private_key: ${{ secrets.FLANK_RELEASE_PRIVATE_KEY }}
 
       - name: Dispatch repository event
-        uses: peter-evans/repository-dispatch@v1
+        uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ steps.generate-token.outputs.token }}
           event-type: dependencies-pointer

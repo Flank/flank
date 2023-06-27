@@ -1,15 +1,15 @@
 package ftl.api
 
 import com.google.common.truth.Truth.assertThat
-import com.google.testing.model.Environment
-import com.google.testing.model.FileReference
-import com.google.testing.model.GoogleCloudStorage
-import com.google.testing.model.ResultStorage
-import com.google.testing.model.TestExecution
-import com.google.testing.model.TestMatrix
-import com.google.testing.model.TestSpecification
-import com.google.testing.model.ToolResultsExecution
-import com.google.testing.model.ToolResultsStep
+import com.google.api.services.testing.model.Environment
+import com.google.api.services.testing.model.FileReference
+import com.google.api.services.testing.model.GoogleCloudStorage
+import com.google.api.services.testing.model.ResultStorage
+import com.google.api.services.testing.model.TestExecution
+import com.google.api.services.testing.model.TestMatrix
+import com.google.api.services.testing.model.TestSpecification
+import com.google.api.services.testing.model.ToolResultsExecution
+import com.google.api.services.testing.model.ToolResultsStep
 import ftl.adapter.google.toApiModel
 import ftl.client.google.run.android.GcAndroidDevice
 import ftl.config.Device

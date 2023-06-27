@@ -8,6 +8,7 @@ object Dependencies {
     const val GOOGLE_NIO = "com.google.cloud:google-cloud-nio:${Versions.GOOGLE_NIO}"
     const val GOOGLE_STORAGE = "com.google.cloud:google-cloud-storage:${Versions.GOOGLE_STORAGE}"
     const val GOOGLE_TOOLRESULTS = "com.google.apis:google-api-services-toolresults:${Versions.GOOGLE_API_TOOLRESULTS}"
+    const val GOOGLE_TESTING = "com.google.apis:google-api-services-testing:${Versions.GOOGLE_API_TESTING}"
 
     const val GSON = "com.google.code.gson:gson:${Versions.GSON}"
 

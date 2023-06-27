@@ -1,7 +1,7 @@
 package ftl.adapter.google
 
-import com.google.testing.model.NetworkConfiguration
-import com.google.testing.model.TrafficRule
+import com.google.api.services.testing.model.NetworkConfiguration
+import com.google.api.services.testing.model.TrafficRule
 import ftl.api.NetworkProfile
 
 internal fun List<NetworkConfiguration>.toApiModel() = map {

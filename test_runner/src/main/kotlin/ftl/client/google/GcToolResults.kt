@@ -10,10 +10,10 @@ import com.google.api.services.toolresults.model.ListTestCasesResponse
 import com.google.api.services.toolresults.model.PerfMetricsSummary
 import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.TestCase
-import com.google.testing.model.TestExecution
-import com.google.testing.model.ToolResultsExecution
-import com.google.testing.model.ToolResultsHistory
-import com.google.testing.model.ToolResultsStep
+import com.google.api.services.testing.model.TestExecution
+import com.google.api.services.testing.model.ToolResultsExecution
+import com.google.api.services.testing.model.ToolResultsHistory
+import com.google.api.services.testing.model.ToolResultsStep
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.JSON_FACTORY

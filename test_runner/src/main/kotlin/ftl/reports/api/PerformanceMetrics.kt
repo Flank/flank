@@ -1,6 +1,6 @@
 package ftl.reports.api
 
-import com.google.testing.model.TestExecution
+import com.google.api.services.testing.model.TestExecution
 import ftl.api.PerfMetrics
 import ftl.api.RemoteStorage
 import ftl.api.fetchPerformanceMetrics

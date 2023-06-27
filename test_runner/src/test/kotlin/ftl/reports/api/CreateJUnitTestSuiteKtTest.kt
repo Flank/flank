@@ -5,8 +5,8 @@ import com.google.api.services.toolresults.model.StepDimensionValueEntry
 import com.google.api.services.toolresults.model.TestCase
 import com.google.api.services.toolresults.model.TestExecutionStep
 import com.google.api.services.toolresults.model.Timestamp
-import com.google.testing.model.TestExecution
-import com.google.testing.model.ToolResultsStep
+import com.google.api.services.testing.model.TestExecution
+import com.google.api.services.testing.model.ToolResultsStep
 import ftl.api.JUnitTest
 import ftl.client.junit.TestExecutionData
 import ftl.client.junit.createJUnitTestCases

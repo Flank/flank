@@ -19,7 +19,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.6.0
+        uses: styfle/cancel-workflow-action@0.11.0
         with:
           access_token: '${{ secrets.GITHUB_TOKEN }}'
 
@@ -67,7 +67,7 @@ jobs:
           format: 'YYYY-MM-DD HH:mm:ss'
           utcOffset: "+00:00"
       - name: Create comment that tests were triggered
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v3
         id: couc
         with:
           issue-number: ${{ needs.should_run_it.outputs.pr_number }}
@@ -94,7 +94,7 @@ jobs:
           # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
 
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Checkout Pull Request
         if: github.event_name == 'issue_comment'
@@ -103,7 +103,7 @@ jobs:
         run: |
           gh pr checkout ${{ needs.should_run_it.outputs.pr_number }}
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
           key: macos-gradle-${{ hashFiles('**/*.gradle*') }}
@@ -128,7 +128,7 @@ jobs:
         shell: bash
 
       - name: Gradle integration tests
-        uses: gradle/gradle-build-action@v1.3.3
+        uses: gradle/gradle-build-action@v2.4.2
         id: run-it
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -138,7 +138,7 @@ jobs:
 
       - name: Export Variables for FlankScripts
         if: ${{ always() }}
-        uses: UnlyEd/github-action-store-variable@v2.1.0
+        uses: UnlyEd/github-action-store-variable@v3.0.15
         with:
           variables: |
             ${{ runner.os }}=${{ job.status }}
@@ -150,14 +150,14 @@ jobs:
     if: always() && github.event_name != 'issue_comment'
     steps:
       - name: Import variable
-        uses: UnlyEd/github-action-store-variable@v2.1.0
+        uses: UnlyEd/github-action-store-variable@v3.0.15
         with:
           delimiter: ','
           variables: |
             Windows,Windows-bs,macOS,macOS-bs,Linux,Linux-bs
 
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Download flankScripts and add it to PATH
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -179,7 +179,7 @@ jobs:
     if: always() && github.event_name == 'issue_comment'
     steps:
       - name: Import variable
-        uses: UnlyEd/github-action-store-variable@v2.1.0
+        uses: UnlyEd/github-action-store-variable@v3.0.15
         with:
           delimiter: ','
           variables: |
@@ -187,7 +187,7 @@ jobs:
 
       - name: Update comment on failure
         if: ${{ needs.run-it-full-suite.outputs.job_status == 'failure' }}
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v3
         with:
           comment-id: ${{ needs.integration-tests-post-link.outputs.comment_id }}
           edit-mode: replace
@@ -201,7 +201,7 @@ jobs:
 
       - name: Update comment on success
         if: ${{ needs.run-it-full-suite.outputs.job_status == 'success' }}
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v3
         with:
           comment-id: ${{ needs.integration-tests-post-link.outputs.comment_id }}
           edit-mode: replace
@@ -231,7 +231,7 @@ jobs:
           private_key: ${{ secrets.FLANK_RELEASE_PRIVATE_KEY }}
 
       - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v1
+        uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ steps.generate-token.outputs.token }}
           event-type: integration-pointer

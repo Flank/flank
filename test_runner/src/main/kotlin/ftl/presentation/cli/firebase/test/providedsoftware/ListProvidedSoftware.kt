@@ -1,6 +1,6 @@
 package ftl.presentation.cli.firebase.test.providedsoftware
 
-import com.google.testing.model.ProvidedSoftwareCatalog
+import com.google.api.services.testing.model.ProvidedSoftwareCatalog
 import ftl.util.TableColumn
 import ftl.util.buildTable
 

@@ -1,7 +1,7 @@
 package ftl.client.google.run.ios
 
-import com.google.testing.model.IosDevice
-import com.google.testing.model.IosDeviceList
+import com.google.api.services.testing.model.IosDevice
+import com.google.api.services.testing.model.IosDeviceList
 import ftl.config.Device
 
 object GcIosDevice {

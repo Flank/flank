@@ -1,8 +1,8 @@
 package ftl.client.google.run
 
-import com.google.testing.model.ClientInfoDetail
-import com.google.testing.model.FileReference
-import com.google.testing.model.IosDeviceFile
+import com.google.api.services.testing.model.ClientInfoDetail
+import com.google.api.services.testing.model.FileReference
+import com.google.api.services.testing.model.IosDeviceFile
 import flank.tool.resource.readRevision
 import flank.tool.resource.readVersion
 

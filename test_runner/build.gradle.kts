@@ -184,6 +184,7 @@ dependencies {
     implementation(Dependencies.GOOGLE_AUTH)
     implementation(Dependencies.GOOGLE_STORAGE)
     implementation(Dependencies.GOOGLE_TOOLRESULTS)
+    implementation(Dependencies.GOOGLE_TESTING)
 
     implementation(Dependencies.KTOR_SERVER_CORE)
     implementation(Dependencies.KTOR_SERVER_NETTY)
@@ -201,11 +202,6 @@ dependencies {
     implementation(Dependencies.KOTLIN_LOGGING)
     implementation(Dependencies.COMMON_TEXT)
     implementation(Dependencies.JANSI)
-
-    // NOTE: iOS support isn't in the public artifact. Use testing jar generated from the private gcloud CLI json
-    // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-testing%22
-    // compile("com.google.apis:google-api-services-testing:v1-rev30-1.23.0")
-    implementation(project(":firebase_apis:test_api"))
 
     implementation(project(":tool:resource"))
 

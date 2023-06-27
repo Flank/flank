@@ -1,7 +1,7 @@
 package ftl.gc.android
 
-import com.google.testing.model.AndroidInstrumentationTest
-import com.google.testing.model.FileReference
+import com.google.api.services.testing.model.AndroidInstrumentationTest
+import com.google.api.services.testing.model.FileReference
 import ftl.api.ShardChunks
 import ftl.args.IArgs
 import ftl.client.google.run.android.setupTestTargets

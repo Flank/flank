@@ -1,7 +1,7 @@
 package ftl.client.google
 
-import com.google.testing.model.TestExecution
-import com.google.testing.model.TestMatrix
+import com.google.api.services.testing.model.TestExecution
+import com.google.api.services.testing.model.TestMatrix
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll

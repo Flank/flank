@@ -1,3 +1,17 @@
+## v23.06.2
+### Bug Fixes
+- [#2392](https://github.com/Flank/flank/pull/2392) Update out of date dependencies ()
+
+## v23.06.1
+### Bug Fixes
+- [#2375](https://github.com/Flank/flank/pull/2375) Update google-auth-library-oauth2-http version to 1.17.0 ()
+
+## v23.06.0
+### Bug Fixes
+- [#2373](https://github.com/Flank/flank/pull/2373) Update various dependencies ()
+- [#2369](https://github.com/Flank/flank/pull/2369) Remove usage of secrets to fix failing builds ()
+- [#2360](https://github.com/Flank/flank/pull/2360) Rate limiting issue when downloading flank with no version supplied ()
+
 ## v23.04.0
 ### Bug Fixes
 - [#2366](https://github.com/Flank/flank/pull/2366) Bringing integration tests back to life ()

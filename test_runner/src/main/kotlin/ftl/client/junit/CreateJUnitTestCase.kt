@@ -2,7 +2,7 @@ package ftl.client.junit
 
 import com.google.api.services.toolresults.model.StackTrace
 import com.google.api.services.toolresults.model.TestCase
-import com.google.testing.model.ToolResultsStep
+import com.google.api.services.testing.model.ToolResultsStep
 import ftl.api.JUnitTest
 import ftl.reports.api.format
 import ftl.reports.api.millis

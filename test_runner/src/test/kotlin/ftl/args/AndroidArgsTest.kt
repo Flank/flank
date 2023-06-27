@@ -1,7 +1,7 @@
 package ftl.args
 
 import com.google.common.truth.Truth.assertThat
-import com.google.testing.model.TestSpecification
+import com.google.api.services.testing.model.TestSpecification
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.IArgs.Companion.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE
 import ftl.args.yml.AppTestPair

@@ -1,7 +1,7 @@
 package ftl.cli.firebase.test.ipblocks
 
-import com.google.testing.model.Date
-import com.google.testing.model.DeviceIpBlock
+import com.google.api.services.testing.model.Date
+import com.google.api.services.testing.model.DeviceIpBlock
 import ftl.client.google.deviceIPBlocks
 import ftl.test.util.runMainCommand
 import io.mockk.every

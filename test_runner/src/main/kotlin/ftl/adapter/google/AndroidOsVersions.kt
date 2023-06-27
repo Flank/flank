@@ -1,8 +1,8 @@
 package ftl.adapter.google
 
-import com.google.testing.model.AndroidVersion
-import com.google.testing.model.Date
-import com.google.testing.model.Distribution
+import com.google.api.services.testing.model.AndroidVersion
+import com.google.api.services.testing.model.Date
+import com.google.api.services.testing.model.Distribution
 import ftl.api.OsVersion
 
 fun List<AndroidVersion>.toApiModel() = map {

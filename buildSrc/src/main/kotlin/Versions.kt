@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/3breadt/dd-plist/releases
-    const val DD_PLIST = "1.23"
+    const val DD_PLIST = "1.27"
 
     // https://github.com/jeremymailen/kotlinter-gradle
     const val KTLINT_GRADLE = "3.9.0"
@@ -20,37 +20,40 @@ object Versions {
     const val APK_PARSER = "2.6.10"
 
     // match to Tools -> Kotlin -> Configure Kotlin Plugin Updates -> Update Channel: Stable
-    const val KOTLIN = "1.6.0"
+    const val KOTLIN = "1.8.22"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    const val KOTLIN_COROUTINES = "1.6.3"
+    const val KOTLIN_COROUTINES = "1.7.1"
 
     // https://github.com/remkop/picocli/releases
-    const val PICOCLI = "4.6.3"
+    const val PICOCLI = "4.7.4"
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
-    const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20210809-1.32.1"
+    const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20230410-2.0.0"
+
+    // https://search.maven.org/artifact/com.google.apis/google-api-services-testing/v1-rev20230526-2.0.0/jar
+    const val GOOGLE_API_TESTING = "v1-rev20230526-2.0.0"
 
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
-    const val GOOGLE_API = "1.35.2"
+    const val GOOGLE_API = "2.2.0"
 
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
     // https://github.com/googleapis/google-oauth-java-client/issues/251#issuecomment-504565533
-    const val GOOGLE_AUTH = "1.8.0"
+    const val GOOGLE_AUTH = "1.18.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.124.7"
+    const val GOOGLE_NIO = "0.126.17"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "2.9.3"
+    const val GOOGLE_STORAGE = "2.22.4"
 
     // https://github.com/google/gson/releases
-    const val GSON = "2.9.0"
+    const val GSON = "2.10.1"
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
-    const val JACKSON = "2.13.3"
+    const val JACKSON = "2.15.2"
 
     const val JUNIT = "4.13.2"
 
@@ -58,7 +61,7 @@ object Versions {
     const val JSOUP = "1.13.1"
 
     // https://github.com/ktorio/ktor/releases
-    const val KTOR = "2.0.3"
+    const val KTOR = "2.3.1"
 
     // https://github.com/qos-ch/logback/releases
     const val LOGBACK = "1.2.11"
@@ -81,7 +84,7 @@ object Versions {
     const val MOCKK = "1.12.4"
 
     // https://commons.apache.org/proper/commons-text/
-    const val COMMON_TEXT = "1.9"
+    const val COMMON_TEXT = "1.10.0"
 
     // https://github.com/jboss-logging/commons-logging-jboss-logging
     // JBoss logging dep is used by the Google Auth library when configuring a proxy.
@@ -92,13 +95,13 @@ object Versions {
     const val JANSI = "2.4.0"
 
     // https://github.com/ben-manes/gradle-versions-plugin/releases
-    const val BEN_MANES = "0.42.0"
+    const val BEN_MANES = "0.47.0"
 
     // https://github.com/Guardsquare/proguard
     const val PROGUARD = "7.2.2"
 
     // https://mvnrepository.com/artifact/org.json/json
-    const val JSON = "20220320"
+    const val JSON = "20230618"
 
     // ============== flank-scripts ==============
     const val KOTLIN_SERIALIZATION = "1.3.3"
@@ -106,7 +109,7 @@ object Versions {
     const val TUKAANI_XZ = "1.9"
     const val FUEL = "2.3.1"
     const val CLIKT = "2.8.0"
-    const val JCABI_GITHUB = "1.2.0"
+    const val JCABI_GITHUB = "1.6.4"
     const val SLF4J_NOP = "1.7.36"
     const val GLASSFISH_JSON = "1.1.4"
 }

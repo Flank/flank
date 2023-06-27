@@ -1,7 +1,7 @@
 package ftl.client.google
 
-import com.google.testing.model.AndroidVersion
-import com.google.testing.model.IosVersion
+import com.google.api.services.testing.model.AndroidVersion
+import com.google.api.services.testing.model.IosVersion
 import ftl.http.executeWithRetry
 
 fun androidOsVersions(projectId: String): List<AndroidVersion> =

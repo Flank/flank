@@ -1,7 +1,7 @@
 package ftl.client.google
 
-import com.google.testing.model.Date
-import com.google.testing.model.DeviceIpBlock
+import com.google.api.services.testing.model.Date
+import com.google.api.services.testing.model.DeviceIpBlock
 import ftl.http.executeWithRetry
 import ftl.reports.api.twoDigitString
 

@@ -13,7 +13,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: gradle/wrapper-validation-action@v1
     - name: Get all git tags
       run: |
@@ -44,7 +44,7 @@ jobs:
 
     - name: Commit files and create Pull request
       id: pr
-      uses: peter-evans/create-pull-request@v3
+      uses: peter-evans/create-pull-request@v5
       with:
         token: ${{ steps.generate-token.outputs.token }}
         commit-message: "[Automatic PR] Generate release notes"

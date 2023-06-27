@@ -1,7 +1,7 @@
 package ftl.run
 
 import com.google.common.truth.Truth.assertThat
-import com.google.testing.Testing
+import com.google.api.services.testing.Testing
 import flank.common.isWindows
 import ftl.adapter.google.getFilePathToDownload
 import ftl.api.Artifacts.DownloadPath

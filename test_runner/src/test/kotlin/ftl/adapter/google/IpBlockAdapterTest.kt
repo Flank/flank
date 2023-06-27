@@ -1,8 +1,8 @@
 package ftl.adapter.google
 
 import com.google.common.truth.Truth.assertThat
-import com.google.testing.model.Date
-import com.google.testing.model.DeviceIpBlock
+import com.google.api.services.testing.model.Date
+import com.google.api.services.testing.model.DeviceIpBlock
 import ftl.api.IpBlockList
 import org.junit.Test
 

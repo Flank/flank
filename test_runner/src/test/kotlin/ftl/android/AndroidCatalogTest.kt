@@ -1,7 +1,7 @@
 package ftl.android
 
 import com.google.common.truth.Truth.assertThat
-import com.google.testing.model.AndroidDevice
+import com.google.api.services.testing.model.AndroidDevice
 import ftl.api.Locale
 import ftl.api.Platform
 import ftl.api.fetchAndroidOsVersion

@@ -7,7 +7,7 @@ import com.google.api.services.toolresults.model.GraphicsStatsBucket
 import com.google.api.services.toolresults.model.MemoryInfo
 import com.google.api.services.toolresults.model.PerfEnvironment
 import com.google.api.services.toolresults.model.PerfMetricsSummary
-import com.google.testing.model.ToolResultsStep
+import com.google.api.services.testing.model.ToolResultsStep
 import ftl.api.PerfMetrics
 import ftl.util.Duration
 import com.google.api.services.toolresults.model.Duration as GoogleApiDuration

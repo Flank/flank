@@ -4,7 +4,7 @@ import com.google.api.services.toolresults.model.Duration
 import com.google.api.services.toolresults.model.StackTrace
 import com.google.api.services.toolresults.model.TestCase
 import com.google.api.services.toolresults.model.TestCaseReference
-import com.google.testing.model.ToolResultsStep
+import com.google.api.services.testing.model.ToolResultsStep
 import ftl.api.JUnitTest
 import ftl.client.junit.createJUnitTestCases
 import ftl.client.junit.flaky

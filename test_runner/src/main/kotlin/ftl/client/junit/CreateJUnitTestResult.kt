@@ -1,6 +1,6 @@
 package ftl.client.junit
 
-import com.google.testing.model.TestExecution
+import com.google.api.services.testing.model.TestExecution
 import ftl.api.JUnitTest
 import ftl.domain.junit.merge
 

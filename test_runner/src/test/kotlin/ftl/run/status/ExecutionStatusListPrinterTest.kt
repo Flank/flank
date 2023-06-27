@@ -1,7 +1,7 @@
 package ftl.run.status
 
-import com.google.testing.model.TestDetails
-import com.google.testing.model.TestExecution
+import com.google.api.services.testing.model.TestDetails
+import com.google.api.services.testing.model.TestExecution
 import ftl.adapter.google.toApiModel
 import ftl.api.TestMatrix
 import ftl.args.IArgs

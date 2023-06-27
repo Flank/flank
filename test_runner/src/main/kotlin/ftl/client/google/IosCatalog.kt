@@ -1,8 +1,8 @@
 package ftl.client.google
 
-import com.google.testing.model.IosDeviceCatalog
-import com.google.testing.model.IosModel
-import com.google.testing.model.Orientation
+import com.google.api.services.testing.model.IosDeviceCatalog
+import com.google.api.services.testing.model.IosModel
+import com.google.api.services.testing.model.Orientation
 import ftl.config.Device
 import ftl.environment.getLocaleDescription
 import ftl.environment.ios.getDescription

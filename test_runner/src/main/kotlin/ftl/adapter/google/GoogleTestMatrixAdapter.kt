@@ -1,8 +1,8 @@
 package ftl.adapter.google
 
-import com.google.testing.model.FileReference
-import com.google.testing.model.TestExecution
-import com.google.testing.model.TestMatrix
+import com.google.api.services.testing.model.FileReference
+import com.google.api.services.testing.model.TestExecution
+import com.google.api.services.testing.model.TestMatrix
 import flank.common.toJSONObject
 import ftl.api.TestMatrix.Data
 import ftl.api.TestMatrix.Outcome

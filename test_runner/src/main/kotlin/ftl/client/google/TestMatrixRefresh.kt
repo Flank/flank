@@ -1,6 +1,6 @@
 package ftl.client.google
 
-import com.google.testing.model.TestMatrix
+import com.google.api.services.testing.model.TestMatrix
 
 suspend fun refreshMatrix(
     matrixId: String,

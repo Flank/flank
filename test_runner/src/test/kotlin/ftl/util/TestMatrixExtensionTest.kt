@@ -1,7 +1,7 @@
 package ftl.util
 
 import com.google.common.truth.Truth.assertThat
-import com.google.testing.model.TestMatrix
+import com.google.api.services.testing.model.TestMatrix
 import org.junit.Test
 
 class TestMatrixExtensionTest {

@@ -1,6 +1,6 @@
 package ftl.client.google
 
-import com.google.testing.model.FileReference
+import com.google.api.services.testing.model.FileReference
 import ftl.http.executeWithRetry
 
 fun getAndroidAppDetails(gcsAppPath: String): String {
