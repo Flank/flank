@@ -1,3 +1,7 @@
+## v23.06.2
+### Bug Fixes
+- [#2392](https://github.com/Flank/flank/pull/2392) Update out of date dependencies ()
+
 ## v23.06.1
 ### Bug Fixes
 - [#2375](https://github.com/Flank/flank/pull/2375) Update google-auth-library-oauth2-http version to 1.17.0 ()
