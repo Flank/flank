@@ -128,7 +128,7 @@ jobs:
         shell: bash
 
       - name: Gradle integration tests
-        uses: gradle/gradle-build-action@v2.5.0
+        uses: gradle/gradle-build-action@v2.5.1
         id: run-it
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
