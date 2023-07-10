@@ -224,8 +224,8 @@ class AndroidArgsTest {
           app: $appApk
           test: $testApk
           device:
-          - model: walleye
-            version: 18
+          - model: redfin
+            version: 21
       """
             ).validate()
         }
@@ -866,7 +866,7 @@ AndroidArgs
     @Test
     fun `cli device`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parseArgs("--device=model=walleye,version=27,locale=zh_CN,orientation=default")
+        CommandLine(cli).parseArgs("--device=model=redfin,version=30,locale=zh_CN,orientation=default")
 
         val yaml = """
         gcloud:
@@ -879,7 +879,7 @@ AndroidArgs
         assertThat(defaultDevices.size).isEqualTo(1)
 
         val androidArgs = AndroidArgs.load(yaml, cli).validate()
-        val expectedDevice = Device("walleye", "27", "zh_CN", "default", isVirtual = false)
+        val expectedDevice = Device("redfin", "30", "zh_CN", "default", isVirtual = false)
         val actualDevices = androidArgs.devices
         assertThat(actualDevices.first()).isEqualTo(expectedDevice)
         assertThat(actualDevices.size).isEqualTo(1)
@@ -888,7 +888,7 @@ AndroidArgs
     @Test
     fun `cli device repeat`() {
         val cli = AndroidRunCommand()
-        val deviceCmd = "--device=model=walleye,version=27,locale=zh_CN,orientation=default"
+        val deviceCmd = "--device=model=redfin,version=30,locale=zh_CN,orientation=default"
         CommandLine(cli).parseArgs(deviceCmd, deviceCmd)
 
         val yaml = """
@@ -897,7 +897,7 @@ AndroidArgs
           test: $testApk
       """
         val androidArgs = AndroidArgs.load(yaml, cli).validate()
-        val expectedDevice = Device("walleye", "27", "zh_CN", "default", false)
+        val expectedDevice = Device("redfin", "30", "zh_CN", "default", false)
         val actualDevices = androidArgs.devices
         assertThat(actualDevices.size).isEqualTo(2)
         assertThat(actualDevices[0]).isEqualTo(expectedDevice)
@@ -2728,7 +2728,7 @@ AndroidArgs
         val errorMessage = getThrowable { AndroidArgs.load(yaml).validate() }.message ?: ""
         val expectedMessage = """
             Incompatible model, 'Nexus7', and version, '28'
-            Supported version ids for 'Nexus7': 19, 21, 22
+            Supported version ids for 'Nexus7': 21, 22
         """.trimIndent()
         assertEquals(expectedMessage, errorMessage)
     }
