@@ -2,199 +2,34 @@
   "models": [
     {
       "brand": "vivo",
-      "codename": "1725",
+      "codename": "1610",
       "form": "PHYSICAL",
       "formFactor": "PHONE",
-      "id": "1725",
+      "id": "1610",
       "manufacturer": "Vivo",
-      "name": "vivo 1725",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 2280,
+      "name": "vivo 1610",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
+          "versionId": "23"
+        }
+      ],
+      "screenDensity": 320,
+      "screenX": 720,
+      "screenY": 1280,
       "supportedAbis": [
-        "arm64-v8a",
         "armeabi",
         "armeabi-v7a"
       ],
       "supportedVersionIds": [
-        "27"
+        "23"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/ExXbgtjpgeKdLG52-0gafTkfIFBdqr_kN_5npDPffZOA8RtB4uPnkoV_GO74kR2LWUZvJm4vYpTsxw"
-    },
-    {
-      "brand": "vivo",
-      "codename": "1805",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "1805",
-      "manufacturer": "Vivo",
-      "name": "vivo 1805",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 2316,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "27"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/1Bc06fWc2fa8AnFoU37CQ9h84bI-4Nc4QfjcwX-WsG7wXoK-hDs3JSwkRAW0vvmXpeAGlzVUke4I"
-    },
-    {
-      "brand": "Sony",
-      "codename": "602SO",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "602SO",
-      "manufacturer": "Sony",
-      "name": "602SO",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/90WcauuJiCYABEl8U0lcZeuS5STUbf2yW6UcUqjymnhFd8GoVzxGha1PjXIJvJQr4zXQkYuulTJJ"
-    },
-    {
-      "brand": "Sony",
-      "codename": "801SO",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "801SO",
-      "manufacturer": "Sony",
-      "name": "801SO",
-      "screenDensity": 560,
-      "screenX": 1440,
-      "screenY": 2880,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/LeuJjBs8fHykGcJnvC1QOpehSKkL0G-Mbsg-wEGpVuBziq0D2_zfQjPhYgIpaEfw0ddBaS7q2QOD"
-    },
-    {
-      "brand": "oneplus",
-      "codename": "A0001",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "A0001",
-      "manufacturer": "OnePlus",
-      "name": "A0001",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 1920,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh4.ggpht.com/aJWZgsceIg37Cq3culGvHzGRgfR9DjPRkg05WTTj52qsZ3eDC0NsuZi6_Eta2-gA7A-QenZN-zim"
-    },
-    {
-      "brand": "Nokia",
-      "codename": "A1N_sprout",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "A1N_sprout",
-      "manufacturer": "HMD Global",
-      "name": "Nokia 8 Sirocco",
-      "screenDensity": 560,
-      "screenX": 2560,
-      "screenY": 1440,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/oasSSIuwpj2a7vZUynkZ7n63nThsz4W9AZaMAGWAi57UFayQ_SGzrv0nePpyzKL2SkBG4TZABt4"
-    },
-    {
-      "brand": "Nokia",
-      "codename": "AOP_sprout",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "AOP_sprout",
-      "manufacturer": "HMD Global",
-      "name": "Nokia 9",
-      "screenDensity": 560,
-      "screenX": 1440,
-      "screenY": 2880,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/-NAm8zoviK2NaO03XDSRxnMBrABfD3bguKdD0OlQzB2g41n__Tfa_Ail5SXgDiR2QYXPzkua2kgZDA"
-    },
-    {
-      "brand": "asus",
-      "codename": "ASUS_X00T_3",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "ASUS_X00T_3",
-      "manufacturer": "Asus",
-      "name": "ASUS_X00TD",
-      "screenDensity": 480,
-      "screenX": 2160,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "27",
-        "28"
-      ]
-    },
-    {
-      "brand": "asus",
-      "codename": "ASUS_Z01H_1",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "ASUS_Z01H_1",
-      "manufacturer": "Asus",
-      "name": "ASUS_Z01HDA",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/eIy1eSPjY9qCxpIrRmOCrfTcifGmXIr6p2rn87WioJOsjEqfNXDMW9P_bglMEaZi5tXcY8oeRg5u"
-    },
-    {
-      "brand": "asus",
-      "codename": "ASUS_Z01KDA",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "ASUS_Z01KDA",
-      "manufacturer": "Asus",
-      "name": "ASUS_Z01KD",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 1920,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/exQVQIQyKfmMgyu5aPO24ajo_Pfc-K3X5fEreNGbOl6QDZnTh_shVLrF9P1hbOUsrvc1F10lBEc"
+      "thumbnailUrl": "https://lh3.googleusercontent.com/SqwncaPUUGjIC0sosZBMkbYsu1p8WEj2uYz4fjgBcxRoe1u9Ti4JBJKXya5i8sbf_UQifSxzSlmb"
     },
     {
       "brand": "Google",
       "codename": "AmatiTvEmulator",
-      "form": "EMULATOR",
+      "form": "VIRTUAL",
       "id": "AmatiTvEmulator",
       "manufacturer": "Google",
       "name": "Google TV Amati",
@@ -202,97 +37,48 @@
       "screenX": 1920,
       "screenY": 1080,
       "supportedAbis": [
-        "x86",
-        "29:armeabi",
-        "29:armeabi-v7a"
+        "x86"
       ],
       "supportedVersionIds": [
         "29"
       ],
       "tags": [
-        "beta=29",
-        "alpha"
+        "beta=29"
       ]
     },
     {
-      "brand": "Nokia",
-      "codename": "B2N_sprout",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "B2N_sprout",
-      "manufacturer": "HMD Global",
-      "name": "Nokia 7 plus",
-      "screenDensity": 420,
-      "screenX": 1080,
-      "screenY": 2160,
+      "brand": "Generic",
+      "codename": "AndroidTablet270dpi",
+      "form": "VIRTUAL",
+      "formFactor": "TABLET",
+      "id": "AndroidTablet270dpi",
+      "manufacturer": "Generic",
+      "name": "Generic 720x1600 Android tablet @ 270dpi",
+      "screenDensity": 270,
+      "screenX": 720,
+      "screenY": 1600,
       "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
+        "x86"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/kZxU1r89KGfxIriCCKaBzjyVOrTQr0-3MT5MxFGtMylyTOcMxfXELQK5D99ErzgIbqyQ5R3Q10xV"
+      "supportedVersionIds": [
+        "30"
+      ]
     },
     {
-      "brand": "Sony",
-      "codename": "D6503",
+      "brand": "DOCOMO",
+      "codename": "F01L",
       "form": "PHYSICAL",
       "formFactor": "PHONE",
-      "id": "D6503",
-      "manufacturer": "Sony",
-      "name": "D6503",
-      "screenDensity": 424,
-      "screenX": 1080,
-      "screenY": 1920,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
+      "id": "F01L",
+      "manufacturer": "FUJITSU",
+      "name": "F-01L",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "27"
+        }
       ],
-      "thumbnailUrl": "https://lh6.ggpht.com/LkzIfLgD6TS8mA8fIDPu9U8niMZ6CysoG9Q-utiRD-VISLUIDSTRNhg4ph25Arp8dT7J_RluKcI"
-    },
-    {
-      "brand": "Sony",
-      "codename": "D6603",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "D6603",
-      "manufacturer": "Sony",
-      "name": "Xperia Z3",
-      "screenDensity": 424,
-      "screenX": 1080,
-      "screenY": 1920,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh4.ggpht.com/WFg3W52lbgD3-6Hz3wz4vMf8sGqz5mnZnTJ3KBAo8pLaab5ee_LqRWkht6hryN7gJY3R8aDgB_Q"
-    },
-    {
-      "brand": "Nokia",
-      "codename": "DRG_sprout",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "DRG_sprout",
-      "manufacturer": "HMD Global",
-      "name": "Nokia 6.1 Plus",
-      "screenDensity": 420,
-      "screenX": 2280,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/peXVpDEZJKFY_KpD5Zh-GRj2uBX4CkaBElPx61LUZVDkWz8tfWoR1g1FcMJ4_TDigQ6wkdOQIEiy"
-    },
-    {
-      "brand": "Sony",
-      "codename": "E5803",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "E5803",
-      "manufacturer": "Sony",
-      "name": "Xperia Z5 Compact",
-      "screenDensity": 323,
+      "screenDensity": 360,
       "screenX": 720,
       "screenY": 1280,
       "supportedAbis": [
@@ -300,46 +86,10 @@
         "armeabi",
         "armeabi-v7a"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/y7XaXemxUYAUYbKztArVOkpQoOnCSYo-rk-j8PQW4TDaHiSkQ7YuDG203guYbBJmJC_IWd_KUOQr"
-    },
-    {
-      "brand": "Sony",
-      "codename": "F5121",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "F5121",
-      "manufacturer": "Sony",
-      "name": "F5121",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 1920,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/w9YfPXhQ4ui0hIhI0FndG3YUBHFsF6_1bnEicl8I0osOboek2jRQmV1aoD8IMjsHIme_6ihEc7F8"
-    },
-    {
-      "brand": "Sony",
-      "codename": "F8332",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "F8332",
-      "manufacturer": "Sony",
-      "name": "F8332",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
       "supportedVersionIds": [
-        "26"
+        "27"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/vS4FBICg_dy1GJhHUGBRBAVYH285JCgrVtSqmfH-AIPIAsOkBZum8THi_rFpk4Y-NZyRbwwCbW-3"
+      "thumbnailUrl": "https://lh3.googleusercontent.com/42SDlSVVJ2jXKlHp4P4iHDP4Alsrc4FIF5gW2N5t8RkEFcUVNgd_47K1qUilHdvPd86R9XCxXq1n"
     },
     {
       "brand": "Nokia",
@@ -349,6 +99,12 @@
       "id": "FRT",
       "manufacturer": "HMD Global",
       "name": "Nokia 1",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "27"
+        }
+      ],
       "screenDensity": 240,
       "screenX": 480,
       "screenY": 854,
@@ -369,6 +125,12 @@
       "id": "G8142",
       "manufacturer": "Sony",
       "name": "G8142",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_LOW",
+          "versionId": "25"
+        }
+      ],
       "screenDensity": 480,
       "screenX": 1920,
       "screenY": 1080,
@@ -378,75 +140,17 @@
         "armeabi-v7a"
       ],
       "supportedVersionIds": [
-        "25",
-        "26"
+        "25"
+      ],
+      "tags": [
+        "deprecated=25"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/-qrrnvxN1PFjHVaBSuVmDexxMXCHm6G1oquO-HX-gbb6MITH2HIC7CiJy5Nhq_EDUQE7-e3Y2qhJ"
     },
     {
-      "brand": "Sony",
-      "codename": "G8232",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "G8232",
-      "manufacturer": "Sony",
-      "name": "G8232",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/g6y4KdEGJdyiU2fbzSe9S55flEYCQTSCZ_4ACb2FtZnFjTpiclx0fZyNytTBbynfuTupve3Sten-"
-    },
-    {
-      "brand": "Sony",
-      "codename": "G8342",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "G8342",
-      "manufacturer": "Sony",
-      "name": "G8342",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/6kl2pZEURkS3hLzDbyBIJ4zochFRDM6RHn7dRPmsXEG1Nfu2EAGK9WfSBf5V8Lk1EBKpnEGkU-o9"
-    },
-    {
-      "brand": "Sony",
-      "codename": "G8441",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "G8441",
-      "manufacturer": "Sony",
-      "name": "G8441",
-      "screenDensity": 320,
-      "screenX": 1280,
-      "screenY": 720,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/GKkzomYlZGEMWh5ks3ggxuFGtLLt2WQL8ECoGODek7Z7WrS_ZrusNegAaXxGidDe7NhNIRJHNwLh"
-    },
-    {
       "brand": "Google",
       "codename": "GoogleTvEmulator",
-      "form": "EMULATOR",
+      "form": "VIRTUAL",
       "id": "GoogleTvEmulator",
       "manufacturer": "Google",
       "name": "Google TV",
@@ -460,246 +164,7 @@
         "30"
       ],
       "tags": [
-        "beta=30",
-        "alpha"
-      ]
-    },
-    {
-      "brand": "Sony",
-      "codename": "H8216",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "H8216",
-      "manufacturer": "Sony",
-      "name": "H8216",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 2160,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/NGTtvMwJdYHOGkfyAXz0NWg66qX1aNpAaL68erhY8CdHHOuyO10x9kwkzsre7bef27he64hDsaRL"
-    },
-    {
-      "brand": "Sony",
-      "codename": "H8266",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "H8266",
-      "manufacturer": "Sony",
-      "name": "H8266",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 2160,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/NGTtvMwJdYHOGkfyAXz0NWg66qX1aNpAaL68erhY8CdHHOuyO10x9kwkzsre7bef27he64hDsaRL"
-    },
-    {
-      "brand": "Sony",
-      "codename": "H8296",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "H8296",
-      "manufacturer": "Sony",
-      "name": "H8296",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 2160,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/NGTtvMwJdYHOGkfyAXz0NWg66qX1aNpAaL68erhY8CdHHOuyO10x9kwkzsre7bef27he64hDsaRL"
-    },
-    {
-      "brand": "Sony",
-      "codename": "H8314",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "H8314",
-      "manufacturer": "Sony",
-      "name": "H8314",
-      "screenDensity": 480,
-      "screenX": 2160,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/Jn6t1R7TpcUSG3Rjt1Zc3Hbpq3c2U_COfy3p-VBItWaJ5XPXXAmIzYrO85pWpJ2iaZbLptDGFj2Y"
-    },
-    {
-      "brand": "Sony",
-      "codename": "H8324",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "H8324",
-      "manufacturer": "Sony",
-      "name": "H8324",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 2160,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/Jn6t1R7TpcUSG3Rjt1Zc3Hbpq3c2U_COfy3p-VBItWaJ5XPXXAmIzYrO85pWpJ2iaZbLptDGFj2Y"
-    },
-    {
-      "brand": "Sony",
-      "codename": "H8416",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "H8416",
-      "manufacturer": "Sony",
-      "name": "H8416",
-      "screenDensity": 560,
-      "screenX": 1440,
-      "screenY": 2880,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/LeuJjBs8fHykGcJnvC1QOpehSKkL0G-Mbsg-wEGpVuBziq0D2_zfQjPhYgIpaEfw0ddBaS7q2QOD"
-    },
-    {
-      "brand": "Sony",
-      "codename": "H9493",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "H9493",
-      "manufacturer": "Sony",
-      "name": "H9493",
-      "screenDensity": 560,
-      "screenX": 1440,
-      "screenY": 2880,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/6WhvS2NcOJPVSBfHexaXg22G8SbOkLDyi8nv3D6u4--hZKJK8wMFEFMo-oxB4Pyg5_ciPepSmDMvkQ"
-    },
-    {
-      "brand": "KDDI",
-      "codename": "HUR",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "HUR",
-      "manufacturer": "SHARP",
-      "name": "SHV39",
-      "screenDensity": 640,
-      "screenX": 1440,
-      "screenY": 2560,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/kpGCSiBDtE-3Q_0rvN3LcRiq-Bcj4PPj-ceJ8IBod-FEU0jwNbqfF9Ar9bMgibw7Bc8JIKP1OSJY"
-    },
-    {
-      "brand": "HUAWEI",
-      "codename": "HW-01K",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "HW-01K",
-      "manufacturer": "Huawei",
-      "name": "HW-01K",
-      "screenDensity": 480,
-      "screenX": 2240,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/oX5XoCA8Ew5TVHThaM-j7IWjB60VetyS2ZtZIHpAn58AclR9nGx_hAqpVerFhv-TTpRKVwjnPThS"
-    },
-    {
-      "brand": "HUAWEI",
-      "codename": "HWANE",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "HWANE",
-      "manufacturer": "Huawei",
-      "name": "ANE-LX3",
-      "screenDensity": 480,
-      "screenX": 2280,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/nhL1g4gCmH3ERXUltkswElabPLJhyxQigHNsMryehJacqb5CFI9PvpWd1zUfF9uvb-9W_JKjoGV0dg"
-    },
-    {
-      "brand": "HUAWEI",
-      "codename": "HWANE-LX1",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "HWANE-LX1",
-      "manufacturer": "Huawei",
-      "name": "ANE-LX1",
-      "screenDensity": 480,
-      "screenX": 2280,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
-      ]
-    },
-    {
-      "brand": "HUAWEI",
-      "codename": "HWANE-LX2",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "HWANE-LX2",
-      "manufacturer": "Huawei",
-      "name": "ANE-LX2",
-      "screenDensity": 480,
-      "screenX": 2280,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
+        "beta=30"
       ]
     },
     {
@@ -710,6 +175,12 @@
       "id": "HWCOR",
       "manufacturer": "Huawei",
       "name": "COR-L29",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
+          "versionId": "27"
+        }
+      ],
       "screenDensity": 480,
       "screenX": 2340,
       "screenY": 1080,
@@ -731,6 +202,12 @@
       "id": "HWMHA",
       "manufacturer": "Huawei",
       "name": "MHA-L29",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
+          "versionId": "24"
+        }
+      ],
       "screenDensity": 480,
       "screenX": 1080,
       "screenY": 1920,
@@ -745,43 +222,62 @@
       "thumbnailUrl": "https://lh3.googleusercontent.com/kWhwyvrchgAaa_hbhAH2uq1Wj_sPy6Jc98_Cs6Ju9K29NPH6tPnUk0SLfAbTmh1Zle-Vh4ibbUs"
     },
     {
-      "brand": "HUAWEI",
-      "codename": "HWNEO",
-      "form": "PHYSICAL",
+      "brand": "Google",
+      "codename": "MediumPhone.arm",
+      "form": "VIRTUAL",
       "formFactor": "PHONE",
-      "id": "HWNEO",
-      "manufacturer": "Huawei",
-      "name": "NEO-L29",
-      "screenDensity": 640,
-      "screenX": 2160,
-      "screenY": 1080,
+      "id": "MediumPhone.arm",
+      "manufacturer": "Generic",
+      "name": "Medium Phone, 6.4in/16cm (Arm)",
+      "screenDensity": 420,
+      "screenX": 1080,
+      "screenY": 2400,
       "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/3yFP3fkc9zZ7spvikuwDmVWj1eSs9ndCO8eJc541NWGt6ecwcpdBcfP58NeOeEFXKOv_5f8mKjI"
-    },
-    {
-      "brand": "lge",
-      "codename": "L-01J",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "L-01J",
-      "manufacturer": "LG",
-      "name": "L-01J",
-      "screenDensity": 640,
-      "screenX": 1440,
-      "screenY": 2720,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
+        "arm64-v8a"
       ],
       "supportedVersionIds": [
-        "26"
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/mQQxjkC-aSqCZ8ssvbkYE-3nKr6bp04o7Ur6HkCxwwDCjjdFL-OkqGC0Lrl_AG6Gs5IQ074LnBMiVQ"
+      "tags": [
+        "preview=33",
+        "beta"
+      ]
+    },
+    {
+      "brand": "Google",
+      "codename": "MediumTablet.arm",
+      "form": "VIRTUAL",
+      "formFactor": "TABLET",
+      "id": "MediumTablet.arm",
+      "manufacturer": "Generic",
+      "name": "Medium Tablet, 10in/25cm (Arm)",
+      "screenDensity": 320,
+      "screenX": 1600,
+      "screenY": 2560,
+      "supportedAbis": [
+        "arm64-v8a"
+      ],
+      "supportedVersionIds": [
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33"
+      ],
+      "tags": [
+        "preview=33",
+        "beta"
+      ]
     },
     {
       "brand": "Google",
@@ -798,7 +294,6 @@
         "x86"
       ],
       "supportedVersionIds": [
-        "19",
         "21",
         "22"
       ]
@@ -818,7 +313,6 @@
         "x86"
       ],
       "supportedVersionIds": [
-        "19",
         "21",
         "22"
       ]
@@ -840,7 +334,6 @@
         "23:armeabi-v7a"
       ],
       "supportedVersionIds": [
-        "19",
         "21",
         "22",
         "23"
@@ -950,7 +443,6 @@
         "x86"
       ],
       "supportedVersionIds": [
-        "19",
         "21",
         "22"
       ]
@@ -1060,155 +552,7 @@
         "28",
         "29",
         "30"
-      ],
-      "tags": [
-        "beta=30"
       ]
-    },
-    {
-      "brand": "Generic",
-      "codename": "NexusLowRes_Q",
-      "form": "VIRTUAL",
-      "formFactor": "PHONE",
-      "id": "NexusLowRes_Q",
-      "manufacturer": "Generic",
-      "name": "Low-resolution MDPI phone for Android Q",
-      "screenDensity": 160,
-      "screenX": 360,
-      "screenY": 640,
-      "supportedAbis": [
-        "x86",
-        "29:armeabi",
-        "29:armeabi-v7a"
-      ]
-    },
-    {
-      "brand": "Generic",
-      "codename": "NexusTabletLowRes2",
-      "form": "VIRTUAL",
-      "formFactor": "TABLET",
-      "id": "NexusTabletLowRes2",
-      "manufacturer": "Generic",
-      "name": "Generic 600x800 Android tablet",
-      "screenDensity": 160,
-      "screenX": 600,
-      "screenY": 800,
-      "supportedAbis": [
-        "x86",
-        "23:armeabi",
-        "23:armeabi-v7a"
-      ]
-    },
-    {
-      "brand": "Generic",
-      "codename": "NexusTabletLowRes3",
-      "form": "VIRTUAL",
-      "formFactor": "TABLET",
-      "id": "NexusTabletLowRes3",
-      "manufacturer": "Generic",
-      "name": "Generic 600x720 Android tablet",
-      "screenDensity": 160,
-      "screenX": 600,
-      "screenY": 720,
-      "supportedAbis": [
-        "x86",
-        "23:armeabi",
-        "23:armeabi-v7a"
-      ]
-    },
-    {
-      "brand": "OnePlus",
-      "codename": "OnePlus3T",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "OnePlus3T",
-      "manufacturer": "OnePlus",
-      "name": "ONEPLUS A3003",
-      "screenDensity": 420,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ]
-    },
-    {
-      "brand": "OnePlus",
-      "codename": "OnePlus5",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "OnePlus5",
-      "manufacturer": "OnePlus",
-      "name": "ONEPLUS A5000",
-      "screenDensity": 420,
-      "screenX": 1080,
-      "screenY": 1920,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ]
-    },
-    {
-      "brand": "OnePlus",
-      "codename": "OnePlus5T",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "OnePlus5T",
-      "manufacturer": "OnePlus",
-      "name": "ONEPLUS A5010",
-      "screenDensity": 420,
-      "screenX": 2160,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/76XeI65AZsVnDMFpOTPl-J5OoferZTj5gqXAnUO6zokvmkJyZa12HdVcLiPC4CLWCi__7_hZ77lw"
-    },
-    {
-      "brand": "OnePlus",
-      "codename": "OnePlus6T",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "OnePlus6T",
-      "manufacturer": "OnePlus",
-      "name": "ONEPLUS A6013",
-      "screenDensity": 420,
-      "screenX": 2340,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/XvfYU4PEyjHM8BIEhG4xxXkM0H4yiPG9f714hp0UpUPcx5A3euCb-cFBGcf3eRoAovkK_KTVYe91"
-    },
-    {
-      "brand": "ZTE",
-      "codename": "P855A03_NA",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "P855A03_NA",
-      "manufacturer": "Zte",
-      "name": "ZTE A2020U Pro",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 2340,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a",
-        "armeabi"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/6XaKJd0md-JkETrTo3m6diXJsGKfU1m-cTsPdjHVt-hGgxBSxMSfHT3iIUTZNwZdA7l_zqv4l-Lx"
     },
     {
       "brand": "Google",
@@ -1243,26 +587,35 @@
         "28",
         "29",
         "30"
-      ],
-      "tags": [
-        "beta=30"
       ]
     },
     {
       "brand": "Google",
-      "codename": "Pixel2_Q",
+      "codename": "Pixel2.arm",
       "form": "VIRTUAL",
       "formFactor": "PHONE",
-      "id": "Pixel2_Q",
+      "id": "Pixel2.arm",
       "manufacturer": "Google",
-      "name": "Pixel 2 for Android Q",
-      "screenDensity": 441,
+      "name": "Pixel 2 (Arm)",
+      "screenDensity": 420,
       "screenX": 1080,
       "screenY": 1920,
       "supportedAbis": [
-        "x86",
-        "29:armeabi",
-        "29:armeabi-v7a"
+        "arm64-v8a"
+      ],
+      "supportedVersionIds": [
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33"
+      ],
+      "tags": [
+        "preview=33",
+        "beta"
       ]
     },
     {
@@ -1281,145 +634,7 @@
       ],
       "supportedVersionIds": [
         "30"
-      ],
-      "tags": [
-        "beta=30"
       ]
-    },
-    {
-      "brand": "samsung",
-      "codename": "SC-01K",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "SC-01K",
-      "manufacturer": "Samsung",
-      "name": "SC-01K",
-      "screenDensity": 420,
-      "screenX": 1080,
-      "screenY": 2220,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/uNNAgZWu0XYaXvIbLbyo99cL2fSFhyW8lIrfiile6AkAoCLuE79_PAqpWxpdjsyo2GCC2InGQRzo"
-    },
-    {
-      "brand": "samsung",
-      "codename": "SC-02J",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "SC-02J",
-      "manufacturer": "Samsung",
-      "name": "SC-02J",
-      "screenDensity": 640,
-      "screenX": 1440,
-      "screenY": 2960,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/a4IoNjNfOAOHaBRnlxBYZcuAiTh5z4MeD44Fb_xQl07Yjnr2oqEpb7hu6ESCB7wVNpPKzYKg3ZyZ"
-    },
-    {
-      "brand": "samsung",
-      "codename": "SC-02K",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "SC-02K",
-      "manufacturer": "Samsung",
-      "name": "SC-02K",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 2220,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/v2jQ18NEhtqVlsv8iPtZ1rAmN1Cg50knOA7BrBfL1PCthU6hGI8T_r2XP_dfpcPxQxtixmJfNZs"
-    },
-    {
-      "brand": "samsung",
-      "codename": "SC-03J",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "SC-03J",
-      "manufacturer": "Samsung",
-      "name": "SC-03J",
-      "screenDensity": 420,
-      "screenX": 2220,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/FnripHx97LqDM1FccoCfiCWmimMEdHyAP63XG41KEtU8B_dYL1mB8JIxtjYXZflBLFHG4813tNM"
-    },
-    {
-      "brand": "samsung",
-      "codename": "SC-03K",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "SC-03K",
-      "manufacturer": "Samsung",
-      "name": "SC-03K",
-      "screenDensity": 420,
-      "screenX": 1080,
-      "screenY": 2220,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/3z0th18ljLa6z5cL38d4m8x9be7A-U7_mlIXfsNO1J_B2VJa_xvTbmCq_peDG8nauCB5oZQhmoNvag"
-    },
-    {
-      "brand": "KDDI",
-      "codename": "SCV33",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "SCV33",
-      "manufacturer": "Samsung",
-      "name": "SCV33",
-      "screenDensity": 640,
-      "screenX": 1440,
-      "screenY": 2560,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/BsoXC0dtpdBUTm4tRPafSTqEZKysp_Hd1NfzesPjO-B9u2dxc8V1970EwnmawJV3Lbr3vmC7e1q5"
-    },
-    {
-      "brand": "KDDI",
-      "codename": "SCV37",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "SCV37",
-      "manufacturer": "Samsung",
-      "name": "SCV37",
-      "screenDensity": 420,
-      "screenX": 2220,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/ZZVJyg7Vd2-hKiuJ5_N0s6JJvcsvV4bffgfZR1hHrxMDfKr9P4uHg6EIyIFf318Z5K1nC-odhlR4"
     },
     {
       "brand": "DOCOMO",
@@ -1429,6 +644,12 @@
       "id": "SH-01L",
       "manufacturer": "SHARP",
       "name": "SH-01L",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "28"
+        }
+      ],
       "screenDensity": 480,
       "screenX": 1080,
       "screenY": 2160,
@@ -1443,153 +664,60 @@
       "thumbnailUrl": "https://lh3.googleusercontent.com/IzqBfPK4K340vsj6RNw_FArIfGujmOO0ZuDDEH7Ex6bY-CjcM62abnNYzjsPOyLnnC5TC8bOS3c"
     },
     {
-      "brand": "DOCOMO",
-      "codename": "SH-03K",
-      "form": "PHYSICAL",
+      "brand": "Android",
+      "codename": "SmallPhone.arm",
+      "form": "VIRTUAL",
       "formFactor": "PHONE",
-      "id": "SH-03K",
-      "manufacturer": "SHARP",
-      "name": "SH-03K",
-      "screenDensity": 640,
-      "screenX": 1440,
-      "screenY": 3040,
+      "id": "SmallPhone.arm",
+      "manufacturer": "Generic",
+      "name": "Small Phone, 4.7in/12cm (Arm)",
+      "screenDensity": 320,
+      "screenX": 720,
+      "screenY": 1280,
       "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
+        "arm64-v8a"
       ],
       "supportedVersionIds": [
-        "28"
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/a-UkZJXIaIJdfT30CkVB1GF4dWCPWC6jzXCr8d3Wu3-aFMRjYpVpcV0eVMwFeI7p0GWXRvQVmRs"
+      "tags": [
+        "preview=33",
+        "beta"
+      ]
     },
     {
-      "brand": "DOCOMO",
-      "codename": "SH-04H",
+      "brand": "Zebra",
+      "codename": "TC77",
       "form": "PHYSICAL",
       "formFactor": "PHONE",
-      "id": "SH-04H",
-      "manufacturer": "SHARP",
-      "name": "SH-04H",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 1920,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
+      "id": "TC77",
+      "manufacturer": "Zebra Technologies",
+      "name": "TC77",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_LOW",
+          "versionId": "27"
+        }
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/tfo1wW-jOdEnHjuXo57kWSzarw1mg1tzRgP8G-2pWrgeqyycMzeXqnDPYHtcfKXPBiy_cLPpRqPb"
-    },
-    {
-      "brand": "docomo",
-      "codename": "SO-01J",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "SO-01J",
-      "manufacturer": "Sony",
-      "name": "SO-01J",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 1920,
+      "screenDensity": 320,
+      "screenX": 720,
+      "screenY": 1280,
       "supportedAbis": [
         "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/vS4FBICg_dy1GJhHUGBRBAVYH285JCgrVtSqmfH-AIPIAsOkBZum8THi_rFpk4Y-NZyRbwwCbW-3"
-    },
-    {
-      "brand": "docomo",
-      "codename": "SO-03J",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "SO-03J",
-      "manufacturer": "Sony",
-      "name": "SO-03J",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/90WcauuJiCYABEl8U0lcZeuS5STUbf2yW6UcUqjymnhFd8GoVzxGha1PjXIJvJQr4zXQkYuulTJJ"
-    },
-    {
-      "brand": "KDDI",
-      "codename": "SOV33",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "SOV33",
-      "manufacturer": "Sony",
-      "name": "SOV33",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/35uNQcLHN2Tqt2cNHVJvjWBNiVFLnB5_sQGCf2IQGX4jF6ooJyNDHefR7l8f2jttyshW6lyTM_MN"
-    },
-    {
-      "brand": "KDDI",
-      "codename": "SOV34",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "SOV34",
-      "manufacturer": "Sony",
-      "name": "SOV34",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/vS4FBICg_dy1GJhHUGBRBAVYH285JCgrVtSqmfH-AIPIAsOkBZum8THi_rFpk4Y-NZyRbwwCbW-3"
-    },
-    {
-      "brand": "Lenovo",
-      "codename": "TB-8504F",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "TB-8504F",
-      "manufacturer": "Lenovo",
-      "name": "Lenovo TB-8504F",
-      "screenDensity": 213,
-      "screenX": 1280,
-      "screenY": 800,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
+        "armeabi-v7a",
+        "armeabi"
       ],
       "supportedVersionIds": [
         "27"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/ZR4nKTSdXC-r5E4suo22fHgnNkikuN8RzQ7_VWnIYyQXVgcsl5dLOnQw564reJrzpnWJTpmkmZU"
-    },
-    {
-      "brand": "TECNO",
-      "codename": "TECNO-F1-PRO",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "TECNO-F1-PRO",
-      "manufacturer": "TECNO MOBILE LIMITED",
-      "name": "TECNO F1",
-      "screenDensity": 240,
-      "screenX": 480,
-      "screenY": 854,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/ql0N4SACFZMRIJcmqTS71CnXn4nILd-prKdcKuehlT7b59jXDqCSpHj0Oxqdlq8YS3g5f-uTfqH5CA"
+      "thumbnailUrl": "https://lh3.googleusercontent.com/OKgEGt-Q8n6K1u938350qha7iwmacDY0dlDKDwE9iQVUEMkPEoOrqfbV99BYXO1Ekbb4YvlagsOE"
     },
     {
       "brand": "samsung",
@@ -1599,6 +727,12 @@
       "id": "a10",
       "manufacturer": "Samsung",
       "name": "SM-A105FN",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "29"
+        }
+      ],
       "screenDensity": 280,
       "screenX": 1520,
       "screenY": 720,
@@ -1613,232 +747,57 @@
     },
     {
       "brand": "samsung",
-      "codename": "a5y17lte",
+      "codename": "b0q",
       "form": "PHYSICAL",
       "formFactor": "PHONE",
-      "id": "a5y17lte",
+      "id": "b0q",
       "manufacturer": "Samsung",
-      "name": "SM-A520F",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
+      "name": "SM-S908U1",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "33"
+        }
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/n4FSRepM051wVKjJRcYjFov9NevFfo7flGHyIHdUCWp88d1ivWgxn5cokVJuZPRyGIYTaPAzGpza"
-    },
-    {
-      "brand": "samsung",
-      "codename": "a5y17ltecan",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "a5y17ltecan",
-      "manufacturer": "Samsung",
-      "name": "SM-A520W",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/J-P9CcL-0WUrRHGhNVeYmeOlPw9U5vBx8kIcqCiDzettfCkjKU9o-Nq-ZG3cLzRAZqWxLrtEVaY"
-    },
-    {
-      "brand": "samsung",
-      "codename": "a9y18qlte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "a9y18qlte",
-      "manufacturer": "Samsung",
-      "name": "SM-A920F",
-      "screenDensity": 420,
-      "screenX": 2220,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/ZGdp0pGgOSKbXakhvxfjQNiUQDK_aafZ_h-ztb_1_yMvXcipu0powRCr_lfu1gW41s8ObjX4xLE"
-    },
-    {
-      "brand": "motorola",
-      "codename": "addison",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "addison",
-      "manufacturer": "Motorola",
-      "name": "XT1635-01",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/FwTRBcZlB6uB9C8i16vvuL1qvf3jKhw5fFoWeOjx5rCGyX2z0j6OrdzkRk8LHAJsjkxmFkXohuc"
-    },
-    {
-      "brand": "motorola",
-      "codename": "albus",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "albus",
-      "manufacturer": "Motorola",
-      "name": "Moto Z2 Play",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/NyrU1eN-4arc6vCraZZoPosUZ5JRydS5jAVfOp_rtf1VKNiWfiidnNYy7vF52s8qQK-ASS_wWoWq"
-    },
-    {
-      "brand": "motorola",
-      "codename": "aljeter_n",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "aljeter_n",
-      "manufacturer": "Motorola",
-      "name": "moto g(6) play",
-      "screenDensity": 320,
+      "screenDensity": 600,
       "screenX": 1440,
-      "screenY": 720,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/GocPEWzyBQY5r0jqqkrm22un_j7QBla_hMES4UVavQj0_IobSUZ_6yTvOwf2RACkPiqYWvaOxAc"
-    },
-    {
-      "brand": "lge",
-      "codename": "anna",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "anna",
-      "manufacturer": "LG",
-      "name": "LGM-X800L",
-      "screenDensity": 640,
-      "screenX": 2560,
-      "screenY": 1440,
+      "screenY": 3088,
       "supportedAbis": [
         "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
+        "armeabi-v7a",
+        "armeabi"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/mQQxjkC-aSqCZ8ssvbkYE-3nKr6bp04o7Ur6HkCxwwDCjjdFL-OkqGC0Lrl_AG6Gs5IQ074LnBMiVQ"
+      "supportedVersionIds": [
+        "33"
+      ],
+      "thumbnailUrl": "https://lh3.googleusercontent.com/uUcnszVlCOjsBx5mSxp7QJNIzKhZXRC2gTFdk6N0TJnwKIyT3u-1PJBr4JAiJVlYo1HdiFhxHfw"
     },
     {
-      "brand": "motorola",
-      "codename": "athene",
+      "brand": "google",
+      "codename": "bluejay",
       "form": "PHYSICAL",
       "formFactor": "PHONE",
-      "id": "athene",
-      "manufacturer": "Motorola",
-      "name": "Moto G (4)",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
+      "id": "bluejay",
+      "manufacturer": "Google",
+      "name": "Pixel 6a",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
+          "versionId": "32"
+        }
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/NeViTy68Ks5jTCgnTJXw-stotdMuAMXy70BxDu65_BUvRQdVXJEfVhAmSjNyCEiWUx3dG2Lb4_WX"
-    },
-    {
-      "brand": "motorola",
-      "codename": "athene_f",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "athene_f",
-      "manufacturer": "Motorola",
-      "name": "Moto G (4)",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 1920,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/C4NWNFhPTAMwqLP1ICv1S6bzF8pFp1iykn0cXL3boz1MSAI1JK1bXUp9YGG1BPBXI9QnXoIjOxTDLw"
-    },
-    {
-      "brand": "razer",
-      "codename": "aura",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "aura",
-      "manufacturer": "Razer",
-      "name": "Phone 2",
-      "screenDensity": 480,
-      "screenX": 1440,
-      "screenY": 2560,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/na7vrADVOlOHt8n3OGf-H3rNT4yazrFHATcGXEGYsJMY4H9hn6kKWmJN5LF0V7hGbjNqSacUYik"
-    },
-    {
-      "brand": "motorola",
-      "codename": "beckham",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "beckham",
-      "manufacturer": "Motorola",
-      "name": "Moto Z3 Play",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 2160,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/uLGitMd4wEUWK-e1E4x49VcwMMv-Uldlsb48ej4KgB3s2BtSqyRXRd_ZVbnQAwZHBumHCoBr0iQf"
-    },
-    {
-      "brand": "samsung",
-      "codename": "beyond1",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "beyond1",
-      "manufacturer": "Samsung",
-      "name": "SM-G973F",
       "screenDensity": 420,
       "screenX": 1080,
-      "screenY": 2280,
+      "screenY": 2400,
       "supportedAbis": [
         "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
+        "armeabi-v7a",
+        "armeabi"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/51n90VMMdQTj8C455bkDTw8Y4tZ51cLplz80KsJG4MCqBWX6UCK54QE4z2am_iBKHtU8ypDyjpng"
-    },
-    {
-      "brand": "samsung",
-      "codename": "beyondx",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "beyondx",
-      "manufacturer": "Samsung",
-      "name": "SM-G977N",
-      "screenDensity": 420,
-      "screenX": 2280,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
+      "supportedVersionIds": [
+        "32"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/_ZxtHRBY9Ynoeg-3PGdROqR7Wgbi5zhGWY59cmQB5xbCITn_5pT0g--JsnkbL0ZcI5ZM6SSW3U40UQ"
+      "thumbnailUrl": "https://lh3.googleusercontent.com/vQ4M2Lgw_WZwRP-3AsgfT6yTjz_x5CO1vxcaPbQPrJHVbLPi9ijUzTc_HFlBZOHtFjOndebexPw"
     },
     {
       "brand": "google",
@@ -1848,6 +807,12 @@
       "id": "blueline",
       "manufacturer": "Google",
       "name": "Pixel 3",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "28"
+        }
+      ],
       "screenDensity": 440,
       "screenX": 1080,
       "screenY": 2160,
@@ -1859,31 +824,7 @@
       "supportedVersionIds": [
         "28"
       ],
-      "tags": [
-        "default"
-      ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/A-RPvqzMpVIUpyVmgwDawhYjSsYIGRquDl1cCKqvO-QAx9UnMR4IFfaY0ge5IQZxwzSguthlzkmgFw"
-    },
-    {
-      "brand": "samsung",
-      "codename": "c5proltechn",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "c5proltechn",
-      "manufacturer": "Samsung",
-      "name": "SM-C5010",
-      "screenDensity": 420,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/U4RhNZoQhlNxzf3rcxe_NtsBGxxuZvDgrLXEh0pUqxLN2pO4wsHmFY6ny-kcWMtLjftuGIdLttQ"
     },
     {
       "brand": "xiaomi",
@@ -1893,6 +834,12 @@
       "id": "cactus",
       "manufacturer": "Xiaomi",
       "name": "Redmi 6A",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "27"
+        }
+      ],
       "screenDensity": 320,
       "screenX": 720,
       "screenY": 1440,
@@ -1906,132 +853,29 @@
       "thumbnailUrl": "https://lh3.googleusercontent.com/c07v2Tu4nxWOaaLJKr266xcvZ1Tc7Yacjhv5gcc9weh2lWekmmdm6lviTScreGiJEO1uGMiVais"
     },
     {
-      "brand": "Xiaomi",
-      "codename": "capricorn",
+      "brand": "google",
+      "codename": "cheetah",
       "form": "PHYSICAL",
       "formFactor": "PHONE",
-      "id": "capricorn",
-      "manufacturer": "Xiaomi",
-      "name": "MI 5s",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
+      "id": "cheetah",
+      "manufacturer": "Google",
+      "name": "Pixel 7 Pro",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
+          "versionId": "33"
+        }
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/sYiPV-aBXyJL-qji6fIZHUFFNznXtS9uGqt0BvXBeKlrpJHTZ1UkAXJOEtCUUFMq6Y6tSFahNqr7"
-    },
-    {
-      "brand": "razer",
-      "codename": "cheryl",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "cheryl",
-      "manufacturer": "Razer",
-      "name": "Phone",
-      "screenDensity": 480,
-      "screenX": 1440,
-      "screenY": 2560,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/jUbbqqY5056fWjAlsDB8CfR-1a7vkmTSYh1wuLS3PoBYsmufmEPll17odSwrlvG_YNh5R34agR7O"
-    },
-    {
-      "brand": "Xiaomi",
-      "codename": "chiron",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "chiron",
-      "manufacturer": "Xiaomi",
-      "name": "Mi MIX 2",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 2160,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/g3pLZEcjCSBrWgMYDY_gr9VwJRx-dqQ-_Vls6ZTC7z4aD9ewdi6SKiKxP5DCVBWzuQqWT9mp49KrEw"
-    },
-    {
-      "brand": "motorola",
-      "codename": "condor_umts",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "condor_umts",
-      "manufacturer": "Motorola",
-      "name": "XT1021",
-      "screenDensity": 240,
-      "screenX": 540,
-      "screenY": 960,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh4.ggpht.com/6-jvxcq85z6YoS6U5GlK7ob6jg9n_1vcITnZEH49-KBw5TIDQ_Zb-gPaDQCgP2dn1maZ19Rdd4kDPA"
-    },
-    {
-      "brand": "samsung",
-      "codename": "crownlte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "crownlte",
-      "manufacturer": "Samsung",
-      "name": "SM-N960F",
-      "screenDensity": 420,
-      "screenX": 2220,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/VnGU9nyOQ7-sR78drGUvBvx-5YZ3uPt4GnOhgivSSoyGgDUeVDE-kNdJsQZyB8k5rW_z5gdOjtG3pA"
-    },
-    {
-      "brand": "samsung",
-      "codename": "crownlteks",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "crownlteks",
-      "manufacturer": "Samsung",
-      "name": "SM-N960N",
-      "screenDensity": 420,
-      "screenX": 1080,
-      "screenY": 2220,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/FcSl4c18SfGXHx68x6c2UEI2pYmJk2C0EkMSgm4crGQdRjivQIiLFSpsVEWAUSZPgqAHyWIsSduv"
-    },
-    {
-      "brand": "samsung",
-      "codename": "crownqltechn",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "crownqltechn",
-      "manufacturer": "Samsung",
-      "name": "SM-N9600",
       "screenDensity": 560,
       "screenX": 1440,
-      "screenY": 2960,
+      "screenY": 3120,
       "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
+        "arm64-v8a"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/PXeC47toPODDw2mKeIrUEs0eSMDqzphHEslMb2ChbsOsFFez_8NYjmX5-u4t1zuM-LnJb-IWOyDD"
+      "supportedVersionIds": [
+        "33"
+      ],
+      "thumbnailUrl": "https://lh3.googleusercontent.com/zQJWOm5pHWiSw3EWI_Eh5SoadK5iNwT-C_LesEiafdWIticTBWgz1IwPcwtE2Dvkhc1dn2vLegRN"
     },
     {
       "brand": "samsung",
@@ -2041,6 +885,12 @@
       "id": "crownqlteue",
       "manufacturer": "Samsung",
       "name": "SM-N960U1",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
+          "versionId": "29"
+        }
+      ],
       "screenDensity": 420,
       "screenX": 2220,
       "screenY": 1080,
@@ -2050,177 +900,9 @@
         "armeabi-v7a"
       ],
       "supportedVersionIds": [
-        "27"
+        "29"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/nsHOF3Gfm88-OLi6Q5qZWoE4sw_OVvhoAuE5Fo6aYfAYd031Y8bdsBhTQfdTkLfC5Ou_7l-77oA"
-    },
-    {
-      "brand": "samsung",
-      "codename": "cruiserlteatt",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "cruiserlteatt",
-      "manufacturer": "Samsung",
-      "name": "SM-G892A",
-      "screenDensity": 480,
-      "screenX": 2220,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/73bZIZkHnD9kfKfv_DOnIUr5k8m7__enM67o9e8cxa-IQjzq0CwQ0jMxK7XW8lxLcpzZD4I1hDCEhA"
-    },
-    {
-      "brand": "samsung",
-      "codename": "cruiserltesq",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "cruiserltesq",
-      "manufacturer": "Samsung",
-      "name": "SM-G892U",
-      "screenDensity": 480,
-      "screenX": 2220,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/S4ZW1XgARJMlKaTQXjvfj8mIZpmPcqa4xDeREFWRnPmgi9FFJ2NaTPiXsXcyjboALfOL2LTDBmE"
-    },
-    {
-      "brand": "Xiaomi",
-      "codename": "dipper",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "dipper",
-      "manufacturer": "Xiaomi",
-      "name": "MI 8",
-      "screenDensity": 440,
-      "screenX": 1080,
-      "screenY": 2248,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/iVFouYp4325uDIPV5nvwPnNvW1pKvqB4-3hfIohOEOVNaiNOXgOYeo5euUazGstNBVuD5Rkc4X1d-A"
-    },
-    {
-      "brand": "samsung",
-      "codename": "dream2lte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "dream2lte",
-      "manufacturer": "Samsung",
-      "name": "SM-G955F",
-      "screenDensity": 420,
-      "screenX": 1440,
-      "screenY": 2960,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/fE0fkf8E-AvaOnoBrZsaF2nuWJmK2wsUy7vVs8HW1so9VwQuqP7PimlEt2pfmfm24Vt_BUvRVXbt"
-    },
-    {
-      "brand": "samsung",
-      "codename": "dream2lteks",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "dream2lteks",
-      "manufacturer": "Samsung",
-      "name": "SM-G955N",
-      "screenDensity": 420,
-      "screenX": 1440,
-      "screenY": 2960,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/tDSXmiMyVrQfpwOcYaUsCfOAlUb7e2b6Yj_b7-QrJ5cyQqGP32So5qsjlEECHWrSwj0Zhut_lBFHdQ"
-    },
-    {
-      "brand": "samsung",
-      "codename": "dream2qltecan",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "dream2qltecan",
-      "manufacturer": "Samsung",
-      "name": "SM-G955W",
-      "screenDensity": 420,
-      "screenX": 1440,
-      "screenY": 2960,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/l0eMqnfFl9Xm4lW1uPkbQ0FQjKv1PP-vlEfxYRUxzzLVh_AAh6egYcwYlu2Fv-Hg0SlyDCXZjLlJWw"
-    },
-    {
-      "brand": "samsung",
-      "codename": "dream2qltechn",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "dream2qltechn",
-      "manufacturer": "Samsung",
-      "name": "SM-G9550",
-      "screenDensity": 420,
-      "screenX": 1440,
-      "screenY": 2960,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/MigDjmK5vJ2h55Ee2CC5Ktuk3LV0LmnU1eK5aSRUXJGbqhFlbgy0nrNuoabvpG9RmfnMNo-aYTY"
-    },
-    {
-      "brand": "samsung",
-      "codename": "dream2qltesq",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "dream2qltesq",
-      "manufacturer": "Samsung",
-      "name": "SM-G955U",
-      "screenDensity": 420,
-      "screenX": 1440,
-      "screenY": 2960,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/J2Z8osWlxO60aP-jSkLIwkyTIKi4Ig5s7gAFWyCFL4R09jpEEra4pppix-jS2yWcM8llUstXqJfW"
-    },
-    {
-      "brand": "samsung",
-      "codename": "dream2qlteue",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "dream2qlteue",
-      "manufacturer": "Samsung",
-      "name": "SM-G955U1",
-      "screenDensity": 420,
-      "screenX": 2220,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/cg5fu0EYPO3mvDtbuPqwDiA_-BHxdLQxNu3AvjRyZGbuVKpQGQ6T5RgLJ-HbkXUjA5keZjqAcdhI"
     },
     {
       "brand": "samsung",
@@ -2230,6 +912,12 @@
       "id": "dreamlte",
       "manufacturer": "Samsung",
       "name": "SM-G950F",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "28"
+        }
+      ],
       "screenDensity": 480,
       "screenX": 2220,
       "screenY": 1080,
@@ -2245,51 +933,18 @@
     },
     {
       "brand": "samsung",
-      "codename": "dreamqlteue",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "dreamqlteue",
-      "manufacturer": "Samsung",
-      "name": "SM-G950U1",
-      "screenDensity": 480,
-      "screenX": 2220,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/zWCYsmAeJDpdf858GtKNRskl1M3UipVxLsVDimYNXHSDXWyKxlvN0ntzMbgBr32GCxUqPdHm1bo"
-    },
-    {
-      "brand": "Xiaomi",
-      "codename": "equuleus",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "equuleus",
-      "manufacturer": "Xiaomi",
-      "name": "MI 8 Pro",
-      "screenDensity": 440,
-      "screenX": 1080,
-      "screenY": 2248,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/Q0CVYPJS8eM515-oOVltO-0bVmeW1n8QySrvY_kezdnBpL7AbqIDjT-clLp4G50m7G6ZhqbmQUs3"
-    },
-    {
-      "brand": "samsung",
       "codename": "f2q",
       "form": "PHYSICAL",
       "formFactor": "PHONE",
       "id": "f2q",
       "manufacturer": "Samsung",
       "name": "SM-F916U1",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
+          "versionId": "30"
+        }
+      ],
       "screenDensity": 480,
       "screenX": 1768,
       "screenY": 2208,
@@ -2304,132 +959,53 @@
       "thumbnailUrl": "https://lh3.googleusercontent.com/T_MXb1ci-Q4Xl_g_XV19Yqa0LEbZQfEf8vZD4lKLPuFNe5t5gnCtsPbIB9Dvhz0D9xu8wEzOgNO6"
     },
     {
-      "brand": "motorola",
-      "codename": "falcon_umts",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "falcon_umts",
-      "manufacturer": "Motorola",
-      "name": "XT1034",
-      "screenDensity": 320,
-      "screenX": 720,
-      "screenY": 1280,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh4.ggpht.com/7-9UrP_LsiZUoVDG_kSAYPtlHU0a9QMEQSRawSxPlNJyEIHIFj57g-GsaLzYmZMTkIySoVyu_nMGYQ"
-    },
-    {
       "brand": "google",
-      "codename": "flame",
+      "codename": "felix",
       "form": "PHYSICAL",
       "formFactor": "PHONE",
-      "id": "flame",
+      "id": "felix",
       "manufacturer": "Google",
-      "name": "Pixel 4",
-      "screenDensity": 440,
-      "screenX": 1080,
-      "screenY": 2280,
+      "name": "Pixel Fold",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "33"
+        }
+      ],
+      "screenDensity": 420,
+      "screenX": 2208,
+      "screenY": 1840,
       "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
+        "arm64-v8a"
       ],
       "supportedVersionIds": [
-        "29"
+        "33"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/PR7t8EexUdGPAMAjvPtWlS6WnhUXS5OVphhlpaOL_3ziFN1ip12RRdKoIMQ1G3QWiIdKI1ahY6I"
+      "thumbnailUrl": "https://lh3.googleusercontent.com/PQzlGq9efYSc-AM6uGVUGsqw9J9SdZVxEVVaLjqLsQP0qqfA3zdoKCptbf-1YvShTlZ83AQpPMc9RQ"
     },
     {
       "brand": "google",
-      "codename": "flo",
+      "codename": "felix_camera",
       "form": "PHYSICAL",
-      "formFactor": "TABLET",
-      "id": "flo",
-      "manufacturer": "Asus",
-      "name": "Nexus 7",
-      "screenDensity": 320,
-      "screenX": 1920,
-      "screenY": 1200,
+      "formFactor": "PHONE",
+      "id": "felix_camera",
+      "manufacturer": "Google",
+      "name": "Pixel Fold (Camera-enabled)",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_LOW",
+          "versionId": "33"
+        }
+      ],
+      "screenDensity": 420,
+      "screenX": 2208,
+      "screenY": 1840,
       "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
+        "arm64-v8a"
       ],
       "supportedVersionIds": [
-        "19",
-        "21"
-      ],
-      "thumbnailUrl": "https://lh3.ggpht.com/DYFkgrJuwYBWu1_ib6GUhKqszsUx__EyGXf2y_5112_GAiwKm8lj5Me0ySRIAhzvnHy5ayVEpHHpWg"
-    },
-    {
-      "brand": "motorola",
-      "codename": "foles",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "foles",
-      "manufacturer": "Motorola",
-      "name": "moto z4",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 2340,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/vP61Z4zNhhdrzsePfMP8l64ebTAqvEzH6C6SK2SDhqhbKrt0xgtm-lByNYyUP1qgBz1NHBi9XlA"
-    },
-    {
-      "brand": "samsung",
-      "codename": "fortuna3g",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "fortuna3g",
-      "manufacturer": "Samsung",
-      "name": "SM-G530H",
-      "screenDensity": 240,
-      "screenX": 540,
-      "screenY": 960,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.ggpht.com/-I8KJyu2A8gL31GMxN67FhYPPsGyePp82PP-csmkbxp6pOIp_lDHYq_dQgh8BBHZV0biIfXx7cJP"
-    },
-    {
-      "brand": "lge",
-      "codename": "g3",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "g3",
-      "manufacturer": "LG",
-      "name": "LG-D855",
-      "screenDensity": 640,
-      "screenX": 1440,
-      "screenY": 2560,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh4.ggpht.com/ZFgSJNODltO2YvsnK3bpQtYF96vA0RmBy1ZmjCmNhIonQaj5BQtdDHYtnd8FTi5JZjjoul84Gjk"
-    },
-    {
-      "brand": "samsung",
-      "codename": "grandpplte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "grandpplte",
-      "manufacturer": "Samsung",
-      "name": "SM-G532M",
-      "screenDensity": 240,
-      "screenX": 960,
-      "screenY": 540,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/IbR6PPYmV5F6ErZyjE4euvSaSVTS0wvTrbkTTQmGK-0nkMs5dM0wtXQV4fDsiCa305NVFpu4x88"
+        "33"
+      ]
     },
     {
       "brand": "samsung",
@@ -2439,6 +1015,12 @@
       "id": "grandppltedx",
       "manufacturer": "Samsung",
       "name": "SM-G532G",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "23"
+        }
+      ],
       "screenDensity": 240,
       "screenX": 960,
       "screenY": 540,
@@ -2448,82 +1030,10 @@
       ],
       "supportedVersionIds": [
         "23"
+      ],
+      "tags": [
+        "deprecated=23"
       ]
-    },
-    {
-      "brand": "samsung",
-      "codename": "greatlteks",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "greatlteks",
-      "manufacturer": "Samsung",
-      "name": "SM-N950N",
-      "screenDensity": 420,
-      "screenX": 2220,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/nHJL8Nw9yUSxJj1q9WskGJZtTltl0XqOGhvw1HlA-wSITh6v7LimsPUBehXKUZYgRYgPYI3Fm1cQGQ"
-    },
-    {
-      "brand": "samsung",
-      "codename": "greatqlte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "greatqlte",
-      "manufacturer": "Samsung",
-      "name": "SM-N950U",
-      "screenDensity": 420,
-      "screenX": 2220,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/oPfMSkk4ee8S39qGhsxagwo7pMgtBz6wcnXpzbNqYB_6kM0kSKgUbLMTwYd3cigr5r7NlP3YgpKX"
-    },
-    {
-      "brand": "samsung",
-      "codename": "greatqltechn",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "greatqltechn",
-      "manufacturer": "Samsung",
-      "name": "SM-N9500",
-      "screenDensity": 560,
-      "screenX": 1440,
-      "screenY": 2960,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/t8GF5d3rZPH_i3AYBODmv6eCjVSVoNXeZBNuAKPPQZqNbdGuUcGPtZF21nK99fjKOrkgOHV6euMZPQ"
-    },
-    {
-      "brand": "samsung",
-      "codename": "greatqlteue",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "greatqlteue",
-      "manufacturer": "Samsung",
-      "name": "SM-N950U1",
-      "screenDensity": 420,
-      "screenX": 2220,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/AIr41VULzFF0iruDUWNZ8xoDP9cAORKW25G8cNz48mbWU9UOXM0h9aaw_oOoCKoP3d6tnuxA_XDG"
     },
     {
       "brand": "motorola",
@@ -2533,6 +1043,12 @@
       "id": "griffin",
       "manufacturer": "Motorola",
       "name": "XT1650",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_LOW",
+          "versionId": "24"
+        }
+      ],
       "screenDensity": 640,
       "screenX": 2560,
       "screenY": 1440,
@@ -2554,6 +1070,12 @@
       "id": "gts3lltevzw",
       "manufacturer": "Samsung",
       "name": "SM-T827V",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_LOW",
+          "versionId": "28"
+        }
+      ],
       "screenDensity": 320,
       "screenX": 2048,
       "screenY": 1536,
@@ -2568,46 +1090,30 @@
       "thumbnailUrl": "https://lh3.googleusercontent.com/Ei1LFgQvf4Yj3wDCKdnge1mlusicePcwVnsSFqFcTtbJUecMZAEy_cjfLTKNwXDxs1lZJtgto-HVaw"
     },
     {
-      "brand": "Verizon",
-      "codename": "gts4lltevzw",
+      "brand": "samsung",
+      "codename": "gts8uwifi",
       "form": "PHYSICAL",
       "formFactor": "TABLET",
-      "id": "gts4lltevzw",
+      "id": "gts8uwifi",
       "manufacturer": "Samsung",
-      "name": "SM-T837V",
-      "screenDensity": 360,
-      "screenX": 1600,
-      "screenY": 2560,
+      "name": "SM-X900",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "33"
+        }
+      ],
+      "screenDensity": 320,
+      "screenX": 1848,
+      "screenY": 2960,
       "supportedAbis": [
         "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
+        "armeabi-v7a",
+        "armeabi"
       ],
       "supportedVersionIds": [
-        "28"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/2TsL3i7Gs_ILH8AJzGGDNQEoBWzog5WxbZmXLVHmS8PonYQ5rGqqmr_m0v79xHMCBQRdJQaCLPE"
-    },
-    {
-      "brand": "samsung",
-      "codename": "gts4lvwifi",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "gts4lvwifi",
-      "manufacturer": "Samsung",
-      "name": "SM-T720",
-      "screenDensity": 360,
-      "screenX": 2560,
-      "screenY": 1600,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/MAA0l3w2lD9yTdnaNqmjfQ5z98wh-sS_TPqV9OWPHuHPFuAHHa-Wvfaeyb9HAX8xHnxZRRZsCHk"
+        "33"
+      ]
     },
     {
       "brand": "google",
@@ -2617,6 +1123,12 @@
       "id": "hammerhead",
       "manufacturer": "LG",
       "name": "Nexus 5",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
+          "versionId": "23"
+        }
+      ],
       "screenDensity": 480,
       "screenX": 1080,
       "screenY": 1920,
@@ -2637,6 +1149,12 @@
       "id": "harpia",
       "manufacturer": "Motorola",
       "name": "Moto G Play",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
+          "versionId": "23"
+        }
+      ],
       "screenDensity": 320,
       "screenX": 720,
       "screenY": 1280,
@@ -2650,778 +1168,31 @@
       "thumbnailUrl": "https://lh3.googleusercontent.com/aKod2b8C3siC0gmFd476ckJ3akKySdQgpJgpUMfNcKJWHWhr9B_r8BuQezNk8cmIx_WGeGUC6xrHbg"
     },
     {
-      "brand": "samsung",
-      "codename": "hero2lte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "hero2lte",
-      "manufacturer": "Samsung",
-      "name": "SM-G935F",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/FAXLqc3Lymy81Mmb_4Ipw-EMxf0xrtp6c6ucrUxAGiHRMLAobSXjSBEOFgVW6ZQv6YvcmnbRDkYD"
-    },
-    {
-      "brand": "samsung",
-      "codename": "hero2ltelgt",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "hero2ltelgt",
-      "manufacturer": "Samsung",
-      "name": "SM-G935L",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/dFRhET5Bzfr3aUDEh0qUTOaIgBmX_xRYo9H4wT0mKySnypH7jK1tZhezbV1s8nugO1v8QuuJTatM8g"
-    },
-    {
-      "brand": "samsung",
-      "codename": "hero2qlteatt",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "hero2qlteatt",
-      "manufacturer": "Samsung",
-      "name": "SAMSUNG-SM-G935A",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/qLLkWFkmoxa9Ps6uzNQpWmk4sXTQdDnjH3hagHcXxrVyoA_QW9_VpRHp5-uh3Oyb1ZLw8bI8heY"
-    },
-    {
-      "brand": "samsung",
-      "codename": "hero2qltechn",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "hero2qltechn",
-      "manufacturer": "Samsung",
-      "name": "SM-G9350",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/iRhN_I6roRLR48j6uoANdelfD9qOBdcsdzQPawMeIFvQIVFJJW2sesos12a0hMm90yF2e697sTU"
-    },
-    {
-      "brand": "samsung",
-      "codename": "hero2qltespr",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "hero2qltespr",
-      "manufacturer": "Samsung",
-      "name": "SM-G935P",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/u8CP15P3dZsy4qjDp66NMgZbA90g4IeBPmGoJ37EPMhhrgh5rUN8UN1vdaIWOM9vsQLDBhltcwe22A"
-    },
-    {
-      "brand": "samsung",
-      "codename": "hero2qltetmo",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "hero2qltetmo",
-      "manufacturer": "Samsung",
-      "name": "SM-G935T",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 1920,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/_HXkMe1lB_FyrMARYGqidApZOqUQLGsYCndjJ88W-jU74w7oNB9mT3FX7jcFr83H4391T2XKhpE"
-    },
-    {
-      "brand": "samsung",
-      "codename": "hero2qlteusc",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "hero2qlteusc",
-      "manufacturer": "Samsung",
-      "name": "SM-G935R4",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/EBenxYAvtWviX4MkAsIugGo9Ow-yasxMcl4uIEqsOsQEvN-Tl7CYpPos3mBgoyPOSX-PxcMLUsQQ"
-    },
-    {
-      "brand": "Verizon",
-      "codename": "hero2qltevzw",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "hero2qltevzw",
-      "manufacturer": "Samsung",
-      "name": "SM-G935V",
-      "screenDensity": 640,
-      "screenX": 2560,
-      "screenY": 1440,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/GQIdScnrG32yjuyGP9MTQiC22NHalNB3Q9YWIM4jhwATuxrUk_u6KxPBmfEvxkke7QnCLRBB0UWW"
-    },
-    {
-      "brand": "samsung",
-      "codename": "herolte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "herolte",
-      "manufacturer": "Samsung",
-      "name": "SM-930F",
-      "screenDensity": 577,
-      "screenX": 2560,
-      "screenY": 1440,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/Bb8I_AgPj7zBw67vLc0RqHtW5zKXYZtvKYyZtQ6IbxRm1avJ3QN7wFp3VfdNsA-SJK6vz7ckQPo"
-    },
-    {
-      "brand": "samsung",
-      "codename": "heroltebmc",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "heroltebmc",
-      "manufacturer": "Samsung",
-      "name": "SM-G930W8",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/9_sueZh_al8Tf5-B1y3qVtREB6Vhhfav64U-F9c_UV6oWHpmjjWO9xfTXzwxNMNo6TkV_ixBi6Ts"
-    },
-    {
-      "brand": "samsung",
-      "codename": "heroltektt",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "heroltektt",
-      "manufacturer": "Samsung",
-      "name": "SM-G930K",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/RD3TrccHDwuvoD1uaWeQv0pfyy6omRehxiZeozv-735b2NhO5K1M90TajHcYDeLUY1S8Odg9Pqc"
-    },
-    {
-      "brand": "samsung",
-      "codename": "heroqlteaio",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "heroqlteaio",
-      "manufacturer": "Samsung",
-      "name": "SAMSUNG-SM-G930AZ",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/1YV68rNeQzvTs5eFTgO8sQ2SHqslXStqHKTWjjsi8tetd6fZ3x-3MMYZe_ZG1boIDE6TI-gr-3Tlbw"
-    },
-    {
-      "brand": "samsung",
-      "codename": "heroqlteatt",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "heroqlteatt",
-      "manufacturer": "Samsung",
-      "name": "SAMSUNG-SM-G930A",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/HRzyEU-wTZT85rZ8bimdYdeG7u_vHJqKhzroRIAef0wIAQoyHdeClHPw7hMP159g4bIzAepRkWVl3Q"
-    },
-    {
-      "brand": "samsung",
-      "codename": "heroqltemtr",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "heroqltemtr",
-      "manufacturer": "Samsung",
-      "name": "SM-G930T1",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/Dezj2uqK0M4PivAyh2MY2EY7obubJ4DDUmkERZdHUSy7B7ZEDoiBzZay-V9ipparMnN7C1BZmW4e"
-    },
-    {
-      "brand": "samsung",
-      "codename": "heroqltespr",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "heroqltespr",
-      "manufacturer": "Samsung",
-      "name": "SM-G930P",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/tyqr_6-lqhL7qmDoiB6-Y1yZ-OuF8SWBOcXhk2IFZh3ISqZidw8qIY5FE75QzYj8h0r7Cpaoekjy"
-    },
-    {
-      "brand": "samsung",
-      "codename": "heroqltetfnvzw",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "heroqltetfnvzw",
-      "manufacturer": "Samsung",
-      "name": "SM-G930VL",
-      "screenDensity": 640,
-      "screenX": 2560,
-      "screenY": 1440,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/TkihAZOyE2uz4EAPDi4sHpuNN6gsBike5dt7Vbwdgst0HeGG0nIUMGcM865ry2BcaNR_dq9pHcMrkA"
-    },
-    {
-      "brand": "samsung",
-      "codename": "heroqltetmo",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "heroqltetmo",
-      "manufacturer": "Samsung",
-      "name": "SM-G930T",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/2eEkIkzVsZynVScCJTB4se_nzAtBNuRlIID2AJodFHFx1eI6Ep_AQkDhk4Nb3txvMoo9NzQbn4MALA"
-    },
-    {
-      "brand": "samsung",
-      "codename": "heroqlteue",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "heroqlteue",
-      "manufacturer": "Samsung",
-      "name": "SM-G930U",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 1920,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/-sCzrgvFmLYreO-nnkRK7xxXlR2p0PcqTbMedlqOw5JslVVmzNTsB8UuXqFtCnYIm6wCZ91CkEpccQ"
-    },
-    {
-      "brand": "samsung",
-      "codename": "heroqlteusc",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "heroqlteusc",
-      "manufacturer": "Samsung",
-      "name": "SM-G930R4",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/1-j9d2MNOc54DM06zlQBWnZNeM91a8YrjiQCxF7IZGnnrOlzAK9POZG6yqUnQTdWzW5M7R3KRGceww"
-    },
-    {
-      "brand": "Verizon",
-      "codename": "heroqltevzw",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "heroqltevzw",
-      "manufacturer": "Samsung",
-      "name": "SM-G930V",
-      "screenDensity": 640,
-      "screenX": 2560,
-      "screenY": 1440,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/0c7YTryaEE_nRoXg6DPWNakaMyyV42dbQCCApH2AW9WOvBQrmyrXpH8-oBibW_MhXN4zVzZyWLRo7g"
-    },
-    {
-      "brand": "samsung",
-      "codename": "hlte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "hlte",
-      "manufacturer": "Samsung",
-      "name": "SM-N9005",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 1920,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh4.ggpht.com/OM0K0aYT6R0M_YAJXBO_gZuUkZYEYQs22PMtsGZU2Jh-4A9JxEpKLt2fGsvE30NTnpmqmNveLvU"
-    },
-    {
-      "brand": "htc",
-      "codename": "htc_m8",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "htc_m8",
-      "manufacturer": "HTC",
-      "name": "HTC One_M8",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 1920,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh4.ggpht.com/pZCat9fLKkc5N1Myi5ZYR-UeEUUsmYZuZVEJql4hhM2V7gAL0e-NbWeZ5KJsLQTvv3kzSR5WEs6tIQ"
-    },
-    {
-      "brand": "htc",
-      "codename": "htc_ocedugl",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "htc_ocedugl",
-      "manufacturer": "HTC",
-      "name": "HTC_U-1u",
-      "screenDensity": 640,
-      "screenX": 2560,
-      "screenY": 1440,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/HzO61Vquk8tjYQN4ig-U3-mXnUBaOj3wcwAXZVKcGTXe-dLGFHRc33NZslJiYfwTrNrG0T43k2yBXA"
-    },
-    {
-      "brand": "htc",
-      "codename": "htc_ocmdugl",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "htc_ocmdugl",
-      "manufacturer": "HTC",
-      "name": "HTC U11 plus",
-      "screenDensity": 640,
-      "screenX": 2880,
-      "screenY": 1440,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/ZiZPQzxOmdoquCCClxTQU_oSZmpN1TNE5LnVJrCB3uGECKvjIoD056U5J0gpbAMig9YqPNRs1kL5"
-    },
-    {
-      "brand": "htc",
-      "codename": "htc_pmeuhl",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "htc_pmeuhl",
-      "manufacturer": "HTC",
-      "name": "HTC 10",
-      "screenDensity": 640,
-      "screenX": 2560,
-      "screenY": 1440,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/VtAbWkLGTD8e5hEE5CL4KV_Op2Cfdsi05pmfVHPh20IafBH2j4atshpsGhlKa7s5KpBRSa7t1w64"
-    },
-    {
-      "brand": "Huawei",
-      "codename": "hwALE-H",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "hwALE-H",
-      "manufacturer": "Huawei",
-      "name": "ALE-L23",
-      "screenDensity": 320,
-      "screenX": 720,
-      "screenY": 1280,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "21"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/kHH92lgwYTlHSr2gx4jDsLGOqzUAPwPL-lEbopIkZwcpxPRX3V1zip9u6JQ8vo3ELo5bcfHXieJcHA"
-    },
-    {
-      "brand": "samsung",
-      "codename": "j1acevelte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "j1acevelte",
-      "manufacturer": "Samsung",
-      "name": "SM-J111M",
-      "screenDensity": 240,
-      "screenX": 480,
-      "screenY": 800,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/703nbVMEKvvwygLNUx7wQLjaX6ggiGy7mc-lw7xPFwjG-U1s-daSlbzpEAWq9z0cONFGTs_xZ2o"
-    },
-    {
-      "brand": "samsung",
-      "codename": "j5lte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "j5lte",
-      "manufacturer": "Samsung",
-      "name": "SM-J500F",
-      "screenDensity": 294,
-      "screenX": 720,
-      "screenY": 1280,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/Xb2R2cQuo971e3VuddoV9LV_nr8issaszeLlpku-aNl-aVQ_2K41KGkRN1ztbG1FqrBhq0j2gokx"
-    },
-    {
-      "brand": "samsung",
-      "codename": "j6lte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "j6lte",
-      "manufacturer": "Samsung",
-      "name": "SM-J600FN",
-      "screenDensity": 320,
-      "screenX": 1480,
-      "screenY": 720,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/fdSs-cim2QYwDezpicvDhUYJr-Jgo3rhG6bthlyBJqkwUaQKLiiDHBr-nMAMazj2RUiwT_Lz0Gcd"
-    },
-    {
-      "brand": "Verizon",
-      "codename": "j7popltevzw",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "j7popltevzw",
-      "manufacturer": "Samsung",
-      "name": "SM-J727V",
-      "screenDensity": 320,
-      "screenX": 720,
-      "screenY": 1280,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "27"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/eORX0ROwItAAKaXHUIses4o2i1VlvTVEJ53guLrkpCRiGvBL7KGktYlEqrgkyl5CnqnYqUYKJQgL0A"
-    },
-    {
-      "brand": "samsung",
-      "codename": "j7velte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "j7velte",
-      "manufacturer": "Samsung",
-      "name": "SM-J701F",
-      "screenDensity": 320,
-      "screenX": 1280,
-      "screenY": 720,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/X24fvoVX8Y911Tp80sPilGNKEaWQpX3PueKL0WBPlDq9DdFDFmSSfl0szlBTZuUB5dqQvc9A-1c"
-    },
-    {
-      "brand": "samsung",
-      "codename": "j7xelte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "j7xelte",
-      "manufacturer": "Samsung",
-      "name": "SM-J710MN",
-      "screenDensity": 320,
-      "screenX": 720,
-      "screenY": 1280,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/H4_Qg3dO2LShMJECn6CeKpyJ_gZtS5MpsfhkCYl31ZgZf1zZRJikZ4DOzuJOnz2ZeCZiBx8Yay55"
-    },
-    {
       "brand": "motorola",
-      "codename": "james",
+      "codename": "java",
       "form": "PHYSICAL",
       "formFactor": "PHONE",
-      "id": "james",
+      "id": "java",
       "manufacturer": "Motorola",
-      "name": "moto e5 play",
-      "screenDensity": 320,
-      "screenX": 1280,
-      "screenY": 720,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
+      "name": "Motorola G20",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "30"
+        }
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/OJ2Uvo7H0thDQTaKr3eUAO50-5yHagHLINea_BYNwnDvVEs8jA5jIq0dCByAw1nzxL_36YwryC0M"
-    },
-    {
-      "brand": "motorola",
-      "codename": "jeter",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "jeter",
-      "manufacturer": "Motorola",
-      "name": "moto g(6) play",
-      "screenDensity": 320,
-      "screenX": 1440,
-      "screenY": 720,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/c0nvdIY5MqPbloD9MFdG8MhuapwpKfHn29BKD4dnFFilV7Du1lCyg6vHe03pN6ltHMHvP3VyrtvA"
-    },
-    {
-      "brand": "lge",
-      "codename": "joan",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "joan",
-      "manufacturer": "LG",
-      "name": "LG-H932",
-      "screenDensity": 640,
-      "screenX": 2880,
-      "screenY": 1440,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/_RGBhW19dHQww5npD_uCSgv48m_ziTOC1KAXSK0dDCAwkq4snw-rLUmmUcI7IryOEcleAaHj-fM"
-    },
-    {
-      "brand": "lge",
-      "codename": "judypn",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "judypn",
-      "manufacturer": "LG",
-      "name": "LM-V405",
-      "screenDensity": 560,
-      "screenX": 1440,
-      "screenY": 3120,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/79-OKmsXWRQW-gO3SleYA7IR_BLTOizZJiZyq0mhJM2j9HIsfzFnPD5y1VVOEfEqGTuzTlosCes"
-    },
-    {
-      "brand": "alps",
-      "codename": "k61v1_basic_ref",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "k61v1_basic_ref",
-      "manufacturer": "Alps",
-      "name": "k61v1_basic_ref",
-      "screenDensity": 320,
+      "screenDensity": 280,
       "screenX": 720,
-      "screenY": 1500,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ]
-    },
-    {
-      "brand": "Xiaomi",
-      "codename": "laurel_sprout",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "laurel_sprout",
-      "manufacturer": "Xiaomi",
-      "name": "Mi A3",
-      "screenDensity": 320,
-      "screenX": 720,
-      "screenY": 1560,
+      "screenY": 1600,
       "supportedAbis": [
         "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/qEgEX4lJLmglPchT5dOuiGP2Oiqxyv_Gk7Q7lem0eY31OCpIa6vP2FhJ0psSJSjNQt1yrqidjEI"
-    },
-    {
-      "brand": "Xiaomi",
-      "codename": "lithium",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "lithium",
-      "manufacturer": "Xiaomi",
-      "name": "MIX",
-      "screenDensity": 480,
-      "screenX": 2040,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/krgqQDGkQYlyw1fjtFuwwzzTRd12yROjzeuV8Xf5Tkcc-4gyYybvA15hHKcYgpkXEosLHgLktQ9k"
-    },
-    {
-      "brand": "samsung",
-      "codename": "lt02wifi",
-      "form": "PHYSICAL",
-      "formFactor": "TABLET",
-      "id": "lt02wifi",
-      "manufacturer": "Samsung",
-      "name": "SM-T210",
-      "screenDensity": 160,
-      "screenX": 1024,
-      "screenY": 600,
-      "supportedAbis": [
         "armeabi",
         "armeabi-v7a"
       ],
       "supportedVersionIds": [
-        "19"
+        "30"
       ],
-      "thumbnailUrl": "https://lh5.ggpht.com/ZSda2eYJgosreODD1rvNNpbCzU74L5FJafqAYUX_K4FevNBoU7eLk9asLIjfdcW9lRq8TaaFATQ"
-    },
-    {
-      "brand": "lge",
-      "codename": "lucye",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "lucye",
-      "manufacturer": "LG",
-      "name": "VS988",
-      "screenDensity": 640,
-      "screenX": 2880,
-      "screenY": 1440,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/7bUeKesu7wkvY0bF3vD5oqi8xbum-t1IbIXMRGwrFh51H8FTrXiF-1EFVPQpV0H787MFBSzvG1o"
+      "thumbnailUrl": "https://lh3.googleusercontent.com/flkXlWApp9btdx5Q6IaRiH7tdC0uXeJ3mrHjq6SRULPwg647evkNrlqqK849ciN3L2frFSuMAoM"
     },
     {
       "brand": "lge",
@@ -3431,6 +1202,12 @@
       "id": "lv0",
       "manufacturer": "LG",
       "name": "LG-AS110",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "23"
+        }
+      ],
       "screenDensity": 240,
       "screenX": 480,
       "screenY": 854,
@@ -3444,160 +1221,66 @@
       "thumbnailUrl": "https://lh3.googleusercontent.com/7g_xh8i3kF7oHMjStyLLfI3cyXScJUO47YUUZHS9nw6EPYjebUKHUtPoynSqk8KE-H4SzxgqZpN9"
     },
     {
-      "brand": "samsung",
-      "codename": "m0",
+      "brand": "google",
+      "codename": "oriole",
       "form": "PHYSICAL",
       "formFactor": "PHONE",
-      "id": "m0",
-      "manufacturer": "Samsung",
-      "name": "GT-I9300",
-      "screenDensity": 320,
-      "screenX": 720,
-      "screenY": 1280,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
+      "id": "oriole",
+      "manufacturer": "Google",
+      "name": "Pixel 6",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "31"
+        },
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
+          "versionId": "32"
+        },
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
+          "versionId": "33"
+        }
       ],
-      "thumbnailUrl": "https://lh4.ggpht.com/qq5OXGjxEFNU651nlyADoFrWqHQQLfUI7FOdtRatjLpSB2haNUPGL9InisXUKLwdAgcVYP8yNJH2hA"
+      "screenDensity": 420,
+      "screenX": 1080,
+      "screenY": 2400,
+      "supportedAbis": [
+        "arm64-v8a",
+        "armeabi-v7a",
+        "armeabi"
+      ],
+      "supportedVersionIds": [
+        "31",
+        "32",
+        "33"
+      ],
+      "thumbnailUrl": "https://lh3.googleusercontent.com/NHjiDpnVPpfRgpXRroEWwojXOXrnu_V04k5Hpw0_1QmDvcjk5jtdEvJDC8zoL20dz0839Vhy9ow"
     },
     {
       "brand": "google",
-      "codename": "mako",
+      "codename": "panther",
       "form": "PHYSICAL",
       "formFactor": "PHONE",
-      "id": "mako",
-      "manufacturer": "LG",
-      "name": "Nexus 4",
-      "screenDensity": 320,
-      "screenX": 768,
-      "screenY": 1280,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
+      "id": "panther",
+      "manufacturer": "Google",
+      "name": "Pixel 7",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "33"
+        }
       ],
-      "thumbnailUrl": "https://lh5.ggpht.com/HegEsD6Xf5kKec6HhajrcUqNr35Wc2oMIssCgOWbmTAnYVrTM5rE8Wxix2kGA0IdnhHqXVMTdAX_"
-    },
-    {
-      "brand": "essential",
-      "codename": "mata",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "mata",
-      "manufacturer": "Essential Products",
-      "name": "PH-1",
-      "screenDensity": 480,
-      "screenX": 1312,
-      "screenY": 2560,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/GnDhaIYlmza7Cjrg0rdZ-GKp640f2Zvg59qJRqCjA1ZU6fcDcf8dnGmE5B6bo5ukQcZSHwOhLTCH"
-    },
-    {
-      "brand": "lge",
-      "codename": "mlv1",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "mlv1",
-      "manufacturer": "LG",
-      "name": "LG-X230",
-      "screenDensity": 240,
-      "screenX": 854,
-      "screenY": 480,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/ZeX9il0i0wKDtJjkPsfH7_MGCQcGDXCyyLzr80e2LNcoODDk67Y8KY901Nq2C-tV-F-F3iJeZyrakw"
-    },
-    {
-      "brand": "Xiaomi",
-      "codename": "natrium",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "natrium",
-      "manufacturer": "Xiaomi",
-      "name": "MI 5s Plus",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/VA5AbKJ8DgKP4kZQxXa7tE9aO1tpp5_A-q_Jbp_Iy3LbY98wconCtfjngO6ZsyvTjt40-UxSV4tE"
-    },
-    {
-      "brand": "Xiaomi",
-      "codename": "nitrogen",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "nitrogen",
-      "manufacturer": "Xiaomi",
-      "name": "MI MAX 3",
-      "screenDensity": 440,
+      "screenDensity": 420,
       "screenX": 1080,
-      "screenY": 2160,
+      "screenY": 2400,
       "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
+        "arm64-v8a"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/HCpS1LHGD6Og7DFS9BWt6Y5Tkw63_TnpCZwU6eO9engcV4KdbNY71_84gtSsFxJpfAX66Tg2xZKPFw"
-    },
-    {
-      "brand": "samsung",
-      "codename": "on5xelte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "on5xelte",
-      "manufacturer": "Samsung",
-      "name": "SM-G570M",
-      "screenDensity": 320,
-      "screenX": 720,
-      "screenY": 1280,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
+      "supportedVersionIds": [
+        "33"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/392qpHrZ7tGFOAM9sK5gRE-gyCdKticL2V3jpOxxRUCRTTR5nofPZLpxH7V1-0sFQZcOuEyYtjM"
-    },
-    {
-      "brand": "Motorola",
-      "codename": "osprey_umts",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "osprey_umts",
-      "manufacturer": "Motorola",
-      "name": "Moto G (3rd Gen)",
-      "screenDensity": 320,
-      "screenX": 720,
-      "screenY": 1280,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/nz4AqkeT5XJaHOpPbekeM71jOrCDLhnOzB-TJQ2shq5M4RGco-ovOKF_RLYBuKqf3sE-EAuY9JmY"
-    },
-    {
-      "brand": "lge",
-      "codename": "p1",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "p1",
-      "manufacturer": "LG",
-      "name": "LGUS991",
-      "screenDensity": 538,
-      "screenX": 2560,
-      "screenY": 1440,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/8d1MOpXYBuUCR8vDgd9kgVABc0q1u_SBz42_JKx75qQNcQ-tVxUAcmD1DPXJSpi5D0jMJ_4qrg0"
+      "thumbnailUrl": "https://lh3.googleusercontent.com/0m1WCY9GpKqdyC_gg2pOOB-9YRLRWmxV97QHYsSxenEvJRzSUpBRPhxXyoGSHIboCItCgT5VOFK1"
     },
     {
       "brand": "motorola",
@@ -3607,6 +1290,12 @@
       "id": "pettyl",
       "manufacturer": "Motorola",
       "name": "moto e5 play",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
+          "versionId": "27"
+        }
+      ],
       "screenDensity": 240,
       "screenX": 480,
       "screenY": 960,
@@ -3620,78 +1309,62 @@
       "thumbnailUrl": "https://lh3.googleusercontent.com/TuUs3GBwEfKr1u6JNSyQ9yTXeLbJMOz249N7ASi-od_wBoXUmxQ93lHBZV6TsahQU0B8ai5ZPCHG0g"
     },
     {
-      "brand": "lge",
-      "codename": "phoenix_sprout",
+      "brand": "samsung",
+      "codename": "q2q",
       "form": "PHYSICAL",
       "formFactor": "PHONE",
-      "id": "phoenix_sprout",
-      "manufacturer": "LG",
-      "name": "LM-Q910",
-      "screenDensity": 560,
-      "screenX": 1440,
-      "screenY": 3120,
+      "id": "q2q",
+      "manufacturer": "Samsung",
+      "name": "SM-F926U1",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_LOW",
+          "versionId": "30"
+        },
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_LOW",
+          "versionId": "31"
+        }
+      ],
+      "screenDensity": 420,
+      "screenX": 1768,
+      "screenY": 2208,
       "supportedAbis": [
         "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
+        "armeabi-v7a",
+        "armeabi"
       ],
       "supportedVersionIds": [
-        "28"
+        "30",
+        "31"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/8zZqpl8B71D9kRPoif7390Fz3pl3repFenyF0tpsDipppHB0LjAe5rcEF3BO88F_wUPJIgHoRMHagw"
+      "thumbnailUrl": "https://lh3.googleusercontent.com/-0T0LkEXHA5PjXvo6N3qtYtMjTse08ljvS-eHLMRehgjaveNVtBwcVXvj4mYB4dUEkq7bTHgEL0d"
     },
     {
-      "brand": "Xiaomi",
-      "codename": "platina",
+      "brand": "google",
+      "codename": "r11",
       "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "platina",
-      "manufacturer": "Xiaomi",
-      "name": "MI 8 Lite",
-      "screenDensity": 440,
-      "screenX": 1080,
-      "screenY": 2280,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
+      "formFactor": "WEARABLE",
+      "id": "r11",
+      "manufacturer": "Google",
+      "name": "Google Pixel Watch",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
+          "versionId": "30"
+        }
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/RnqabP8gIhupxyPrN7lpsB41plHce7Rh2o4aN-HbFj2V-3S5vRLwou-aN6xI-Wk-nrkZRBAo5Rni"
-    },
-    {
-      "brand": "samsung",
-      "codename": "poseidonlteatt",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "poseidonlteatt",
-      "manufacturer": "Samsung",
-      "name": "SAMSUNG-SM-G891A",
-      "screenDensity": 480,
-      "screenX": 1920,
-      "screenY": 1080,
+      "screenDensity": 320,
+      "screenX": 384,
+      "screenY": 384,
       "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
+        "armeabi-v7a",
+        "armeabi"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/6fSOEPCjEoMQCts71wmPpjHFbj-cZqM6W41VL3CwjYS2VJmkr-tMQQtkWp2rb7POdMlzCv7QR0U"
-    },
-    {
-      "brand": "motorola",
-      "codename": "potter",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "potter",
-      "manufacturer": "Motorola",
-      "name": "Moto G (5) Plus",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 1920,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
+      "supportedVersionIds": [
+        "30"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/LYyX2wV8GApJGP7YNC6X8G4WZ2SqrwLpShyluLmt8gz_i_Hx1kJiFkRSQGqyo64tLpevkmDsYZA"
+      "thumbnailUrl": "https://lh3.googleusercontent.com/k6dk5Za7k-W6-F_R6b2Cm_MlePETPlVJOkmdHy_cMc50L_GQDivlbtXPdAZBcviqs4ZZkVwt-bY"
     },
     {
       "brand": "google",
@@ -3700,7 +1373,13 @@
       "formFactor": "PHONE",
       "id": "redfin",
       "manufacturer": "Google",
-      "name": "Pixel 5e",
+      "name": "Pixel 5",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "30"
+        }
+      ],
       "screenDensity": 440,
       "screenX": 1080,
       "screenY": 2340,
@@ -3712,6 +1391,9 @@
       "supportedVersionIds": [
         "30"
       ],
+      "tags": [
+        "default"
+      ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/yTrlQMFILGX8Y1yKlsZYMxsLeQjPzOiNMXH7b5do5k4L7gnYl0qYLEg_JxvG0TmRt9kzlJNu_-8"
     },
     {
@@ -3722,6 +1404,12 @@
       "id": "sailfish",
       "manufacturer": "Google",
       "name": "Pixel",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_MEDIUM",
+          "versionId": "25"
+        }
+      ],
       "screenDensity": 420,
       "screenX": 480,
       "screenY": 640,
@@ -3736,210 +1424,6 @@
       "thumbnailUrl": "https://lh3.googleusercontent.com/Y695akw6GQifgofN_GNrZQMTgTZgxnsMg6ZoQNX84xor7Zxmk7IU0N0GnE-YYha40lqFLH6Fa7qW"
     },
     {
-      "brand": "google",
-      "codename": "sargo",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "sargo",
-      "manufacturer": "Google",
-      "name": "sargo",
-      "screenDensity": 440,
-      "screenX": 1080,
-      "screenY": 2220,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/m4_Z64TVeoT_AaNi1SKzVaW-_qKVNZCldK7IzJZClx1ktgilYTyFbh38Fu8MRlpNRgpmXV7OWAil"
-    },
-    {
-      "brand": "huawei",
-      "codename": "sawfish",
-      "form": "PHYSICAL",
-      "formFactor": "WEARABLE",
-      "id": "sawfish",
-      "manufacturer": "Huawei",
-      "name": "LEO-BX9",
-      "screenDensity": 320,
-      "screenX": 390,
-      "screenY": 390,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "tags": [
-        "beta"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/5w0maSUEotXvasYGQNQo7nOFwytLeq_uuG_lbn4yl63ck7dPsOi8ZbqBuobdMDPuL4MHLPFyFoI"
-    },
-    {
-      "brand": "Lenovo",
-      "codename": "seoul",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "seoul",
-      "manufacturer": "Lenovo",
-      "name": "Lenovo K520",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 2160,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/km_naivFSSI88Yay3v8EU8IVLh1V9KKEtY7bvxE77dme0KrGV1RIZCUJWV-TSTD7lueZaMO5V5PB"
-    },
-    {
-      "brand": "Samsung",
-      "codename": "serranolte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "serranolte",
-      "manufacturer": "Samsung",
-      "name": "Galaxy S4 mini",
-      "screenDensity": 240,
-      "screenX": 540,
-      "screenY": 960,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh6.ggpht.com/I8WFrPiwv4avMRzN__pProVxRlo8jnLJdnY0mdZDCxBcV5XfuVDFt8KKkBYzzeNThgFEzEJ3hfGfzg"
-    },
-    {
-      "brand": "google",
-      "codename": "shamu",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "shamu",
-      "manufacturer": "Motorola",
-      "name": "Nexus 6",
-      "screenDensity": 560,
-      "screenX": 1440,
-      "screenY": 2560,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.ggpht.com/R-0vH4MsHjXfdv1ONaHqaxIA94CLhXqIvGhww_EMMLfaOHw-FyEaAyAOQXvncq-e_H3Q3frd2hkT"
-    },
-    {
-      "brand": "samsung",
-      "codename": "star2lte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "star2lte",
-      "manufacturer": "Samsung",
-      "name": "SM-G965F",
-      "screenDensity": 420,
-      "screenX": 2220,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/OKGIYocnzykN7wqeOj2zqid3b4_4hyiYGTdCmeaUp6WhlJjgd8Hb47Jz0oLDvPVL4KYYuW3nA5k"
-    },
-    {
-      "brand": "samsung",
-      "codename": "star2lteks",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "star2lteks",
-      "manufacturer": "Samsung",
-      "name": "SM-G965N",
-      "screenDensity": 420,
-      "screenX": 2220,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/5XtaJAtSmZPzUdq8KfD5MZMk6ZKZtzCVsN8fGdoav4KsIj_tQADLzw2NIwYNuEfiFpfe678DC7E"
-    },
-    {
-      "brand": "samsung",
-      "codename": "star2qlteue",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "star2qlteue",
-      "manufacturer": "Samsung",
-      "name": "SM-G965U1",
-      "screenDensity": 420,
-      "screenX": 2220,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/2XYxCjKgmSHW0-yf0X-3aMMjWaBqhLzuAk1XSLpkeC0xJ4_yxRpzEptIpetGNvKrG7G5Gh_6irq4"
-    },
-    {
-      "brand": "samsung",
-      "codename": "starlte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "starlte",
-      "manufacturer": "Samsung",
-      "name": "SM-G960F",
-      "screenDensity": 480,
-      "screenX": 2220,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/A83BEHrC0i7dyg1H2_ynJDC89dX3zV01HTVlpQBpvCSlI_GFQaKLLLOcNec0hnVmgYMixstcP4gt"
-    },
-    {
-      "brand": "samsung",
-      "codename": "starlteks",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "starlteks",
-      "manufacturer": "Samsung",
-      "name": "SM-G960N",
-      "screenDensity": 480,
-      "screenX": 2220,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/mRKMOcTMPj6j8w5rHSGXB29lCfz_-MOqGgLw1VKnrukP6SXa7qY8ytx9JYpkY05WkEoJTyRX0GMLmQ"
-    },
-    {
-      "brand": "samsung",
-      "codename": "starqltechn",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "starqltechn",
-      "manufacturer": "Samsung",
-      "name": "SM-G9600",
-      "screenDensity": 480,
-      "screenX": 2220,
-      "screenY": 1080,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/XQGa4K5n35PY7vSotVWeFOxZvzlG4rB2jj5wOEl1uc2nfLzTlt_hDIKSv60VOzyyySE7-Wc6hnQl"
-    },
-    {
       "brand": "samsung",
       "codename": "starqlteue",
       "form": "PHYSICAL",
@@ -3947,6 +1431,12 @@
       "id": "starqlteue",
       "manufacturer": "Samsung",
       "name": "SM-G960U1",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "26"
+        }
+      ],
       "screenDensity": 480,
       "screenX": 2220,
       "screenY": 1080,
@@ -3961,164 +1451,29 @@
       "thumbnailUrl": "https://lh3.googleusercontent.com/xD06N1P46ZHuvYUnWkZBd5Alqr5pkkbreynLQ29yRO4-YFE3yDqix9MFUy-9rC0aLmSOb9UJOeI7"
     },
     {
-      "brand": "samsung",
-      "codename": "t03g",
+      "brand": "google",
+      "codename": "tangorpro",
       "form": "PHYSICAL",
       "formFactor": "PHONE",
-      "id": "t03g",
-      "manufacturer": "Samsung",
-      "name": "GT-N7100",
+      "id": "tangorpro",
+      "manufacturer": "Google",
+      "name": "Pixel Tablet",
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "33"
+        }
+      ],
       "screenDensity": 320,
-      "screenX": 720,
-      "screenY": 1280,
+      "screenX": 1600,
+      "screenY": 2560,
       "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh4.ggpht.com/8h9siLggnEt-y0gSRhzHRAKr2b29Go_WSyL2jxGA3_m5xuK2BVr3yqdvb41XNKhl08YYH9EhiMfW0A"
-    },
-    {
-      "brand": "google",
-      "codename": "taimen",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "taimen",
-      "manufacturer": "Google",
-      "name": "Pixel 2 XL",
-      "screenDensity": 560,
-      "screenX": 1440,
-      "screenY": 2880,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/5J7qV0fpEvD-d-cb-8OFaMbR0rDFT5Tcb3X3aIG0C-p0uPKdCYLxiMpssLXzX9FjEBNBkB4yohA"
-    },
-    {
-      "brand": "google",
-      "codename": "taimen_kddi",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "taimen_kddi",
-      "manufacturer": "Google",
-      "name": "Pixel 2 XL",
-      "screenDensity": 560,
-      "screenX": 1440,
-      "screenY": 2880,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ]
-    },
-    {
-      "brand": "xiaomi",
-      "codename": "tissot_sprout",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "tissot_sprout",
-      "manufacturer": "Xiaomi",
-      "name": "Mi A1",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 1920,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/QLpEabmwa4Q2bVzLvVdn3fwlbgxdvYs5v8VKI0ynoLg1_sYp3tCFkerNyh2wTXT8ignTzSxiX0k"
-    },
-    {
-      "brand": "motorola",
-      "codename": "titan_umts",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "titan_umts",
-      "manufacturer": "Motorola",
-      "name": "XT1064",
-      "screenDensity": 320,
-      "screenX": 720,
-      "screenY": 1280,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh4.ggpht.com/j1oRoGV2Q82-Q5goXPtJb4RKWEB7YjkSG6T8DnCHiHyQ2dTLOMD7E9HiivcVmZyMFXztnYurOzx9Zg"
-    },
-    {
-      "brand": "Samsung",
-      "codename": "trelte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "trelte",
-      "manufacturer": "Samsung",
-      "name": "Galaxy Note 4",
-      "screenDensity": 386,
-      "screenX": 1080,
-      "screenY": 1920,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh6.ggpht.com/8qr_PPL_r54sWO7mVhB61LlWwOubtEKClsdxVUG6aYmKoeUpyJH9SzNhRlOLVm4sWdgW1EFUbqPi"
-    },
-    {
-      "brand": "xiaomi",
-      "codename": "tulip",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "tulip",
-      "manufacturer": "Xiaomi",
-      "name": "Redmi Note 6 Pro",
-      "screenDensity": 440,
-      "screenX": 1080,
-      "screenY": 2280,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/bwbTMSqiH-CoI8cAX7i7oJPjF4yqybMj7kMbGhO0pPv7PCjI-d-P1xfXKdQn_daqmwm2uacm0oQ"
-    },
-    {
-      "brand": "motorola",
-      "codename": "victara",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "victara",
-      "manufacturer": "Motorola",
-      "name": "XT1092",
-      "screenDensity": 480,
-      "screenX": 1080,
-      "screenY": 1920,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.ggpht.com/n_CStC2vSdJ2DDzLP3NUnSQbnY8pvWJduA9G1MrtJOMDiH8Lxybb7ijgHB5_IaTSaVYRot4TJBWq"
-    },
-    {
-      "brand": "google",
-      "codename": "walleye",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "walleye",
-      "manufacturer": "Google",
-      "name": "Pixel 2",
-      "screenDensity": 420,
-      "screenX": 1080,
-      "screenY": 1920,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
+        "arm64-v8a"
       ],
       "supportedVersionIds": [
-        "27"
+        "33"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/j4urvb3lXTaFGZI6IzHmAjum2HQVID1OHPhDB7dOzRvXb2WscSX2RFwEEFFSYhajqRO5Yu0e6FYQ"
+      "thumbnailUrl": "https://lh3.googleusercontent.com/bR1gb7ZpYNvyOALgrs68oPuhO5_RMPv5Vo9hQKYydyz7rITOzLwIqW4F6Vpc7f21oyXe7BuQE9C3Wg"
     },
     {
       "brand": "samsung",
@@ -4128,7 +1483,13 @@
       "id": "x1q",
       "manufacturer": "Samsung",
       "name": "SM-G981U1",
-      "screenDensity": 640,
+      "perVersionInfo": [
+        {
+          "deviceCapacity": "DEVICE_CAPACITY_HIGH",
+          "versionId": "29"
+        }
+      ],
+      "screenDensity": 480,
       "screenX": 1440,
       "screenY": 3200,
       "supportedAbis": [
@@ -4140,59 +1501,6 @@
         "29"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/FLdP9p2yRcQ1aeg9fa1BWN4Q5EGDh6rT7XX2Qk_p4m3jjPwRwT5IoybWEq1j2yDKpXVKKw6SndY"
-    },
-    {
-      "brand": "samsung",
-      "codename": "young2nfc3g",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "young2nfc3g",
-      "manufacturer": "Samsung",
-      "name": "SM-G130HN",
-      "screenDensity": 160,
-      "screenX": 320,
-      "screenY": 480,
-      "supportedAbis": [
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh6.ggpht.com/yk2gTaFF718vQa--3_j-Nb4M-LZzM16zLpg7huheW2mWCTJFB8uHFOooibCytuCZUo55UlyT6giF"
-    },
-    {
-      "brand": "samsung",
-      "codename": "zeroflte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "zeroflte",
-      "manufacturer": "Samsung",
-      "name": "SM-G920F",
-      "screenDensity": 640,
-      "screenX": 2560,
-      "screenY": 1440,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh5.ggpht.com/_lP3rtazy3LYQDdsliGG7d0F3zyEQKPFwvYrKShUJXVRoEWGwkyQnCRP3SCezNpu1akuGKM7n9s"
-    },
-    {
-      "brand": "samsung",
-      "codename": "zerolte",
-      "form": "PHYSICAL",
-      "formFactor": "PHONE",
-      "id": "zerolte",
-      "manufacturer": "Samsung",
-      "name": "SM-G925F",
-      "screenDensity": 640,
-      "screenX": 1440,
-      "screenY": 2560,
-      "supportedAbis": [
-        "arm64-v8a",
-        "armeabi",
-        "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.ggpht.com/YQkwIrvXX8fZlTajcJzdrvRoCBrjEG7xPCRzA5c1LaNmpV4deSFoj-w8ulLVL06OY1IqVFQA_Q4y8A"
     }
   ],
   "runtimeConfiguration": {
@@ -7089,17 +4397,6 @@
   },
   "versions": [
     {
-      "apiLevel": 18,
-      "codeName": "Jelly Bean",
-      "id": "18",
-      "releaseDate": {
-        "day": 3,
-        "month": 10,
-        "year": 2013
-      },
-      "versionString": "4.3.x"
-    },
-    {
       "apiLevel": 19,
       "codeName": "KitKat",
       "id": "19",
@@ -7196,9 +4493,6 @@
         "month": 8,
         "year": 2018
       },
-      "tags": [
-        "default"
-      ],
       "versionString": "9.x"
     },
     {
@@ -7221,6 +4515,9 @@
         "month": 9,
         "year": 2020
       },
+      "tags": [
+        "default"
+      ],
       "versionString": "11"
     },
     {
@@ -7233,6 +4530,39 @@
         "year": 2021
       },
       "versionString": "12"
+    },
+    {
+      "apiLevel": 32,
+      "codeName": "S",
+      "id": "32",
+      "releaseDate": {
+        "day": 5,
+        "month": 3,
+        "year": 2022
+      },
+      "versionString": "12"
+    },
+    {
+      "apiLevel": 33,
+      "codeName": "T",
+      "id": "33",
+      "releaseDate": {
+        "day": 13,
+        "month": 5,
+        "year": 2022
+      },
+      "versionString": "13"
+    },
+    {
+      "apiLevel": 34,
+      "codeName": "UpsideDownCake",
+      "id": "34",
+      "releaseDate": {
+        "day": 13,
+        "month": 5,
+        "year": 2023
+      },
+      "versionString": "14"
     }
   ]
 }
