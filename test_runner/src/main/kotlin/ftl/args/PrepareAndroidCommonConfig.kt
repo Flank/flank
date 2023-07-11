@@ -3,6 +3,8 @@ package ftl.args
 import ftl.client.google.AndroidCatalog
 import ftl.config.AndroidConfig
 import ftl.config.Device
+import ftl.config.containsArmDevices
+import ftl.config.containsNonArmDevices
 import ftl.config.containsPhysicalDevices
 import ftl.config.containsVirtualDevices
 
@@ -22,12 +24,21 @@ private fun List<Device>.calculateMaxTestShards(maxTestShards: Int) =
     else scaleMaxShardsByDevice(maxTestShards)
 
 private fun List<Device>.getMaxShardsByDevice() =
-    if (containsPhysicalDevices()) IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last
-    else IArgs.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.last
+    when {
+        containsPhysicalDevices() -> IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last
+        containsArmDevices() -> IArgs.AVAILABLE_VIRTUAL_ARM_SHARD_COUNT_RANGE.last
+        else -> IArgs.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.last
+    }
 
 private fun List<Device>.scaleMaxShardsByDevice(maxTestShards: Int) =
-    if (containsPhysicalDevices() && containsVirtualDevices()) maxTestShards.scaleToPhysicalShardsCount()
-    else maxTestShards
+    when {
+        containsPhysicalDevices() && containsVirtualDevices() -> maxTestShards.scaleToPhysicalShardsCount()
+        containsArmDevices() && containsNonArmDevices() -> maxTestShards.scaleToArmShardsCount()
+        else -> maxTestShards
+    }
 
 private fun Int.scaleToPhysicalShardsCount() = if (this !in IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE)
     IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last else this
+
+private fun Int.scaleToArmShardsCount() = if (this !in IArgs.AVAILABLE_VIRTUAL_ARM_SHARD_COUNT_RANGE)
+    IArgs.AVAILABLE_VIRTUAL_ARM_SHARD_COUNT_RANGE.last else this

@@ -11,6 +11,8 @@ import ftl.client.google.SupportedDeviceConfig
 import ftl.client.google.UnsupportedModelId
 import ftl.client.google.UnsupportedVersionId
 import ftl.config.Device
+import ftl.config.containsArmDevices
+import ftl.config.containsNonArmDevices
 import ftl.config.containsPhysicalDevices
 import ftl.config.containsVirtualDevices
 import ftl.run.exception.FlankConfigurationError
@@ -171,17 +173,23 @@ private fun AndroidArgs.assertMaxTestShardsByDeviceType() =
     }
 
 private fun AndroidArgs.assertDevicesShards() {
-    if (inVirtualRange && !inPhysicalRange) logLn("Physical devices configured, but max-test-shards limit set to $maxTestShards, for physical devices range is ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.first} to ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}, you additionally have configured virtual devices. In this case, the physical limit will be decreased to: ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}")
-    else if (!inVirtualRange && !inPhysicalRange) throwMaxTestShardsLimitExceeded()
+    when {
+        inVirtualRange && !inPhysicalRange -> logLn("Physical devices configured, but max-test-shards limit set to $maxTestShards. For physical devices range is ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.first} to ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}, you additionally have configured virtual devices. In this case, the maximum shards will be decreased to: ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}")
+        !inVirtualRange && !inPhysicalRange -> throwMaxTestShardsLimitExceeded()
+    }
 }
 
 private fun AndroidArgs.assertVirtualDevicesShards() {
-    if (!inVirtualRange) throwMaxTestShardsLimitExceeded()
+    when {
+        devices.containsArmDevices() && devices.containsNonArmDevices() -> logLn("Arm devices configured, but max-test-shards limit set to $maxTestShards. For Arm devices, the range is ${IArgs.AVAILABLE_VIRTUAL_ARM_SHARD_COUNT_RANGE.first} to ${IArgs.AVAILABLE_VIRTUAL_ARM_SHARD_COUNT_RANGE.last}, you additionally have configured other virtual devices. In this case, the maximum shards will be decreased to: ${IArgs.AVAILABLE_VIRTUAL_ARM_SHARD_COUNT_RANGE.last}")
+        devices.containsArmDevices() && !inArmRange -> throwMaxTestShardsLimitExceeded()
+        !inVirtualRange -> throwMaxTestShardsLimitExceeded()
+    }
 }
 
 private fun AndroidArgs.throwMaxTestShardsLimitExceeded(): Nothing {
     throw FlankConfigurationError(
-        "max-test-shards must be >= ${IArgs.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.first} and <= ${IArgs.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.last} for virtual devices, for physical devices max-test-shards must be >= ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.first} and <= ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}, or -1. But current is $maxTestShards"
+        "max-test-shards must be >= ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.first} and <= ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last} if there are physical devices configured,  >= ${IArgs.AVAILABLE_VIRTUAL_ARM_SHARD_COUNT_RANGE.first} and <= ${IArgs.AVAILABLE_VIRTUAL_ARM_SHARD_COUNT_RANGE.last} if there are Arm devices configured, >= ${IArgs.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.first} and <= ${IArgs.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.last} if there are only non-Arm virtual devices configured, or -1. Current configuration value is $maxTestShards"
     )
 }
 
