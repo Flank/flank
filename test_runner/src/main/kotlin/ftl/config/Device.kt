@@ -43,3 +43,7 @@ fun Map<String, String>.asDevice(android: Boolean) =
 fun List<Device>.containsVirtualDevices() = any { it.isVirtual }
 
 fun List<Device>.containsPhysicalDevices() = any { !it.isVirtual }
+
+fun List<Device>.containsArmDevices() = any { it.model.endsWith(".arm") }
+
+fun List<Device>.containsNonArmDevices() = any { !it.model.endsWith(".arm") }

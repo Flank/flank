@@ -3,6 +3,7 @@ package ftl.args
 import com.google.common.truth.Truth.assertThat
 import com.google.api.services.testing.model.TestSpecification
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
+import ftl.args.IArgs.Companion.AVAILABLE_VIRTUAL_ARM_SHARD_COUNT_RANGE
 import ftl.args.IArgs.Companion.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE
 import ftl.args.yml.AppTestPair
 import ftl.args.yml.Type
@@ -549,6 +550,36 @@ AndroidArgs
         val testShardChunks = getAndroidShardChunks(androidArgs)
         with(androidArgs) {
             assert(maxTestShards, AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.last)
+            assert(testShardChunks.size, 2)
+            testShardChunks.forEach { chunk -> assert(chunk.size, 1) }
+        }
+    }
+
+    @Test
+    fun negativeOneTestShardsWithArmDevice() {
+        val androidArgs = AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testErrorApk
+          device:
+          - model: NexusLowRes
+            version: 23
+            locale: en
+            orientation: portrait
+          - model: SmallPhone.arm
+            version: 30
+            locale: en
+            orientation: portrait
+
+        flank:
+          max-test-shards: -1
+      """
+        )
+
+        val testShardChunks = getAndroidShardChunks(androidArgs)
+        with(androidArgs) {
+            assert(maxTestShards, AVAILABLE_VIRTUAL_ARM_SHARD_COUNT_RANGE.last)
             assert(testShardChunks.size, 2)
             testShardChunks.forEach { chunk -> assert(chunk.size, 1) }
         }
@@ -1824,6 +1855,9 @@ AndroidArgs
         assertTrue(testSpecification.androidInstrumentationTest.testTargets.isNotEmpty())
     }
 
+    // This and the "should limit shards to virtual limit if only virtual device configured"
+    // test seem to basically be testing the same behavior as well as the
+    // negativeOneTestShards test?
     @Test
     fun `if set max-test-shards to -1 should give maximum amount`() {
         val yaml = """
@@ -1865,7 +1899,7 @@ AndroidArgs
     }
 
     @Test
-    fun `should limit shards to virtual if only virtual device configured`() {
+    fun `should limit shards to virtual limit if only virtual device configured`() {
         val yaml = """
         gcloud:
           app: $appApk
@@ -1876,6 +1910,25 @@ AndroidArgs
         """.trimIndent()
         val args = AndroidArgs.load(yaml).validate()
         assertEquals(AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.last, args.maxTestShards)
+    }
+
+    @Test
+    fun `should limit shards to Arm limit if any Arm device and no physical device configured `() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+          - model: SmallPhone.arm
+            version: 30
+            locale: en
+            orientation: portrait
+        flank:
+          max-test-shards: -1
+          disable-results-upload: true
+        """.trimIndent()
+        val args = AndroidArgs.load(yaml).validate()
+        assertEquals(AVAILABLE_VIRTUAL_ARM_SHARD_COUNT_RANGE.last, args.maxTestShards)
     }
 
     @Test
@@ -1900,6 +1953,47 @@ AndroidArgs
           test: $testApk
         flank:
           max-test-shards: ${AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.last + 1}
+          disable-results-upload: true
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw when maximum test shards for Arm devices limit exceeded`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+          - model: SmallPhone.arm
+            version: 30
+            locale: en
+            orientation: portrait
+        flank:
+          max-test-shards: ${AVAILABLE_VIRTUAL_ARM_SHARD_COUNT_RANGE.last + 1}
+          disable-results-upload: true
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should not throw when maximum test shards for Arm devices limit exceeded and non-Arm devices configured`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+          - model: SmallPhone.arm
+            version: 30
+            locale: en
+            orientation: portrait
+          device:
+          - model: NexusLowRes
+            version: 23
+            locale: en
+            orientation: portrait
+        flank:
+          max-test-shards: ${AVAILABLE_VIRTUAL_ARM_SHARD_COUNT_RANGE.last + 1}
           disable-results-upload: true
         """.trimIndent()
         AndroidArgs.load(yaml).validate()

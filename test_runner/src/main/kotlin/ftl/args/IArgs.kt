@@ -70,6 +70,9 @@ interface IArgs {
     val inVirtualRange: Boolean
         get() = maxTestShards in AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE
 
+    val inArmRange: Boolean
+        get() = maxTestShards in AVAILABLE_VIRTUAL_ARM_SHARD_COUNT_RANGE
+
     val defaultTestTime: Double
     val defaultClassTestTime: Double
     val useAverageTestTimeForNewTests: Boolean
@@ -87,10 +90,14 @@ interface IArgs {
     fun useLocalResultDir() = localResultDir != defaultLocalResultsDir
 
     companion object {
-        // num_shards must be >= 1, and <= 50
+        // num_shards must be >= 1, and <= 50 for physical devices
         val AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE = 1..50
 
+        // num_shards must be >= 1, and <= 500 for non-Arm virtual devices
         val AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE = 1..500
+
+        // num_shards must be >= 1, and <= 100 for Arm virtual devices
+        val AVAILABLE_VIRTUAL_ARM_SHARD_COUNT_RANGE = 1..100
     }
 
     interface ICompanion {
