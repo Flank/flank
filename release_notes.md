@@ -1,3 +1,7 @@
+## v23.07.0
+### Bug Fixes
+- [#2404](https://github.com/Flank/flank/pull/2404) Set correct max test shards when arm devices are configured ()
+
 ## v23.06.2
 ### Bug Fixes
 - [#2392](https://github.com/Flank/flank/pull/2392) Update out of date dependencies ()
