@@ -73,8 +73,8 @@ gcloud:
 
   ### Results Directory
   ## The name of a unique Google Cloud Storage object within the results bucket where raw test results will be stored
-  ## (default: a timestamp with a random suffix).
-  # results-dir: tmp
+  ## (default: a timestamp with a random suffix). 
+  # results-dir: tmp # Caution: this argument must be unique for each test matrix you create, otherwise results from multiple test matrices will be overwritten or intermingled, using "tmp" will not be unique.
 
   ### Record Video flag
   ## Enable video recording during the test. Disabled by default. Use --record-video to enable.
