@@ -94,7 +94,7 @@ jobs:
           # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
 
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Checkout Pull Request
         if: github.event_name == 'issue_comment'
@@ -157,7 +157,7 @@ jobs:
             Windows,Windows-bs,macOS,macOS-bs,Linux,Linux-bs
 
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Download flankScripts and add it to PATH
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

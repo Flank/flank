@@ -31,7 +31,7 @@ jobs:
           # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
 
       - name: "Checkout code"
-        uses: actions/checkout@v3 # tag=v3.0.0
+        uses: actions/checkout@v4 # tag=v3.0.0
         with:
           persist-credentials: false
 
