@@ -25,7 +25,7 @@ jobs:
         additional-packages:
           dos2unix
 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: gradle/wrapper-validation-action@v1
     - uses: actions/cache@v3
       with:
