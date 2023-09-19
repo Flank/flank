@@ -224,7 +224,7 @@ jobs:
           egress-policy: audit
           # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
 
-      - uses: tibdex/github-app-token@v1
+      - uses: tibdex/github-app-token@v2
         id: generate-token
         with:
           app_id: ${{ secrets.FLANK_RELEASE_APP_ID }}
