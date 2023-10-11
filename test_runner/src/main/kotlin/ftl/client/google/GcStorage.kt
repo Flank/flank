@@ -6,6 +6,7 @@ import com.google.cloud.storage.Storage
 import com.google.cloud.storage.Storage.BlobListOption.pageSize
 import com.google.cloud.storage.Storage.BlobListOption.prefix
 import com.google.cloud.storage.StorageOptions
+import com.google.cloud.storage.StorageRetryStrategy
 import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
 import com.google.common.annotations.VisibleForTesting
 import flank.common.join
@@ -23,13 +24,24 @@ import java.nio.ByteBuffer
 import java.nio.file.Files
 import java.util.concurrent.ConcurrentHashMap
 
+
 object GcStorage {
 
     private val uploadCache: ConcurrentHashMap<String, String> = ConcurrentHashMap()
     private val downloadCache: ConcurrentHashMap<String, String> = ConcurrentHashMap()
 
     val storageOptions: StorageOptions by lazy {
+        // Set the max number of attempts to 4 (initial attempt plus 3 retries)
+        val retrySettings = StorageOptions.getDefaultRetrySettings()
+            .toBuilder()
+            .setMaxAttempts(4)
+            .setRetryDelayMultiplier(2.0)
+            .setTotalTimeout(org.threeten.bp.Duration.ofMinutes(3))
+            .build()
+
         val builder = StorageOptions.newBuilder()
+            .setStorageRetryStrategy(StorageRetryStrategy.getDefaultStorageRetryStrategy())
+            .setRetrySettings(retrySettings)
         if (FtlConstants.useMock) builder.setHost(FtlConstants.localhost)
         builder.setCredentials(credential)
 
