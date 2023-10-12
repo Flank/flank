@@ -1,3 +1,9 @@
+## v23.10.0
+### Bug Fixes
+- [#2438](https://github.com/Flank/flank/pull/2438) Replace hub with GitHub CLI 'gh' for GitHub Actions ([schnecle](https://github.com/schnecle))
+### Features
+- [#2437](https://github.com/Flank/flank/pull/2437) Add retry configuration to Google Cloud Storage client ([schnecle](https://github.com/schnecle))
+
 ## v23.07.0
 ### Bug Fixes
 - [#2404](https://github.com/Flank/flank/pull/2404) Set correct max test shards when arm devices are configured ()
