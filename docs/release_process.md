@@ -5,7 +5,7 @@
 1. A release process should be run withing macOS environment
 2. The machine should contain:
     `homebrew` - Package manager
-    `hub` - Github CLI tool
+    `gh` - Github CLI tool
 
 ## Current setup
 
