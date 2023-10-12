@@ -69,20 +69,11 @@ jobs:
       with:
         arguments: "clean test_runner:build test_runner:shadowJar"
 
-    - name: Authenticate to hub
-      run: |
-            mkdir -p ~/.config/
-
-            cat << EOF > ~/.config/hub
-            github.com:
-            - user: $GITHUB_ACTOR
-              oauth_token: ${{ secrets.GITHUB_TOKEN }}
-              protocol: https
-            EOF
-
     - name: Delete old release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        hub version
+        gh --version
         flankScripts github delete_release --git-tag=$RELEASE_TAG
 
     - name: Delete old tag
@@ -91,10 +82,14 @@ jobs:
 
     - name: Release snapshot
       if: ${{ env.RELEASE_TAG == 'flank-snapshot' }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: flankScripts github make_release --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --commit-hash=$GIT_SHORT_HASH --snapshot
 
     - name: Release stable
       if: startsWith(github.ref, 'refs/tags/v')
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: flankScripts github make_release --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --token=${{ secrets.GITHUB_TOKEN }}
 
     - name: Append checksum to release
