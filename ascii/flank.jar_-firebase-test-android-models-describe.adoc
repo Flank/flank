@@ -1,0 +1,45 @@
+// tag::picocli-generated-full-manpage[]
+
+// tag::picocli-generated-man-section-name[]
+== Name
+
+flank.jar
+-firebase-test-android-models-describe - Describe android model 
+
+// end::picocli-generated-man-section-name[]
+
+// tag::picocli-generated-man-section-synopsis[]
+== Synopsis
+
+*flank.jar
+ firebase test android models describe* [*-h*] [*-c*=_<configPath>_] _MODEL_ID_
+
+// end::picocli-generated-man-section-synopsis[]
+
+// tag::picocli-generated-man-section-description[]
+== Description
+
+
+
+// end::picocli-generated-man-section-description[]
+
+// tag::picocli-generated-man-section-options[]
+== Options
+
+*-c*, *--config*=_<configPath>_::
+  YAML config file path
+
+*-h*, *--help*::
+  Prints this help message
+
+// end::picocli-generated-man-section-options[]
+
+// tag::picocli-generated-man-section-arguments[]
+== Arguments
+
+_MODEL_ID_::
+  The models to describe, found using $ gcloud firebase test android models list.
+
+// end::picocli-generated-man-section-arguments[]
+
+// end::picocli-generated-full-manpage[]

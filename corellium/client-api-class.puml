@@ -1,0 +1,195 @@
+
+@startuml
+
+left to right direction
+
+package flank.corellium.client {
+package core {
+
+object connectCorellium {
+api: String
+username: String
+password: String
+}
+
+interface Corellium
+
+package core.Api.kt {
+
+object getAllProjects
+object getProjectIdList
+object createNewInstance {
+newInstance: Instance
+}
+object getProjectInstancesList {
+projectId: String
+}
+object getInstanceInfo {
+instanceId: String
+}
+object deleteInstance {
+instanceId: String
+}
+object startInstance {
+instanceId: String
+}
+object stopInstance {
+instanceId: String
+}
+object pauseInstance {
+instanceId: String
+}
+object unpauseInstance {
+instanceId: String
+}
+object waitUntilInstanceIsReady {
+instanceId: String
+}
+object connectAgent {
+agentInfo: String
+}
+object connectConsole {
+instanceId: String
+}
+object getVPNConfig {
+projectId: String
+type: VPN
+id: String = UUID.randomUUID().toString()
+}
+}
+}
+package agent {
+interface Agent
+package agent.api {
+object uploadFile {
+path: String
+bytes: ByteArray
+}
+object disconnect
+}
+}
+
+package console {
+interface Console
+package console.Api.kt {
+object sendCommand {
+command: String
+}
+object waitForIdle {
+timeToWait: Long
+}
+object flowLogs
+object clear
+object close
+}
+}
+
+package DTO {
+class "List<Project>"
+
+class Project {
+id: String
+name: String
+quotas: Quotas
+quotasUsed: Quotas
+}
+
+class "List<Id>"
+
+class Id {
+String
+}
+
+class ProjectQuotas {
+cores: Int
+instances: Int
+ram: Int
+cpus: Int
+gpus: Int?
+instance: Int?
+}
+
+class BootOptions {
+bootArgs: String
+restoreBootArgs: String
+udid: String
+ecid: String
+screen: String
+}
+
+class "List<Instance>"
+
+class Instance {
+id: String
+name: String
+key: String
+flavor: String
+type: String
+project: String
+state: String
+patches: List<String>
+os: String
+osbuild: String
+serviceIp: String
+portAdb: String
+bootOptions: BootOptions
+agent: InstanceAgent?
+}
+
+class InstanceAgent {
+hash: String
+info: String
+}
+
+}
+
+class "Flow<String>"
+}
+
+connectCorellium ..> Corellium
+
+Corellium <--- getAllProjects
+Corellium <--- getProjectInstancesList
+Corellium <--- getInstanceInfo
+Corellium <--- deleteInstance
+Corellium <--- getProjectIdList
+Corellium <--- createNewInstance
+Corellium <--- startInstance
+Corellium <--- stopInstance
+Corellium <--- pauseInstance
+Corellium <--- unpauseInstance
+Corellium <--- waitUntilInstanceIsReady
+Corellium <---  getVPNConfig
+Corellium <---  connectAgent
+Corellium <---  connectConsole
+
+
+getAllProjects ..> "List<Project>"
+getProjectIdList ..> "List<Id>"
+getProjectInstancesList ..> "List<Instance>"
+createNewInstance ..> Id
+getInstanceInfo ..> Instance
+
+"List<Project>" o-- Project
+"List<Id>" o-right- Id
+"List<Instance>" o-right- Instance
+
+
+connectAgent ..> Agent
+connectConsole ..> Console
+
+Agent <-- uploadFile
+Agent <-- disconnect
+
+Console <-- sendCommand
+Console <-- flowLogs
+Console <-- waitForIdle
+Console <-- clear
+Console <-- close
+
+flowLogs ..> "Flow<String>"
+
+Instance *-- BootOptions
+Instance o-- InstanceAgent
+Project *-- ProjectQuotas
+@enduml

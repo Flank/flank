@@ -1,0 +1,34 @@
+// tag::picocli-generated-full-manpage[]
+
+// tag::picocli-generated-man-section-name[]
+== Name
+
+flank.jar
+-firebase-test-ip-blocks - Explore IP blocks used by Firebase Test Lab devices.
+
+// end::picocli-generated-man-section-name[]
+
+// tag::picocli-generated-man-section-synopsis[]
+== Synopsis
+
+*flank.jar
+ firebase test ip-blocks* [COMMAND]
+
+// end::picocli-generated-man-section-synopsis[]
+
+// tag::picocli-generated-man-section-description[]
+== Description
+
+
+
+// end::picocli-generated-man-section-description[]
+
+// tag::picocli-generated-man-section-commands[]
+== Commands
+
+*list*::
+  List all IP address blocks used by Firebase Test Lab devices
+
+// end::picocli-generated-man-section-commands[]
+
+// end::picocli-generated-full-manpage[]

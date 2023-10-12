@@ -1,0 +1,37 @@
+// tag::picocli-generated-full-manpage[]
+
+// tag::picocli-generated-man-section-name[]
+== Name
+
+flank.jar
+-android-locales - Information about available locales on device
+
+// end::picocli-generated-man-section-name[]
+
+// tag::picocli-generated-man-section-synopsis[]
+== Synopsis
+
+*flank.jar
+ android locales* [COMMAND]
+
+// end::picocli-generated-man-section-synopsis[]
+
+// tag::picocli-generated-man-section-description[]
+== Description
+
+Information about available locales on device. For example prints list of available locales to test against
+
+// end::picocli-generated-man-section-description[]
+
+// tag::picocli-generated-man-section-commands[]
+== Commands
+
+*list*::
+  Print current list of locales available to test against
+
+*describe*::
+  Describe a locales 
+
+// end::picocli-generated-man-section-commands[]
+
+// end::picocli-generated-full-manpage[]

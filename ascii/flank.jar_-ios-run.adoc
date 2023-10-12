@@ -1,0 +1,223 @@
+// tag::picocli-generated-full-manpage[]
+
+// tag::picocli-generated-man-section-name[]
+== Name
+
+flank.jar
+-ios-run - Run tests on Firebase Test Lab
+
+// end::picocli-generated-man-section-name[]
+
+// tag::picocli-generated-man-section-synopsis[]
+== Synopsis
+
+*flank.jar
+ ios run* [*-h*] [*--async*] [*--disable-results-upload*]
+                   [*--disable-sharding*] [*--disable-usage-statistics*] [*--dry*]
+                   [*--dump-shards*] [*--fail-fast*] [*--full-junit-result*]
+                   [*--ignore-failed-tests*] [*--keep-file-path*]
+                   [*--no-record-video*] [*--obfuscate*] [*--record-video*]
+                   [*--smart-flank-disable-upload*] [*--test-special-entitlements*]
+                   [*--use-average-test-time-for-new-tests*] [*--app*=_<app>_]
+                   [*-c*=_<configPath>_] [*--default-test-time*=_<defaultTestTime>_]
+                   [*--local-result-dir*=_<localResultsDir>_]
+                   [*--max-test-shards*=_<maxTestShards>_]
+                   [*--network-profile*=_<networkProfile>_]
+                   [*--num-flaky-test-attempts*=_<flakyTestAttempts>_]
+                   [*--num-test-runs*=_<repeatTests>_]
+                   [*--only-test-configuration*=_<onlyTestConfiguration>_]
+                   [*--output-report*=_<outputReport>_]
+                   [*--output-style*=_<outputStyle>_] [*--project*=_<project>_]
+                   [*--results-bucket*=_<resultsBucket>_]
+                   [*--results-dir*=_<resultsDir>_]
+                   [*--results-history-name*=_<resultsHistoryName>_]
+                   [*--run-timeout*=_<runTimeout>_] [*--shard-time*=_<shardTime>_]
+                   [*--skip-test-configuration*=_<skipTestConfiguration>_]
+                   [*--smart-flank-gcs-path*=_<smartFlankGcsPath>_] [*--test*=_<test>_]
+                   [*--timeout*=_<timeout>_] [*--type*=_<type>_]
+                   [*--xcode-version*=_<xcodeVersion>_]
+                   [*--xctestrun-file*=_<xctestrunFile>_]
+                   [*--additional-ipas*=_<additionalIpas>_[,
+                   _<additionalIpas>_...]]... [*--client-details*=_<String=String>_[,
+                   _<String=String>_...]]... [*--device*=_<String=String>_[,
+                   _<String=String>_...]]...
+                   [*--directories-to-pull*=_<directoriesToPull>_[,
+                   _<directoriesToPull>_...]]...
+                   [*--files-to-download*=_<filesToDownload>_[,
+                   _<filesToDownload>_...]]... [*--other-files*=_<String=String>_[,
+                   _<String=String>_...]]... [*--scenario-numbers*=_<scenarioNumbers>_
+                   [,_<scenarioNumbers>_...]]... [*--test-targets*=_<testTargets>_[,
+                   _<testTargets>_...]]...
+                   [*--test-targets-always-run*=_<testTargetsAlwaysRun>_[,
+                   _<testTargetsAlwaysRun>_...]]...
+
+// end::picocli-generated-man-section-synopsis[]
+
+// tag::picocli-generated-man-section-description[]
+== Description
+
+Uploads the app and tests to GCS.
+Runs the XCTests and XCUITests.
+Configuration is read from flank.yml
+
+
+// end::picocli-generated-man-section-description[]
+
+// tag::picocli-generated-man-section-options[]
+== Options
+
+*--results-bucket*=_<resultsBucket>_::
+  The name of a Google Cloud Storage bucket where raw test results will be stored (default: "test-lab-<random-UUID>"). Note that the bucket must be owned by a billing-enabled project, and that using a non-default bucket will result in billing charges for the storage used.
+
+*--results-dir*=_<resultsDir>_::
+  The name of a unique Google Cloud Storage object within the results bucket where raw test results will be stored (default: a timestamp with a random suffix). Caution: if specified, this argument must be unique for each test matrix you create, otherwise results from multiple test matrices will be overwritten or intermingled.
+
+*--record-video*::
+  Enable video recording during the test. Disabled by default.
+
+*--no-record-video*::
+  Disable video recording during the test (default behavior). Use --record-video to enable.
+
+*--timeout*=_<timeout>_::
+  The max time this test execution can run before it is cancelled (default: 15m). It does not include any time necessary to prepare and clean up the target device. The maximum possible testing time is 45m on physical devices and 60m on virtual devices. The TIMEOUT units can be h, m, or s. If no unit is given, seconds are assumed. 
+
+*--async*::
+  Invoke a test asynchronously without waiting for test results.
+
+*--client-details*=_<String=String>_[,_<String=String>_...]::
+  Comma-separated, KEY=VALUE map of additional details to attach to the test matrix.Arbitrary KEY=VALUE pairs may be attached to a test matrix to provide additional context about the tests being run.When consuming the test results, such as in Cloud Functions or a CI system,these details can add additional context such as a link to the corresponding pull request.
+
+*--network-profile*=_<networkProfile>_::
+  The name of the network traffic profile, for example --network-profile=LTE, which consists of a set of parameters to emulate network conditions when running the test (default: no network shaping; see available profiles listed by the `flank test network-profiles list` command). This feature only works on physical devices. 
+
+*--results-history-name*=_<resultsHistoryName>_::
+  The history name for your test results (an arbitrary string label; default: the application's label from the APK manifest). All tests which use the same history name will have their results grouped together in the Firebase console in a time-ordered test history list.
+
+*--num-flaky-test-attempts*=_<flakyTestAttempts>_::
+  The number of times a TestExecution should be re-attempted if one or more of its test cases fail for any reason. The maximum number of reruns allowed is 10. Default is 0, which implies no reruns.
+
+*--directories-to-pull*=_<directoriesToPull>_[,_<directoriesToPull>_...]::
+  A list of paths that will be copied from the device's storage to the designated results bucket after the test is complete. For Android devices these must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2). Path names are restricted to the characters a-zA-Z0-9_-./+. The paths /sdcard and /data will be made available and treated as implicit path substitutions. E.g. if /sdcard on a particular device does not map to external storage, the system will replace it with the external storage path prefix for that device. For iOS devices these must be absolute paths under /private/var/mobile/Media or /Documents of the app under test. If the path is under an app's /Documents, it must be prefixed with the app's bundle id and a colon
+
+*--other-files*=_<String=String>_[,_<String=String>_...]::
+  A list of device-path=file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push.
+
+*--scenario-numbers*=_<scenarioNumbers>_[,_<scenarioNumbers>_...]::
+  A list of game-loop scenario numbers which will be run as part of the test (default: all scenarios). A maximum of 1024 scenarios may be specified in one test matrix, but the maximum number may also be limited by the overall test --timeout setting.
+
+*--fail-fast*::
+  If true, only a single attempt at most will be made to run each execution/shard in the matrix. Flaky test attempts are not affected. Normally, 2 or more attempts are made if a potential infrastructure issue is detected. This feature is for latency sensitive workloads.
+
+*--type*=_<type>_::
+  The type of test to run. TYPE must be one of: instrumentation, robo, xctest, game-loop.
+
+*--max-test-shards*=_<maxTestShards>_::
+  The amount of matrices to split the tests across.
+
+*--shard-time*=_<shardTime>_::
+  The max amount of seconds each shard should run.
+
+*--num-test-runs*=_<repeatTests>_::
+  The amount of times to run the test executions.
+
+*--smart-flank-gcs-path*=_<smartFlankGcsPath>_::
+  Google cloud storage path to save test timing data used by smart flank.
+
+*--smart-flank-disable-upload*::
+  Disables smart flank JUnit XML uploading. Useful for preventing timing data from being updated.
+
+*--disable-sharding*::
+  Disable sharding.
+
+*--test-targets-always-run*=_<testTargetsAlwaysRun>_[,_<testTargetsAlwaysRun>_...]::
+  A list of one or more test methods to be added at the top of every shard. Flank doesn't ensure execution order of added tests.
+
+*--files-to-download*=_<filesToDownload>_[,_<filesToDownload>_...]::
+  A list of paths that will be downloaded from the resulting bucket to the local results folder after the test is complete. These must be absolute paths (for example, --files-to-download /images/tempDir1,/data/local/tmp/tempDir2). Path names are restricted to the characters a-zA-Z0-9_-./+.
+
+*--project*=_<project>_::
+  The Google Cloud Platform project name to use for this invocation. If omitted, then the project from the service account credential is used
+
+*--local-result-dir*=_<localResultsDir>_::
+  Saves test result to this local folder. Deleted before each run.
+
+*--run-timeout*=_<runTimeout>_::
+  The max time this test run can execute before it is cancelled (default: unlimited).
+
+*--full-junit-result*::
+  Enable create additional local junit result on local storage with failure nodes on passed flaky tests.
+
+*--ignore-failed-tests*::
+  Terminate with exit code 0 when there are failed tests. Useful for Fladle and other gradle plugins that don't expect the process to have a non-zero exit code. The JUnit XML is used to determine failure. (default: false)
+
+*--keep-file-path*::
+  Keeps the full path of downloaded files. Required when file names are not unique.
+
+*--output-style*=_<outputStyle>_::
+  Output style of execution status. May be one of [verbose, multi, single]. For runs with only one test execution the default value is 'verbose', in other cases 'multi' is used as the default. The output style 'multi' is not displayed correctly on consoles which don't support ansi codes, to avoid corrupted output use `single` or `verbose`.
+
+*--disable-results-upload*::
+  Disables flank results upload on gcloud storage.
+
+*--default-test-time*=_<defaultTestTime>_::
+  Set default test time used for calculating shards.
+
+*--use-average-test-time-for-new-tests*::
+  Enable using average time from previous tests duration when using SmartShard and tests did not run before.
+
+*--disable-usage-statistics*::
+  If set to true flank not send usage statistics.
+
+*--output-report*=_<outputReport>_::
+  Saves output results as parsable file and optionally upload it to Gcloud.
+
+*-h*, *--help*::
+  Prints this help message
+
+*--dry*::
+  Dry run on mock server
+
+*-c*, *--config*=_<configPath>_::
+  YAML config file path
+
+*--obfuscate*::
+  Replacing internal test names with unique identifiers when using --dump-shards option to avoid exposing internal details
+
+*--device*=_<String=String>_[,_<String=String>_...]::
+  A list of DIMENSION=VALUE pairs which specify a target device to test against. This flag may be repeated to specify multiple devices. The four device dimensions are: model, version, locale, and orientation. If any dimensions are omitted, they will use a default value. Omitting all of the preceding dimension-related flags will run tests against a single device using defaults for all four device dimensions.
+
+*--xctestrun-file*=_<xctestrunFile>_::
+  The path to an .xctestrun file that will override any .xctestrun file contained in the --test package. Because the .xctestrun file contains environment variables along with test methods to run and/or ignore, this can be useful for customizing or sharding test suites. The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://.
+
+*--xcode-version*=_<xcodeVersion>_::
+  The version of Xcode that should be used to run an XCTest. Defaults to the latest Xcode version supported in Firebase Test Lab. This Xcode version must be supported by all iOS versions selected in the test matrix.
+
+*--additional-ipas*=_<additionalIpas>_[,_<additionalIpas>_...]::
+  List of up to 100 additional IPAs to install, in addition to the one being directly tested. The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
+
+*--test-special-entitlements*::
+  Enables testing special app entitlements. Re-signs an app having special entitlements with a new application-identifier. This currently supports testing Push Notifications (aps-environment) entitlement for up to one app in a project.
++
+Note: Because this changes the app's identifier, make sure none of the resources in your zip file contain direct references to the test app's bundle id.
+
+*--app*=_<app>_::
+  The path to the application archive (.ipa file) for game-loop testing. The path may be in the local filesystem or in Google Cloud Storage using gs:// notation. This flag is only valid when --type=game-loop is also set
+
+*--test*=_<test>_::
+  The path to the test package (a zip file containing the iOS app and XCTest files). The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://. Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file is specified.
+
+*--only-test-configuration*=_<onlyTestConfiguration>_::
+  Constrains a test action to only test a specified test configuration within a test plan and exclude all other test configurations. (default: run all test configurations).Flank can  combine  multiple  constraint options, but -only-test-configuration has precedence over -skip-test-configuration. Each test configuration name must match the name of a configuration specified in a test plan and is case-sensitive.
+
+*--skip-test-configuration*=_<skipTestConfiguration>_::
+  Constrains a test action to skip a specified test configuration and include all other test configurations. (default: run all test configurations). Flank can combine  multiple constraint options, but -only-test-configuration has precedence over -skip-test-configuration. Each test configuration name must match the name of a configuration specified in a test plan and is case-sensitive.
+
+*--test-targets*=_<testTargets>_[,_<testTargets>_...]::
+  A list of one or more test method names to run (default: run all test targets).
+
+*--dump-shards*::
+  Measures test shards from given test apks and writes them into ios_shards.json file instead of executing.
+
+// end::picocli-generated-man-section-options[]
+
+// end::picocli-generated-full-manpage[]

@@ -1,0 +1,34 @@
+// tag::picocli-generated-full-manpage[]
+
+// tag::picocli-generated-man-section-name[]
+== Name
+
+flank.jar
+-auth-login - Obtains access credentials for your user account via a web-based authorization flow.
+
+// end::picocli-generated-man-section-name[]
+
+// tag::picocli-generated-man-section-synopsis[]
+== Synopsis
+
+*flank.jar
+ auth login* [*-h*]
+
+// end::picocli-generated-man-section-synopsis[]
+
+// tag::picocli-generated-man-section-description[]
+== Description
+
+Authenticates using your user account. For CI, a service account is recommended.
+
+// end::picocli-generated-man-section-description[]
+
+// tag::picocli-generated-man-section-options[]
+== Options
+
+*-h*, *--help*::
+  Prints this help message
+
+// end::picocli-generated-man-section-options[]
+
+// end::picocli-generated-full-manpage[]

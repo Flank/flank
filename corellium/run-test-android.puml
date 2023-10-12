@@ -1,0 +1,104 @@
+@startuml
+
+'----------------- Style
+
+skinparam componentStyle rectangle
+left to right direction
+
+'----------------- Structures
+
+package flank.corellium {
+package presentation {
+[Run command]
+}
+package domain {
+[Run android Tests]
+() "Internal steps"
+[Authorize]
+[Parse test cases]
+[Prepare shards]
+[Create output dir]
+[Dump shards]
+[Invoke devices]
+[Install Apks]
+[Parse apks info]
+[Execute Tests]
+[Clean up instances]
+[Generate Report]
+[Finish]
+}
+package tool {
+[Generate JUnit report]
+[Parse am instrument log]
+[Format am instrument command]
+[Parse package name]
+[Parse apk info]
+[Dump to writer]
+[Calculate shards]
+[Parse apk test cases]
+}
+package api {
+() "Invoke android devices"
+() "Install android apps"
+() "Execute android test plan"
+() "Request authorization"
+}
+package adapter {
+[Create Corellium API]
+[Corellium API Adapter]
+}
+package client {
+[Corellium]
+}
+}
+
+'----------------- Relations
+
+[Run command] *----- [Create Corellium API]
+[Run command] *-left- [Run android Tests]
+
+[Run android Tests] -left-> () "Internal steps"
+() "Internal steps" .left- [Authorize]
+
+[Authorize] .left-> [Parse test cases]
+[Parse test cases] .left-> [Prepare shards]
+[Prepare shards] .left-> [Create output dir]
+[Create output dir] .left-> [Dump shards]
+[Dump shards] .left-> [Invoke devices]
+[Invoke devices] .left-> [Install Apks]
+[Install Apks] .left-> [Parse apks info]
+[Parse apks info] .left-> [Execute Tests]
+[Execute Tests] .left-> [Clean up instances]
+[Clean up instances] .left-> [Generate Report]
+[Generate Report] .left-> [Finish]
+
+[Authorize] o-- () "Request authorization"
+
+[Parse apk test cases] -down---* [Parse test cases]
+
+[Calculate shards] -down-* [Prepare shards]
+
+[Dump to writer] -down-* [Dump shards]
+
+[Invoke devices] o-- () "Invoke android devices"
+
+[Install Apks] o-- () "Install android apps"
+
+[Parse package name] -down-o [Parse apks info]
+[Parse apk info] -down-o [Parse apks info]
+
+[Format am instrument command] -down-* [Execute Tests]
+[Execute Tests] o-- [Execute android test plan]
+[Parse am instrument log] -down-* [Execute Tests]
+
+[Generate JUnit report] -down-* [Generate Report]
+
+[Request authorization] <|--- [Corellium API Adapter]
+[Install android apps] <|-- [Corellium API Adapter]
+[Invoke android devices] <|-- [Corellium API Adapter]
+[Execute android test plan] <|-- [Corellium API Adapter]
+
+[Create Corellium API] *-left- [Corellium API Adapter]
+[Corellium API Adapter] *-left- [Corellium]
+
+@enduml

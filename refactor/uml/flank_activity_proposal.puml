@@ -1,0 +1,37 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:runMockServerIfNeeded;
+split
+:loadAndroidArgs;
+split again
+:loadIosArgs;
+end split
+:setupLogLevel;
+:configureOutputReport;
+:logArgs;
+:validateArgs;
+split
+:setupMocksIfNeeded;
+:scheduleDeleteLocalResultsDirIfNeeded;
+:startWatch;
+split
+:runAndroidTests;
+split again
+:runIosTests;
+end split
+:pullExecutionStatus;
+:generateReport;
+:printWebLinks;
+:logWebLinks;
+:fetchArtifacts;
+:validateMatricesResult;
+split again
+:dumpAndroidShards;
+split again
+:dumpIosShards;
+end split
+end
+
+@enduml

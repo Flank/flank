@@ -1,0 +1,119 @@
+@startuml
+package "Valid graph" {
+map H1 #lightgreen {
+}
+map I1 #lightgreen {
+}
+map F1 #lightgreen {
+I1 *--> I1
+}
+map E1 #lightgreen {
+I1 *--> I1
+}
+map D1 #lightgreen {
+I1 *--> I1
+}
+map C1 #lightgreen {
+D1 *--> D1
+}
+map B1 #lightgreen {
+C1 *-> C1
+E1 *--> E1
+H1*---> H1
+}
+map A1 #lightgreen {
+B1 *--> B1
+F1 *--> F1
+C1 *--> C1
+I1 *--> I1
+}
+}
+package "Selected graph" {
+map H2 #lightgreen {
+}
+map I2 #lightgreen {
+}
+map F2 #lightgrey {
+I2 *--> I2
+}
+map E2 #lightgreen {
+I2 *--> I2
+}
+map D2 #lightgreen {
+I2 *--> I2
+}
+map C2 #lightgreen {
+D2 *--> D2
+}
+map B2 #lightblue {
+C2 *-> C2
+E2 *--> E2
+H2*---> H2
+}
+map A2 #lightgrey {
+B2 *--> B2
+F2 *--> F2
+C2 *--> C2
+I2 *--> I2
+}
+}
+package "Broken graph" {
+map H3 #lightgreen {
+}
+map I3 #black {
+}
+map F3 #red {
+I3 *--> I3
+}
+map E3 #red {
+I3 *--> I3
+}
+map D3 #red {
+I3 *--> I3
+}
+map C3 #yellow {
+D3 *--> D3
+}
+map B3 #yellow {
+C3 *-> C3
+E3 *--> E3
+H3*---> H3
+}
+map A3 #yellow {
+B3 *--> B3
+F3 *--> F3
+C3 *--> C3
+I3 *--> I3
+}
+}
+
+package "Failed graph" {
+map H4 #lightgreen {
+}
+map I4 #lightgreen {
+}
+map F4 #red {
+I4 *--> I4
+}
+map E4 #yellow {
+I4 *--> I4
+}
+map D4 #yellow {
+I4 *--> I4
+}
+map C4 #lightgrey {
+D4 *--> D4
+}
+map B4 #lightgrey {
+C4 *-> C4
+E4 *--> E4
+H4*---> H4
+}
+map A4 #lightgrey {
+B4 *--> B4
+F4 *--> F4
+C4 *--> C4
+I4 *--> I4
+}
+}
+@enduml

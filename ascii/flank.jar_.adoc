@@ -1,0 +1,69 @@
+// tag::picocli-generated-full-manpage[]
+
+// tag::picocli-generated-man-section-name[]
+== Name
+
+flank.jar
+ - 
+
+// end::picocli-generated-man-section-name[]
+
+// tag::picocli-generated-man-section-synopsis[]
+== Synopsis
+
+*flank.jar
+* [*-v*] [*--debug*] [COMMAND]
+
+// end::picocli-generated-man-section-synopsis[]
+
+// tag::picocli-generated-man-section-description[]
+== Description
+
+
+
+// end::picocli-generated-man-section-description[]
+
+// tag::picocli-generated-man-section-options[]
+== Options
+
+*--debug*::
+  Enables debug logging
+
+*-v*, *--version*::
+  Prints the version
+
+// end::picocli-generated-man-section-options[]
+
+// tag::picocli-generated-man-section-commands[]
+== Commands
+
+*firebase*::
+  
+
+*ios*::
+  
+
+*android*::
+  
+
+*refresh*::
+  Downloads results for the last Firebase Test Lab run
+
+*cancel*::
+  Cancels the last Firebase Test Lab run
+
+*auth*::
+  Manage oauth2 credentials for Google Cloud
+
+*provided-software*::
+  
+
+*network-profiles*::
+  Explore network profiles available for testing.
+
+*ip-blocks*::
+  Explore IP blocks used by Firebase Test Lab devices.
+
+// end::picocli-generated-man-section-commands[]
+
+// end::picocli-generated-full-manpage[]

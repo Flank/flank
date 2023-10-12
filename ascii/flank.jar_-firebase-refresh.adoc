@@ -1,0 +1,36 @@
+// tag::picocli-generated-full-manpage[]
+
+// tag::picocli-generated-man-section-name[]
+== Name
+
+flank.jar
+-firebase-refresh - Downloads results for the last Firebase Test Lab run
+
+// end::picocli-generated-man-section-name[]
+
+// tag::picocli-generated-man-section-synopsis[]
+== Synopsis
+
+*flank.jar
+ firebase refresh* [*-h*]
+
+// end::picocli-generated-man-section-synopsis[]
+
+// tag::picocli-generated-man-section-description[]
+== Description
+
+Selects the most recent run in the results/ folder.
+Reads in the matrix_ids.json file. Refreshes any incomplete matrices.
+
+
+// end::picocli-generated-man-section-description[]
+
+// tag::picocli-generated-man-section-options[]
+== Options
+
+*-h*, *--help*::
+  Prints this help message
+
+// end::picocli-generated-man-section-options[]
+
+// end::picocli-generated-full-manpage[]

@@ -1,0 +1,65 @@
+@startuml
+skinparam ConditionEndStyle hline
+
+|Invoke execution|
+split
+-[hidden]->
+start
+:arguments;
+:initial state;
+repeat :Handle state}
+-[dotted]->
+if (is channel closed for receive?) then
+stop
+else (no)
+endif
+:next result<
+if (on first error) then (true)
+:Abort execution}
+else (false)
+endif
+repeat while (accumulate result)
+detach
+
+|Handle state|
+split again
+-[hidden]->
+if (is complete) then (yes)
+:close channel/
+elseif (is finished) then (yes)
+:nothing to do;
+detach
+else
+:filter tasks for current state;
+:group them by arguments;
+repeat :prepare properties|
+repeat :Execute task}
+repeat while (for each task)
+repeat while (for each group)
+endif
+detach
+
+|Execute task|
+split again
+-[hidden]->
+partition async {
+:log start;
+:prepare context;
+if (execute task in context) then (try)
+:log success;
+else (catch)
+:log exception;
+endif
+:send result]
+detach
+}
+
+|Abort execution|
+split again
+-[hidden]->
+:cancel scope;
+repeat :send "not started"]
+repeat while (for each remaining task)
+:close channel/
+detach
+@enduml

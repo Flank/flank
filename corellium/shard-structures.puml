@@ -1,0 +1,37 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+abstract Apps {
+List<App>
+}
+
+abstract Shards {
+List<Shard>
+}
+
+abstract Shard {
+List<App>
+}
+
+class App {
+name: String
+tests: List<Test>
+}
+
+class Test {
+name: String
+cases: List<Test>
+}
+
+class Case {
+name: String
+duration: Long
+}
+
+Apps "1" o-- "*" App
+Shards "1" o-- "*" Shard
+Shard "1" o-- "*" App
+App "1" o-- "*" Test
+Test "1" o-- "*" Case
+
+@enduml

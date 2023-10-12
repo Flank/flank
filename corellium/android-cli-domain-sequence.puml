@@ -1,0 +1,34 @@
+@startuml
+box "presentation - CLI" #lightBlue
+participant AndroidCorelliumRunCommand
+end box
+
+box "domain - top level" #lightGreen
+participant RunTestAndroidCorellium
+end box
+
+box "domain - low level" #aquamarine
+participant calculateShards
+participant runDevices
+participant installApks
+participant runTests
+end box
+
+
+AndroidCorelliumRunCommand -> RunTestAndroidCorellium
+RunTestAndroidCorellium -> calculateShards
+RunTestAndroidCorellium <-- calculateShards : Shards
+AndroidCorelliumRunCommand <-- RunTestAndroidCorellium : Shards
+AndroidCorelliumRunCommand <-- RunTestAndroidCorellium : Devices starting
+RunTestAndroidCorellium -> runDevices
+RunTestAndroidCorellium <-- runDevices : Unit | Exception
+AndroidCorelliumRunCommand <-- RunTestAndroidCorellium : Devices started | Exception
+RunTestAndroidCorellium -> installApks
+RunTestAndroidCorellium <-- installApks : Unit | Exception
+AndroidCorelliumRunCommand <-- RunTestAndroidCorellium : Devices started | Exception
+AndroidCorelliumRunCommand <-- RunTestAndroidCorellium : Starting tests | Exception
+RunTestAndroidCorellium -> runTests
+RunTestAndroidCorellium <-- runTests : Flow test status
+AndroidCorelliumRunCommand <-- RunTestAndroidCorellium : Tests finished | Exception
+
+@enduml

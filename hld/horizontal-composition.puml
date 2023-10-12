@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/object-diagram
+
+left to right direction
+
+[public function] --> [internal function 1]
+[public function] --> [internal function 2]
+[public function] --> [internal function 3]
+[public function] --> [internal function 4]
+[public function] --> [internal function 7]
+[internal function 2] --> [private function 5]
+[internal function 2] --> [private function 6]
+[internal function 7] --> [private function 8]
+[internal function 7] --> [private function 9]
+[internal function 7] --> [private function 10]
+[internal function 7] --> [private function 11]
+
+
+@enduml

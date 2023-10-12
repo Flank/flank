@@ -1,0 +1,255 @@
+@startuml
+
+class run_refreshLastRun
+
+run_refreshLastRun --> args_IArgs
+run_refreshLastRun --> args_ShardChunks
+run_refreshLastRun --> config_FtlConstants
+run_refreshLastRun --> gc_GcTestMatrix
+run_refreshLastRun --> json_MatrixMap
+run_refreshLastRun --> json_needsUpdate
+run_refreshLastRun --> json_updateMatrixMap
+run_refreshLastRun --> json_updateWithMatrix
+run_refreshLastRun --> json_validate
+run_refreshLastRun --> reports_util_ReportManager
+run_refreshLastRun --> run_common_fetchArtifacts
+run_refreshLastRun --> run_common_getLastArgs
+run_refreshLastRun --> run_common_getLastMatrices
+run_refreshLastRun --> run_common_pollMatrices
+run_refreshLastRun --> run_common_updateMatrixFile
+run_refreshLastRun --> util_MatrixState
+
+run_newTestRun --> args_AndroidArgs
+run_newTestRun --> args_IArgs
+run_newTestRun --> args_IosArgs
+run_newTestRun --> json_SavedMatrix
+run_newTestRun --> json_updateMatrixMap
+run_newTestRun --> json_validate
+run_newTestRun --> reports_util_ReportManager
+run_newTestRun --> run_common_fetchArtifacts
+run_newTestRun --> run_common_pollMatrices
+run_newTestRun --> run_exception_FlankGeneralError
+run_newTestRun --> run_exception_FlankTimeoutError
+run_newTestRun --> run_model_TestResult
+run_newTestRun --> run_platform_common_printMatricesWebLinks
+run_newTestRun --> run_platform_runAndroidTests
+run_newTestRun --> run_platform_runIosTests
+
+run_dumpShards --> args_AndroidArgs
+run_dumpShards --> args_IosArgs
+run_dumpShards --> args_isInstrumentationTest
+run_dumpShards --> config_FtlConstants
+run_dumpShards --> ios_xctest_common_XcTestRunVersion_V1
+run_dumpShards --> ios_xctest_common_XcTestRunVersion_V2
+run_dumpShards --> run_common_prettyPrint
+run_dumpShards --> run_exception_FlankConfigurationError
+run_dumpShards --> run_model_AndroidMatrixTestShards
+run_dumpShards --> run_platform_android_getAndroidMatrixShards
+run_dumpShards --> util_obfuscatePrettyPrinter
+
+run_cancelLastRun --> args_IArgs
+run_cancelLastRun --> config_FtlConstants
+run_cancelLastRun --> gc_GcTestMatrix
+run_cancelLastRun --> json_SavedMatrix
+run_cancelLastRun --> run_common_getLastArgs
+run_cancelLastRun --> run_common_getLastMatrices
+run_cancelLastRun --> util_MatrixState
+
+run_common_fetchArtifacts --> args_IArgs
+run_common_fetchArtifacts --> config_FtlConstants
+run_common_fetchArtifacts --> gc_GcStorage
+run_common_fetchArtifacts --> json_MatrixMap
+run_common_fetchArtifacts --> util_Artifacts
+run_common_fetchArtifacts --> util_MatrixState
+
+run_common_getLastArgs --> args_AndroidArgs
+run_common_getLastArgs --> args_IArgs
+run_common_getLastArgs --> args_IosArgs
+run_common_getLastArgs --> args_validate
+run_common_getLastArgs --> args_validateRefresh
+run_common_getLastArgs --> config_FtlConstants
+run_common_getLastArgs --> run_exception_FlankGeneralError
+
+run_common_getLastGcsPath --> ftl_args_IArgs
+
+run_common_getLastMatrices --> args_IArgs
+run_common_getLastMatrices --> config_FtlConstants
+run_common_getLastMatrices --> json_MatrixMap
+run_common_getLastMatrices --> json_SavedMatrix
+run_common_getLastMatrices --> run_exception_FlankGeneralError
+
+run_common_pollMatrices --> args_IArgs
+run_common_pollMatrices --> gc_GcTestMatrix
+run_common_pollMatrices --> run_status_TestMatrixStatusPrinter
+run_common_pollMatrices --> util_MatrixState
+
+run_common_updateMatrixFile --> args_IArgs
+run_common_updateMatrixFile --> json_MatrixMap
+
+run_common_getMatrixFilePath --> args_IArgs
+run_common_getMatrixFilePath --> config_FtlConstants
+run_common_getMatrixFilePath --> json_MatrixMap
+
+run_exception_withGlobalExceptionHandling --> json_SavedMatrix
+run_exception_withGlobalExceptionHandling --> run_cancelMatrices
+run_exception_withGlobalExceptionHandling --> util_report
+
+run_platform_android_createAndroidLoopConfig --> args_AndroidArgs
+run_platform_android_createAndroidLoopConfig --> run_model_GameLoopContext
+
+run_platform_android_createAndroidTestConfig --> args_AndroidArgs
+run_platform_android_createAndroidTestConfig --> run_model_AndroidTestContext
+run_platform_android_createAndroidTestConfig --> run_model_GameLoopContext
+run_platform_android_createAndroidTestConfig --> run_model_InstrumentationTestContext
+run_platform_android_createAndroidTestConfig --> run_model_RoboTestContext
+run_platform_android_createAndroidTestConfig --> run_model_SanityRoboTestContext
+
+run_platform_android_createAndroidTestContexts --> args_AndroidArgs
+run_platform_android_createAndroidTestContexts --> args_ArgsHelper
+run_platform_android_createAndroidTestContexts --> args_CalculateShardsResult
+run_platform_android_createAndroidTestContexts --> config_FtlConstants
+run_platform_android_createAndroidTestContexts --> filter_TestFilter
+run_platform_android_createAndroidTestContexts --> filter_TestFilters
+run_platform_android_createAndroidTestContexts --> run_model_AndroidTestContext
+run_platform_android_createAndroidTestContexts --> run_model_InstrumentationTestContext
+run_platform_android_createAndroidTestContexts --> shard_createShardsByTestForShards
+run_platform_android_createAndroidTestContexts --> util_FlankTestMethod
+run_platform_android_createAndroidTestContexts --> util_downloadIfNeeded
+
+run_platform_android_createInstrumentationConfig --> args_AndroidArgs
+run_platform_android_createInstrumentationConfig --> run_model_InstrumentationTestContext
+run_platform_android_createInstrumentationConfig --> shard_testCases
+
+run_platform_android_createRoboConfig --> args_AndroidArgs
+run_platform_android_createRoboConfig --> run_model_RoboTestContext
+run_platform_android_createRoboConfig --> run_model_SanityRoboTestContext
+
+run_platform_android_getAndroidMatrixShards --> args_AndroidArgs
+run_platform_android_getAndroidMatrixShards --> run_platform_android_createAndroidTestContexts
+run_platform_android_getAndroidMatrixShards --> run_model_InstrumentationTestContext
+run_platform_android_getAndroidMatrixShards --> run_platform_android_asMatrixTestShards
+
+run_platform_android_asMatrixTestShards --> run_model_AndroidMatrixTestShards
+run_platform_android_asMatrixTestShards --> run_model_AndroidTestShards
+run_platform_android_asMatrixTestShards --> run_model_InstrumentationTestContext
+run_platform_android_asMatrixTestShards --> shard_testCases
+
+run_platform_android_resolveApks --> args_AndroidArgs
+run_platform_android_resolveApks --> args_isGameLoop
+run_platform_android_resolveApks --> args_isSanityRobo
+run_platform_android_resolveApks --> run_exception_FlankGeneralError
+run_platform_android_resolveApks --> run_model_AndroidTestContext
+run_platform_android_resolveApks --> run_model_GameLoopContext
+run_platform_android_resolveApks --> run_model_InstrumentationTestContext
+run_platform_android_resolveApks --> run_model_RoboTestContext
+run_platform_android_resolveApks --> run_model_SanityRoboTestContext
+run_platform_android_resolveApks --> util_asFileReference
+
+run_platform_android_upload --> args_AndroidArgs
+run_platform_android_upload --> args_IosArgs
+run_platform_android_upload --> run_model_AndroidTestContext
+run_platform_android_upload --> run_model_GameLoopContext
+run_platform_android_upload --> run_model_InstrumentationTestContext
+run_platform_android_upload --> run_model_RoboTestContext
+run_platform_android_upload --> run_model_SanityRoboTestContext
+run_platform_android_upload --> util_asFileReference
+run_platform_android_upload --> util_uploadIfNeeded
+
+run_platform_android_uploadOtherFiles --> args_IArgs
+run_platform_android_uploadOtherFiles --> gc_GcStorage
+
+run_platform_android_uploadObbFiles --> args_AndroidArgs
+run_platform_android_uploadObbFiles --> gc_GcStorage
+
+run_platform_common_afterRunTests --> args_IArgs
+run_platform_common_afterRunTests --> config_FtlConstants
+run_platform_common_afterRunTests --> config_FtlConstants_GCS_STORAGE_LINK
+run_platform_common_afterRunTests --> gc_GcTestMatrix
+run_platform_common_afterRunTests --> json_MatrixMap
+run_platform_common_afterRunTests --> json_createSavedMatrix
+run_platform_common_afterRunTests --> run_common_updateMatrixFile
+run_platform_common_afterRunTests --> util_StopWatch
+run_platform_common_afterRunTests --> util_isInvalid
+run_platform_common_afterRunTests --> util_webLink
+
+run_platform_common_beforeRunMessage --> args_IArgs
+run_platform_common_beforeRunMessage --> config_FtlConstants
+run_platform_common_beforeRunMessage --> shard_Chunk
+run_platform_common_beforeRunMessage --> shard_TestMethod
+
+run_platform_common_beforeRunTests --> args_IArgs
+run_platform_common_beforeRunTests --> config_FtlConstants
+run_platform_common_beforeRunTests --> gc_GcStorage
+run_platform_common_beforeRunTests --> gc_GcTesting
+run_platform_common_beforeRunTests --> gc_GcToolResults
+run_platform_common_beforeRunTests --> run_exception_FlankGeneralError
+run_platform_common_beforeRunTests --> util_StopWatch
+
+run_platform_ios_createGameloopTestContexts --> args_IosArgs
+run_platform_ios_createGameloopTestContexts --> run_model_GameloopTestContext
+run_platform_ios_createGameloopTestContexts --> run_model_IosTestContext
+run_platform_ios_createGameloopTestContexts --> util_ShardCounter
+run_platform_ios_createGameloopTestContexts --> util_asFileReference
+run_platform_ios_createGameloopTestContexts --> util_uploadIfNeeded
+
+run_platform_ios_createIosTestContexts --> args_IosArgs
+run_platform_ios_createIosTestContexts --> args_isXcTest
+run_platform_ios_createIosTestContexts --> run_model_IosTestContext
+
+run_platform_ios_createXcTestContexts --> args_IosArgs
+run_platform_ios_createXcTestContexts --> gc_GcStorage
+run_platform_ios_createXcTestContexts --> ios_xctest_xcTestRunFlow
+run_platform_ios_createXcTestContexts --> run_model_IosTestContext
+run_platform_ios_createXcTestContexts --> run_model_XcTestContext
+run_platform_ios_createXcTestContexts --> util_ShardCounter
+run_platform_ios_createXcTestContexts --> util_asFileReference
+run_platform_ios_createXcTestContexts --> util_uploadIfNeeded
+
+run_platform_runAndroidTests --> args_AndroidArgs
+run_platform_runAndroidTests --> args_isInstrumentationTest
+run_platform_runAndroidTests --> gc_GcAndroidDevice
+run_platform_runAndroidTests --> gc_GcAndroidTestMatrix
+run_platform_runAndroidTests --> gc_GcStorage
+run_platform_runAndroidTests --> gc_GcToolResults
+run_platform_runAndroidTests --> http_executeWithRetry
+run_platform_runAndroidTests --> run_ANDROID_SHARD_FILE
+run_platform_runAndroidTests --> run_exception_FlankGeneralError
+run_platform_runAndroidTests --> run_model_AndroidMatrixTestShards
+run_platform_runAndroidTests --> run_model_AndroidTestContext
+run_platform_runAndroidTests --> run_model_InstrumentationTestContext
+run_platform_runAndroidTests --> run_model_TestResult
+run_platform_runAndroidTests --> run_platform_android_asMatrixTestShards
+run_platform_runAndroidTests --> run_platform_android_createAndroidTestConfig
+run_platform_runAndroidTests --> run_platform_android_createAndroidTestContexts
+run_platform_runAndroidTests --> run_platform_android_upload
+run_platform_runAndroidTests --> run_platform_android_uploadAdditionalApks
+run_platform_runAndroidTests --> run_platform_android_uploadObbFiles
+run_platform_runAndroidTests --> run_platform_android_uploadOtherFiles
+run_platform_runAndroidTests --> run_platform_common_afterRunTests
+run_platform_runAndroidTests --> run_platform_common_beforeRunMessage
+run_platform_runAndroidTests --> run_platform_common_beforeRunTests
+run_platform_runAndroidTests --> run_saveShardChunks
+run_platform_runAndroidTests --> shard_Chunk
+run_platform_runAndroidTests --> shard_testCases
+
+run_platform_runIosTests --> args_IosArgs
+run_platform_runIosTests --> args_isXcTest
+run_platform_runIosTests --> gc_GcIosMatrix
+run_platform_runIosTests --> gc_GcIosTestMatrix
+run_platform_runIosTests --> gc_GcStorage
+run_platform_runIosTests --> gc_GcToolResults
+run_platform_runIosTests --> http_executeWithRetry
+run_platform_runIosTests --> ios_xctest_flattenShardChunks
+run_platform_runIosTests --> run_IOS_SHARD_FILE
+run_platform_runIosTests --> run_dumpShards
+run_platform_runIosTests --> run_model_TestResult
+run_platform_runIosTests --> run_platform_android_uploadAdditionalIpas
+run_platform_runIosTests --> run_platform_android_uploadOtherFiles
+run_platform_runIosTests --> run_platform_common_afterRunTests
+run_platform_runIosTests --> run_platform_common_beforeRunMessage
+run_platform_runIosTests --> run_platform_common_beforeRunTests
+run_platform_runIosTests --> run_platform_ios_createIosTestContexts
+run_platform_runIosTests --> shard_testCases
+run_platform_runIosTests --> util_repeat
+
+@enduml

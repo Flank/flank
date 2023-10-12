@@ -1,0 +1,26 @@
+@startuml
+
+left to right direction
+
+[cli] *..> [adapter]
+[cli] *..> [apk]
+[cli] *-right-> [domain]
+
+[adapter] *-- [client]
+[adapter] *-- [api]
+
+[domain] o-- [api]
+[domain] o-- [apk]
+
+[domain] *-- [shard:calculate]
+[domain] *-- [shard:obfuscate]
+[domain] *-- [shard:dump]
+[domain] *-- [instrument:command]
+[domain] *-- [instrument:log]
+[domain] *-- [junit]
+
+[shard:dump] *-- [shard]
+[shard:calculate] *-- [shard]
+[shard:obfuscate] *-- [shard]
+
+@enduml
