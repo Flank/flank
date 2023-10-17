@@ -21,15 +21,15 @@ jobs:
     runs-on: macos-latest
     needs: [ get_date ]
     steps:
-      - uses: actions/checkout@v3
-      - uses: tibdex/github-app-token@v1
+      - uses: actions/checkout@v4
+      - uses: tibdex/github-app-token@v2
         id: generate-token
         with:
           app_id: ${{ secrets.FLANK_RELEASE_APP_ID }}
           private_key: ${{ secrets.FLANK_RELEASE_PRIVATE_KEY }}
 
       - name: Gradle dependency updates raport
-        uses: gradle/gradle-build-action@v2.7.0
+        uses: gradle/gradle-build-action@v2.9.0
         with:
           arguments: dependencyUpdates -DoutputFormatter=json -DoutputDir=.
 
@@ -64,8 +64,8 @@ jobs:
     runs-on: macos-latest
     needs: [ get_date ]
     steps:
-      - uses: actions/checkout@v3
-      - uses: tibdex/github-app-token@v1
+      - uses: actions/checkout@v4
+      - uses: tibdex/github-app-token@v2
         id: generate-token
         with:
           app_id: ${{ secrets.FLANK_RELEASE_APP_ID }}
@@ -108,7 +108,7 @@ jobs:
   check_for_sdk_updates:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Download flankScripts and add it to PATH
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -132,7 +132,7 @@ jobs:
           egress-policy: audit
           # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
 
-      - uses: tibdex/github-app-token@v1
+      - uses: tibdex/github-app-token@v2
         id: generate-token
         with:
           app_id: ${{ secrets.FLANK_RELEASE_APP_ID }}

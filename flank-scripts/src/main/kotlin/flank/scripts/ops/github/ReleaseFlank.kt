@@ -41,23 +41,23 @@ private fun moveFlankToReleaseDirectory(inputPath: Path) =
     if (inputPath.toFile().renameTo(File(RELEASE_DIRECTORY))) RELEASE_DIRECTORY else inputPath.toAbsolutePath()
         .toString()
 
+/**
+ * See more details: https://cli.github.com/manual/gh_release_create
+  */
 private fun hubStableSnapshotCommand(path: String, gitTag: String, commitHash: String) =
     listOf(
-        "hub", "release", "create",
-        "-p",
-        "-a", path,
-        "-m", "Flank $gitTag",
-        "-m", "Snapshot release for commit $commitHash",
-        gitTag
+        "gh", "release", "create", gitTag, path,
+        "-p", // create a prerelease
+        "-t", "Flank $gitTag",
+        "-n", "Snapshot release for commit $commitHash",
+
     )
 
 private fun hubStableReleaseCommand(path: String, gitTag: String, token: String) =
     listOf(
-        "hub", "release", "create",
-        "-a", path,
-        "-m", "Flank $gitTag",
-        "-m", generateReleaseNotes(token).asString(gitTag),
-        gitTag
+        "gh", "release", "create", gitTag, path,
+        "-t", "Flank $gitTag",
+        "-n", generateReleaseNotes(token).asString(gitTag),
     )
 
 private const val RELEASE_DIRECTORY = "./RELEASE/flank.jar"

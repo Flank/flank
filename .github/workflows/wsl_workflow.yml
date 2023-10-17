@@ -4,28 +4,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  check_approve_count:
-    permissions:
-      pull-requests: read
-    runs-on: ubuntu-latest
-    outputs:
-      approve_count: ${{ steps.reviews.outputs.approved }}
-    steps:
-      - name: Check pull request is approved
-        id: 'reviews'
-        uses: jrylan/github-action-reviews-counter@main
-        with:
-          repo-token: '${{ secrets.GITHUB_TOKEN }}'
-
-      - name: Print current approve count
-        run: echo "Current Approve count ${{ steps.reviews.outputs.approved }}"
-
   integration-tests-wsl:
-    needs: [check_approve_count]
     permissions:
       actions: write  # for styfle/cancel-workflow-action to cancel/stop running workflows
       contents: read  # for actions/checkout to fetch code
-    if: 'needs.check_approve_count.outputs.approve_count >= 2'
     runs-on: windows-2019
     defaults:
       run:
@@ -33,17 +15,17 @@ jobs:
 
     steps:
     - name: Cancel Previous Runs
-      uses: styfle/cancel-workflow-action@0.11.0
+      uses: styfle/cancel-workflow-action@0.12.0
       with:
         access_token: ${{ secrets.GITHUB_TOKEN }}
 
-    - uses: Vampire/setup-wsl@v1
+    - uses: Vampire/setup-wsl@v2
       with:
         distribution: Ubuntu-20.04
         additional-packages:
           dos2unix
 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: gradle/wrapper-validation-action@v1
     - uses: actions/cache@v3
       with:
@@ -77,14 +59,14 @@ jobs:
           echo "$GCLOUD_KEY" | base64 --ignore-garbage --decode > "$GCLOUD_DIR/application_default_credentials.json"
 
     - name: Gradle Integration Tests Android
-      uses: gradle/gradle-build-action@v2.7.0
+      uses: gradle/gradle-build-action@v2.9.0
       env:
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       with:
         arguments: "--info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml"
 
     - name: Gradle Integration Tests iOS
-      uses: gradle/gradle-build-action@v2.7.0
+      uses: gradle/gradle-build-action@v2.9.0
       env:
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       with:
