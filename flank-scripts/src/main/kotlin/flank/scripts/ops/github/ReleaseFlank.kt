@@ -50,7 +50,7 @@ private fun hubStableSnapshotCommand(path: String, gitTag: String, commitHash: S
         "-p", // create a prerelease
         "-t", "Flank $gitTag",
         "-n", "Snapshot release for commit $commitHash",
-
+        "--target", "$commitHash",
     )
 
 private fun hubStableReleaseCommand(path: String, gitTag: String, token: String) =
