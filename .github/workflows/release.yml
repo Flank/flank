@@ -52,8 +52,6 @@ jobs:
             else
               echo "RELEASE_TAG=flank-snapshot" >> $GITHUB_ENV
               echo "MVN_VERSION=master-SNAPSHOT" >> $GITHUB_ENV
-              git_short_hash=$(git rev-parse --short "$GITHUB_SHA")
-              echo "GIT_SHORT_HASH=$(echo $git_short_hash)" >> $GITHUB_ENV
           fi;
 
     - name: Store version variables to file
@@ -84,7 +82,7 @@ jobs:
       if: ${{ env.RELEASE_TAG == 'flank-snapshot' }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: flankScripts github make_release --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --commit-hash=$GIT_SHORT_HASH --snapshot
+      run: flankScripts github make_release --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --commit-hash=$GITHUB_SHA --snapshot
 
     - name: Release stable
       if: startsWith(github.ref, 'refs/tags/v')
