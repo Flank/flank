@@ -96,8 +96,8 @@ interface IArgs {
         // num_shards must be >= 1, and <= 500 for non-Arm virtual devices
         val AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE = 1..500
 
-        // num_shards must be >= 1, and <= 100 for Arm virtual devices
-        val AVAILABLE_VIRTUAL_ARM_SHARD_COUNT_RANGE = 1..100
+        // num_shards must be >= 1, and <= 200 for Arm virtual devices
+        val AVAILABLE_VIRTUAL_ARM_SHARD_COUNT_RANGE = 1..200
     }
 
     interface ICompanion {
