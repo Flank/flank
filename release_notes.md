@@ -1,3 +1,10 @@
+## v23.10.1
+### Bug Fixes
+- [#2447](https://github.com/Flank/flank/pull/2447) Update shard limit for Arm devices to 200 ()
+- [#2444](https://github.com/Flank/flank/pull/2444) Point authentication error message link to correct/relevant docs ()
+### CI Changes
+- [#2445](https://github.com/Flank/flank/pull/2445) Pass full commit sha through release command ()
+
 ## v23.10.0
 ### Bug Fixes
 - [#2438](https://github.com/Flank/flank/pull/2438) Replace hub with GitHub CLI 'gh' for GitHub Actions ([schnecle](https://github.com/schnecle))
