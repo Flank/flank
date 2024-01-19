@@ -103,7 +103,7 @@ jobs:
         run: |
           gh pr checkout ${{ needs.should_run_it.outputs.pr_number }}
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: ~/.gradle/caches
           key: macos-gradle-${{ hashFiles('**/*.gradle*') }}
