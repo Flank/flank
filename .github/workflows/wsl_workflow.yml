@@ -59,14 +59,14 @@ jobs:
           echo "$GCLOUD_KEY" | base64 --ignore-garbage --decode > "$GCLOUD_DIR/application_default_credentials.json"
 
     - name: Gradle Integration Tests Android
-      uses: gradle/gradle-build-action@v2.11.1
+      uses: gradle/gradle-build-action@v3.2.1
       env:
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       with:
         arguments: "--info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml"
 
     - name: Gradle Integration Tests iOS
-      uses: gradle/gradle-build-action@v2.11.1
+      uses: gradle/gradle-build-action@v3.2.1
       env:
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       with:
