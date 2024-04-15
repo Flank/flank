@@ -80,7 +80,7 @@ jobs:
         shell: bash
 
       - name: Gradle integration tests
-        uses: gradle/gradle-build-action@v2.11.1
+        uses: gradle/gradle-build-action@v3.3.0
         id: run-it
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
