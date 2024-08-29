@@ -4,8 +4,6 @@ on:
   schedule:
     - cron: '0 0 * * 1-5' # At 00:00 on every day-of-week from Monday through Friday
   workflow_dispatch:      # or manually
-  issue_comment:
-    types: [ created ]      # or by comment
 
 # TODO: update workflow permissions to least privilege after auditing all the APIs used
 # permissions:  # limit the permissions of the GITHIUB_TOKEN to reading repository contents
@@ -15,7 +13,6 @@ jobs:
   cancel_previous:
     permissions:
       actions: write  # for styfle/cancel-workflow-action to cancel/stop running workflows
-    if: ${{ github.event_name != 'issue_comment'}}
     runs-on: macos-latest
     steps:
       - name: Cancel Previous Runs
@@ -29,51 +26,13 @@ jobs:
       run_integration_tests: ${{ steps.should-run-step.outputs.should_run }}
       pr_number: ${{ steps.pr_number.outputs.number }}
     steps:
-      - name: Get PR number
-        id: pr_number
-        if: ${{ github.event_name == 'issue_comment'}}
-        run: |
-          PR_URL="${{ github.event.issue.pull_request.url }}"
-          PR_NUMBER=${PR_URL##*/}
-          echo "number=$PR_NUMBER" >> $GITHUB_OUTPUT
-      - uses: khan/pull-request-comment-trigger@master
-        if: ${{ github.event_name == 'issue_comment'}}
-        id: check_issue_comment
-        with:
-          trigger: '@flank-it'
-          reaction: eyes
-        env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       - name: Check if integrations tests should run
         id: should-run-step
         env:
-          run_it: ${{ steps.check_issue_comment.outputs.triggered == 'true'|| github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' }}
+          run_it: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' }}
         run: |
           echo "event name: ${{ github.event_name }}"
-          echo "issue command found: ${{ steps.check_issue_comment.outputs.triggered == 'true' }}"
           echo "should_run=${{ env.run_it }}" >> $GITHUB_OUTPUT
-
-  integration-tests-post-link:
-    runs-on: macos-latest
-    needs: [ should_run_it ]
-    if: github.event_name == 'issue_comment' && needs.should_run_it.outputs.run_integration_tests == 'true'
-    outputs:
-      comment_id: ${{ steps.couc.outputs.comment-id }}
-    steps:
-      - name: Get current time
-        uses: 1466587594/get-current-time@v2
-        id: current-time
-        with:
-          format: 'YYYY-MM-DD HH:mm:ss'
-          utcOffset: "+00:00"
-      - name: Create comment that tests were triggered
-        uses: peter-evans/create-or-update-comment@v3
-        id: couc
-        with:
-          issue-number: ${{ needs.should_run_it.outputs.pr_number }}
-          body: |
-            **Integration tests were triggered at ${{ steps.current-time.outputs.formattedTime }}, you can track progress [here](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
-          reactions: rocket
 
   run-it-full-suite:
     needs: [ should_run_it ]
@@ -95,13 +54,6 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Checkout Pull Request
-        if: github.event_name == 'issue_comment'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh pr checkout ${{ needs.should_run_it.outputs.pr_number }}
 
       - uses: actions/cache@v4
         with:
@@ -147,7 +99,6 @@ jobs:
   process-results:
     needs: [ run-it-full-suite ]
     runs-on: macos-latest
-    if: always() && github.event_name != 'issue_comment'
     steps:
       - name: Import variable
         uses: UnlyEd/github-action-store-variable@v3.0.15
@@ -173,50 +124,9 @@ jobs:
           --github-token=${{ secrets.GITHUB_TOKEN }} \
           --run-id=${{ github.run_id }}
 
-  post-comment_with_results:
-    needs: [ run-it-full-suite, integration-tests-post-link ]
-    runs-on: macos-latest
-    if: always() && github.event_name == 'issue_comment'
-    steps:
-      - name: Import variable
-        uses: UnlyEd/github-action-store-variable@v3.0.15
-        with:
-          delimiter: ','
-          variables: |
-            Windows,Windows-bs,macOS,macOS-bs,Linux,Linux-bs
-
-      - name: Update comment on failure
-        if: ${{ needs.run-it-full-suite.outputs.job_status == 'failure' }}
-        uses: peter-evans/create-or-update-comment@v3
-        with:
-          comment-id: ${{ needs.integration-tests-post-link.outputs.comment_id }}
-          edit-mode: replace
-          body: |
-            **Integration tests failed :x:**
-            Windows status ${{ env.Windows }} - Build scan: ${{ env.Windows-bs }}
-            MacOS status ${{ env.macOS }} - Build scan: ${{ env.macOS-bs }}
-            Linux status ${{ env.Linux }} - Build scan: ${{ env.Linux-bs }}
-            Workflow run https://github.com/Flank/flank/actions/runs/${{ github.run_id }}
-          reactions: '-1'
-
-      - name: Update comment on success
-        if: ${{ needs.run-it-full-suite.outputs.job_status == 'success' }}
-        uses: peter-evans/create-or-update-comment@v3
-        with:
-          comment-id: ${{ needs.integration-tests-post-link.outputs.comment_id }}
-          edit-mode: replace
-          body: |
-            **Integration tests succeed for all OSs :white_check_mark:**
-            Windows Build scan: ${{ env.Windows-bs }}
-            MacOS Build scan: ${{ env.macOS-bs }}
-            Linux Build scan: ${{ env.Linux-bs }}
-            Workflow run https://github.com/Flank/flank/actions/runs/${{ github.run_id }}
-          reactions: '+1'
-
   trigger-pointer:
     runs-on: ubuntu-latest
     needs: [ process-results ]
-    if: always() && github.event_name != 'issue_comment'
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@v2
