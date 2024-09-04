@@ -46,7 +46,7 @@ jobs:
 
       - name: Commit files and create Pull request
         id: pr
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ steps.generate-token.outputs.token }}
           commit-message: "[Automatic PR] Dependencies update"
@@ -91,7 +91,7 @@ jobs:
 
       - name: Commit files and create Pull request
         id: pr
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ steps.generate-token.outputs.token }}
           commit-message: "[Automatic PR] Firebase API Client update"
