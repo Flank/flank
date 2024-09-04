@@ -43,7 +43,7 @@ jobs:
 
       - id: build
         name: Gradle clean build
-        uses: gradle/gradle-build-action@v2.11.1
+        uses: gradle/gradle-build-action@v3.5.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_REF: ${{ github.head_ref }}
