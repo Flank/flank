@@ -26,7 +26,7 @@ jobs:
           dos2unix
 
     - uses: actions/checkout@v4
-    - uses: gradle/wrapper-validation-action@v1
+    - uses: gradle/wrapper-validation-action@v3
     - uses: actions/cache@v4
       with:
         path: ~/.gradle/caches
