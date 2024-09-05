@@ -23,7 +23,7 @@ jobs:
         # TODO: change to 'egress-policy: block' after auditing a number of runs and updating the allowed-endpoints option accordingly
 
     - uses: actions/checkout@v4
-    - uses: gradle/wrapper-validation-action@v1
+    - uses: gradle/wrapper-validation-action@v3
 
     - name: Gradle Upload to Github packages and Github release
       uses: gradle/gradle-build-action@v3.5.0
