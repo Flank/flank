@@ -19,7 +19,7 @@ jobs:
       with:
         access_token: ${{ secrets.GITHUB_TOKEN }}
 
-    - uses: Vampire/setup-wsl@v2
+    - uses: Vampire/setup-wsl@v3
       with:
         distribution: Ubuntu-20.04
         additional-packages:
