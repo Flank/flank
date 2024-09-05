@@ -139,7 +139,7 @@ jobs:
           private_key: ${{ secrets.FLANK_RELEASE_PRIVATE_KEY }}
 
       - name: Dispatch repository event
-        uses: peter-evans/repository-dispatch@v2
+        uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ steps.generate-token.outputs.token }}
           event-type: dependencies-pointer
