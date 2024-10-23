@@ -45,7 +45,8 @@ private fun TestMatrix.Data.updateProperties(newMatrix: TestMatrix.Data) = copy(
     testFileName = newMatrix.testFileName,
     isCompleted = MatrixState.completed(state) &&
         newMatrix.testExecutions.all { MatrixState.completed(it.state) },
-    testExecutions = newMatrix.testExecutions
+    testExecutions = newMatrix.testExecutions,
+    isRoboTest = newMatrix.isRoboTest,
 )
 
 private fun TestMatrix.Data.updateBillableMinutes(billableMinutes: TestMatrix.BillableMinutes) = copy(
