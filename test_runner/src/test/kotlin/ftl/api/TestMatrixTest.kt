@@ -334,11 +334,12 @@ class TestMatrixTest {
         ftlTestMatrix.testExecutions = testExecutions
 
         var testMatrix = ftlTestMatrix.toApiModel()
+        assert(!testMatrix.isRoboTest)
+
         val newTestMatrix = ftlTestMatrix.toApiModel().copy(isRoboTest = true)
-
         testMatrix = testMatrix.copy(state = FINISHED)
-
         testMatrix = testMatrix.updateWithMatrix(newTestMatrix)
+
         assert(testMatrix.isRoboTest) { "isRoboTest was not updated" }
     }
 }
