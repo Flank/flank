@@ -318,6 +318,29 @@ class TestMatrixTest {
         val updatedMatrix = testMatrix.updateWithMatrix(ftlTestMatrix.toApiModel())
         assertEquals("N/A", updatedMatrix.appFileName)
     }
+
+    @Test
+    fun `isRoboTest property should update to true for Robo Test matrices`() {
+        val testExecutions = listOf(
+            createStepExecution(1, "shamu"),
+            createStepExecution(1, "NexusLowRes")
+        )
+
+        val matrixId = "123"
+        val ftlTestMatrix = ftlTestMatrix()
+        ftlTestMatrix.testMatrixId = matrixId
+        ftlTestMatrix.state = PENDING
+        ftlTestMatrix.resultStorage = createResultsStorage()
+        ftlTestMatrix.testExecutions = testExecutions
+
+        var testMatrix = ftlTestMatrix.toApiModel()
+        val newTestMatrix = ftlTestMatrix.toApiModel().copy(isRoboTest = true)
+
+        testMatrix = testMatrix.copy(state = FINISHED)
+
+        testMatrix = testMatrix.updateWithMatrix(newTestMatrix)
+        assert(testMatrix.isRoboTest) { "isRoboTest was not updated" }
+    }
 }
 
 private inline fun ref(path: () -> String) = FileReference().apply { gcsPath = path() }
