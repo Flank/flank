@@ -47,6 +47,13 @@ fun JUnitTest.Suite.merge(other: JUnitTest.Suite): JUnitTest.Suite {
     this.errors = mergeInt(this.errors, other.errors)
     this.skipped = mergeInt(this.skipped, other.skipped)
     this.time = mergeDouble(this.time, other.time)
+    if (other.flakes != null) {
+        this.flakes = mergeInt(
+            this.flakes?.toString(),
+            other.flakes?.toString()
+        ).toInt()
+    }
+
 
     if (this.testcases == null) this.testcases = mutableListOf()
     if (other.testcases?.isNotEmpty() == true) {

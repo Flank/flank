@@ -32,6 +32,15 @@ class JUnitXmlTest {
     <testcase name="testPasses" classname="com.example.app.ExampleUiTest" time="0.001"/>
 </testsuite>
         """.trimIndent()
+        val flakyTestSuiteXml = """
+<testsuite name="" tests="2" failures="0" flakes="1" errors="0" skipped="0" time="0.026" timestamp="2018-10-26T19:57:28" hostname="localhost">
+    <properties/>
+    <testcase name="testFails" classname="com.example.app.ExampleUiTest" time="0.0">
+        <skipped/>
+    </testcase>
+    <testcase name="testPasses" classname="com.example.app.ExampleUiTest" time="0.001"/>
+</testsuite>
+        """.trimIndent()
     }
 
     @Test
@@ -524,6 +533,32 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
         """.trimIndent()
         val oneSuiteXml = parseOneSuiteXml(crashingOneSuiteMessage.writeToTempFile()).toXmlString().trimIndent()
         Assert.assertEquals("One Suite Messages should be the same!", expectedOneSuiteMessage, oneSuiteXml)
+    }
+
+    @Test
+    fun `merge flakes`() {
+        val merged = parseOneSuiteXml(flakyTestSuiteXml.writeToTempFile())
+        merged.merge(merged)
+        val actual = merged.toXmlString().normalizeLineEnding()
+
+        assertThat(actual).isEqualTo(
+            """
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites>
+  <testsuite name="" tests="4" failures="0" flakes="2" errors="0" skipped="0" time="0.052" timestamp="2018-10-26T19:57:28" hostname="localhost">
+    <testcase name="testFails" classname="com.example.app.ExampleUiTest" time="0.0">
+      <skipped/>
+    </testcase>
+    <testcase name="testPasses" classname="com.example.app.ExampleUiTest" time="0.001"/>
+    <testcase name="testFails" classname="com.example.app.ExampleUiTest" time="0.0">
+      <skipped/>
+    </testcase>
+    <testcase name="testPasses" classname="com.example.app.ExampleUiTest" time="0.001"/>
+  </testsuite>
+</testsuites>
+
+            """.trimIndent()
+        )
     }
 }
 
