@@ -216,7 +216,6 @@ internal fun InstrumentationTestContext.getParametrizedClasses(): List<TestMetho
                 TestMethod(
                     testName = file.formatClassName(it).dropLast(1),
                     annotations = file.getClassAnnotationValues(file.getAnnotationsDirectory(it))
-
                 )
             }
     }
