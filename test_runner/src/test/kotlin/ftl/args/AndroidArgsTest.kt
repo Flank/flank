@@ -1704,7 +1704,7 @@ AndroidArgs
     @Test
     fun `should only keep @LargeTest`() {
         val expectedTests = setOf(
-            "LargeParameterizedTests",
+            "LargeParameterizedTests#largeParameterizedTest",
             "ExampleInstrumentedTest#useAppContextLarge",
             "LargeTestClass#testLargeClass"
         )
