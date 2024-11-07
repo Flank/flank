@@ -151,14 +151,28 @@ internal fun InstrumentationTestContext.getFlankTestMethods(
     parameterizedTests: String = FlankDefaults.DEFAULT_PARAMETERIZED_TESTS
 ): List<FlankTestMethod> =
     getParametrizedClasses().let { parameterizedClasses: List<TestMethod> ->
-        DexParser.findTestMethods(test.local, customTestAnnotations)
+
+        val testMethods = DexParser.findTestMethods(test.local, customTestAnnotations)
+
+        val mergedParameterizedClasses = parameterizedClasses.map { parameterizedClass ->
+            testMethods.find { tm ->
+                tm.testName.contains(parameterizedClass.testName)
+            }?.let { tm ->
+                parameterizedClass.copy(
+                    testName = tm.testName,
+                    annotations = (parameterizedClass.annotations + tm.annotations).distinct()
+                )
+            } ?: parameterizedClass
+        }
+
+        testMethods
             .asSequence()
             .distinctBy { it.testName }
             .filter(testFilter.shouldRun)
-            .filterNot(parameterizedClasses::belong)
+            .filterNot(mergedParameterizedClasses::belong)
             .map { testMethod -> testMethod.toFlankTestMethod(args.devices) }
             .toList()
-            .plus(parameterizedClasses.onlyShouldRun(testFilter, parameterizedTests.shouldIgnore()))
+            .plus(mergedParameterizedClasses.onlyShouldRun(testFilter, parameterizedTests.shouldIgnore()))
     }
 
 private fun List<TestMethod>.belong(method: TestMethod) = any {
@@ -202,6 +216,7 @@ internal fun InstrumentationTestContext.getParametrizedClasses(): List<TestMetho
                 TestMethod(
                     testName = file.formatClassName(it).dropLast(1),
                     annotations = file.getClassAnnotationValues(file.getAnnotationsDirectory(it))
+
                 )
             }
     }
