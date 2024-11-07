@@ -17,3 +17,6 @@ flank:
       test-targets:
         - class com.example.test_app.InstrumentedTest
     - test: ../test_projects/android/apks/invalid.apk
+    - test: ../test_projects/android/apks/parametrized-app-debug-androidTest.apk
+      test-targets:
+        - annotation flank.shard.annotationbug.Annotation
