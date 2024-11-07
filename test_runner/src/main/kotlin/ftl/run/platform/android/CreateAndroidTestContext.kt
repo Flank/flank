@@ -169,7 +169,7 @@ internal fun InstrumentationTestContext.getFlankTestMethods(
             .asSequence()
             .distinctBy { it.testName }
             .filter(testFilter.shouldRun)
-            .filterNot(mergedParameterizedClasses::belong)
+            .filterNot(parameterizedClasses::belong)
             .map { testMethod -> testMethod.toFlankTestMethod(args.devices) }
             .toList()
             .plus(mergedParameterizedClasses.onlyShouldRun(testFilter, parameterizedTests.shouldIgnore()))
