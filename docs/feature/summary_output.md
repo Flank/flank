@@ -16,24 +16,24 @@ As a user I want to see finely formatted summary result at the end of execution 
 Gcloud prints summary output in the table. It looks nice and is readable. Why we wouldn't have same in flank?
 
 ## Possible outputs
-Numbers are representing `OUTCOME` column, points are representing `TEST DETAILS` column.
-1. `success | flaky`
-    * `${1} test cases passed | ${2} skipped | ${3} flakes | (Native crash) | ---`
-2. `failure`
-    * `${1} test cases failed | ${2} errors | ${3} passed | ${4} skipped |  ${4} flakes  | (Native crash)`
-    * `Application crashed | (Native crash)`
-    * `Test timed out | (Native crash)`
-    * `App failed to install | (Native crash)`
-    * `Unknown failure | (Native crash)`
-3. `inconclusive`
-    * `Infrastructure failure`
-    * `Test run aborted by user`
-    * `Unknown reason`
-4. `skipped`
-    * `Incompatible device/OS combination`
-    * `App does not support the device architecture`
-    * `App does not support the OS version`
-    * `Unknown reason`
+Numbers represent the `OUTCOME` column, and bullet points represent the `TEST DETAILS` column.
+1. success | flaky
+   - `${1} test cases passed | ${2} skipped | ${3} flakes | (Native crash) | ---`
+2. failure
+   - `${1} test cases failed | ${2} errors | ${3} passed | ${4} skipped | ${4} flakes | (Native crash)`
+   - `Application crashed | (Native crash)`
+   - `Test timed out | (Native crash)`
+   - `App failed to install | (Native crash)`
+   - `Unknown failure | (Native crash)`
+3. inconclusive
+   - `Infrastructure failure`
+   - `Test run aborted by user`
+   - `Unknown reason`
+4. skipped
+   - `Incompatible device/OS combination`
+   - `App does not support the device architecture`
+   - `App does not support the OS version`
+   - `Unknown reason`
 
 ## Implementation details
 
