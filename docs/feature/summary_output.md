@@ -1,4 +1,4 @@
-# Formatted summary output 
+# Formatted summary output
 ```
 ┌─────────┬──────────────────────┬──────────────────────────┬─────────────────────────────────────────┐
 │ OUTCOME │      MATRIX ID       │     TEST AXIS VALUE      │              TEST DETAILS               │
@@ -38,6 +38,7 @@ Numbers represent the `OUTCOME` column, and bullet points represent the `TEST DE
    - `App does not support the device architecture`
    - `App does not support the OS version`
    - `Unknown reason`
+
 
 ## Implementation details
 
