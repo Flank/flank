@@ -19,25 +19,25 @@ Gcloud prints summary output in the table. It looks nice and is readable. Why we
 Numbers represent the `OUTCOME` column, and bullet points represent the `TEST DETAILS` column.
 
 1. success | flaky
-   - `${1} test cases passed | ${2} skipped | ${3} flakes | (Native crash) | ---`
+    - `${1} test cases passed | ${2} skipped | ${3} flakes | (Native crash) | ---`
 
 2. failure
-   - `${1} test cases failed | ${2} errors | ${3} passed | ${4} skipped | ${4} flakes | (Native crash)`
-   - `Application crashed | (Native crash)`
-   - `Test timed out | (Native crash)`
-   - `App failed to install | (Native crash)`
-   - `Unknown failure | (Native crash)`
+    - `${1} test cases failed | ${2} errors | ${3} passed | ${4} skipped | ${4} flakes | (Native crash)`
+    - `Application crashed | (Native crash)`
+    - `Test timed out | (Native crash)`
+    - `App failed to install | (Native crash)`
+    - `Unknown failure | (Native crash)`
 
 3. inconclusive
-   - `Infrastructure failure`
-   - `Test run aborted by user`
-   - `Unknown reason`
+    - `Infrastructure failure`
+    - `Test run aborted by user`
+    - `Unknown reason`
 
 4. skipped
-   - `Incompatible device/OS combination`
-   - `App does not support the device architecture`
-   - `App does not support the OS version`
-   - `Unknown reason`
+    - `Incompatible device/OS combination`
+    - `App does not support the device architecture`
+    - `App does not support the OS version`
+    - `Unknown reason`
 
 
 ## Implementation details
