@@ -67,7 +67,7 @@ Gcloud is using following API calls
 2. `self._client.projects_histories_executions_steps.List(request)`
 
 The first one is default, but if returns any `environment` without `environmentResult.outcome`, the second one will be used to obtain `steps`. 
-Both `environemnts` and `steps` can provide `outcome`. The difference between them is the `steps` returns `success` event if tests are `flaky`.
+Both `environments` and `steps` can provide `outcome`. The difference between them is the `steps` returns `success` event if tests are `flaky`.
 Currently, we don't know why `self._client.projects_histories_executions_environments.List(request)` may return empty `environmentResult.outcome`.
 
 In difference to gcloud flank uses 3 api call to obtain necessary data
