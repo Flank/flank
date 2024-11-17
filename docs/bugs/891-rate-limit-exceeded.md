@@ -202,7 +202,7 @@ forEach(test matrix) {
 }
 ```
 
-## API calls usage comparision table
+## API calls usage comparison table
 Following table should compare API calls complexity.
 
 |         | execution status updates |
