@@ -2,7 +2,7 @@
 
 ## git-lfs
 
-Docs can be found [here](https://git-lfs.github.com)
+Docs can be found at [git-lfs.github.com](https://git-lfs.github.com)
 
 ### Costs
 
