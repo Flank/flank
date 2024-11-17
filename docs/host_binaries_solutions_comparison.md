@@ -157,7 +157,7 @@ Git diff looks like:
 
     ```
 
-    If you don't have brew installed. Install it from [this page](https://brew.sh)
+    If you don't have brew installed. Install it from [brew.sh](https://brew.sh)
 
     Installing on other systems can be found [here](https://git-annex.branchable.com/install/)
 
