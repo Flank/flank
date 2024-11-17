@@ -44,14 +44,14 @@ private fun findAndCopySwiftLicense() {
 }
 
 private fun findAndCopySwiftDemangleFile() {
-    val switftDemangleFileSuffix = Paths.get("usr", "bin", "swift-demangle").toString()
+    val swiftDemangleFileSuffix = Paths.get("usr", "bin", "swift-demangle").toString()
 
-    val switftDemangleOutputFile = Paths.get(currentPath.toString(), "swift-demangle").toFile()
+    val swiftDemangleOutputFile = Paths.get(currentPath.toString(), "swift-demangle").toFile()
 
     println("Copying swift-demangle ...")
     Files.walk(swiftPath)
-        .filter { it.toString().endsWith(switftDemangleFileSuffix) }
+        .filter { it.toString().endsWith(swiftDemangleFileSuffix) }
         .findFirst()
         .takeIf { it.isPresent }
-        ?.run { get().toFile().copyTo(switftDemangleOutputFile, overwrite = true) }
+        ?.run { get().toFile().copyTo(swiftDemangleOutputFile, overwrite = true) }
 }
