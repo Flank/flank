@@ -87,7 +87,7 @@
                                         </xs:attribute>
                                         <xs:attribute name="type" type="xs:string" use="required">
                                             <xs:annotation>
-                                                <xs:documentation xml:lang="en">The type of error that occured. e.g., if a java exception is thrown the full class name of the exception.</xs:documentation>
+                                                <xs:documentation xml:lang="en">The type of error that occurred. e.g., if a java exception is thrown the full class name of the exception.</xs:documentation>
                                             </xs:annotation>
                                         </xs:attribute>
                                     </xs:extension>
