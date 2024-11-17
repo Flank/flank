@@ -35,8 +35,8 @@ Run `./gradlew check` to fix lint issues
 
 - Add property to `GcloudYml` and update `keys` in config files
 - Update `IArgs` with new property
-- Update `AndroidArgs` to reference the propery and update `toString`
-- Update `IosArgs` to reference the propery and `toString`
+- Update `AndroidArgs` to reference the property and update `toString`
+- Update `IosArgs` to reference the property and `toString`
 - Add test to `IosArgsTest`
 - Add test to `IosRunCommandTest` and update `empty_params_parse_null` test
 - Add test to `AndroidArgsTest`
