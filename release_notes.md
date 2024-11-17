@@ -240,7 +240,7 @@
 ### Refactor
 - [#1952](https://github.com/Flank/flank/pull/1952) Data scratch ios ([Sloox](https://github.com/Sloox))
 - [#1937](https://github.com/Flank/flank/pull/1937) Run doctor command ([pawelpasterz](https://github.com/pawelpasterz), [adamfilipow92](https://github.com/adamfilipow92))
-- [#1948](https://github.com/Flank/flank/pull/1948) Move am instrument commad formatter to dedicated module ([jan-gogo](https://github.com/jan-gogo))
+- [#1948](https://github.com/Flank/flank/pull/1948) Move am instrument command formatter to dedicated module ([jan-gogo](https://github.com/jan-gogo))
 - [#1950](https://github.com/Flank/flank/pull/1950) Move apk parsers to dedicated module ([jan-gogo](https://github.com/jan-gogo))
 - [#1941](https://github.com/Flank/flank/pull/1941) Refactor data scratch-Android run ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1931](https://github.com/Flank/flank/pull/1931) Add removing stack traces for simple report ([piotradamczyk5](https://github.com/piotradamczyk5))
