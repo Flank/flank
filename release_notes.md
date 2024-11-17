@@ -556,7 +556,7 @@
 - [#1253](https://github.com/Flank/flank/pull/1253) Use GitHub app token for creating release notes ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1248](https://github.com/Flank/flank/pull/1248) Update deprecated options ::set-env and ::add-path ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1240](https://github.com/Flank/flank/pull/1240) Add current date to dependency PR ([pawelpasterz](https://github.com/pawelpasterz))
-- [#1148](https://github.com/Flank/flank/pull/1148) Add scripts for test artifacts managment ([jan-gogo](https://github.com/jan-gogo), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1148](https://github.com/Flank/flank/pull/1148) Add scripts for test artifacts management ([jan-gogo](https://github.com/jan-gogo), [piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1210](https://github.com/Flank/flank/pull/1210) Enable RC versions for gradle (dependency update task) ([pawelpasterz](https://github.com/pawelpasterz))
 - [#1158](https://github.com/Flank/flank/pull/1158) Fix test artifacts url ([jan-gogo](https://github.com/jan-gogo))
 - [#1152](https://github.com/Flank/flank/pull/1152) Added WSL workflow ([Sloox](https://github.com/Sloox), [piotradamczyk5](https://github.com/piotradamczyk5))
