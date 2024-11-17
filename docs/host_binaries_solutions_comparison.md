@@ -114,7 +114,7 @@ https://stackoverflow.com/questions/9189575/git-submodule-tracking-latest
 
 ## git-annex
 
-Docs can be found [here](https://git-annex.branchable.com/git-annex/)
+Docs can be found at [git-annex](https://git-annex.branchable.com/git-annex/)
 Docs for github [here](https://git-annex.branchable.com/tips/centralized_git_repository_tutorial/on_GitHub/)
 
 We can configure git-annex to store files in places like ftp, amazon s3, etc. Probably it can reduce costs on many large files. [link](https://git-annex.branchable.com/special_remotes/)
