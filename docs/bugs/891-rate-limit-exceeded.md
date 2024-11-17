@@ -219,7 +219,7 @@ E - count of test executions in matrix scope
 ```
 
 ## Conclusions
-#### Gclud
+#### Gcloud
 Because of single matrix run gives only 1 request per 6 seconds
 
 #### Flank v20.05.2
