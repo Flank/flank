@@ -555,7 +555,7 @@
 - [#1263](https://github.com/Flank/flank/pull/1263) Github Action optimizations ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1253](https://github.com/Flank/flank/pull/1253) Use Github app token for creating release notes ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1248](https://github.com/Flank/flank/pull/1248) Update deprecated options ::set-env and ::add-path ([piotradamczyk5](https://github.com/piotradamczyk5))
-- [#1240](https://github.com/Flank/flank/pull/1240) Add current date to dependecy PR ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1240](https://github.com/Flank/flank/pull/1240) Add current date to dependency PR ([pawelpasterz](https://github.com/pawelpasterz))
 - [#1148](https://github.com/Flank/flank/pull/1148) Add scripts for test artifacts managment ([jan-gogo](https://github.com/jan-gogo), [piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1210](https://github.com/Flank/flank/pull/1210) Enable RC versions for gradle (dependency update task) ([pawelpasterz](https://github.com/pawelpasterz))
 - [#1158](https://github.com/Flank/flank/pull/1158) Fix test artifacts url ([jan-gogo](https://github.com/jan-gogo))
