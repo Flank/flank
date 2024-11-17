@@ -628,7 +628,7 @@
 ## v20.09.2
 ### Features
 - [#1111](https://github.com/Flank/flank/pull/1111) Check if gcs path exist before run ([piotradamczyk5](https://github.com/piotradamczyk5))
-- [#1110](https://github.com/Flank/flank/pull/1110) Finialize the slack sending integration with actions ([Sloox](https://github.com/Sloox))
+- [#1110](https://github.com/Flank/flank/pull/1110) Finalize the slack sending integration with actions ([Sloox](https://github.com/Sloox))
 - [#1108](https://github.com/Flank/flank/pull/1108) Support for robo tests without robo script ([pawelpasterz](https://github.com/pawelpasterz))
 - [#1104](https://github.com/Flank/flank/pull/1104) Send slack message for releases ([Sloox](https://github.com/Sloox))
 - [#1097](https://github.com/Flank/flank/pull/1097) Print the matrices web link at the end of a run ([adamfilipow92](https://github.com/adamfilipow92))
