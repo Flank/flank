@@ -32,7 +32,7 @@ The [gcloud CLI][gcloud_cli] supports two types of sharding, uniform sharding an
 
 [--num-uniform-shards][test_targets_for_shards] is translated to “-e numShard” “-e shardIndex” [AndroidJUnitRunner][ajur] arguments. This uses the native `adb am instrument` sharding feature which randomly shards all tests. When using uniform shards, it's possible to have shards with empty tests.  
 
-Firebase will mark shards as failed when execution consists of skipped/empty tests, as this is likely an indication the tests are not configured correctly. This firebase design choice is incompatable with num-uniform-shards as you will randomly get failures when shards are empty. Using num-uniform-shards is therefor not recommended.
+Firebase will mark shards as failed when execution consists of skipped/empty tests, as this is likely an indication the tests are not configured correctly. This firebase design choice is incompatible with num-uniform-shards as you will randomly get failures when shards are empty. Using num-uniform-shards is therefor not recommended.
 
 [--test-targets-for-shard][test_targets_for_shards] allows manually specifying tests to be run.
 
