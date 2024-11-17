@@ -2193,7 +2193,7 @@ AndroidArgs
             - model: blueline
               version: 28
               locale: en
-              orientation: poortrait
+              orientation: portrait_
         flank:
           max-test-shards: -1
         """.trimIndent()
