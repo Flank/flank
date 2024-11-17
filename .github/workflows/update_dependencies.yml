@@ -101,7 +101,7 @@ jobs:
           body: "Firebase Api update"
           labels: |
             automated pr
-            firease_api
+            firebase_api
           reviewers: adamvduke,jakeouellette,tonybaroneee
           draft: false
 
