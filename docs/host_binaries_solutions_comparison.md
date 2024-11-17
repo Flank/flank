@@ -64,7 +64,7 @@ There is nothing to configure. When you modify files on branch changes not shown
 
 ## git-submodules
 
-Docs can be found [here](https://gist.github.com/gitaarik/8735255)
+Docs can be found at [gist.github.com/gitaarik/8735255](https://gist.github.com/gitaarik/8735255)
 
 ### Is git submodules versioning files?
 
