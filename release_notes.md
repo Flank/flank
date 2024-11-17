@@ -231,7 +231,7 @@
 - [#1961](https://github.com/Flank/flank/pull/1961) Add implementation section to architecture doc ([jan-gogo](https://github.com/jan-gogo))
 - [#1954](https://github.com/Flank/flank/pull/1954) Add architecture abstraction ([jan-gogo](https://github.com/jan-gogo))
 ### CI Changes
-- [#1972](https://github.com/Flank/flank/pull/1972) Update cla assitant ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1972](https://github.com/Flank/flank/pull/1972) Update cla assistant ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1949](https://github.com/Flank/flank/pull/1949) Validate Maven version on publish ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1942](https://github.com/Flank/flank/pull/1942) Ubuntu updates ([Sloox](https://github.com/Sloox))
 - [#1934](https://github.com/Flank/flank/pull/1934) Make IT results independent of os versions ([Sloox](https://github.com/Sloox), [pawelpasterz](https://github.com/pawelpasterz))
