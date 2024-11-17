@@ -212,7 +212,7 @@ Git-annex allows to host binary files in different locations, after a little dis
 
 This list is only our idea feel free to suggest another one.
 
-All of the supported storage types can be [here](https://git-annex.branchable.com/special_remotes/)
+All of the supported storage types can be seen at [git-annex special_remotes](https://git-annex.branchable.com/special_remotes/)
 
 ### How to play with branches
 
