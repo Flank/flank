@@ -9,8 +9,8 @@ enum class Type(val ymlName: String) {
     GAMELOOP("game-loop");
 }
 
-fun String.toType() = Type.values().find { it.ymlName == this } ?: throwUnsuportedType()
+fun String.toType() = Type.values().find { it.ymlName == this } ?: throwUnsupportedType()
 
-private fun String.throwUnsuportedType(): Nothing {
+private fun String.throwUnsupportedType(): Nothing {
     throw FlankGeneralError("Unsupported Type given `$this` only [${Type.values().joinToString(",") { it.ymlName }}] supported.")
 }
