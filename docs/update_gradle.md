@@ -7,7 +7,7 @@
 
 > gradle wrapper --distribution-type all
 
-Specifiy the gradle distribution type in `build.gradle`:
+Specify the gradle distribution type in `build.gradle`:
 ```
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
