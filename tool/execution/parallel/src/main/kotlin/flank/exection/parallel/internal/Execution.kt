@@ -1,12 +1,12 @@
-package flank.exection.parallel.internal
+package flank.execution.parallel.internal
 
-import flank.exection.parallel.Parallel
-import flank.exection.parallel.Parallel.Logger
-import flank.exection.parallel.Parallel.Task
-import flank.exection.parallel.Parallel.Type
-import flank.exection.parallel.ParallelState
-import flank.exection.parallel.Property
-import flank.exection.parallel.Tasks
+import flank.execution.parallel.Parallel
+import flank.execution.parallel.Parallel.Logger
+import flank.execution.parallel.Parallel.Task
+import flank.execution.parallel.Parallel.Type
+import flank.execution.parallel.ParallelState
+import flank.execution.parallel.Property
+import flank.execution.parallel.Tasks
 import flank.log.Event
 import flank.log.Output
 import flank.log.event

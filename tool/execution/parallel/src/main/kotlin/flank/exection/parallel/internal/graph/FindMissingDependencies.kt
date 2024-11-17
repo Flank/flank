@@ -1,4 +1,4 @@
-package flank.exection.parallel.internal.graph
+package flank.execution.parallel.internal.graph
 
 internal fun <T : Any> Map<T, Set<T>>.findMissingDependencies(
     initial: Set<T>

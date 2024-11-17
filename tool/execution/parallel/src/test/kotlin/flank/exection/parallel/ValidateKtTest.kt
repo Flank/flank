@@ -1,4 +1,4 @@
-package flank.exection.parallel
+package flank.execution.parallel
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail

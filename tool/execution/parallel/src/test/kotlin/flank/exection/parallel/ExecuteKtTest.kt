@@ -1,4 +1,4 @@
-package flank.exection.parallel
+package flank.execution.parallel
 
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay

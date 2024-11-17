@@ -1,11 +1,11 @@
-package flank.exection.parallel.benchmark
+package flank.execution.parallel.benchmark
 
-import flank.exection.parallel.Parallel
-import flank.exection.parallel.Tasks
-import flank.exection.parallel.from
-import flank.exection.parallel.internal.args
-import flank.exection.parallel.using
-import flank.exection.parallel.validate
+import flank.execution.parallel.Parallel
+import flank.execution.parallel.Tasks
+import flank.execution.parallel.from
+import flank.execution.parallel.internal.args
+import flank.execution.parallel.using
+import flank.execution.parallel.validate
 import kotlin.system.measureTimeMillis
 
 fun main() {

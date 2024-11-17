@@ -1,6 +1,6 @@
-package flank.exection.parallel
+package flank.execution.parallel
 
-import flank.exection.parallel.internal.type
+import flank.execution.parallel.internal.type
 import org.junit.Assert
 import org.junit.Test
 

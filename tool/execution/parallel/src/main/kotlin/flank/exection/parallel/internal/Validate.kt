@@ -1,11 +1,11 @@
-package flank.exection.parallel.internal
+package flank.execution.parallel.internal
 
-import flank.exection.parallel.Parallel
-import flank.exection.parallel.ParallelState
-import flank.exection.parallel.Tasks
-import flank.exection.parallel.internal.graph.findCycles
-import flank.exection.parallel.internal.graph.findDuplicatedDependencies
-import flank.exection.parallel.internal.graph.findMissingDependencies
+import flank.execution.parallel.Parallel
+import flank.execution.parallel.ParallelState
+import flank.execution.parallel.Tasks
+import flank.execution.parallel.internal.graph.findCycles
+import flank.execution.parallel.internal.graph.findDuplicatedDependencies
+import flank.execution.parallel.internal.graph.findMissingDependencies
 import kotlinx.coroutines.runBlocking
 
 // TODO: Check all cases and collect results, instead of throwing the first encountered error.

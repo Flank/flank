@@ -1,8 +1,8 @@
-package flank.exection.parallel
+package flank.execution.parallel
 
-import flank.exection.parallel.internal.contextValidatorTypes
-import flank.exection.parallel.internal.reduceTo
-import flank.exection.parallel.internal.type
+import flank.execution.parallel.internal.contextValidatorTypes
+import flank.execution.parallel.internal.reduceTo
+import flank.execution.parallel.internal.type
 
 /**
  * Reduce given [Tasks] by [expected] types to remove unneeded tasks from the graph.

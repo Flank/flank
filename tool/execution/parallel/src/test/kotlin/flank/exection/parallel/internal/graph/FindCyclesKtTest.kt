@@ -1,4 +1,4 @@
-package flank.exection.parallel.internal.graph
+package flank.execution.parallel.internal.graph
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

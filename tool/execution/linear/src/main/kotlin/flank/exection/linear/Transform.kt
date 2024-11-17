@@ -1,4 +1,4 @@
-package flank.exection.linear
+package flank.execution.linear
 
 import flank.log.Event
 import flank.log.Logger

@@ -1,7 +1,7 @@
-package flank.exection.parallel
+package flank.execution.parallel
 
-import flank.exection.parallel.internal.DynamicType
-import flank.exection.parallel.internal.EagerProperties
+import flank.execution.parallel.internal.DynamicType
+import flank.execution.parallel.internal.EagerProperties
 
 // ======================= Signature =======================
 

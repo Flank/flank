@@ -1,6 +1,6 @@
-package flank.exection.parallel
+package flank.execution.parallel
 
-import flank.exection.parallel.internal.checkThrowableValues
+import flank.execution.parallel.internal.checkThrowableValues
 
 /**
  * Verify that given [ParallelState] has no errors.

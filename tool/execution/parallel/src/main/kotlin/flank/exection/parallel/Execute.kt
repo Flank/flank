@@ -1,8 +1,8 @@
-package flank.exection.parallel
+package flank.execution.parallel
 
-import flank.exection.parallel.internal.Execution
-import flank.exection.parallel.internal.invoke
-import flank.exection.parallel.internal.minusContextValidators
+import flank.execution.parallel.internal.Execution
+import flank.execution.parallel.internal.invoke
+import flank.execution.parallel.internal.minusContextValidators
 import kotlinx.coroutines.flow.Flow
 
 /**

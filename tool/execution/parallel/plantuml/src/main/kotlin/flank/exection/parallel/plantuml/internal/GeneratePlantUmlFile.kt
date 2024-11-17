@@ -1,6 +1,6 @@
-package flank.exection.parallel.plantuml.internal
+package flank.execution.parallel.plantuml.internal
 
-import flank.exection.parallel.Tasks
+import flank.execution.parallel.Tasks
 import java.io.File
 
 internal fun generatePlanUmlFile(

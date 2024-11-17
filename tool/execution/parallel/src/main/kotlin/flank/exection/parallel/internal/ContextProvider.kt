@@ -1,9 +1,9 @@
-package flank.exection.parallel.internal
+package flank.execution.parallel.internal
 
-import flank.exection.parallel.ExecuteTask
-import flank.exection.parallel.Parallel
-import flank.exection.parallel.ParallelState
-import flank.exection.parallel.validator
+import flank.execution.parallel.ExecuteTask
+import flank.execution.parallel.Parallel
+import flank.execution.parallel.ParallelState
+import flank.execution.parallel.validator
 
 /**
  * Abstract factory for wrapping state into context and creating task function.

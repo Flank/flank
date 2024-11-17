@@ -7,12 +7,12 @@ Library for task parallelization and asynchronous execution.
 * Module type - [tool](../../docs/architecture.md#tool)
 * Dependency type - [static](../../docs/architecture.md#static_dependencies)
 * Public API
-    * Core - [Parallel.kt](./src/main/kotlin/flank/exection/parallel/Parallel.kt)
-    * Execution - [Execute.kt](./src/main/kotlin/flank/exection/parallel/Execute.kt)
-    * Task factories DSL - [Create.kt](./src/main/kotlin/flank/exection/parallel/Create.kt)
-    * Graph validation - [Create.kt](./src/main/kotlin/flank/exection/parallel/Validate.kt)
-    * Graph reduction - [Reduce.kt](./src/main/kotlin/flank/exection/parallel/Reduce.kt)
-* Example usage - [Example.kt](./src/test/kotlin/flank/exection/parallel/Example.kt)
+    * Core - [Parallel.kt](./src/main/kotlin/flank/execution/parallel/Parallel.kt)
+    * Execution - [Execute.kt](./src/main/kotlin/flank/execution/parallel/Execute.kt)
+    * Task factories DSL - [Create.kt](./src/main/kotlin/flank/execution/parallel/Create.kt)
+    * Graph validation - [Create.kt](./src/main/kotlin/flank/execution/parallel/Validate.kt)
+    * Graph reduction - [Reduce.kt](./src/main/kotlin/flank/execution/parallel/Reduce.kt)
+* Example usage - [Example.kt](./src/test/kotlin/flank/execution/parallel/Example.kt)
 
 # Design
 

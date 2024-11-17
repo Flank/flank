@@ -1,7 +1,7 @@
-package flank.exection.parallel.plantuml.internal
+package flank.execution.parallel.plantuml.internal
 
-import flank.exection.parallel.Parallel
-import flank.exection.parallel.Tasks
+import flank.execution.parallel.Parallel
+import flank.execution.parallel.Tasks
 import java.awt.Color
 
 // =================== Internal API ===================

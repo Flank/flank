@@ -1,9 +1,9 @@
-package flank.exection.parallel
+package flank.execution.parallel
 
-import flank.exection.parallel.Example.Args
-import flank.exection.parallel.Example.Hello
-import flank.exection.parallel.Example.Summary
-import flank.exection.parallel.Parallel.Type
+import flank.execution.parallel.Example.Args
+import flank.execution.parallel.Example.Hello
+import flank.execution.parallel.Example.Summary
+import flank.execution.parallel.Parallel.Type
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect

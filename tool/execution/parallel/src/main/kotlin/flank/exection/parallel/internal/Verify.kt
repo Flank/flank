@@ -1,6 +1,6 @@
-package flank.exection.parallel.internal
+package flank.execution.parallel.internal
 
-import flank.exection.parallel.ParallelState
+import flank.execution.parallel.ParallelState
 
 internal fun ParallelState.checkThrowableValues(): ParallelState =
     onEach { (_, value) -> if (value is Throwable) throw value }

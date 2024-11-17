@@ -1,9 +1,9 @@
-package flank.exection.parallel.internal
+package flank.execution.parallel.internal
 
-import flank.exection.parallel.Parallel.Task
-import flank.exection.parallel.Parallel.Type
-import flank.exection.parallel.Tasks
-import flank.exection.parallel.internal.graph.findDependenciesIn
+import flank.execution.parallel.Parallel.Task
+import flank.execution.parallel.Parallel.Type
+import flank.execution.parallel.Tasks
+import flank.execution.parallel.internal.graph.findDependenciesIn
 
 internal infix fun Tasks.reduceTo(
     expected: Set<Type<*>>

@@ -1,8 +1,8 @@
-package flank.exection.parallel
+package flank.execution.parallel
 
-import flank.exection.parallel.internal.ContextProvider
-import flank.exection.parallel.internal.EagerProperties
-import flank.exection.parallel.internal.lazyProperty
+import flank.execution.parallel.internal.ContextProvider
+import flank.execution.parallel.internal.EagerProperties
+import flank.execution.parallel.internal.lazyProperty
 import flank.log.Output
 
 // ======================= Types =======================

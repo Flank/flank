@@ -1,4 +1,4 @@
-package flank.exection.parallel
+package flank.execution.parallel
 
 /**
  * Select value by type.

@@ -1,8 +1,8 @@
-package flank.exection.parallel.plantuml
+package flank.execution.parallel.plantuml
 
-import flank.exection.parallel.Tasks
-import flank.exection.parallel.plantuml.internal.generatePlanUmlFile
-import flank.exection.parallel.plantuml.internal.generatePlantUmlString
+import flank.execution.parallel.Tasks
+import flank.execution.parallel.plantuml.internal.generatePlanUmlFile
+import flank.execution.parallel.plantuml.internal.generatePlantUmlString
 import java.io.File
 
 /**

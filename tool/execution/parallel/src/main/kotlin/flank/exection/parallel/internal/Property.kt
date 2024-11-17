@@ -1,7 +1,7 @@
-package flank.exection.parallel.internal
+package flank.execution.parallel.internal
 
-import flank.exection.parallel.Parallel
-import flank.exection.parallel.ParallelState
+import flank.execution.parallel.Parallel
+import flank.execution.parallel.ParallelState
 
 /**
  * Factory function for lazy property delegate.

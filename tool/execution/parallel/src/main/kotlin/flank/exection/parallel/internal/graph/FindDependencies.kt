@@ -1,4 +1,4 @@
-package flank.exection.parallel.internal.graph
+package flank.execution.parallel.internal.graph
 
 /**
  * Find dependencies for given nodes in [graph].

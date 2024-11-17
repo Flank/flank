@@ -1,4 +1,4 @@
-package flank.exection.parallel.internal.graph
+package flank.execution.parallel.internal.graph
 
 internal fun <T> List<T>.findDuplicatedDependencies(
     initial: Set<T>

@@ -1,6 +1,6 @@
-package flank.exection.parallel
+package flank.execution.parallel
 
-import flank.exection.parallel.internal.validateExecutionGraphs
+import flank.execution.parallel.internal.validateExecutionGraphs
 
 /**
  * Validate the given [Tasks] and [ParallelState] for finding missing dependencies or broken paths.
