@@ -540,7 +540,7 @@
 - [#1164](https://github.com/Flank/flank/pull/1164) Dependabot security issues ([Sloox](https://github.com/Sloox))
 ### Refactor
 - [#1350](https://github.com/Flank/flank/pull/1350) Ios test artifacts cleanup #1345 ([axelzuziak-gogo](https://github.com/axelzuziak-gogo), [jan-gogo](https://github.com/jan-gogo))
-- [#1339](https://github.com/Flank/flank/pull/1339) Simplify beforeRunTests return singature ([jan-gogo](https://github.com/jan-gogo))
+- [#1339](https://github.com/Flank/flank/pull/1339) Simplify beforeRunTests return signature ([jan-gogo](https://github.com/jan-gogo))
 - [#1281](https://github.com/Flank/flank/pull/1281) Prepare flank codebase for supporting iOS testplans ([axelzuziak-gogo](https://github.com/axelzuziak-gogo), [jan-gogo](https://github.com/jan-gogo))
 - [#1246](https://github.com/Flank/flank/pull/1246) Rewrite scripts to Kotlin ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
 ### CI Changes
