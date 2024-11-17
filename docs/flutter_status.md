@@ -290,7 +290,7 @@ even with option ```disable-sharding```. This behaviour probably could be fixed 
 
 ## How to create flutter tests for firebase
 
-You can find Flutter Integration test plugin documentation with example [here](https://pub.dev/packages/integration_test).
+See the [Flutter Integration test plugin documentation with example](https://pub.dev/packages/integration_test).
 
 ### Android side
 
