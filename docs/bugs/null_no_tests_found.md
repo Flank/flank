@@ -80,7 +80,7 @@ gcloud:
   use-orchestrator: true
 ```
 
-## Reported flade config
+## Reported fladle config
 ```groovy
 fladle {
     serviceAccountCredentials = file("pathToCredentials")
