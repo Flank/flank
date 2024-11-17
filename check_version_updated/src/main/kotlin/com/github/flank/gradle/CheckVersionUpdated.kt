@@ -32,9 +32,9 @@ class CheckVersionUpdated : Plugin<Project> {
 
         val localResultsStream = execAndGetStdout("git", "diff", "origin/master", "HEAD", "--", "build.gradle.kts")
             .split("\n")
-        val commitedResultsStream = execAndGetStdout("git", "diff", "origin/master", "--", "build.gradle.kts")
+        val committedResultsStream = execAndGetStdout("git", "diff", "origin/master", "--", "build.gradle.kts")
             .split("\n")
-        return (commitedResultsStream + localResultsStream)
+        return (committedResultsStream + localResultsStream)
             .filter { it.startsWith("-version = ") || it.startsWith("+version = ") }
             .isNotEmpty()
     }
