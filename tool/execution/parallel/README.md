@@ -137,10 +137,10 @@ val initial = mapOf(
 val flow1: Flow<ParallelState> = execute()
 
 // For execution with arguments (initial state)
-val flow2: Flow<ParallelState> = execute(intial)
+val flow2: Flow<ParallelState> = execute(initial)
 
 // For execution reduced to selected types with dependencies. 
-val flow3: Flow<ParallelState> = execute(Bar, Baz)(intial)
+val flow3: Flow<ParallelState> = execute(Bar, Baz)(initial)
 ```
 
 ### Process
