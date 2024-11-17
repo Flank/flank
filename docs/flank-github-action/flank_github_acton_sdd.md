@@ -80,10 +80,10 @@ runs:
       run: <download flank>
       shell: bash
     - id: validate configuration
-      run: <check if configuation file or any options are specified>
+      run: <check if configuration file or any options are specified>
       shell: bash
     - id: run flank
-      run: <check if configuation file or any options are specified>
+      run: <check if configuration file or any options are specified>
       shell: bash
     - id: report
       run: <show run report to user>
