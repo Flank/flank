@@ -28,10 +28,10 @@ private fun StringBuilder.appendItems(items: List<String>) = apply {
 }
 
 private fun String.appendThumbnail(thumbnailUrl: String?) =
-    if (!thumbnailUrl.isNullOrBlank()) StringBuilder(this).appendLine("\n$THUBNAIL_URL_HEADER $thumbnailUrl").toString()
+    if (!thumbnailUrl.isNullOrBlank()) StringBuilder(this).appendLine("\n$THUMBNAIL_URL_HEADER $thumbnailUrl").toString()
     else this
 
 private const val SUPPORTED_ABIS_HEADER = "supportedAbis:"
 private const val SUPPORTED_VERSIONS_HEADER = "supportedVersionIds:"
 private const val TAGS_HEADER = "tags:"
-private const val THUBNAIL_URL_HEADER = "thumbnailUrl:"
+private const val THUMBNAIL_URL_HEADER = "thumbnailUrl:"
