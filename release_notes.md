@@ -316,7 +316,7 @@
 - [#1793](https://github.com/Flank/flank/pull/1793) Added workaround for uppercase project name ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1784](https://github.com/Flank/flank/pull/1784) Skip Dump shards IT test ([Sloox](https://github.com/Sloox))
 - [#1782](https://github.com/Flank/flank/pull/1782) Fix entrypoint file name ([pawelpasterz](https://github.com/pawelpasterz))
-- [#1772](https://github.com/Flank/flank/pull/1772) Fix flank-scripts test failure on MacOS ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1772](https://github.com/Flank/flank/pull/1772) Fix flank-scripts test failure on macOS ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
 ### Features
 - [#1773](https://github.com/Flank/flank/pull/1773) Add printing total run duration ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1779](https://github.com/Flank/flank/pull/1779) Implement custom sharding -- iOS ([pawelpasterz](https://github.com/pawelpasterz))
