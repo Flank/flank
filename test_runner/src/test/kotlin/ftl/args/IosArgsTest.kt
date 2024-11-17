@@ -1172,7 +1172,7 @@ IosArgs
     }
 
     @Test
-    fun `should useAverageTestTimeForNewTests set to false by defaul`() {
+    fun `should useAverageTestTimeForNewTests set to false by default`() {
         val yaml = """
         gcloud:
           test: $testPath
