@@ -45,7 +45,7 @@
     </xs:element>
     <xs:complexType name="testsuite">
         <xs:annotation>
-            <xs:documentation xml:lang="en">Contains the results of exexuting a testsuite</xs:documentation>
+            <xs:documentation xml:lang="en">Contains the results of executing a testsuite</xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="properties">
