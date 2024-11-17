@@ -12,7 +12,7 @@ More information on this can be found at the official library: [Hypershard-andro
 
 1. Releases can be found downloaded from [Maven Central](https://search.maven.org/search?q=g:com.dropbox.mobile.hypershard)
     1. Ensure that you download the correct suffixed as follows `*-all.jar` library
-2. Alternatively cloning the repository found [here](https://github.com/dropbox/hypershard-android) 
+2. Alternatively cloning the repository [github.com/dropbox/hypershard-android](https://github.com/dropbox/hypershard-android) 
     1. Then running `./gradlew install` will produce a valid jarfile in the build directory.
 
 ### Running
