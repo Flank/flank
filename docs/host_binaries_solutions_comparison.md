@@ -159,7 +159,7 @@ Git diff looks like:
 
     If you don't have brew installed. Install it from [brew.sh](https://brew.sh)
 
-    Installing on other systems can be found [here](https://git-annex.branchable.com/install/)
+    Installing on other systems can be found at [git-annex install](https://git-annex.branchable.com/install/)
 
 2. Initialize
 
