@@ -220,7 +220,7 @@ When you change branch you can override file and commit changes (remember to unl
 
 ### How to configure new git-annex repository with google drive
 
-1. Install rclone from [here](https://downloads.rclone.org/v1.37/)
+1. Install rclone from [downloads.rclone.org](https://downloads.rclone.org/v1.37/)
 2. Install git-annex-rclone from [here](https://github.com/DanielDent/git-annex-remote-rclone)
 3. Go to repository directory and in console enter `rclone config`
 4. Init remote by `git annex initremote CONFIG_NAME type=external externaltype=rclone target=CONFIG_NAME prefix=git-annex chunk=50MiB encryption=shared mac=HMACSHA512 rclone_layout=lower`
