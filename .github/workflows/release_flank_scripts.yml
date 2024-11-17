@@ -8,7 +8,7 @@ on:
       - 'master'
 
 # TODO: update workflow permissions to least privilege after auditing all the APIs used
-# permissions:  # limit the permissions of the GITHIUB_TOKEN to reading repository contents
+# permissions:  # limit the permissions of the GITHUB_TOKEN to reading repository contents
 #   contents: read
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
     - uses: actions/checkout@v4
     - uses: gradle/wrapper-validation-action@v3
 
-    - name: Gradle Upload to Github packages and Github release
+    - name: Gradle Upload to GitHub packages and GitHub release
       uses: gradle/gradle-build-action@v3.5.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

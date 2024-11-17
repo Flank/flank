@@ -331,14 +331,14 @@
 - [#1732](https://github.com/Flank/flank/pull/1732) Follow up refactor fix ([pawelpasterz](https://github.com/pawelpasterz))
 - [#1725](https://github.com/Flank/flank/pull/1725) Ix cli class diagram link ()
 - [#1694](https://github.com/Flank/flank/pull/1694) Output path to local results github action ([piotradamczyk5](https://github.com/piotradamczyk5))
-- [#1693](https://github.com/Flank/flank/pull/1693) White space in Github action ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1693](https://github.com/Flank/flank/pull/1693) White space in GitHub action ([piotradamczyk5](https://github.com/piotradamczyk5))
 ### Documentation
 - [#1735](https://github.com/Flank/flank/pull/1735) Add base pages for flank layers ([jan-gogo](https://github.com/jan-gogo))
 - [#1714](https://github.com/Flank/flank/pull/1714) Flutter support ([jan-gogo](https://github.com/jan-gogo), [adamfilipow92](https://github.com/adamfilipow92))
 - [#1733](https://github.com/Flank/flank/pull/1733) Add flank component diagram ([jan-gogo](https://github.com/jan-gogo))
 - [#1707](https://github.com/Flank/flank/pull/1707) Add cli class diagram ([jan-gogo](https://github.com/jan-gogo))
 - [#1709](https://github.com/Flank/flank/pull/1709) Desktop POC SDD ([piotradamczyk5](https://github.com/piotradamczyk5))
-- [#1701](https://github.com/Flank/flank/pull/1701) Create Github marketplace documentation for Flank action ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1701](https://github.com/Flank/flank/pull/1701) Create GitHub marketplace documentation for Flank action ([piotradamczyk5](https://github.com/piotradamczyk5))
 ### Refactor
 - [#1741](https://github.com/Flank/flank/pull/1741) Rename cli package ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1588](https://github.com/Flank/flank/pull/1588) Investigate and create proposal ([pawelpasterz](https://github.com/pawelpasterz), [jan-gogo](https://github.com/jan-gogo))
@@ -366,9 +366,9 @@
 - [#1649](https://github.com/Flank/flank/pull/1649) JUnitReport.xml only contained 50 test results ([dmytrodanylyk](https://github.com/dmytrodanylyk))
 - [#1648](https://github.com/Flank/flank/pull/1648) Publishing to GithubPackages ([piotradamczyk5](https://github.com/piotradamczyk5))
 ### Features
-- [#1675](https://github.com/Flank/flank/pull/1675) Return directories path in Flank Github action ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
-- [#1673](https://github.com/Flank/flank/pull/1673) Run Flank Github action with config provided by user ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
-- [#1663](https://github.com/Flank/flank/pull/1663) Added reading service account in Github action ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1675](https://github.com/Flank/flank/pull/1675) Return directories path in Flank GitHub action ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1673](https://github.com/Flank/flank/pull/1673) Run Flank GitHub action with config provided by user ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1663](https://github.com/Flank/flank/pull/1663) Added reading service account in GitHub action ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1660](https://github.com/Flank/flank/pull/1660) Add Flank GitHub action ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1659](https://github.com/Flank/flank/pull/1659) Remove flank-actions ([Sloox](https://github.com/Sloox))
 - [#1655](https://github.com/Flank/flank/pull/1655) Update Flank Slack release notifier ([Sloox](https://github.com/Sloox))
@@ -391,12 +391,12 @@
 - [#1641](https://github.com/Flank/flank/pull/1641) Add missing subcommands ([pawelpasterz](https://github.com/pawelpasterz))
 - [#1642](https://github.com/Flank/flank/pull/1642) Fix release workflow ([pawelpasterz](https://github.com/pawelpasterz))
 - [#1640](https://github.com/Flank/flank/pull/1640) Fix gradle command ([pawelpasterz](https://github.com/pawelpasterz))
-- [#1618](https://github.com/Flank/flank/pull/1618) Publish Flank-scripts to Github ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1618](https://github.com/Flank/flank/pull/1618) Publish Flank-scripts to GitHub ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1614](https://github.com/Flank/flank/pull/1614) Publish flank to maven central ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
 ### Documentation
 - [#1627](https://github.com/Flank/flank/pull/1627) Explore test-targets-for-shards SDD ([Sloox](https://github.com/Sloox), [piotradamczyk5](https://github.com/piotradamczyk5))
-- [#1592](https://github.com/Flank/flank/pull/1592) Fix SDD for Github action ([piotradamczyk5](https://github.com/piotradamczyk5))
-- [#1590](https://github.com/Flank/flank/pull/1590) Github action SDD proposal ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1592](https://github.com/Flank/flank/pull/1592) Fix SDD for GitHub action ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1590](https://github.com/Flank/flank/pull/1590) GitHub action SDD proposal ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1583](https://github.com/Flank/flank/pull/1583) Flank-scripts ops package organization ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1566](https://github.com/Flank/flank/pull/1566) Flank-scripts command overview ([piotradamczyk5](https://github.com/piotradamczyk5))
 ### Features
@@ -407,7 +407,7 @@
 - [#1631](https://github.com/Flank/flank/pull/1631) Update compare files in IT ([Sloox](https://github.com/Sloox), [pawelpasterz](https://github.com/pawelpasterz))
 - [#1628](https://github.com/Flank/flank/pull/1628) Remove analytics from integration tests ([Sloox](https://github.com/Sloox))
 - [#1626](https://github.com/Flank/flank/pull/1626) Spacing fix for yml file ([Sloox](https://github.com/Sloox))
-- [#1620](https://github.com/Flank/flank/pull/1620) Authenticate in Github CLI before release Flank-Scripts ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1620](https://github.com/Flank/flank/pull/1620) Authenticate in GitHub CLI before release Flank-Scripts ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1619](https://github.com/Flank/flank/pull/1619) Releasing flank-scripts ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1617](https://github.com/Flank/flank/pull/1617) Release job ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1612](https://github.com/Flank/flank/pull/1612) NPE on dumpShards ([adamfilipow92](https://github.com/adamfilipow92))
@@ -552,8 +552,8 @@
 - [#1286](https://github.com/Flank/flank/pull/1286) Update existing bot comment ([pawelpasterz](https://github.com/pawelpasterz))
 - [#1269](https://github.com/Flank/flank/pull/1269) Add build scan for ubuntu workflow ([pawelpasterz](https://github.com/pawelpasterz))
 - [#1265](https://github.com/Flank/flank/pull/1265) Refresh integration tests ([piotradamczyk5](https://github.com/piotradamczyk5))
-- [#1263](https://github.com/Flank/flank/pull/1263) Github Action optimizations ([piotradamczyk5](https://github.com/piotradamczyk5))
-- [#1253](https://github.com/Flank/flank/pull/1253) Use Github app token for creating release notes ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1263](https://github.com/Flank/flank/pull/1263) GitHub Action optimizations ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1253](https://github.com/Flank/flank/pull/1253) Use GitHub app token for creating release notes ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1248](https://github.com/Flank/flank/pull/1248) Update deprecated options ::set-env and ::add-path ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1240](https://github.com/Flank/flank/pull/1240) Add current date to dependency PR ([pawelpasterz](https://github.com/pawelpasterz))
 - [#1148](https://github.com/Flank/flank/pull/1148) Add scripts for test artifacts managment ([jan-gogo](https://github.com/jan-gogo), [piotradamczyk5](https://github.com/piotradamczyk5))
@@ -677,7 +677,7 @@
 
 ## v20.08.3
 ### CI Changes
-- [#1031](https://github.com/Flank/flank/pull/1031) Disable publishing snapshot to Github Packages ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1031](https://github.com/Flank/flank/pull/1031) Disable publishing snapshot to GitHub Packages ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#1022](https://github.com/Flank/flank/pull/1022) Publish to GitHub packages ([piotradamczyk5](https://github.com/piotradamczyk5))
 ### Bug Fixes
 - [#1027](https://github.com/Flank/flank/pull/1027) OtherNativeCrash NPE ([jan-gogo](https://github.com/jan-gogo))
@@ -706,7 +706,7 @@
 - [#990](https://github.com/Flank/flank/pull/990) Exclusion of @Suppress test ([piotradamczyk5](https://github.com/piotradamczyk5))
 ### CI Changes
 - [#1015](https://github.com/Flank/flank/pull/1015) Update mergify configuration ([piotradamczyk5](https://github.com/piotradamczyk5))
-- [#1011](https://github.com/Flank/flank/pull/1011) Generate release notes for Github release description ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1011](https://github.com/Flank/flank/pull/1011) Generate release notes for GitHub release description ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#989](https://github.com/Flank/flank/pull/989) Check if valid title is used in PR ([piotradamczyk5](https://github.com/piotradamczyk5))
 ### Documentation
 - [#987](https://github.com/Flank/flank/pull/987) Analytics addition to readme ([Sloox](https://github.com/Sloox))

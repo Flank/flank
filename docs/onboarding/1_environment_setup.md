@@ -16,7 +16,7 @@ export PATH=$PATH:$HOME/Library/Python/2.7/bin
 #export PATH=$PATH:$HOME/"path to your local gcloud repository"/gcloud_cli/google-cloud-sdk/bin
 export FLANK_PROJECT_ID=ftl-flank-open-source
 export GOOGLE_CLOUD_PROJECT=ftl-flank-open-source
-export GITHUB_TOKEN="type your gihub token here"
+export GITHUB_TOKEN="type your github token here"
 ```
 
 ### Common

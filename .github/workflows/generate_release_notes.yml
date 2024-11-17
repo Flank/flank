@@ -3,7 +3,7 @@ name: "[Release] Step 1: Generate release notes"
 on:
   workflow_dispatch:
 
-# limit the permissions of the GITHIUB_TOKEN to reading repository contents
+# limit the permissions of the GITHUB_TOKEN to reading repository contents
 # the subsequent pull request uses a token from the 'generate-token' step
 permissions:
   contents: read
