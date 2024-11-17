@@ -44,7 +44,7 @@ More information on this can be found at the official library: [Hypershard-andro
      dirs  Dir(s) to process. The location of the test classes to parse
    ```
 
-3. An example run of hypershard for flank where the the current directory is flank root:
+3. An example run of hypershard for flank where the current directory is flank root:
 
    ```bash
    >java -jar hypershard-1.1.2-all.jar ./test_runner/src/test/kotlin/ftl/reports/util/
