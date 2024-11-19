@@ -57,7 +57,7 @@ jobs:
           labels: |
             automated pr
             dependencies
-          reviewers: adamvduke,jakeouellette,tonybaroneee
+          reviewers: kaibolay,jakeouellette,tonybaroneee
           draft: false
 
   update_firebase_api:
@@ -102,7 +102,7 @@ jobs:
           labels: |
             automated pr
             firebase_api
-          reviewers: adamvduke,jakeouellette,tonybaroneee
+          reviewers: kaibolay,jakeouellette,tonybaroneee
           draft: false
 
   check_for_sdk_updates:

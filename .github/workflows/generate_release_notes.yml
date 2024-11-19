@@ -55,6 +55,6 @@ jobs:
         labels: |
           automated pr
           release
-        reviewers: adamvduke,jakeouellette,tonybaroneee
+        reviewers: kaibolay,jakeouellette,tonybaroneee
           owners
         draft: false
