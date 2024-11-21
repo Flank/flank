@@ -8,7 +8,7 @@ on:
     branches:
       - '*'
 
-permissions:  # limit the permissions of the GITHIUB_TOKEN to reading repository contents
+permissions:  # limit the permissions of the GITHUB_TOKEN to reading repository contents
   contents: read
 
 jobs:
@@ -41,17 +41,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      
       - id: build
         name: Gradle clean build
-        uses: gradle/gradle-build-action@v3.5.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_REF: ${{ github.head_ref }}
-        with:
-          arguments: "clean build"
-
+        run: ./gradlew clean build
+      
   publish-scan-url:
-    needs: [ build ]
+    needs: 
+      - build
     permissions:
       pull-requests: write # to allow creating or updating a comment
     if: ${{ github.event_name == 'pull_request' }}
@@ -67,34 +69,15 @@ jobs:
         uses: 1466587594/get-current-time@v2
         id: current-time
         with:
-          format: 'YYYY-MM-DD HH:mm:ss'
+          format: "YYYY-MM-DD HH:mm:ss"
           utcOffset: "+00:00"
 
-      - name: Find Comment
-        uses: peter-evans/find-comment@v3
-        id: fc
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-author: 'github-actions[bot]'
-          body-includes: Buildscan url for ubuntu-workflow run
-
-      - name: Create comment
-        if: ${{ steps.fc.outputs.comment-id == 0 }}
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            **Timestamp:** ${{ steps.current-time.outputs.formattedTime }}
-            **Buildscan url for ubuntu-workflow run [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
-            ${{ needs.build.outputs.build-scan-url }}
-
-      - name: Update comment
-        if: ${{ steps.fc.outputs.comment-id != 0 }}
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          comment-id: ${{ steps.fc.outputs.comment-id }}
-          edit-mode: replace
-          body: |
-            **Timestamp:** ${{ steps.current-time.outputs.formattedTime }}
-            **Buildscan url for ubuntu-workflow run [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
-            ${{ needs.build.outputs.build-scan-url }}
+      - name: Write Buildscan URL to Summary
+        env:
+          TIMESTAMP: ${{ steps.current-time.outputs.formattedTime }}
+          BUILD_SCAN_URL: ${{ needs.build.outputs.build-scan-url }}
+        run: |
+          echo "**Timestamp:** $TIMESTAMP" >> $GITHUB_STEP_SUMMARY
+          echo "**Buildscan URL for ubuntu-workflow run:**" >> $GITHUB_STEP_SUMMARY
+          echo "[$GITHUB_RUN_ID](https://github.com/Flank/flank/actions/runs/$GITHUB_RUN_ID)" >> $GITHUB_STEP_SUMMARY
+          echo "$BUILD_SCAN_URL" >> $GITHUB_STEP_SUMMARY

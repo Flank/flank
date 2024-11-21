@@ -14,7 +14,7 @@ Google API clients (`google-api-*-client`)
 - Low level
 - Auto generated
 - Made for JSON REST APIs
-- Older project - [maintence mode](https://github.com/GoogleCloudPlatform/google-cloud-ruby/issues/1604#issuecomment-316834237)
+- Older project - [maintenance mode](https://github.com/GoogleCloudPlatform/google-cloud-ruby/issues/1604#issuecomment-316834237)
 
 Google APIs toolkit (`googleapis/toolkit`)
 - Low level
@@ -36,7 +36,7 @@ Google Cloud libraries (`google-cloud-*`)
 - [google-api-go-client](https://github.com/google/google-api-go-client)
   - [google-api-go-generator](https://github.com/google/google-api-go-client/tree/master/google-api-go-generator)
 - [google-api-java-client](https://github.com/google/google-api-java-client)
-- [google-api-javascript-client](https://github.com/google/google-api-javascript-client) - not offically [marked as maintence,](https://github.com/google/google-api-javascript-client/issues/320) however no new updates since May 2017.
+- [google-api-javascript-client](https://github.com/google/google-api-javascript-client) - not officially [marked as maintenance,](https://github.com/google/google-api-javascript-client/issues/320) however no new updates since May 2017.
 - [google-api-dotnet-client](https://github.com/google/google-api-dotnet-client)
 - [google-api-objectivec-client](https://github.com/google/google-api-objectivec-client)
   - Deprecated. Replaced entirely by [google-api-objectivec-client-for-rest](https://github.com/google/google-api-objectivec-client-for-rest)

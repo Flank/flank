@@ -69,7 +69,7 @@ class DumpShardsKtTest {
   }
 }
         """.trimIndent()
-        if (isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
+        if (isWindows) return // TODO Windows Linux subsystem does not contain all expected commands
         // when
         val actual = runBlocking {
             AndroidArgs.load(mixedConfigYaml).dumpShards(TEST_SHARD_FILE)
@@ -138,7 +138,7 @@ class DumpShardsKtTest {
 
     @Test
     fun `dump shards ios`() {
-        assumeFalse(isWindows) // TODO Windows Linux subsytem does not contain all expected commands
+        assumeFalse(isWindows) // TODO Windows Linux subsystem does not contain all expected commands
 
         // given
         val expected = """
@@ -173,7 +173,7 @@ class DumpShardsKtTest {
 
     @Test
     fun `dump shards obfuscated ios`() {
-        assumeFalse(isWindows) // TODO Windows Linux subsytem does not contain all expected commands
+        assumeFalse(isWindows) // TODO Windows Linux subsystem does not contain all expected commands
 
         // given
         val expected = """

@@ -125,7 +125,7 @@ class ReportManagerTest {
         val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
         val mockArgs = prepareMockAndroidArgs()
         every { mockArgs.useLegacyJUnitResult } returns false
-        every { mockArgs.project } returns "projecId"
+        every { mockArgs.project } returns "projectId"
 
         mockkObject(GoogleJUnitTestFetch)
         mockkStatic("ftl.client.junit.CreateJUnitTestResultKt")
@@ -142,7 +142,7 @@ class ReportManagerTest {
         val mockArgs = prepareMockAndroidArgs()
         every { mockArgs.useLegacyJUnitResult } returns false
         every { mockArgs.fullJUnitResult } returns true
-        every { mockArgs.project } returns "projecId"
+        every { mockArgs.project } returns "projectId"
 
         mockkObject(GoogleJUnitTestFetch)
         mockkStatic("ftl.client.junit.CreateJUnitTestResultKt")

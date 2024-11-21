@@ -26,7 +26,7 @@ import org.junit.runners.model.Statement
 
 class ScreenshotTestRule : TestRule {
     // Note: Data seeding must happen before we run a test. As a result, retrying failed tests
-    //       at the JUnit level doesn"t make sense because we can"t run data seeeding.
+    //       at the JUnit level doesn't make sense because we can't run data seeding.
     //
     // Run all test methods tryCount times. Take screenshots on failure.
     // A method rule would allow targeting specific (method.getAnnotation(Retry.class))

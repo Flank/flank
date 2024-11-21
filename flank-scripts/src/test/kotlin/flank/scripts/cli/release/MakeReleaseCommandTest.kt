@@ -33,7 +33,7 @@ class MakeReleaseCommandTest {
     }
 
     @Test
-    fun `Should return successfully run release for snasphot`() {
+    fun `Should return successfully run release for snapshot`() {
         // given
         mockkStatic("flank.scripts.ops.github.ReleaseFlankKt")
         every { releaseFlank(any(), any(), any(), any(), any()) } returns 0

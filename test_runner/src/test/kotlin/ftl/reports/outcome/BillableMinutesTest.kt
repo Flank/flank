@@ -107,7 +107,7 @@ class BillableMinutesTest {
     }
 
     @Test
-    fun `should return multiple mixed billing - timeouted`() {
+    fun `should return multiple mixed billing - timed out`() {
         val timeout = 120L
         val expectedVirtual = 3L
         val expectedPhysical = 4L
