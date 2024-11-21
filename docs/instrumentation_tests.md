@@ -13,7 +13,7 @@ Tests can be run with Gradle wrapper and parametrized by command-line arguments
    2. for android ```firebase, test, ios, run```
 4. ```working-directory``` optional parameter for set working directory default is: ```./```
 5. ```output-pattern``` optional parameter for set regex to compare output
-6. ```expected-output-code``` optional parameter for for veryfi output code default: 0
+6. ```expected-output-code``` optional parameter for verify output code default: 0
 
 ## Example of run android test
 

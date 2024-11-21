@@ -38,7 +38,7 @@ package client {
 [User interface] -up-> [Public functions]
 [Internal logic] <- [Public functions]
 [Internal logic] --> Interfaces
-[Document parser] -> [Third-party serializator]
+[Document parser] -> [Third-party serializer]
 [Complicated calculations] <-down-- [Internal logic]
 [Structures generator] <-down- [Internal logic]
 [Document parser] <-down- [Internal logic]

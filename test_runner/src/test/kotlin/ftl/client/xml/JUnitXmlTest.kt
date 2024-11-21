@@ -405,7 +405,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     fun `merge testTimes`() {
         /**
          * 1. First run generates local merged JUnit XML
-         *    - Firbase XML downloaded from each shard
+         *    - Firebase XML downloaded from each shard
          *    - Merged XML is saved locally
          *
          * 2. Time XML is generated from merged JUnit XML

@@ -1,4 +1,4 @@
-# Working with Windows on Github actions
+# Working with Windows on GitHub actions
 
 ## Differences between system property user.home and environment variable HOMEPATH
 

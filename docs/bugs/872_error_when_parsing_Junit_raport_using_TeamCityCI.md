@@ -178,7 +178,7 @@ But when user back to old configuration, he can still reproduce problem.
 
 #### Issue reported to TeamCity https://youtrack.jetbrains.com/issue/TW-66753
 
-TeamCity team cannot reproduce the problem, thay asked about additional logs, but User could deliver them in next week (starting 13-07-2020), until that we must wait.
+TeamCity team cannot reproduce the problem, they asked about additional logs, but User could deliver them in next week (starting 13-07-2020), until that we must wait.
 
 
 

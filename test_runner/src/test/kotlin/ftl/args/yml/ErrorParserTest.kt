@@ -24,7 +24,7 @@ class ErrorParserTest {
 
     @Test
     fun `parse json mapping error`() {
-        val instantionError =
+        val instantiationError =
             "Instantiation of [simple type, class ftl.config.Device] value failed for JSON property version due to missing (therefore NULL) value for creator parameter version which is a non-nullable type\n" +
                 " at [Source: (StringReader); line: 23, column: 3] (through reference chain: ftl.args.yml.AndroidGcloudYml[\"gcloud\"]->ftl.args.yml.AndroidGcloudYmlParams[\"device\"]->java.util.ArrayList[4]->ftl.config.Device[\"version\"])"
 
@@ -34,17 +34,17 @@ Missing element or value for: 'version'
 At line: 23, column: 3
         """.trimIndent()
         val buildErrorMessage = ConfigurationErrorMessageBuilder
-        Assert.assertEquals(expected, buildErrorMessage(instantionError))
+        Assert.assertEquals(expected, buildErrorMessage(instantiationError))
     }
 
     @Test
     fun `return exception with inner message on parse error`() {
-        val instantionError =
+        val instantiationError =
             "Instantiation oflParams[\"device\"]->java.util.A"
         val expected = "Parse message error: Instantiation oflParams[\"device\"]->java.util.A".trimIndent()
         val buildErrorMessage = ConfigurationErrorMessageBuilder
 
-        Assert.assertEquals(expected, buildErrorMessage(instantionError))
+        Assert.assertEquals(expected, buildErrorMessage(instantiationError))
     }
 
     @Test(expected = FlankConfigurationError::class)

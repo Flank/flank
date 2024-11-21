@@ -43,9 +43,9 @@ open class CheckVersionUpdatedTask : DefaultTask() {
     private fun Project.isVersionChangedInBuildGradle(): Boolean {
         val localResultsStream = execAndGetStdout("git", "diff", "origin/master", "HEAD", "--", "build.gradle.kts")
             .split("\n")
-        val commitedResultsStream = execAndGetStdout("git", "diff", "origin/master", "--", "build.gradle.kts")
+        val committedResultsStream = execAndGetStdout("git", "diff", "origin/master", "--", "build.gradle.kts")
             .split("\n")
-        return (commitedResultsStream + localResultsStream)
+        return (committedResultsStream + localResultsStream)
             .any { it.startsWith("-version = ") || it.startsWith("+version = ") }
     }
 

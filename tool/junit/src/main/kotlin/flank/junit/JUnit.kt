@@ -28,7 +28,7 @@ fun List<JUnit.TestResult>.generateJUnitReport(): JUnit.Report =
     JUnit.Report(mapToTestSuites())
 
 /**
- * Write JUnite report as formatted XML string.
+ * Write JUnit report as formatted XML string.
  *
  * @receiver Structural representation of XML JUnit report.
  * @param writer The output where report will be written.

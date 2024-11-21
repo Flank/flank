@@ -19,7 +19,7 @@ class ConventionalCommitFormatterTest(
             arrayOf("feat: Sample", "Features", "Sample"),
             arrayOf("fix: Bug", "Bug Fixes", "Bug"),
             arrayOf("docs: New", "Documentation", "New"),
-            arrayOf("refactor: Eveerything", "Refactor", "Eveerything"),
+            arrayOf("refactor: Everything", "Refactor", "Everything"),
             arrayOf("ci(cd): actions", "CI Changes", "Actions"),
             arrayOf("test(ios): update", "Tests update", "Update"),
             arrayOf("perf!: 10%", "Performance upgrade", "10%"),

@@ -6,7 +6,7 @@ Run mobile tests in parallel on virtual devices driven by Corellium backend.
 
 The Flank - Corellium integration is at the MVP stage, so only the core and most important features are available.
 
-[Read more](https://github.com/sparkrnyc/sparkr_general_docs/wiki/What-are-Prototype,-POC,-Alpha,-Beta-and-MVP#minimum-viable-product-mvp) about Minimum Viable Product.
+Read more about [Minimum Viable Product](https://github.com/sparkrnyc/sparkr_general_docs/wiki/What-are-Prototype,-POC,-Alpha,-Beta-and-MVP#minimum-viable-product-mvp).
 
 ## Supported API levels
 

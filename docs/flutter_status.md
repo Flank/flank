@@ -69,7 +69,7 @@ The result is different from expected behaviour.
 
 Using this option you can specify shards targets by:
 
-* `metod` - test method name
+* `method` - test method name
 * `class` - test class name
 * `package` - test package name
 * `annotation`
@@ -167,7 +167,7 @@ The gcloud can run tests by class or package if there are exists in test apk as 
 
 This option works similar to Using this option you can filter test cases for running only the specified units:
 
-* `metod` - test method name
+* `method` - test method name
 * `class` - test class name
 * `package` - test package name
 * `annotation`
@@ -290,7 +290,7 @@ even with option ```disable-sharding```. This behaviour probably could be fixed 
 
 ## How to create flutter tests for firebase
 
-You can find Flutter Integration test plugin documentation with example [here](https://pub.dev/packages/integration_test).
+See the [Flutter Integration test plugin documentation with example](https://pub.dev/packages/integration_test).
 
 ### Android side
 
