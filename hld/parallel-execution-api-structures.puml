@@ -1,0 +1,56 @@
+@startuml
+package "parallel" {
+class "Parallel.Context" as Context {
+out: Output?
+}
+class "Parallel.Task" as Task<R> {
+signature: Signature<R>
+execute: ExecuteTask<R>
+}
+class "Parallel.Task.Signature" as Signature<R>{
+returns: Type<R>
+args: Set<Type<*>>
+}
+class "Parallel.Function" as Function<X: ParallelContext> {
+context: () -> X
+= suspend <R> (ExecuteTaskInContext) -> ExecuteTask
+}
+interface "Any data" as Data << (R, yellow) >>
+interface ExecuteTask<R> << (T, orchid) >> {
+= suspend ParallelState.() -> R
+}
+interface ExecuteTaskInContext<X: Parallel.Context> << (T, orchid) >> {
+= suspend X.() -> R
+}
+interface "Parallel.Type" as Type <T>
+interface ParallelState << (T, orchid) >> {
+= Map<Parallel.Type<*>, Any>
+}
+interface Output << (T, orchid) >> {
+= Any.() -> Unit
+}
+
+Function ..> ExecuteTask
+Function #.. ExecuteTaskInContext
+
+ExecuteTaskInContext #.. Context
+ExecuteTaskInContext .> Data
+
+Data <. ExecuteTask
+Data "*" --o "1" ParallelState
+
+ExecuteTask "1" -* "1" Task
+ExecuteTask #.. ParallelState
+
+Context --|> Type
+Context "0..1" o..> "1" Output
+
+ParallelState "1" -o "1" Context
+ParallelState "1" o- "*" Type
+
+Task "1" *-- "1" Signature
+
+Type "1" -* "1" Signature
+Type "*" -o "1" Signature
+
+@enduml

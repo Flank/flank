@@ -1,0 +1,37 @@
+// tag::picocli-generated-full-manpage[]
+
+// tag::picocli-generated-man-section-name[]
+== Name
+
+flank.jar
+-firebase-test-ios-models - Information about available models
+
+// end::picocli-generated-man-section-name[]
+
+// tag::picocli-generated-man-section-synopsis[]
+== Synopsis
+
+*flank.jar
+ firebase test ios models* [COMMAND]
+
+// end::picocli-generated-man-section-synopsis[]
+
+// tag::picocli-generated-man-section-description[]
+== Description
+
+Information about available models. For example prints list of available models to test against
+
+// end::picocli-generated-man-section-description[]
+
+// tag::picocli-generated-man-section-commands[]
+== Commands
+
+*list*::
+  Print current list of devices available to test against
+
+*describe*::
+  Describe iOS model 
+
+// end::picocli-generated-man-section-commands[]
+
+// end::picocli-generated-full-manpage[]

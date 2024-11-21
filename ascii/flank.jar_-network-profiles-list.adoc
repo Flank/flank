@@ -1,0 +1,26 @@
+// tag::picocli-generated-full-manpage[]
+
+// tag::picocli-generated-man-section-name[]
+== Name
+
+flank.jar
+-network-profiles-list - List all network profiles available for testing 
+
+// end::picocli-generated-man-section-name[]
+
+// tag::picocli-generated-man-section-synopsis[]
+== Synopsis
+
+*flank.jar
+ network-profiles list*
+
+// end::picocli-generated-man-section-synopsis[]
+
+// tag::picocli-generated-man-section-description[]
+== Description
+
+
+
+// end::picocli-generated-man-section-description[]
+
+// end::picocli-generated-full-manpage[]

@@ -1,0 +1,34 @@
+// tag::picocli-generated-full-manpage[]
+
+// tag::picocli-generated-man-section-name[]
+== Name
+
+flank.jar
+-network-profiles-describe - Describe a network profile 
+
+// end::picocli-generated-man-section-name[]
+
+// tag::picocli-generated-man-section-synopsis[]
+== Synopsis
+
+*flank.jar
+ network-profiles describe* _PROFILE_ID_
+
+// end::picocli-generated-man-section-synopsis[]
+
+// tag::picocli-generated-man-section-description[]
+== Description
+
+
+
+// end::picocli-generated-man-section-description[]
+
+// tag::picocli-generated-man-section-arguments[]
+== Arguments
+
+_PROFILE_ID_::
+  The network profile to describe, found using $ gcloud beta firebase test network-profiles list.
+
+// end::picocli-generated-man-section-arguments[]
+
+// end::picocli-generated-full-manpage[]

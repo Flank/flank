@@ -1,0 +1,41 @@
+// tag::picocli-generated-full-manpage[]
+
+// tag::picocli-generated-man-section-name[]
+== Name
+
+flank.jar
+-firebase-test-ios-doctor - Verifies flank firebase is setup correctly
+
+// end::picocli-generated-man-section-name[]
+
+// tag::picocli-generated-man-section-synopsis[]
+== Synopsis
+
+*flank.jar
+ firebase test ios doctor* [*-fh*] [*-c*=_<configPath>_]
+
+// end::picocli-generated-man-section-synopsis[]
+
+// tag::picocli-generated-man-section-description[]
+== Description
+
+Validates iOS YAML and connection to iOS catalog.
+
+
+// end::picocli-generated-man-section-description[]
+
+// tag::picocli-generated-man-section-options[]
+== Options
+
+*-c*, *--config*=_<configPath>_::
+  YAML config file path
+
+*-h*, *--help*::
+  Prints this help message
+
+*-f*, *--fix*::
+  Auto fix flank YAML file
+
+// end::picocli-generated-man-section-options[]
+
+// end::picocli-generated-full-manpage[]

@@ -1,0 +1,52 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+left to right direction
+
+legend left
+  |= Color |= Description |
+  |<#LightYellow>| Implemented |
+  |<#LightBlue>| Roadmap |
+end legend
+
+package ftl {
+
+package presentation {
+package cli {
+[Command line interface]
+}
+package desktop {
+[Desktop GUI] #LightBlue
+}
+package service {
+[Web socket API] #LightBlue
+}
+}
+
+package domain {
+[Internal domain logic] <- [Public domain functions]
+}
+
+package api {
+[Structures] - () Interfaces
+}
+
+package adapter {
+[Google OAuth2]
+[Google cloud bucket]
+[Firebase Test Lab]
+[Corellium] #LightBlue
+}
+
+[Command line interface] --> [Public domain functions]
+[Desktop GUI] --> [Public domain functions]
+[Web socket API] --> [Public domain functions]
+[Public domain functions] --> Interfaces
+Interfaces <---- [Google OAuth2]
+Interfaces <-- [Google cloud bucket]
+Interfaces <-- [Firebase Test Lab]
+Interfaces <- [Corellium]
+
+}
+
+@enduml

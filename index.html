@@ -1,0 +1,2629 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Flank is a massively parallel Android and iOS test runner for Firebase Test Lab.">
+      
+      
+      
+        <link rel="canonical" href="https://flank.github.io/flank/">
+      
+      
+      
+        <link rel="next" href="flank_vision/">
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.45">
+    
+    
+      
+        <title>Flank</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.0253249f.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="stylesheets/extra.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#flank" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Flank" class="md-header__button md-logo" aria-label="Flank" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flank
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Home
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Flank/flank/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flank
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Flank" class="md-nav__button md-logo" aria-label="Flank" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Flank
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Flank/flank/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flank
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    <span class="md-ellipsis">
+      Download
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contributing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contributing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Features
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exit-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exit Codes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      CLI
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CLI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flank-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Flank configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ios-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      iOS example
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#android-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Android example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flank-wrapper" class="md-nav__link">
+    <span class="md-ellipsis">
+      Flank Wrapper
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#android-code-coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Android code coverage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ci-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      CI integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CI integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#circle-ci" class="md-nav__link">
+    <span class="md-ellipsis">
+      Circle CI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bitrise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bitrise
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gradle-plugin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gradle Plugin
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flank-on-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Flank on Windows
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authenticate-with-a-google-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authenticate with a Google account
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authenticate-with-a-service-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authenticate with a service account
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-with-gcloud-directly" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running with gcloud directly
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#doctor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Doctor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#check-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      Check version
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maven" class="md-nav__link">
+    <span class="md-ellipsis">
+      Maven
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gradle-enterprise-export-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gradle Enterprise Export API
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="flank_vision/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vision
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_sharding/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sharding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="smart_flank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Smart Flank
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="building_updating_flank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Building & updating Flank
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="windows_wsl_guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows WSL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="cucumber_support/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cucumber
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="flank_corellium/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Corellium
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Contribution
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Contribution
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pr_titles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pull request
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Development
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="onboarding/1_environment_setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Environment setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="onboarding/2_contribution/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contribution
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="onboarding/3_estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="onboarding/4_buddy_system/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Buddy system
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="onboarding/5_code_review/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code review
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_artifacts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Test artifacts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="client_generation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Client generation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="dependencies_update_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dependencies update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="flank_secrets/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="release_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Releasing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="binaries_used_in_flank_io_testing.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Binaries for Flank's iOS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture abstraction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    High-level design
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            High-level design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl#flank-high-level-design" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_2" id="__nav_11_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Presentation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_2">
+            <span class="md-nav__icon md-icon"></span>
+            Presentation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/presentation#presentation" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/cli#cli" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CLI
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/domain#domain" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Domain
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/data#data" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/adapter#adapter" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Adapter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Hypershard
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            Hypershard
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="hypershard_ios/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    iOS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="hypershard_android/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Android
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    <span class="md-ellipsis">
+      Download
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contributing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contributing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Features
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exit-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exit Codes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      CLI
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CLI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flank-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Flank configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ios-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      iOS example
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#android-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Android example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flank-wrapper" class="md-nav__link">
+    <span class="md-ellipsis">
+      Flank Wrapper
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#android-code-coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Android code coverage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ci-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      CI integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CI integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#circle-ci" class="md-nav__link">
+    <span class="md-ellipsis">
+      Circle CI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bitrise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bitrise
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gradle-plugin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gradle Plugin
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flank-on-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Flank on Windows
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authenticate-with-a-google-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authenticate with a Google account
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authenticate-with-a-service-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authenticate with a service account
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-with-gcloud-directly" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running with gcloud directly
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#doctor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Doctor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#check-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      Check version
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maven" class="md-nav__link">
+    <span class="md-ellipsis">
+      Maven
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gradle-enterprise-export-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gradle Enterprise Export API
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="flank">Flank</h1>
+<p>Flank is a <a href="https://docs.google.com/presentation/d/1goan9cXpimSJsS3L60WjljnFA_seUyaWb2e-bezm084/edit#slide=id.p1">massively parallel Android and iOS test runner</a> for <a href="https://firebase.google.com/docs/test-lab/">Firebase Test Lab</a>.</p>
+<p>Flank is YAML compatible with <a href="https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test">the gcloud CLI</a>. Flank provides extra features to accelerate velocity and increase quality.</p>
+<h2 id="download">Download</h2>
+<p>https://github.com/Flank/flank/releases/latest/download/flank.jar</p>
+<h2 id="contributing">Contributing</h2>
+<ul>
+<li>Install JDK 15 (it works also correctly on the previous version, a newer version is not guaranteed to work properly):</li>
+<li><a href="https://www.oracle.com/java/technologies/javase-downloads.html#JDK15">Oracle</a></li>
+<li><a href="https://openjdk.java.net/projects/jdk/15/">OpenJDK</a></li>
+<li><a href="https://adoptopenjdk.net/?variant=openjdk15&amp;jvmVariant=hotspot">AdoptJDK</a></li>
+<li>Use <a href="https://www.jetbrains.com/toolbox/app/">JetBrains Toolbox</a> to install <code>IntelliJ IDEA Community</code></li>
+<li>Clone the repo <code>git clone --recursive https://github.com/Flank/flank.git</code></li>
+<li><code>git submodule update --init --recursive</code> updates the submodules</li>
+<li>Open <code>build.gradle.kts</code> in the main Flank base directory with <code>IntelliJ IDEA Community</code>, this will open the entire Flank mono repo</li>
+<li>test runner contributions can be made in the <code>test_runner\</code> subdirectory</li>
+</ul>
+<h2 id="features">Features</h2>
+<ul>
+<li>Test sharding</li>
+<li>Cost reporting</li>
+<li>Stability testing</li>
+<li>HTML report</li>
+<li>JUnit XML report</li>
+<li>Smart Flank</li>
+</ul>
+<h2 id="exit-codes">Exit Codes</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Exit code</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">All tests passed</td>
+</tr>
+<tr>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">A general failure occurred. Possible causes include: a filename that does not exist or an HTTP/network error.</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Usually indicates missing or wrong usage of flags, incorrect parameters, errors in config files.</td>
+</tr>
+<tr>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">At least one matrix not finished (usually a FTL internal error) or unexpected error occurred.</td>
+</tr>
+<tr>
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">Firebase Test Lab could not determine if the test matrix passed or failed, because of an unexpected error.</td>
+</tr>
+<tr>
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">The test environment for this test execution is not supported because of incompatible test dimensions. This error might occur if the selected Android API level is not supported by the selected device type.</td>
+</tr>
+<tr>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">The test matrix was canceled by the user.</td>
+</tr>
+<tr>
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">A test infrastructure error occurred.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cli">CLI</h2>
+<p>Flank supports CLI flags for each YAML parameter. The CLI flags are useful to selectively override YAML file values. Pass the <code>--help</code> flag to see the full documentation. For example: <code>flank android run --help</code></p>
+<p>CLI flags work well with environment variables. You can override a value like this:</p>
+<blockquote>
+<p>flank android run --local-result-dir=$APP_NAME</p>
+</blockquote>
+<h3 id="flank-configuration">Flank configuration</h3>
+<p>app, test, and xctestrun-file support <code>~</code>, environment variables, and globs (<em>, </em>*) when resolving paths</p>
+<h3 id="ios-example">iOS example</h3>
+<p>Run <code>test_runner/flank.ios.yml</code> with flank to verify iOS execution is working.</p>
+<ul>
+<li><code>./gradlew clean test_runner:build test_runner:shadowJar</code></li>
+<li><code>java -jar ./test_runner/build/libs/flank-*.jar firebase test ios run</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># gcloud args match the official gcloud cli</span>
+<span class="c1"># https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/run</span>
+<span class="nt">gcloud</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># -- GcloudYml --</span>
+
+<span class="w">  </span><span class="c1">### Results Bucket</span>
+<span class="w">  </span><span class="c1">## The name of a Google Cloud Storage bucket where raw test results will be stored</span>
+<span class="w">  </span><span class="c1"># results-bucket: tmp_flank</span>
+
+<span class="w">  </span><span class="c1">### Results Directory</span>
+<span class="w">  </span><span class="c1">## The name of a unique Google Cloud Storage object within the results bucket where raw test results will be stored</span>
+<span class="w">  </span><span class="c1">## (default: a timestamp with a random suffix). </span>
+<span class="w">  </span><span class="c1"># results-dir: tmp # Caution: this argument must be unique for each test matrix you create, otherwise results from multiple test matrices will be overwritten or intermingled, using &quot;tmp&quot; will not be unique.</span>
+
+<span class="w">  </span><span class="c1">### Record Video flag</span>
+<span class="w">  </span><span class="c1">## Enable video recording during the test. Disabled by default. Use --record-video to enable.</span>
+<span class="w">  </span><span class="c1"># record-video: true</span>
+
+<span class="w">  </span><span class="c1">### Timeout</span>
+<span class="w">  </span><span class="c1">## The max time this test execution can run before it is cancelled (default: 15m).</span>
+<span class="w">  </span><span class="c1">## It does not include any time necessary to prepare and clean up the target device.</span>
+<span class="w">  </span><span class="c1">## The maximum possible testing time is 45m on physical devices and 60m on virtual devices.</span>
+<span class="w">  </span><span class="c1">## The TIMEOUT units can be h, m, or s. If no unit is given, seconds are assumed.</span>
+<span class="w">  </span><span class="c1"># timeout: 30m</span>
+
+<span class="w">  </span><span class="c1">### Asynchronous flag</span>
+<span class="w">  </span><span class="c1">## Invoke a test asynchronously without waiting for test results.</span>
+<span class="w">  </span><span class="c1"># async: false</span>
+
+<span class="w">  </span><span class="c1">### Client Details</span>
+<span class="w">  </span><span class="c1">## A key-value map of additional details to attach to the test matrix.</span>
+<span class="w">  </span><span class="c1">## Arbitrary key-value pairs may be attached to a test matrix to provide additional context about the tests being run.</span>
+<span class="w">  </span><span class="c1">## When consuming the test results, such as in Cloud Functions or a CI system,</span>
+<span class="w">  </span><span class="c1">## these details can add additional context such as a link to the corresponding pull request.</span>
+<span class="w">  </span><span class="c1"># client-details</span>
+<span class="w">  </span><span class="c1">#   key1: value1</span>
+<span class="w">  </span><span class="c1">#   key2: value2</span>
+
+<span class="w">  </span><span class="c1">### Network Profile</span>
+<span class="w">  </span><span class="c1">## The name of the network traffic profile, for example LTE, HSPA, etc,</span>
+<span class="w">  </span><span class="c1">## which consists of a set of parameters to emulate network conditions when running the test</span>
+<span class="w">  </span><span class="c1">## (default: no network shaping; see available profiles listed by the `flank test network-profiles list` command).</span>
+<span class="w">  </span><span class="c1">## This feature only works on physical devices.</span>
+<span class="w">  </span><span class="c1"># network-profile: LTE</span>
+
+<span class="w">  </span><span class="c1">### Result History Name</span>
+<span class="w">  </span><span class="c1">## The history name for your test results (an arbitrary string label; default: the application&#39;s label from the APK manifest).</span>
+<span class="w">  </span><span class="c1">## All tests which use the same history name will have their results grouped together in the Firebase console in a time-ordered test history list.</span>
+<span class="w">  </span><span class="c1"># results-history-name: android-history</span>
+
+<span class="w">  </span><span class="c1">### Number of Flaky Test Attempts</span>
+<span class="w">  </span><span class="c1">## The number of times a TestExecution should be re-attempted if one or more\nof its test cases fail for any reason.</span>
+<span class="w">  </span><span class="c1">## The maximum number of reruns allowed is 10. Default is 0, which implies no reruns.</span>
+<span class="w">  </span><span class="c1"># num-flaky-test-attempts: 0</span>
+
+<span class="w">  </span><span class="c1">### Fail Fast</span>
+<span class="w">  </span><span class="c1">## If true, only a single attempt at most will be made to run each execution/shard in the matrix.</span>
+<span class="w">  </span><span class="c1">## Flaky test attempts are not affected. Normally, 2 or more attempts are made if a potential</span>
+<span class="w">  </span><span class="c1">## infrastructure issue is detected. This feature is for latency sensitive workloads. The</span>
+<span class="w">  </span><span class="c1">## incidence of execution failures may be significantly greater for fail-fast matrices and support</span>
+<span class="w">  </span><span class="c1">## is more limited because of that expectation.</span>
+<span class="w">  </span><span class="c1"># fail-fast: false</span>
+
+<span class="w">  </span><span class="c1"># -- IosGcloudYml --</span>
+
+<span class="w">  </span><span class="c1">### IOS Test Package Path</span>
+<span class="w">  </span><span class="c1">## The path to the test package (a zip file containing the iOS app and XCTest files).</span>
+<span class="w">  </span><span class="c1">## The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://.</span>
+<span class="w">  </span><span class="c1">## Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file is specified.</span>
+<span class="w">  </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip</span>
+
+<span class="w">  </span><span class="c1">### IOS XCTestrun File Path</span>
+<span class="w">  </span><span class="c1">## The path to an .xctestrun file that will override any .xctestrun file contained in the --test package.</span>
+<span class="w">  </span><span class="c1">## Because the .xctestrun file contains environment variables along with test methods to run and/or ignore,</span>
+<span class="w">  </span><span class="c1">## this can be useful for customizing or sharding test suites. The given path should be in the local filesystem.</span>
+<span class="w">  </span><span class="c1">## Note: this path should usually be pointing to the xctestrun file within the derived data folder</span>
+<span class="w">  </span><span class="c1">## For example ./derivedDataPath/Build/Products/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun</span>
+<span class="w">  </span><span class="nt">xctestrun-file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun</span>
+
+<span class="w">  </span><span class="c1">### Xcode Version</span>
+<span class="w">  </span><span class="c1">## The version of Xcode that should be used to run an XCTest.</span>
+<span class="w">  </span><span class="c1">## Defaults to the latest Xcode version supported in Firebase Test Lab.</span>
+<span class="w">  </span><span class="c1">## This Xcode version must be supported by all iOS versions selected in the test matrix.</span>
+<span class="w">  </span><span class="c1"># xcode-version: 10.1</span>
+
+<span class="w">  </span><span class="c1">### IOS Device Parameters</span>
+<span class="w">  </span><span class="c1">## A list of DIMENSION=VALUE pairs which specify a target device to test against.</span>
+<span class="w">  </span><span class="c1">## This flag may be repeated to specify multiple devices.</span>
+<span class="w">  </span><span class="c1">## The four device dimensions are: model, version, locale, and orientation.</span>
+<span class="w">  </span><span class="c1"># device:</span>
+<span class="w">  </span><span class="c1">#  - model: iphone13pro</span>
+<span class="w">  </span><span class="c1">#   version: 15.7</span>
+<span class="w">  </span><span class="c1">#   locale: en</span>
+<span class="w">  </span><span class="c1">#   orientation: portrait</span>
+<span class="w">  </span><span class="c1"># - model: iphonex</span>
+<span class="w">  </span><span class="c1">#   version: 12.0</span>
+<span class="w">  </span><span class="c1">#   locale: es_ES</span>
+<span class="w">  </span><span class="c1">#   orientation: landscape</span>
+
+<span class="w">  </span><span class="c1">### Directories to Pull</span>
+<span class="w">  </span><span class="c1">## A list of paths that will be copied from the device&#39;s storage to the designated results bucket after the test</span>
+<span class="w">  </span><span class="c1">## is complete. These must be absolute paths under /private/var/mobile/Media or /Documents</span>
+<span class="w">  </span><span class="c1">## of the app under test. If the path is under an app&#39;s /Documents, it must be prefixed with the app&#39;s bundle id and a colon</span>
+<span class="w">  </span><span class="c1"># directories-to-pull:</span>
+<span class="w">  </span><span class="c1">#   - /private/var/mobile/Media</span>
+
+<span class="w">  </span><span class="c1">### Other File paths</span>
+<span class="w">  </span><span class="c1">## A list of device-path=file-path pairs that specify the paths of the test device and the files you want pushed to the device prior to testing.</span>
+<span class="w">  </span><span class="c1">## Device paths should either be under the Media shared folder (e.g. prefixed with /private/var/mobile/Media) or</span>
+<span class="w">  </span><span class="c1">## within the documents directory of the filesystem of an app under test (e.g. /Documents). Device paths to app</span>
+<span class="w">  </span><span class="c1">## filesystems should be prefixed by the bundle ID and a colon. Source file paths may be in the local filesystem or in Google Cloud Storage (gs://…).</span>
+<span class="w">  </span><span class="c1"># other-files</span>
+<span class="w">  </span><span class="c1">#   com.my.app:/Documents/file.txt: local/file.txt</span>
+<span class="w">  </span><span class="c1">#   /private/var/mobile/Media/file.jpg: gs://bucket/file.jpg</span>
+
+<span class="w">  </span><span class="c1">### Additional IPA&#39;s</span>
+<span class="w">  </span><span class="c1">## List of up to 100 additional IPAs to install, in addition to the one being directly tested.</span>
+<span class="w">  </span><span class="c1">## The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.</span>
+<span class="w">  </span><span class="c1"># additional-ipas:</span>
+<span class="w">  </span><span class="c1">#   - gs://bucket/additional.ipa</span>
+<span class="w">  </span><span class="c1">#   - path/to/local/ipa/file.ipa</span>
+
+<span class="w">  </span><span class="c1">### Scenario Numbers</span>
+<span class="w">  </span><span class="c1">## A list of game-loop scenario numbers which will be run as part of the test (default: all scenarios).</span>
+<span class="w">  </span><span class="c1">## A maximum of 1024 scenarios may be specified in one test matrix, but the maximum number may also be limited by the overall test --timeout setting.</span>
+<span class="w">  </span><span class="c1"># scenario-numbers:</span>
+<span class="w">  </span><span class="c1">#   - 1</span>
+<span class="w">  </span><span class="c1">#   - 2</span>
+<span class="w">  </span><span class="c1">#   - 3</span>
+
+<span class="w">  </span><span class="c1">### Test type</span>
+<span class="w">  </span><span class="c1">## The type of iOS test to run. TYPE must be one of: xctest, game-loop. Default: xctest</span>
+<span class="w">  </span><span class="c1"># type: xctest</span>
+
+<span class="w">  </span><span class="c1">### Application Path</span>
+<span class="w">  </span><span class="c1">## The path to the application archive (.ipa file) for game-loop testing.</span>
+<span class="w">  </span><span class="c1">## The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.</span>
+<span class="w">  </span><span class="c1">## This flag is only valid when --type=game-loop is also set</span>
+<span class="w">  </span><span class="c1"># app:</span>
+<span class="w">  </span><span class="c1">#  - gs://bucket/additional.ipa OR path/to/local/ipa/file.ipa</span>
+
+<span class="w">  </span><span class="c1">### Testing with Special Entitlements</span>
+<span class="w">  </span><span class="c1">## Enables testing special app entitlements. Re-signs an app having special entitlements with a new application-identifier.</span>
+<span class="w">  </span><span class="c1">## This currently supports testing Push Notifications (aps-environment) entitlement for up to one app in a project.</span>
+<span class="w">  </span><span class="c1">## Note: Because this changes the app&#39;s identifier, make sure none of the resources in your zip file contain direct references to the test app&#39;s bundle id.</span>
+<span class="w">  </span><span class="c1"># test-special-entitlements: false</span>
+
+<span class="nt">flank</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># -- FlankYml --</span>
+
+<span class="w">  </span><span class="c1">### Max Test Shards</span>
+<span class="w">  </span><span class="c1">## test shards - the amount of groups to split the test suite into</span>
+<span class="w">  </span><span class="c1">## set to -1 to use one shard per test. default: 1</span>
+<span class="w">  </span><span class="c1"># max-test-shards: 1</span>
+
+<span class="w">  </span><span class="c1">## Shard Time</span>
+<span class="w">  </span><span class="c1">## shard time - the amount of time tests within a shard should take</span>
+<span class="w">  </span><span class="c1">## when set to &gt; 0, the shard count is dynamically set based on time up to the maximum limit defined by max-test-shards</span>
+<span class="w">  </span><span class="c1">## 2 minutes (120) is recommended.</span>
+<span class="w">  </span><span class="c1">## default: -1 (unlimited)</span>
+<span class="w">  </span><span class="c1"># shard-time: -1</span>
+
+<span class="w">  </span><span class="c1">### Number of Test Runs</span>
+<span class="w">  </span><span class="c1">## test runs - the amount of times to run the tests.</span>
+<span class="w">  </span><span class="c1">## 1 runs the tests once. 10 runs all the tests 10x</span>
+<span class="w">  </span><span class="c1"># num-test-runs: 1</span>
+
+<span class="w">  </span><span class="c1">### Smart Flank GCS Paths</span>
+<span class="w">  </span><span class="c1">## Google cloud storage path to store the JUnit XML results from the last run.</span>
+<span class="w">  </span><span class="c1">## NOTE: Empty results will not be uploaded</span>
+<span class="w">  </span><span class="c1"># smart-flank-gcs-path: gs://tmp_flank/flank/test_app_ios.xml</span>
+
+<span class="w">  </span><span class="c1">### Smart Flank Disable Upload flag</span>
+<span class="w">  </span><span class="c1">## Disables smart flank JUnit XML uploading. Useful for preventing timing data from being updated.</span>
+<span class="w">  </span><span class="c1">## Default: false</span>
+<span class="w">  </span><span class="c1"># smart-flank-disable-upload: false</span>
+
+<span class="w">  </span><span class="c1">### Use Average Test Time For New Tests flag</span>
+<span class="w">  </span><span class="c1">## Enable using average time from previous tests duration when using SmartShard and tests did not run before.</span>
+<span class="w">  </span><span class="c1">## Default: false</span>
+<span class="w">  </span><span class="c1"># use-average-test-time-for-new-tests: true</span>
+
+<span class="w">  </span><span class="c1">### Default Test Time</span>
+<span class="w">  </span><span class="c1">## Set default test time used for calculating shards.</span>
+<span class="w">  </span><span class="c1">## Default: 120.0</span>
+<span class="w">  </span><span class="c1"># default-test-time: 15</span>
+
+<span class="w">  </span><span class="c1">### Default Class Test Time</span>
+<span class="w">  </span><span class="c1">## Set default test time (in seconds) used for calculating shards of parametrized classes when previous tests results are not available.</span>
+<span class="w">  </span><span class="c1">## Default test time for classes should be different from the default time for test</span>
+<span class="w">  </span><span class="c1">## Default: 240.0</span>
+<span class="w">  </span><span class="c1"># default-class-test-time: 30</span>
+
+<span class="w">  </span><span class="c1">### Disable Sharding flag</span>
+<span class="w">  </span><span class="c1">## Disables sharding. Useful for parameterized tests.</span>
+<span class="w">  </span><span class="c1"># disable-sharding: false</span>
+
+<span class="w">  </span><span class="c1">### Test targets always Run</span>
+<span class="w">  </span><span class="c1">## always run - these tests are inserted at the beginning of every shard</span>
+<span class="w">  </span><span class="c1">## Execution order is not guaranteed by Flank. Users are responsible for configuring their own device test runner logic.</span>
+<span class="w">  </span><span class="c1"># test-targets-always-run:</span>
+<span class="w">  </span><span class="c1">#   - className/testName</span>
+
+<span class="w">  </span><span class="c1">### Files to Download</span>
+<span class="w">  </span><span class="c1">## regex is matched against bucket paths, for example: 2019-01-09_00:18:07.314000_hCMY/shard_0/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun</span>
+<span class="w">  </span><span class="c1"># files-to-download:</span>
+<span class="w">  </span><span class="c1">#   - .*\.mp4$</span>
+
+<span class="w">  </span><span class="c1"># -- IosFlankYml --</span>
+
+<span class="w">  </span><span class="c1">### Test Targets</span>
+<span class="w">  </span><span class="c1">## test targets - a list of tests to run. omit to run all tests.</span>
+<span class="w">  </span><span class="c1"># test-targets:</span>
+<span class="w">  </span><span class="c1">#   - className/testName</span>
+
+<span class="w">  </span><span class="c1">### Billing Project ID</span>
+<span class="w">  </span><span class="c1">## The billing enabled Google Cloud Platform project id to use</span>
+<span class="w">  </span><span class="c1"># project: ftl-flank-open-source</span>
+
+<span class="w">  </span><span class="c1">### Local Result Directory Storage</span>
+<span class="w">  </span><span class="c1">## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.</span>
+<span class="w">  </span><span class="c1"># local-result-dir: flank</span>
+
+<span class="w">  </span><span class="c1">### Run Timeout</span>
+<span class="w">  </span><span class="c1">## The max time this test run can execute before it is cancelled (default: unlimited).</span>
+<span class="w">  </span><span class="c1"># run-timeout: 60m</span>
+
+<span class="w">  </span><span class="c1">### Keep File Path flag</span>
+<span class="w">  </span><span class="c1">## Keeps the full path of downloaded files. Required when file names are not unique.</span>
+<span class="w">  </span><span class="c1">## Default: false</span>
+<span class="w">  </span><span class="c1"># keep-file-path: false</span>
+
+<span class="w">  </span><span class="c1">### Ignore Failed Tests flag</span>
+<span class="w">  </span><span class="c1">## Terminate with exit code 0 when there are failed tests.</span>
+<span class="w">  </span><span class="c1">## Useful for Fladle and other gradle plugins that don&#39;t expect the process to have a non-zero exit code.</span>
+<span class="w">  </span><span class="c1">## The JUnit XML is used to determine failure. (default: false)</span>
+<span class="w">  </span><span class="c1"># ignore-failed-tests: true</span>
+
+<span class="w">  </span><span class="c1">### Output Style flag</span>
+<span class="w">  </span><span class="c1">## Output style of execution status. May be one of [verbose, multi, single, compact].</span>
+<span class="w">  </span><span class="c1">## For runs with only one test execution the default value is &#39;verbose&#39;, in other cases</span>
+<span class="w">  </span><span class="c1">## &#39;multi&#39; is used as the default. The output style &#39;multi&#39; is not displayed correctly on consoles</span>
+<span class="w">  </span><span class="c1">## which don&#39;t support ansi codes, to avoid corrupted output use single or verbose.</span>
+<span class="w">  </span><span class="c1">## The output style `compact` is used to produce less detailed output, it prints just Args, test and matrix count, weblinks, cost, and result reports.</span>
+<span class="w">  </span><span class="c1"># output-style: single</span>
+
+<span class="w">  </span><span class="c1">### Full Junit Result flag</span>
+<span class="w">  </span><span class="c1">## Enable create additional local junit result on local storage with failure nodes on passed flaky tests.</span>
+<span class="w">  </span><span class="c1"># full-junit-result: false</span>
+
+<span class="w">  </span><span class="c1">### Disable Result Upload flag</span>
+<span class="w">  </span><span class="c1">## Disables flank results upload on gcloud storage.</span>
+<span class="w">  </span><span class="c1">## Default: false</span>
+<span class="w">  </span><span class="c1"># disable-results-upload: false</span>
+
+<span class="w">  </span><span class="c1">### Disable usage statistics flag</span>
+<span class="w">  </span><span class="c1">## Disable sending usage statistics (without sensitive data) to the analytic tool.</span>
+<span class="w">  </span><span class="c1">## Default: false</span>
+<span class="w">  </span><span class="c1"># disable-usage-statistics: false</span>
+
+<span class="w">  </span><span class="c1">### Only Test Configuration</span>
+<span class="w">  </span><span class="c1">## Constrains a test action to only test a specified test configuration within a test plan and exclude all other test configurations.</span>
+<span class="w">  </span><span class="c1">## Flank can combine multiple constraint options, but -only-test-configuration has precedence over -skip-test-configuration.</span>
+<span class="w">  </span><span class="c1">## Each test configuration name must match the name of a configuration specified in a test plan and is case-sensitive.</span>
+<span class="w">  </span><span class="c1">## Default: null (run all test configurations)</span>
+<span class="w">  </span><span class="c1"># only-test-configuration: en</span>
+
+<span class="w">  </span><span class="c1">### Skip Test Configuration</span>
+<span class="w">  </span><span class="c1">## Constrains a test action to skip a specified test configuration and include all other test configurations.</span>
+<span class="w">  </span><span class="c1">## Flank can combine multiple constraint options, but -only-test-configuration has precedence over -skip-test-configuration.</span>
+<span class="w">  </span><span class="c1">## Each test configuration name must match the name of a configuration specified in a test plan and is case-sensitive.</span>
+<span class="w">  </span><span class="c1">## Default: null (run all test configurations)</span>
+<span class="w">  </span><span class="c1"># skip-test-configuration: en</span>
+
+<span class="w"> </span><span class="c1">### Enable output report with set type</span>
+<span class="w"> </span><span class="c1">## Saves output results as parsable file and optionally upload it to Gcloud..</span>
+<span class="w"> </span><span class="c1">## Default: none</span>
+<span class="w"> </span><span class="c1"># output-report: none</span>
+
+<span class="w"> </span><span class="c1">### Disable config validation (for both, yml and command line)</span>
+<span class="w"> </span><span class="c1">## If true, Flank won&#39;t validate options provided by the user. In general, it&#39;s not a good idea but,</span>
+<span class="w"> </span><span class="c1">## there are cases when this could be useful for a user</span>
+<span class="w"> </span><span class="c1">## (example: project can use devices that are not commonly available, the project has higher sharding limits, etc).</span>
+<span class="w"> </span><span class="c1">## Default: false</span>
+<span class="w"> </span><span class="c1"># skip-config-validation: false</span>
+
+<span class="w"> </span><span class="c1">### Path to the custom sharding JSON file</span>
+<span class="w"> </span><span class="c1">## Flank will apply provided sharding to the configuration.</span>
+<span class="w"> </span><span class="c1">## For detailed explanation please check https://github.com/Flank/flank/blob/master/docs/feature/1665-custom-sharding.md</span>
+<span class="w"> </span><span class="c1"># custom-sharding-json: ./custom_sharding.json</span>
+</code></pre></div>
+<h3 id="android-example">Android example</h3>
+<p>Run <code>test_runner/flank.yml</code> with flank to verify Android execution is working.</p>
+<ul>
+<li><code>./gradlew clean test_runner:build test_runner:shadowJar</code></li>
+<li><code>java -jar ./test_runner/build/libs/flank-*.jar firebase test android run</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># gcloud args match the official gcloud cli</span>
+<span class="c1"># See the docs for full gcloud details https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run</span>
+<span class="nt">gcloud</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># -- GcloudYml --</span>
+
+<span class="w">  </span><span class="c1">### Result Bucket</span>
+<span class="w">  </span><span class="c1">## The name of a Google Cloud Storage bucket where raw test results will be stored</span>
+<span class="w">  </span><span class="c1"># results-bucket: tmp_flank</span>
+
+<span class="w">  </span><span class="c1">### Result Directory</span>
+<span class="w">  </span><span class="c1">## The name of a unique Google Cloud Storage object within the results bucket where raw test results will be stored</span>
+<span class="w">  </span><span class="c1">## (default: a timestamp with a random suffix).</span>
+<span class="w">  </span><span class="c1"># results-dir: tmp</span>
+
+<span class="w">  </span><span class="c1">### Record Video flag</span>
+<span class="w">  </span><span class="c1">## Enable video recording during the test. Disabled by default. Use --record-video to enable.</span>
+<span class="w">  </span><span class="c1"># record-video: true</span>
+
+<span class="w">  </span><span class="c1">### Timeout</span>
+<span class="w">  </span><span class="c1">## The max time this test execution can run before it is cancelled (default: 15m).</span>
+<span class="w">  </span><span class="c1">## It does not include any time necessary to prepare and clean up the target device.</span>
+<span class="w">  </span><span class="c1">## The maximum possible testing time is 45m on physical devices and 60m on virtual devices.</span>
+<span class="w">  </span><span class="c1">## The TIMEOUT units can be h, m, or s. If no unit is given, seconds are assumed.</span>
+<span class="w">  </span><span class="c1"># timeout: 30m</span>
+
+<span class="w">  </span><span class="c1">### Asynchronous flag</span>
+<span class="w">  </span><span class="c1">## Invoke a test asynchronously without waiting for test results.</span>
+<span class="w">  </span><span class="c1"># async: false</span>
+
+<span class="w">  </span><span class="c1">### Client Details</span>
+<span class="w">  </span><span class="c1">## A key-value map of additional details to attach to the test matrix.</span>
+<span class="w">  </span><span class="c1">## Arbitrary key-value pairs may be attached to a test matrix to provide additional context about the tests being run.</span>
+<span class="w">  </span><span class="c1">## When consuming the test results, such as in Cloud Functions or a CI system,</span>
+<span class="w">  </span><span class="c1">## these details can add additional context such as a link to the corresponding pull request.</span>
+<span class="w">  </span><span class="c1"># client-details</span>
+<span class="w">  </span><span class="c1">#   key1: value1</span>
+<span class="w">  </span><span class="c1">#   key2: value2</span>
+
+<span class="w">  </span><span class="c1">### Network Profile</span>
+<span class="w">  </span><span class="c1">## The name of the network traffic profile, for example LTE, HSPA, etc,</span>
+<span class="w">  </span><span class="c1">## which consists of a set of parameters to emulate network conditions when running the test</span>
+<span class="w">  </span><span class="c1">## (default: no network shaping; see available profiles listed by the `flank test network-profiles list` command).</span>
+<span class="w">  </span><span class="c1">## This feature only works on physical devices.</span>
+<span class="w">  </span><span class="c1"># network-profile: LTE</span>
+
+<span class="w">  </span><span class="c1">### Result History Name</span>
+<span class="w">  </span><span class="c1">## The history name for your test results (an arbitrary string label; default: the application&#39;s label from the APK manifest).</span>
+<span class="w">  </span><span class="c1">## All tests which use the same history name will have their results grouped together in the Firebase console in a time-ordered test history list.</span>
+<span class="w">  </span><span class="c1"># results-history-name: android-history</span>
+
+<span class="w">  </span><span class="c1">### Number of Flaky Test Attempts</span>
+<span class="w">  </span><span class="c1">## The number of times a TestExecution should be re-attempted if one or more\nof its test cases fail for any reason.</span>
+<span class="w">  </span><span class="c1">## The maximum number of reruns allowed is 10. Default is 0, which implies no reruns.</span>
+<span class="w">  </span><span class="c1"># num-flaky-test-attempts: 0</span>
+
+<span class="w">  </span><span class="c1">### Fail Fast</span>
+<span class="w">  </span><span class="c1">## If true, only a single attempt at most will be made to run each execution/shard in the matrix.</span>
+<span class="w">  </span><span class="c1">## Flaky test attempts are not affected. Normally, 2 or more attempts are made if a potential</span>
+<span class="w">  </span><span class="c1">## infrastructure issue is detected. This feature is for latency sensitive workloads. The</span>
+<span class="w">  </span><span class="c1">## incidence of execution failures may be significantly greater for fail-fast matrices and support</span>
+<span class="w">  </span><span class="c1">## is more limited because of that expectation.</span>
+<span class="w">  </span><span class="c1"># fail-fast: false</span>
+
+<span class="w">  </span><span class="c1"># -- AndroidGcloudYml --</span>
+
+<span class="w">  </span><span class="c1">## Android Application Path</span>
+<span class="w">  </span><span class="c1">## The path to the application binary file.</span>
+<span class="w">  </span><span class="c1">## The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.</span>
+<span class="w">  </span><span class="c1">## Android App Bundles are specified as .aab, all other files are assumed to be APKs.</span>
+<span class="w">  </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../test_projects/android/apks/app-debug.apk</span>
+
+<span class="w">  </span><span class="c1">### Android Binary File Path</span>
+<span class="w">  </span><span class="c1">## The path to the binary file containing instrumentation tests.</span>
+<span class="w">  </span><span class="c1">## The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://.</span>
+<span class="w">  </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../test_projects/android/apks/app-debug-androidTest.apk</span>
+
+<span class="w">  </span><span class="c1">### Additional APK&#39;s</span>
+<span class="w">  </span><span class="c1">## A list of up to 100 additional APKs to install, in addition to those being directly tested.</span>
+<span class="w">  </span><span class="c1">## The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.</span>
+<span class="w">  </span><span class="c1"># additional-apks: additional-apk1.apk,additional-apk2.apk,additional-apk3.apk</span>
+
+<span class="w">  </span><span class="c1">### Auto Google Login flag</span>
+<span class="w">  </span><span class="c1">## Automatically log into the test device using a preconfigured Google account before beginning the test.</span>
+<span class="w">  </span><span class="c1">## Disabled by default. Use --auto-google-login to enable.</span>
+<span class="w">  </span><span class="c1"># auto-google-login: true</span>
+
+<span class="w">  </span><span class="c1">### Use Orchestrator Flag</span>
+<span class="w">  </span><span class="c1">## Whether each test runs in its own Instrumentation instance with the Android Test Orchestrator</span>
+<span class="w">  </span><span class="c1">## (default: Orchestrator is used). Disable with --no-use-orchestrator.</span>
+<span class="w">  </span><span class="c1">## See https://developer.android.com/training/testing/junit-runner.html#using-android-test-orchestrator</span>
+<span class="w">  </span><span class="c1"># use-orchestrator: true</span>
+
+<span class="w">  </span><span class="c1">### Environment Variables</span>
+<span class="w">  </span><span class="c1">## A comma-separated, key=value map of environment variables and their desired values. This flag is repeatable.</span>
+<span class="w">  </span><span class="c1">## The environment variables are mirrored as extra options to the am instrument -e KEY1 VALUE1 … command and</span>
+<span class="w">  </span><span class="c1">## passed to your test runner (typically AndroidJUnitRunner)</span>
+<span class="w">  </span><span class="c1"># environment-variables:</span>
+<span class="w">  </span><span class="c1">#  coverage: true</span>
+<span class="w">  </span><span class="c1">#  coverageFilePath: /sdcard/</span>
+<span class="w">  </span><span class="c1">#  clearPackageData: true</span>
+
+<span class="w">  </span><span class="c1">### Directories to Pull</span>
+<span class="w">  </span><span class="c1">## A list of paths that will be copied from the device&#39;s storage to the designated results bucket after the test</span>
+<span class="w">  </span><span class="c1">## is complete. These must be absolute paths under /sdcard or /data/local/tmp</span>
+<span class="w">  </span><span class="c1"># directories-to-pull:</span>
+<span class="w">  </span><span class="c1">#   - /sdcard/</span>
+
+<span class="w">  </span><span class="c1">### Grant Permissions flag</span>
+<span class="w">  </span><span class="c1">## Whether to grant runtime permissions on the device before the test begins.</span>
+<span class="w">  </span><span class="c1">## By default, all permissions are granted. PERMISSIONS must be one of: all, none</span>
+<span class="w">  </span><span class="c1"># grant-permissions: all</span>
+
+<span class="w">  </span><span class="c1">### Test Type</span>
+<span class="w">  </span><span class="c1">## The type of test to run. TYPE must be one of: instrumentation, robo, game-loop.</span>
+<span class="w">  </span><span class="c1"># type: instrumentation</span>
+
+<span class="w">  </span><span class="c1">### Other Files</span>
+<span class="w">  </span><span class="c1">## A list of device-path: file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push.</span>
+<span class="w">  </span><span class="c1">## Device paths must be under absolute, whitelisted paths (${EXTERNAL_STORAGE}, or ${ANDROID_DATA}/local/tmp).</span>
+<span class="w">  </span><span class="c1">## Source file paths may be in the local filesystem or in Google Cloud Storage (gs://…).</span>
+<span class="w">  </span><span class="c1"># other-files</span>
+<span class="w">  </span><span class="c1">#   - /sdcard/dir1/file1.txt: local/file.txt</span>
+<span class="w">  </span><span class="c1">#   - /sdcard/dir2/file2.jpg: gs://bucket/file.jpg</span>
+
+<span class="w">  </span><span class="c1">### OBB Files</span>
+<span class="w">  </span><span class="c1">## A list of one or two Android OBB file names which will be copied to each test device before the tests will run (default: None).</span>
+<span class="w">  </span><span class="c1">## Each OBB file name must conform to the format as specified by Android (e.g. [main|patch].0300110.com.example.android.obb) and will be installed into &lt;shared-storage&gt;/Android/obb/&lt;package-name&gt;/ on the test device.</span>
+<span class="w">  </span><span class="c1"># obb-files:</span>
+<span class="w">  </span><span class="c1">#   - local/file/path/test1.obb</span>
+<span class="w">  </span><span class="c1">#   - local/file/path/test2.obb</span>
+
+<span class="w">  </span><span class="c1">### Scenario Numbers</span>
+<span class="w">  </span><span class="c1">## A list of game-loop scenario numbers which will be run as part of the test (default: all scenarios).</span>
+<span class="w">  </span><span class="c1">## A maximum of 1024 scenarios may be specified in one test matrix, but the maximum number may also be limited by the overall test --timeout setting.</span>
+<span class="w">  </span><span class="c1"># scenario-numbers:</span>
+<span class="w">  </span><span class="c1">#   - 1</span>
+<span class="w">  </span><span class="c1">#   - 2</span>
+<span class="w">  </span><span class="c1">#   - 3</span>
+
+<span class="w">  </span><span class="c1">### Scenario Labels</span>
+<span class="w">  </span><span class="c1">## A list of game-loop scenario labels (default: None). Each game-loop scenario may be labeled in the APK manifest file with one or more arbitrary strings, creating logical groupings (e.g. GPU_COMPATIBILITY_TESTS).</span>
+<span class="w">  </span><span class="c1">## If --scenario-numbers and --scenario-labels are specified together, Firebase Test Lab will first execute each scenario from --scenario-numbers.</span>
+<span class="w">  </span><span class="c1">## It will then expand each given scenario label into a list of scenario numbers marked with that label, and execute those scenarios.</span>
+<span class="w">  </span><span class="c1"># scenario-labels:</span>
+<span class="w">  </span><span class="c1">#  - label1</span>
+<span class="w">  </span><span class="c1">#  - label2</span>
+
+<span class="w">  </span><span class="c1">### OBB filenames</span>
+<span class="w">  </span><span class="c1">## A list of OBB required filenames. OBB file name must conform to the format as specified by Android e.g.</span>
+<span class="w">  </span><span class="c1">## [main|patch].0300110.com.example.android.obb which will be installed into &lt;shared-storage&gt;/Android/obb/&lt;package-name&gt;/ on the device.</span>
+<span class="w">  </span><span class="c1"># obb-names:</span>
+<span class="w">  </span><span class="c1">#   - [main|patch].&lt;VERSION&gt;.com.example.android.obb</span>
+
+<span class="w">  </span><span class="c1">### Performance Metric flag</span>
+<span class="w">  </span><span class="c1">## Monitor and record performance metrics: CPU, memory, network usage, and FPS (game-loop only).</span>
+<span class="w">  </span><span class="c1">## Disabled by default. Use --performance-metrics to enable.</span>
+<span class="w">  </span><span class="c1"># performance-metrics: true</span>
+
+<span class="w">  </span><span class="c1">### Number of Uniform Shards</span>
+<span class="w">  </span><span class="c1">## Specifies the number of shards into which you want to evenly distribute test cases.</span>
+<span class="w">  </span><span class="c1">## The shards are run in parallel on separate devices. For example,</span>
+<span class="w">  </span><span class="c1">## if your test execution contains 20 test cases and you specify four shards, each shard executes five test cases.</span>
+<span class="w">  </span><span class="c1">## The number of shards should be less than the total number of test cases.</span>
+<span class="w">  </span><span class="c1">## The number of shards specified must be &gt;= 1 and &lt;= 50.</span>
+<span class="w">  </span><span class="c1">## This option cannot be used along max-test-shards and is not compatible with smart sharding.</span>
+<span class="w">  </span><span class="c1">## If you want to take benefits of smart sharding use max-test-shards instead.</span>
+<span class="w">  </span><span class="c1">## default: null</span>
+<span class="w">  </span><span class="c1"># num-uniform-shards: 50</span>
+
+<span class="w">  </span><span class="c1">### Instrumentation Test Runner Class</span>
+<span class="w">  </span><span class="c1">## The fully-qualified Java class name of the instrumentation test runner</span>
+<span class="w">  </span><span class="c1">## (default: the last name extracted from the APK manifest).</span>
+<span class="w">  </span><span class="c1"># test-runner-class: com.foo.TestRunner</span>
+
+<span class="w">  </span><span class="c1">### Test Targets</span>
+<span class="w">  </span><span class="c1">## A list of one or more test target filters to apply (default: run all test targets).</span>
+<span class="w">  </span><span class="c1">## Each target filter must be fully qualified with the package name, class name, or test annotation desired.</span>
+<span class="w">  </span><span class="c1">## Supported test filters by am instrument -e … include:</span>
+<span class="w">  </span><span class="c1">## class, notClass, size, annotation, notAnnotation, package, notPackage, testFile, notTestFile</span>
+<span class="w">  </span><span class="c1">## See https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner for more information.</span>
+<span class="w">  </span><span class="c1"># test-targets:</span>
+<span class="w">  </span><span class="c1">#  - class com.example.app.ExampleUiTest#testPasses</span>
+
+<span class="w">  </span><span class="c1">### Robo Directives</span>
+<span class="w">  </span><span class="c1">## A map of robo_directives that you can use to customize the behavior of Robo test.</span>
+<span class="w">  </span><span class="c1">## The type specifies the action type of the directive, which may take on values click, text or ignore.</span>
+<span class="w">  </span><span class="c1">## If no type is provided, text will be used by default.</span>
+<span class="w">  </span><span class="c1">## Each key should be the Android resource name of a target UI element and each value should be the text input for that element.</span>
+<span class="w">  </span><span class="c1">## Values are only permitted for text type elements, so no value should be specified for click and ignore type elements.</span>
+<span class="w">  </span><span class="c1"># robo-directives:</span>
+<span class="w">  </span><span class="c1">#   &quot;text:input_resource_name&quot;: message</span>
+<span class="w">  </span><span class="c1">#   &quot;click:button_resource_name&quot;: &quot;&quot;</span>
+
+<span class="w">  </span><span class="c1">### Robo Scripts</span>
+<span class="w">  </span><span class="c1">## The path to a Robo Script JSON file.</span>
+<span class="w">  </span><span class="c1">## The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.</span>
+<span class="w">  </span><span class="c1">## You can guide the Robo test to perform specific actions by recording a Robo Script in Android Studio and then specifying this argument.</span>
+<span class="w">  </span><span class="c1">## Learn more at https://firebase.google.com/docs/test-lab/robo-ux-test#scripting.</span>
+<span class="w">  </span><span class="c1"># robo-script: path_to_robo_script</span>
+
+<span class="w">  </span><span class="c1">### Android Device Parameters</span>
+<span class="w">  </span><span class="c1">## A list of DIMENSION=VALUE pairs which specify a target device to test against.</span>
+<span class="w">  </span><span class="c1">## This flag may be repeated to specify multiple devices.</span>
+<span class="w">  </span><span class="c1">## The four device dimensions are: model, version, locale, and orientation.</span>
+<span class="w">  </span><span class="c1"># device:</span>
+<span class="w">  </span><span class="c1"># - model: NexusLowRes</span>
+<span class="w">  </span><span class="c1">#   version: 28</span>
+<span class="w">  </span><span class="c1">#   locale: en</span>
+<span class="w">  </span><span class="c1">#   orientation: portrait</span>
+<span class="w">  </span><span class="c1"># - model: NexusLowRes</span>
+<span class="w">  </span><span class="c1">#   version: 27</span>
+
+<span class="w">  </span><span class="c1">### test-targets-for-shard</span>
+<span class="w">  </span><span class="c1">## Specifies a group of packages, classes, and/or test cases to run in each shard (a group of test cases).</span>
+<span class="w">  </span><span class="c1">## The shards are run in parallel on separate devices. You can repeat this flag up to 50 times to specify multiple shards when one or more physical devices are selected,</span>
+<span class="w">  </span><span class="c1">## or up to 500 times when no physical devices are selected.</span>
+<span class="w">  </span><span class="c1">## Note: If you include the flags environment-variable or test-targets when running test-targets-for-shard, the flags are applied to all the shards you create.</span>
+<span class="w">  </span><span class="c1"># test-target-for-shard:</span>
+<span class="w">  </span><span class="c1"># - package com.package1.for.shard1</span>
+<span class="w">  </span><span class="c1"># - class com.package2.for.shard2.Class</span>
+
+<span class="w">  </span><span class="c1">### parameterized-tests</span>
+<span class="w">  </span><span class="c1">## Specifies how to handle tests which contain the parameterization annotation.</span>
+<span class="w">  </span><span class="c1">## 4 options are available</span>
+<span class="w">  </span><span class="c1">## default: treat Parameterized tests as normal and shard accordingly</span>
+<span class="w">  </span><span class="c1">## ignore-all: Parameterized tests are ignored and not sharded</span>
+<span class="w">  </span><span class="c1">## shard-into-single: Parameterized tests are collected and put into a single shard</span>
+<span class="w">  </span><span class="c1">## shard-into-multiple: Parameterized tests are collected and sharded into different shards based upon matching names. (Experimental)</span>
+<span class="w">  </span><span class="c1">## Note: If left blank default is used. Default usage may result in significant increase/difference of shard times observed</span>
+<span class="w">  </span><span class="c1">## Note: If shard-into-single is used, a single additional shard is created that will run the Parameterized tests separately.</span>
+<span class="w">  </span><span class="c1">## Note: If shard-into-multiple is used, each parameterized test will be matched by its corresponding name and sharded into a separate shard.</span>
+<span class="w">  </span><span class="c1">##       This may dramatically increase the amount of expected shards depending upon how many parameterized tests are discovered.</span>
+<span class="w">  </span><span class="c1"># parameterized-tests: default</span>
+
+<span class="nt">flank</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># -- FlankYml --</span>
+
+<span class="w">  </span><span class="c1">### Max Test Shards</span>
+<span class="w">  </span><span class="c1">## test shards - the amount of groups to split the test suite into</span>
+<span class="w">  </span><span class="c1">## set to -1 to use one shard per test. default: 1</span>
+<span class="w">  </span><span class="c1"># max-test-shards: 1</span>
+
+<span class="w">  </span><span class="c1">### Shard Time</span>
+<span class="w">  </span><span class="c1">## shard time - the amount of time tests within a shard should take</span>
+<span class="w">  </span><span class="c1">## when set to &gt; 0, the shard count is dynamically set based on time up to the maximum limit defined by max-test-shards</span>
+<span class="w">  </span><span class="c1">## 2 minutes (120) is recommended.</span>
+<span class="w">  </span><span class="c1">## default: -1 (unlimited)</span>
+<span class="w">  </span><span class="c1"># shard-time: -1</span>
+
+<span class="w">  </span><span class="c1">### Number of Test Runs</span>
+<span class="w">  </span><span class="c1">## test runs - the amount of times to run the tests.</span>
+<span class="w">  </span><span class="c1">## 1 runs the tests once. 10 runs all the tests 10x</span>
+<span class="w">  </span><span class="c1"># num-test-runs: 1</span>
+
+<span class="w">  </span><span class="c1">### Smart Flank GCS Path</span>
+<span class="w">  </span><span class="c1">## Google cloud storage path where the JUnit XML results from the last run is stored.</span>
+<span class="w">  </span><span class="c1">## NOTE: Empty results will not be uploaded</span>
+<span class="w">  </span><span class="c1"># smart-flank-gcs-path: gs://tmp_flank/tmp/JUnitReport.xml</span>
+
+<span class="w">  </span><span class="c1">### Smart Flank Upload Disable flag</span>
+<span class="w">  </span><span class="c1">## Disables smart flank JUnit XML uploading. Useful for preventing timing data from being updated.</span>
+<span class="w">  </span><span class="c1">## Default: false</span>
+<span class="w">  </span><span class="c1"># smart-flank-disable-upload: false</span>
+
+<span class="w">  </span><span class="c1">### Use Average Test Time for New Tests flag</span>
+<span class="w">  </span><span class="c1">## Enable using average time from previous tests duration when using SmartShard and tests did not run before.</span>
+<span class="w">  </span><span class="c1">## Default: false</span>
+<span class="w">  </span><span class="c1"># use-average-test-time-for-new-tests: true</span>
+
+<span class="w">  </span><span class="c1">### Default Test Time</span>
+<span class="w">  </span><span class="c1">## Set default test time used for calculating shards.</span>
+<span class="w">  </span><span class="c1">## Default: 120.0</span>
+<span class="w">  </span><span class="c1"># default-test-time: 15</span>
+
+<span class="w">  </span><span class="c1">### Default Class Test Time</span>
+<span class="w">  </span><span class="c1">## Set default test time (in seconds) used for calculating shards of parametrized classes when previous tests results are not available.</span>
+<span class="w">  </span><span class="c1">## Default test time for classes should be different from the default time for test</span>
+<span class="w">  </span><span class="c1">## Default: 240.0</span>
+<span class="w">  </span><span class="c1"># default-class-test-time: 30</span>
+
+<span class="w">  </span><span class="c1">### Disable Sharding flag</span>
+<span class="w">  </span><span class="c1">## Disables sharding. Useful for parameterized tests.</span>
+<span class="w">  </span><span class="c1"># disable-sharding: false</span>
+
+<span class="w">  </span><span class="c1">### Test Targets Always Run</span>
+<span class="w">  </span><span class="c1">## always run - these tests are inserted at the beginning of every shard</span>
+<span class="w">  </span><span class="c1">## Execution order is not guaranteed by Flank. Users are responsible for configuring their own device test runner logic.</span>
+<span class="w">  </span><span class="c1"># test-targets-always-run:</span>
+<span class="w">  </span><span class="c1">#   - class com.example.app.ExampleUiTest#testPasses</span>
+
+<span class="w">  </span><span class="c1">### Files to Download</span>
+<span class="w">  </span><span class="c1">## regex is matched against bucket paths, for example: 2019-01-09_00:13:06.106000_YCKl/shard_0/NexusLowRes-28-en-portrait/bugreport.txt</span>
+<span class="w">  </span><span class="c1"># files-to-download:</span>
+<span class="w">  </span><span class="c1">#   - .*\.mp4$</span>
+
+<span class="w">  </span><span class="c1">### Billing Project ID</span>
+<span class="w">  </span><span class="c1">## The billing enabled Google Cloud Platform id name to use</span>
+<span class="w">  </span><span class="c1"># project: ftl-flank-open-source</span>
+
+<span class="w">  </span><span class="c1">### Local Results Directory</span>
+<span class="w">  </span><span class="c1">## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.</span>
+<span class="w">  </span><span class="c1"># local-result-dir: flank</span>
+
+<span class="w">  </span><span class="c1">### Keep File Path flag</span>
+<span class="w">  </span><span class="c1">## Keeps the full path of downloaded files. Required when file names are not unique.</span>
+<span class="w">  </span><span class="c1">## Default: false</span>
+<span class="w">  </span><span class="c1"># keep-file-path: false</span>
+
+<span class="w">  </span><span class="c1">### Additional App/Test APKS</span>
+<span class="w">  </span><span class="c1">## Include additional app/test apk pairs in the run. Apks are unique by just filename and not by path!</span>
+<span class="w">  </span><span class="c1">## If app is omitted, then the top level app is used for that pair.</span>
+<span class="w">  </span><span class="c1">## You can overwrite global config per each test pair.</span>
+<span class="w">  </span><span class="c1">## Currently supported options are: max-test-shards, test-targets, client-details, environment-variables, device</span>
+<span class="w">  </span><span class="c1"># additional-app-test-apks:</span>
+<span class="w">  </span><span class="c1">#  - app: ../test_projects/android/apks/app-debug.apk</span>
+<span class="w">  </span><span class="c1">#    test: ../test_projects/android/apks/app1-debug-androidTest.apk</span>
+<span class="w">  </span><span class="c1">#    device:</span>
+<span class="w">  </span><span class="c1">#      - model: Nexus6P</span>
+<span class="w">  </span><span class="c1">#        version: 27</span>
+<span class="w">  </span><span class="c1">#  - test: ../test_projects/android/apks/app2-debug-androidTest.apk</span>
+<span class="w">  </span><span class="c1">#    max-test-shards: 5</span>
+
+<span class="w">  </span><span class="c1">### Run Timeout</span>
+<span class="w">  </span><span class="c1">## The max time this test run can execute before it is cancelled (default: unlimited).</span>
+<span class="w">  </span><span class="c1"># run-timeout: 60m</span>
+
+<span class="w">  </span><span class="c1">### Ignore Failed Test flag</span>
+<span class="w">  </span><span class="c1">## Terminate with exit code 0 when there are failed tests.</span>
+<span class="w">  </span><span class="c1">## Useful for Fladle and other gradle plugins that don&#39;t expect the process to have a non-zero exit code.</span>
+<span class="w">  </span><span class="c1">## The JUnit XML is used to determine failure. (default: false)</span>
+<span class="w">  </span><span class="c1"># ignore-failed-tests: true</span>
+
+<span class="w">  </span><span class="c1">### Legacy Junit Results flag</span>
+<span class="w">  </span><span class="c1">## Flank provides two ways for parsing junit xml results.</span>
+<span class="w">  </span><span class="c1">## New way uses google api instead of merging xml files, but can generate slightly different output format.</span>
+<span class="w">  </span><span class="c1">## This flag allows fallback for legacy xml junit results parsing</span>
+<span class="w">  </span><span class="c1">## Currently available for android, iOS still uses only legacy way.</span>
+<span class="w">  </span><span class="c1"># legacy-junit-result: false</span>
+
+<span class="w">  </span><span class="c1">### Output Style flag</span>
+<span class="w">  </span><span class="c1">## Output style of execution status. May be one of [verbose, multi, single, compact].</span>
+<span class="w">  </span><span class="c1">## For runs with only one test execution the default value is &#39;verbose&#39;, in other cases</span>
+<span class="w">  </span><span class="c1">## &#39;multi&#39; is used as the default. The output style &#39;multi&#39; is not displayed correctly on consoles</span>
+<span class="w">  </span><span class="c1">## which don&#39;t support ansi codes, to avoid corrupted output use single or verbose.</span>
+<span class="w">  </span><span class="c1">## The output style `compact` is used to produce less detailed output, it prints just Args, test and matrix count, weblinks, cost, and result reports.</span>
+<span class="w">  </span><span class="c1"># output-style: single</span>
+
+<span class="w">  </span><span class="c1">### Full Junit Result flag</span>
+<span class="w">  </span><span class="c1">## Enable create additional local junit result on local storage with failure nodes on passed flaky tests.</span>
+<span class="w">  </span><span class="c1"># full-junit-result: false</span>
+
+<span class="w">  </span><span class="c1">### Disable Results Upload flag</span>
+<span class="w">  </span><span class="c1">## Disables flank results upload on gcloud storage.</span>
+<span class="w">  </span><span class="c1">## Default: false</span>
+<span class="w">  </span><span class="c1"># disable-results-upload: false</span>
+
+<span class="w">  </span><span class="c1">### Disable usage statistics flag</span>
+<span class="w">  </span><span class="c1">## Disable sending usage statistics (without sensitive data) to the analytic tool.</span>
+<span class="w">  </span><span class="c1">## Default: false</span>
+<span class="w">  </span><span class="c1"># disable-usage-statistics: false</span>
+
+<span class="w">  </span><span class="c1">### Enable output report with set type</span>
+<span class="w">  </span><span class="c1">## Saves output results as parsable file and optionally upload it to Gcloud. Possible values are [none, json].</span>
+<span class="w">  </span><span class="c1">## Default: none</span>
+<span class="w">  </span><span class="c1"># output-report: none</span>
+
+<span class="w"> </span><span class="c1">### Disable config validation (for both, yml and command line)</span>
+<span class="w"> </span><span class="c1">## If true, Flank won&#39;t validate options provided by the user. In general, it&#39;s not a good idea but,</span>
+<span class="w"> </span><span class="c1">## there are cases when this could be useful for a user</span>
+<span class="w"> </span><span class="c1">## (example: project can use devices that are not commonly available, the project has higher sharding limits, etc).</span>
+<span class="w"> </span><span class="c1">## Default: false</span>
+<span class="w"> </span><span class="c1"># skip-config-validation: false</span>
+
+<span class="w"> </span><span class="c1">### Path to the custom sharding JSON file</span>
+<span class="w"> </span><span class="c1">## Flank will apply provided sharding to the configuration.</span>
+<span class="w"> </span><span class="c1">## For detailed explanation please check https://github.com/Flank/flank/blob/master/docs/feature/1665-custom-sharding.md</span>
+<span class="w"> </span><span class="c1"># custom-sharding-json: ./custom_sharding.json</span>
+</code></pre></div>
+<h2 id="flank-wrapper">Flank Wrapper</h2>
+<p>Flank wrapper is a solution to always run the latest version of Flank.
+It will download the latest version of Flank itself always when it changed.
+Using Flank wrapper is similar to using Flank, all options provided to Flank wrapper will be passed to Flank itself.
+To download the latest version of Flank wrapper, please visit <a href="https://github.com/Flank/flank/releases">GitHub releases</a>
+and search for tag <code>flank_wrapper-XXX</code>. There are also shell and a batch wrapper over <code>.jar</code> file included.</p>
+<h2 id="android-code-coverage">Android code coverage</h2>
+<details>
+<summary>Update your app's build.gradle to build with coverage and use orchestrator.
+A custom gradle task is defined to generate the coverage report.</summary>
+
+<div class="highlight"><pre><span></span><code>def coverageEnabled = project.hasProperty(&#39;coverage&#39;)
+
+android {
+
+  defaultConfig {
+    testInstrumentationRunner &quot;androidx.test.runner.AndroidJUnitRunner&quot;
+    // runs pm clear after each test invocation
+    testInstrumentationRunnerArguments clearPackageData: &#39;true&#39;
+  }
+
+  buildTypes {
+    debug {
+      testCoverageEnabled true
+    }
+  }
+
+  // https://google.github.io/android-gradle-dsl/current/com.android.build.gradle.internal.dsl.TestOptions.html#com.android.build.gradle.internal.dsl.TestOptions:animationsDisabled
+  testOptions {
+        execution &#39;ANDROIDX_TEST_ORCHESTRATOR&#39;
+        animationsDisabled = true
+    }
+}
+
+dependencies {
+  androidTestUtil &#39;androidx.test:orchestrator:1.1.1&#39;
+
+  androidTestImplementation(&quot;androidx.test:runner:1.1.1&quot;)
+  androidTestImplementation(&quot;androidx.test.ext:junit:1.1.0&quot;)
+  androidTestImplementation(&quot;androidx.test.ext:junit-ktx:1.1.0&quot;)
+  androidTestImplementation(&quot;androidx.test.ext:truth:1.1.0&quot;)
+  androidTestImplementation(&quot;androidx.test.espresso.idling:idling-concurrent:3.1.1&quot;)
+  androidTestImplementation(&quot;androidx.test.espresso.idling:idling-net:3.1.1&quot;)
+  androidTestImplementation(&quot;androidx.test.espresso:espresso-accessibility:3.1.1&quot;)
+  androidTestImplementation(&quot;androidx.test:rules:1.1.1&quot;)
+  androidTestImplementation(&quot;androidx.test.espresso:espresso-core:3.1.1&quot;)
+  androidTestImplementation(&quot;androidx.test.espresso:espresso-contrib:3.1.1&quot;)
+  androidTestImplementation(&quot;androidx.test.espresso:espresso-idling-resource:3.1.1&quot;)
+  androidTestImplementation(&quot;androidx.test.espresso:espresso-intents:3.1.1&quot;)
+  androidTestImplementation(&quot;androidx.test.espresso:espresso-web:3.1.1&quot;)
+}
+
+if (coverageEnabled) {
+    // gradle -Pcoverage firebaseJacoco
+    task firebaseJacoco(type: JacocoReport) {
+        group = &quot;Reporting&quot;
+        description = &quot;Generate Jacoco coverage reports for Firebase test lab.&quot;
+
+        def excludes = [
+                &#39;**/R.class&#39;,
+                &#39;**/R$*.class&#39;,
+                &#39;**/BuildConfig.*&#39;,
+                &quot;**/androidx&quot;]
+        def javaClasses = fileTree(dir: &quot;${project.buildDir}/intermediates/javac/debug/classes&quot;, excludes: excludes)
+        def kotlinClasses = fileTree(dir: &quot;${project.buildDir}/tmp/kotlin-classes/debug&quot;, excludes: excludes)
+        getClassDirectories().setFrom(files([javaClasses, kotlinClasses]))
+
+        getSourceDirectories().setFrom(files([
+                &#39;src/main/java&#39;, &#39;src/main/kotlin&#39;,
+                &#39;src/androidTest/java&#39;, &#39;src/androidTest/kotlin&#39;]))
+
+        def ecFiles = project.fileTree(dir: &#39;..&#39;, include: &#39;results/coverage_ec/**/sdcard/*.ec&#39;)
+        ecFiles.forEach { println(&quot;Reading in $it&quot;) }
+        getExecutionData().setFrom(ecFiles)
+
+        reports {
+            html { enabled true }
+            xml { enabled false }
+        }
+    }
+}
+</code></pre></div>
+Starting from Android Marshmallow we must grant runtime permissions to write to external storage. Following snippet in test class solves that issue.
+If you want to get coverage files when using orchestrator, you must set this Rule for each test class.
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">androidx.test.rule.GrantPermissionRule</span><span class="p">;</span>
+<span class="kn">import static</span><span class="w"> </span><span class="nn">android.Manifest.permission.READ_EXTERNAL_STORAGE</span><span class="p">;</span>
+<span class="kn">import static</span><span class="w"> </span><span class="nn">android.Manifest.permission.WRITE_EXTERNAL_STORAGE</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">MyEspressoTest</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">  </span><span class="nd">@Rule</span>
+<span class="w">  </span><span class="n">GrantPermissionRule</span><span class="w"> </span><span class="n">grantPermissionRule</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GrantPermissionRule</span><span class="p">.</span><span class="na">grant</span><span class="p">(</span>
+<span class="w">          </span><span class="n">READ_EXTERNAL_STORAGE</span><span class="p">,</span><span class="w"> </span><span class="n">WRITE_EXTERNAL_STORAGE</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// other configuration and tests</span>
+<span class="p">}</span>
+</code></pre></div>
+
+Here's an example flank.yml. Note that `coverage` and `coverageFilePath` must be set when using orchestrator with coverage.
+`coverageFile` is not used. Orchestrator will generate one coverage file per test. `coverageFilePath` must be a directory, not a file.
+
+<div class="highlight"><pre><span></span><code><span class="nt">gcloud</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./app/build/outputs/apk/debug/app-debug.apk</span>
+<span class="w">  </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk</span>
+<span class="w">  </span><span class="nt">environment-variables</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">coverage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">coverageFilePath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/sdcard/</span>
+<span class="w">    </span><span class="nt">clearPackageData</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">directories-to-pull</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/sdcard/</span>
+<span class="w">  </span><span class="c1"># use a named results dir that&#39;s used by the gradle task</span>
+<span class="w">  </span><span class="nt">results-dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coverage_ec</span>
+
+<span class="nt">flank</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">disableSharding</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">files-to-download</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.*/sdcard/[^/]+\.ec$</span>
+</code></pre></div>
+
+- Build the app with coverage: `./gradlew -Pcoverage build`
+- Run flank `flank android run`
+- Generate the report `./gradlew -Pcoverage firebaseJacoco`
+- Open the report in `./build/reports/jacoco/firebaseJacoco/html/index.html`
+</details>
+
+<h2 id="ci-integration">CI integration</h2>
+<p>Download Flank from GitHub releases.</p>
+<p>Stable. Get the latest <a href="https://github.com/Flank/flank/releases/latest">stable version number</a> and replace the <code>XXX</code> with the version number.</p>
+<div class="highlight"><pre><span></span><code>wget --quiet https://github.com/Flank/flank/releases/download/vXXX/flank.jar -O ./flank.jar
+java -jar ./flank.jar android run
+</code></pre></div>
+<p>Snapshot (published after every commit)</p>
+<div class="highlight"><pre><span></span><code>wget --quiet https://github.com/Flank/flank/releases/download/flank_snapshot/flank.jar -O ./flank.jar
+java -jar ./flank.jar android run
+</code></pre></div>
+<p>In CI, it may be useful to generate the file via a shell script:</p>
+<div class="highlight"><pre><span></span><code>cat &lt;&lt; &#39;EOF&#39; &gt; ./flank.yml
+gcloud:
+  app: ../../test_projects/android/apks/app-debug.apk
+  test: ../../test_projects/android/apks/app-debug-androidTest.apk
+EOF
+</code></pre></div>
+<h3 id="circle-ci">Circle CI</h3>
+<p>Circle CI has a <a href="https://circleci.com/orbs/registry/orb/freeletics/firebase-testlab">firebase testlab orb</a> that supports Flank.</p>
+<h3 id="bitrise">Bitrise</h3>
+<p>Bitrise has an official <a href="https://github.com/bitrise-steplib/bitrise-step-flank">flank step</a>.</p>
+<h2 id="gradle-plugin">Gradle Plugin</h2>
+<p><a href="https://github.com/runningcode/fladle">Fladle</a> is a Gradle plugin for Flank that provides DSL configuration and task based execution.</p>
+<h2 id="flank-on-windows">Flank on Windows</h2>
+<p>In order to build or run Flank using Windows please follow <a href="windows_wsl_guide/">guide</a> of building/running it using Windows WSL.
+Native support is not currently supported.</p>
+<h2 id="authenticate-with-a-google-account">Authenticate with a Google account</h2>
+<p>Run <code>flank auth login</code>. Flank will save the credential to <code>~/.flank</code>. Google account authentication allows each person
+to have a unique non-shared credential. A service account is still recommended for CI.</p>
+<h2 id="authenticate-with-a-service-account">Authenticate with a service account</h2>
+<p>Follow the <a href="https://firebase.google.com/docs/test-lab/android/continuous">test lab docs</a> to create a service account.</p>
+<ul>
+<li>Save the credential to <code>$HOME/.config/gcloud/application_default_credentials.json</code> or set <code>GOOGLE_APPLICATION_CREDENTIALS</code> when using a custom path.</li>
+<li>Set the project id in flank.yml or set the <code>GOOGLE_CLOUD_PROJECT</code> environment variable.</li>
+<li>(Since 21.01) if <code>projectId</code> is not set in a config yml file, flank uses the first available project ID among the following sources:<ol>
+<li>The project ID specified in the JSON credentials file pointed by the GOOGLE_APPLICATION_CREDENTIALS environment variable <a href="https://runningcode.github.io/fladle/configuration/#serviceaccountcredentials">fladle</a></li>
+<li>The project ID specified by the GOOGLE_CLOUD_PROJECT environment variable</li>
+<li>The project ID specified in the JSON credentials file <code>$HOME/.config/gcloud/application_default_credentials.json</code></li>
+</ol>
+</li>
+</ul>
+<p>For continuous integration, base64 encode the credential as <code>GCLOUD_KEY</code>. Then write the file using a shell script. Note that gcloud CLI does not need to be installed. Flank works without any dependency on gcloud CLI.</p>
+<p>Encode JSON locally.</p>
+<div class="highlight"><pre><span></span><code>base64<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.config/gcloud/application_default_credentials.json&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>pbcopy
+</code></pre></div>
+<p>Then in CI decode the JSON.</p>
+<div class="highlight"><pre><span></span><code><span class="nv">GCLOUD_DIR</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.config/gcloud/&quot;</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GCLOUD_DIR</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GCLOUD_KEY</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GCLOUD_DIR</span><span class="s2">/application_default_credentials.json&quot;</span>
+</code></pre></div>
+<h2 id="running-with-gcloud-directly">Running with gcloud directly</h2>
+<p>flank.yml is compatible with the gcloud CLI.</p>
+<ul>
+<li><code>gcloud firebase test android run flank.yml:gcloud</code></li>
+<li><code>gcloud alpha firebase test ios run flank.ios.yml:gcloud</code></li>
+</ul>
+<p><strong>NOTE:</strong> You will need to <a href="https://cloud.google.com/sdk/gcloud/reference/auth/activate-service-account">activate gcloud's service account</a> for the above commands to work.</p>
+<h2 id="doctor">Doctor</h2>
+<p>Use the doctor command to check for errors in the YAML.</p>
+<ul>
+<li><code>flank firebase test android doctor</code></li>
+<li><code>flank firebase test ios doctor</code></li>
+</ul>
+<h2 id="check-version">Check version</h2>
+<p>Flank supports printing the current version.</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>flank<span class="w"> </span>-v
+v3.0-SNAPSHOT
+</code></pre></div>
+<h2 id="maven">Maven</h2>
+<p>You can consume Flank via maven.
+See the <a href="https://mvnrepository.com/artifact/com.github.flank/flank">maven repo</a> for all supported versions.</p>
+<div class="highlight"><pre><span></span><code>repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile(&quot;flank:flank:master-SNAPSHOT&quot;)
+}
+</code></pre></div>
+<p>or <a href="https://github.com/Flank/flank/packages/">GitHub packages</a></p>
+<details open>
+<summary>Groovy</summary>
+
+<div class="highlight"><pre><span></span><code><span class="n">dependencies</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s2">&quot;com.github.flank:flank:&lt;latest version&gt;&quot;</span>
+<span class="o">}</span>
+</code></pre></div>
+
+</details>
+<details>
+<summary>Kotlin</summary>
+
+<div class="highlight"><pre><span></span><code><span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;com.github.flank:flank:&lt;latest version&gt;&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+
+<h2 id="gradle-enterprise-export-api">Gradle Enterprise Export API</h2>
+<p>It is possible to fetch metrics from Gradle builds. For detailed info please visit <a href="https://docs.gradle.com/enterprise/export-api/">Gradle Export API</a>
+and flank's example <a href="https://github.com/Flank/flank/tree/master/samples/gradle-export-api">gradle-export-api</a>.</p>
+<h2 id="faq">FAQ</h2>
+<p>1) &gt; Access Not Configured. Cloud Tool Results API has not been used in project 764086051850 before or it is disabled.</p>
+<div class="codehilite"><pre><span></span><code>This error means authentication hasn&#39;t been setup properly. See `Authenticate with a service account` in this readme.
+</code></pre></div>
+
+<p>2)  &gt; How do I use Flank without typing long commands?</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Add</span><span class="w"> </span><span class="n">Flank</span><span class="err">&#39;</span><span class="n">s</span><span class="w"> </span><span class="p">[</span><span class="n">bash</span><span class="w"> </span><span class="n">helper</span><span class="w"> </span><span class="n">folder</span><span class="p">](</span><span class="n">https:</span><span class="sr">//gi</span><span class="n">thub</span><span class="o">.</span><span class="n">com</span><span class="sr">/Flank/</span><span class="n">flank</span><span class="sr">/blob/m</span><span class="n">aster</span><span class="sr">/test_runner/</span><span class="n">bash</span><span class="o">/</span><span class="p">)</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">your</span><span class="w"> </span><span class="nv">$PATH</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variable</span><span class="o">.</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">will</span><span class="w"> </span><span class="n">allow</span><span class="w"> </span><span class="n">you</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">call</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">shell</span><span class="w"> </span><span class="n">scripts</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">helper</span><span class="w"> </span><span class="n">folder</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">anywhere</span><span class="o">.</span>
+
+<span class="n">With</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="p">[</span><span class="n">flank</span><span class="p">](</span><span class="n">https:</span><span class="sr">//gi</span><span class="n">thub</span><span class="o">.</span><span class="n">com</span><span class="sr">/Flank/</span><span class="n">flank</span><span class="sr">/blob/m</span><span class="n">aster</span><span class="sr">/test_runner/</span><span class="n">bash</span><span class="o">/</span><span class="n">flank</span><span class="p">)</span><span class="w"> </span><span class="n">shell</span><span class="w"> </span><span class="n">script</span><span class="p">,</span><span class="w"> </span><span class="n">you</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="sb">`flank`</span><span class="w"> </span><span class="n">instead</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="sb">`java -jar flank.jar`</span><span class="o">.</span><span class="w"> </span><span class="n">Examples:</span>
+
+<span class="o">-</span><span class="w"> </span><span class="sb">`flank android run`</span>
+<span class="o">-</span><span class="w"> </span><span class="sb">`flank ios run`</span>
+
+<span class="n">With</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="p">[</span><span class="n">update_flank</span><span class="o">.</span><span class="n">sh</span><span class="p">](</span><span class="n">https:</span><span class="sr">//gi</span><span class="n">thub</span><span class="o">.</span><span class="n">com</span><span class="sr">/Flank/</span><span class="n">flank</span><span class="sr">/blob/m</span><span class="n">aster</span><span class="sr">/test_runner/</span><span class="n">bash</span><span class="o">/</span><span class="n">update_flank</span><span class="o">.</span><span class="n">sh</span><span class="p">)</span><span class="w"> </span><span class="n">shell</span><span class="w"> </span><span class="n">script</span><span class="p">,</span><span class="w"> </span><span class="n">you</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">rebuild</span><span class="w"> </span><span class="sb">`flank.jar`</span><span class="o">.</span>
+</code></pre></div>
+
+<p>3)  &gt; Test run failed to complete. Expected 786 tests, received 660</p>
+<div class="codehilite"><pre><span></span><code>Try setting `use-orchestrator: false`. Parameterized tests [are not compatible with orchestrator](https://stackoverflow.com/questions/48735268/unable-to-run-parameterized-tests-with-android-test-orchestrator). Flank uses [orchestrator by default on Android.](https://developer.android.com/training/testing/junit-runner)
+</code></pre></div>
+
+<p>4) &gt; I have an issue when attempting to sync the Flank Gradle project</p>
+<blockquote>
+<p>Task 'prepareKotlinBuildScriptModel' not found in project ':test_runner'.
+or similar</p>
+</blockquote>
+<div class="codehilite"><pre><span></span><code><span class="o">-</span><span class="w"> </span><span class="n">Make</span><span class="w"> </span><span class="n">sure</span><span class="w"> </span><span class="n">you</span><span class="w"> </span><span class="n">do</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">change</span><span class="w"> </span><span class="nb">any</span><span class="w"> </span><span class="n">module</span><span class="w"> </span><span class="n">specific</span><span class="w"> </span><span class="n">settings</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Gradle</span>
+<span class="o">-</span><span class="w"> </span><span class="n">Clear</span><span class="w"> </span><span class="n">IDE</span><span class="w"> </span><span class="n">cache</span><span class="w"> </span><span class="n">using</span><span class="w"> </span><span class="err">`</span><span class="n">File</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Invalidate</span><span class="w"> </span><span class="n">Caches</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">Restart</span><span class="err">`</span>
+<span class="o">-</span><span class="w"> </span><span class="n">Re</span><span class="o">-</span><span class="kn">import</span><span class="w"> </span><span class="nn">project</span><span class="w"> </span><span class="n">using</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="err">`</span><span class="n">build</span><span class="o">.</span><span class="n">gradle</span><span class="o">.</span><span class="n">kts</span><span class="err">`</span>
+<span class="o">-</span><span class="w"> </span><span class="n">Sync</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="n">again</span>
+</code></pre></div>
+
+<p>5) &gt; Does Flank support Cucumber?</p>
+<p>Please check <a href="cucumber_support/">document</a> for more info</p>
+<p>6) &gt; How can I find project id?</p>
+<p>Please check the <a href="https://firebase.google.com/docs/projects/learn-more?hl=en#find_the_project_id">firebase documentation</a> about finding the project id</p>
+<p>7) &gt; How do I run Flank with a proxy?</p>
+<p><code>java -Dhttp.proxyHost=localhost -Dhttp.proxyPort=8080 -Dhttp.proxyUser=user -Dhttp.proxyPassword=pass -jar ./test_runner/build/libs/flank.jar firebase test android run</code></p>
+<p>See <a href="https://github.com/googleapis/google-auth-library-java#configuring-a-proxy">google-auth-library-java</a> for details.</p>
+<h1 id="resources">Resources</h1>
+<ul>
+<li><a href="https://developer.squareup.com/blog/instrumenting-firebase-test-lab/">Instrumenting Firebase Test Lab</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+left to right direction
+
+class AndroidTestConfig_Robo {
+val appApkGcsPath: String
+val roboScriptGcsPath: String?
+val flankRoboDirectives: List<FlankRoboDirective>?
+}
+
+class RoboTestContext {
+val app: FileReference
+val roboScript: FileReference
+}
+
+class AndroidArgs {
+val roboDirectives: List<FlankRoboDirective>
+}
+
+AndroidTestConfig_Robo::appApkGcsPath -- RoboTestContext::app
+AndroidTestConfig_Robo::roboScriptGcsPath -- RoboTestContext::roboScript
+AndroidTestConfig_Robo::flankRoboDirectives -- AndroidArgs::roboDirectives
+
+
+@enduml

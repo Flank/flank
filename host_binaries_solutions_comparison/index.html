@@ -1,0 +1,1579 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Flank is a massively parallel Android and iOS test runner for Firebase Test Lab.">
+      
+      
+      
+        <link rel="canonical" href="https://flank.github.io/flank/host_binaries_solutions_comparison/">
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.45">
+    
+    
+      
+        <title>Host binaries solutions comparison - Flank</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.0253249f.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#host-binaries-solutions-comparison" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Flank" class="md-header__button md-logo" aria-label="Flank" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flank
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Host binaries solutions comparison
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Flank/flank/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flank
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Flank" class="md-nav__button md-logo" aria-label="Flank" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Flank
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Flank/flank/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flank
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../flank_vision/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vision
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_sharding/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sharding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../smart_flank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Smart Flank
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../building_updating_flank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Building & updating Flank
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows_wsl_guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows WSL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cucumber_support/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cucumber
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../flank_corellium/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Corellium
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Contribution
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Contribution
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pr_titles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pull request
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Development
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../onboarding/1_environment_setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Environment setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../onboarding/2_contribution/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contribution
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../onboarding/3_estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../onboarding/4_buddy_system/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Buddy system
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../onboarding/5_code_review/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code review
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_artifacts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Test artifacts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../client_generation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Client generation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dependencies_update_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dependencies update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../flank_secrets/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../release_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Releasing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../binaries_used_in_flank_io_testing.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Binaries for Flank's iOS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture abstraction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    High-level design
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            High-level design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl#flank-high-level-design" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_2" id="__nav_11_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Presentation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_2">
+            <span class="md-nav__icon md-icon"></span>
+            Presentation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/presentation#presentation" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/cli#cli" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CLI
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/domain#domain" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Domain
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/data#data" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/adapter#adapter" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Adapter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Hypershard
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            Hypershard
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hypershard_ios/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    iOS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hypershard_android/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Android
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#git-lfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      git-lfs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="git-lfs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#costs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Costs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#is-git-lfs-versioning-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Is git lfs versioning files?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-configure-git-lfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to configure git lfs?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-add-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to add file
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-play-with-branches" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to play with branches
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git-submodules" class="md-nav__link">
+    <span class="md-ellipsis">
+      git-submodules
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="git-submodules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#is-git-submodules-versioning-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Is git submodules versioning files?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#is-git-submodule-versioning-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Is git submodule versioning files?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-configure-git-submodule" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to configure git submodule?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-add-file_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to add file
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-play-with-branches_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to play with branches
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git-annex" class="md-nav__link">
+    <span class="md-ellipsis">
+      git-annex
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="git-annex">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#costs_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Costs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#is-git-annex-versioning-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Is git annex versioning files?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-configure-git-annex" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to configure git annex?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-add-file_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to add file
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-override-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to override file
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where-to-host" class="md-nav__link">
+    <span class="md-ellipsis">
+      Where to host
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-play-with-branches_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to play with branches
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-configure-new-git-annex-repository-with-google-drive" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to configure new git-annex repository with google drive
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-push-changes-to-remote" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to push changes to remote
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-sync-changes-from-remote" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to sync changes from remote
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      conclusion
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="host-binaries-solutions-comparison">Host binaries solutions comparison</h1>
+<h2 id="git-lfs">git-lfs</h2>
+<p>Docs can be found at <a href="https://git-lfs.github.com">git-lfs.github.com</a></p>
+<h3 id="costs">Costs</h3>
+<p><a href="https://docs.github.com/en/github/managing-large-files/about-storage-and-bandwidth-usage">about-storage-and-bandwidth-usage</a></p>
+<p>Each data pack cost is $5 per month. It contains:</p>
+<ol>
+<li>50gb bandwidth</li>
+<li>50gb storage</li>
+</ol>
+<h3 id="is-git-lfs-versioning-files">Is git lfs versioning files?</h3>
+<p>Yes. Git LFS versioning files and show changed md5 sum and size.</p>
+<p>On main repository git diff looks like:</p>
+<div class="highlight"><pre><span></span><code>diff --git a/app/build/outputs/apk/release/app-release-unsigned.apk b/app/build/outputs/apk/release/app-release-unsigned.apk
+index bba31d0..d165ca1 100644
+--- a/app/build/outputs/apk/release/app-release-unsigned.apk
++++ b/app/build/outputs/apk/release/app-release-unsigned.apk
+@@ -1,3 +1,3 @@
+ version https://git-lfs.github.com/spec/v1
+-oid sha256:bf48d577836f07a3d625ee30f04eb356c0b1158770f613df0d82b6ef40d300d3
+-size 1938709
++oid sha256:3349370934f8a1695b6ace6db53e58c0f24a1d9c02ce703b4a78870175c8c066
++size 1938769
+</code></pre></div>
+<h3 id="how-to-configure-git-lfs">How to configure git lfs?</h3>
+<p>To add a file extension to git lfs you should execute the following command:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>lfs<span class="w"> </span>track<span class="w"> </span><span class="s2">&quot;*.apk&quot;</span>
+</code></pre></div>
+<p>Now all files with <code>.apk</code> extensions will be added to git lfs</p>
+<h3 id="how-to-add-file">How to add file</h3>
+<p>The file should be added in <code>normal</code> way to git</p>
+<div class="highlight"><pre><span></span><code>git add app-debug.apk
+git commit -m &quot;Add apk file&quot;
+git push origin master
+</code></pre></div>
+<h3 id="how-to-play-with-branches">How to play with branches</h3>
+<p>There is nothing to configure. When you modify files on branch changes not shown on the master.</p>
+<h2 id="git-submodules">git-submodules</h2>
+<p>Docs can be found at <a href="https://gist.github.com/gitaarik/8735255">gist.github.com/gitaarik/8735255</a></p>
+<h3 id="is-git-submodules-versioning-files">Is git submodules versioning files?</h3>
+<p>Git submodule is another git repository linked to the main repository. On main repository git diff looks like:</p>
+<div class="highlight"><pre><span></span><code>diff --git a/apks b/apks
+--- a/apks
++++ b/apks
+@@ -1 +1 @@
+-Subproject commit 7036bcb56be19490b4445a7e31e821e80b9ff870
++Subproject commit 7036bcb56be19490b4445a7e31e821e80b9ff870-dirty
+</code></pre></div>
+<p>So from the main repository, we don't see what files changed. To check details we need to execute git diff from the submodule.</p>
+<h3 id="is-git-submodule-versioning-files">Is git submodule versioning files?</h3>
+<p>Yes. Git Submodule versioning binary files like standard git repository.</p>
+<h3 id="how-to-configure-git-submodule">How to configure git submodule?</h3>
+<ol>
+<li>
+<p>Create a submodule repository</p>
+</li>
+<li>
+<p>On <code>main</code> execute repository git submodule add git@github.com:url_to/awesome_submodule.git path_to_awesome_submodule.</p>
+</li>
+<li>
+<p>Execute <code>git submodule init</code></p>
+</li>
+</ol>
+<h3 id="how-to-add-file_1">How to add file</h3>
+<p>Goto submodule directory</p>
+<div class="highlight"><pre><span></span><code>git add app-debug.apk
+git commit -m &quot;Add apk file&quot;
+git push origin master
+</code></pre></div>
+<h3 id="how-to-play-with-branches_1">How to play with branches</h3>
+<p>Actually there is an option to track specific branch on submodule.
+https://stackoverflow.com/questions/9189575/git-submodule-tracking-latest</p>
+<h2 id="git-annex">git-annex</h2>
+<p>Docs can be found at <a href="https://git-annex.branchable.com/git-annex/">git-annex</a>
+Docs for <a href="https://git-annex.branchable.com/tips/centralized_git_repository_tutorial/on_GitHub/">github at git-annex</a></p>
+<p>We can configure git-annex to store files in places like ftp, amazon s3, etc. Probably it can reduce costs on many large files. <a href="https://git-annex.branchable.com/special_remotes/">link</a></p>
+<h3 id="costs_1">Costs</h3>
+<p>Depends on the chosen storage provider</p>
+<ol>
+<li>Google drive</li>
+<li>Limitation to 15gb (free quota)</li>
+<li>After 15gb need to switch to google one or use Gsuite (10$/month and quota 100gb per user)</li>
+<li>OneDrive</li>
+<li>Pricing table: https://www.opendrive.com/pricing</li>
+<li>Free quota 5gb</li>
+<li>From table: Custom Plan: 500gb storage and 25gb daily bandwidth : 5$/month 50$/year</li>
+<li>Droplet/VPS - depend on the provider</li>
+<li>FTP/SFTP - depend on provider</li>
+</ol>
+<h3 id="is-git-annex-versioning-files">Is git annex versioning files?</h3>
+<p>Git-annex like git lfs versioning control sum</p>
+<p>Git diff looks like:</p>
+<div class="highlight"><pre><span></span><code>@ -1 +1 @@
+../../../../../.git/annex/objects/QJ/ZX/SHA256E-s1938733--a5bd978c2a6a9ff32bdf0ad5bd94c1362d6904c80c8f6d7890a40303a5d1d703.apk/SHA256E-s1938733--a5bd978c2a6a9ff32bdf0ad5bd94c1362d6904c80c8f6d7890a40303a5d1d703.apk
+../../../../../.git/annex/objects/xG/5q/SHA256E-s1938761--038902c65338873f5936f7c5d764fc98839746036a9fffb46223bb742fd1556f.apk/SHA256E-s1938761--038902c65338873f5936f7c5d764fc98839746036a9fffb46223bb742fd1556f.apk
+</code></pre></div>
+<h3 id="how-to-configure-git-annex">How to configure git annex?</h3>
+<ol>
+<li>
+<p>First, you need to install git-annex</p>
+<div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>git-annex
+</code></pre></div>
+<p>If you don't have brew installed. Install it from <a href="https://brew.sh">brew.sh</a></p>
+<p>Installing on other systems can be found at <a href="https://git-annex.branchable.com/install/">git-annex install</a></p>
+</li>
+<li>
+<p>Initialize</p>
+<p>On root repository</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>annex<span class="w"> </span>init
+</code></pre></div>
+</li>
+</ol>
+<h3 id="how-to-add-file_2">How to add file</h3>
+<div class="highlight"><pre><span></span><code>git annex add app-debug.apk
+git commit -m &quot;Add apk file&quot;
+git push origin master
+</code></pre></div>
+<h3 id="how-to-override-file">How to override file</h3>
+<ol>
+<li>
+<p>Unlock file</p>
+<div class="highlight"><pre><span></span><code>git annex unlock app-debug.apk
+</code></pre></div>
+</li>
+<li>
+<p>Change file</p>
+</li>
+<li>
+<p>Add file to annex</p>
+<div class="highlight"><pre><span></span><code>git annex add app-debug.apk
+</code></pre></div>
+</li>
+</ol>
+<h3 id="where-to-host">Where to host</h3>
+<p>Git-annex allows to host binary files in different locations, after a little discussion with @jan-gogo we chose top 3:</p>
+<ol>
+<li>Google Drive</li>
+<li>OneDrive</li>
+<li>Droplet/VPS</li>
+<li>FTP/SFTP</li>
+</ol>
+<p>This list is only our idea feel free to suggest another one.</p>
+<p>All of the supported storage types can be seen at <a href="https://git-annex.branchable.com/special_remotes/">git-annex special_remotes</a></p>
+<h3 id="how-to-play-with-branches_2">How to play with branches</h3>
+<p>When you change branch you can override file and commit changes (remember to unlock file first). File will be uploaded on configured storage.</p>
+<h3 id="how-to-configure-new-git-annex-repository-with-google-drive">How to configure new git-annex repository with google drive</h3>
+<ol>
+<li>Install rclone from <a href="https://downloads.rclone.org/v1.37/">downloads.rclone.org</a></li>
+<li>Install git-annex-rclone from <a href="https://github.com/DanielDent/git-annex-remote-rclone">git-annex-remote-rclone</a></li>
+<li>Go to repository directory and in console enter <code>rclone config</code></li>
+<li>Init remote by <code>git annex initremote CONFIG_NAME type=external externaltype=rclone target=CONFIG_NAME prefix=git-annex chunk=50MiB encryption=shared mac=HMACSHA512 rclone_layout=lower</code></li>
+<li>You can test remote by <code>git annex testremote</code></li>
+</ol>
+<h3 id="how-to-push-changes-to-remote">How to push changes to remote</h3>
+<ol>
+<li>
+<p>Unlock file <code>git-annex unlock file_name</code></p>
+</li>
+<li>
+<p>Modify file</p>
+</li>
+<li>
+<p>Add file <code>git annex add file_name --force</code></p>
+</li>
+<li>
+<p>Sync changes <code>git annex sync file_name --content</code></p>
+</li>
+</ol>
+<h3 id="how-to-sync-changes-from-remote">How to sync changes from remote</h3>
+<ol>
+<li>
+<p>If you don't have configured git clone and git-annex with rclone check 1 to 3 points from <code>How to configure new git-annex repository with google drive</code> section</p>
+</li>
+<li>
+<p>execute command <code>git annex enableremote CONFIG_NAME</code></p>
+</li>
+<li>
+<p>After clone repo sync with git-annex <code>git annex sync --content</code></p>
+</li>
+</ol>
+<h2 id="conclusion">conclusion</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"></th>
+<th style="text-align: center;">GIT LFS</th>
+<th style="text-align: center;">GIT SUBMODULES</th>
+<th style="text-align: center;">GIT ANNEX</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Costs</td>
+<td style="text-align: center;">5$/month per pack (50gb)</td>
+<td style="text-align: center;">Cannot find clear answer</td>
+<td style="text-align: center;">Depend on storage provider</td>
+</tr>
+<tr>
+<td style="text-align: center;">Versioning Files</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">Yes</td>
+</tr>
+<tr>
+<td style="text-align: center;">Branch support</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">Now there is an option to track specific branch on submodule. https://stackoverflow.com/questions/9189575/git-submodule-tracking-latest</td>
+<td style="text-align: center;">Yes</td>
+</tr>
+<tr>
+<td style="text-align: center;">Flexibility</td>
+<td style="text-align: center;">Yes, you can set your lfs server. <a href="https://github.com/git-lfs/git-lfs/wiki/Implementations">Check here</a></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">Yes, can use different storage providers.</td>
+</tr>
+</tbody>
+</table>
+<p>Our requirement is to have remote storage for test artifacts that should cover the following points:
+* Allow having dedicated artifacts for specific branches.
+* Free to use
+* Public read access and restricted write 
+Git annex was the most promising but we didn't find remote storage that will meet all our requirements.
+By comparing these three solutions, we decide to stay with GitHub releases and automate the release process using custom Gradle tasks.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

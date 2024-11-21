@@ -1,0 +1,1367 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Flank is a massively parallel Android and iOS test runner for Firebase Test Lab.">
+      
+      
+      
+        <link rel="canonical" href="https://flank.github.io/flank/bugs/891-rate-limit-exceeded/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.45">
+    
+    
+      
+        <title>Rate limit exceeded #891 - Flank</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rate-limit-exceeded-891" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Flank" class="md-header__button md-logo" aria-label="Flank" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flank
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Rate limit exceeded #891
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Flank/flank/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flank
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Flank" class="md-nav__button md-logo" aria-label="Flank" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Flank
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Flank/flank/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flank
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flank_vision/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vision
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_sharding/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sharding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../smart_flank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Smart Flank
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../building_updating_flank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Building & updating Flank
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../windows_wsl_guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows WSL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cucumber_support/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cucumber
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flank_corellium/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Corellium
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Contribution
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Contribution
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pr_titles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pull request
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Development
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../onboarding/1_environment_setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Environment setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../onboarding/2_contribution/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contribution
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../onboarding/3_estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../onboarding/4_buddy_system/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Buddy system
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../onboarding/5_code_review/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code review
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_artifacts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Test artifacts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_generation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Client generation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dependencies_update_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dependencies update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flank_secrets/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Releasing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../binaries_used_in_flank_io_testing.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Binaries for Flank's iOS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture abstraction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    High-level design
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            High-level design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl#flank-high-level-design" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_2" id="__nav_11_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Presentation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_2">
+            <span class="md-nav__icon md-icon"></span>
+            Presentation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/presentation#presentation" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/cli#cli" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CLI
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/domain#domain" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Domain
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/data#data" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/adapter#adapter" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Adapter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Hypershard
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            Hypershard
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hypershard_ios/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    iOS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hypershard_android/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Android
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#stack-trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stack trace
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reported-flank-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reported flank config
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#to-reproduce" class="md-nav__link">
+    <span class="md-ellipsis">
+      To Reproduce
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="rate-limit-exceeded-891">Rate limit exceeded <a href="https://github.com/Flank/flank/issues/891">#891</a></h1>
+<p>Reported description:</p>
+<blockquote>
+<p>After bump from 20.05.2 to 20.06.2 I started to see some issues related to rate limit. Also, there are no significant changes on the shard size or test amount.</p>
+<p>We are running another 7 flank execution in parallel. Total ~6k tests.</p>
+</blockquote>
+<h2 id="stack-trace">Stack trace</h2>
+<div class="highlight"><pre><span></span><code>java.io.IOException: Request failed
+  at ftl.http.ExecuteWithRetryKt$executeWithRetry$$inlined$withRetry$1.invokeSuspend(ExecuteWithRetry.kt:36)
+  at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+  at kotlinx.coroutines.DispatchedTask.run(Dispatched.kt:241)
+  at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:270)
+  at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:79)
+  at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:54)
+  at kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source)
+  at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:36)
+  at kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source)
+  at ftl.http.ExecuteWithRetryKt.executeWithRetry(ExecuteWithRetry.kt:41)
+  at ftl.gc.GcToolResults.getStepResult(GcToolResults.kt:98)
+  at ftl.json.SavedMatrix.finished(SavedMatrix.kt:90)
+  at ftl.json.SavedMatrix.update(SavedMatrix.kt:65)
+  at ftl.json.MatrixMapKt.update(MatrixMap.kt:47)
+  at ftl.run.NewTestRunKt$newTestRun$2$2.invokeSuspend(NewTestRun.kt:24)
+  at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+  at kotlinx.coroutines.ResumeModeKt.resumeUninterceptedMode(ResumeMode.kt:45)
+  at kotlinx.coroutines.internal.ScopeCoroutine.afterCompletionInternal(Scopes.kt:32)
+  at kotlinx.coroutines.JobSupport.completeStateFinalization(JobSupport.kt:310)
+  at kotlinx.coroutines.JobSupport.tryFinalizeSimpleState(JobSupport.kt:276)
+  at kotlinx.coroutines.JobSupport.tryMakeCompleting(JobSupport.kt:807)
+  at kotlinx.coroutines.JobSupport.makeCompletingOnce$kotlinx_coroutines_core(JobSupport.kt:787)
+  at kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:111)
+  at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)
+  at kotlinx.coroutines.ResumeModeKt.resumeUninterceptedMode(ResumeMode.kt:45)
+  at kotlinx.coroutines.internal.ScopeCoroutine.afterCompletionInternal(Scopes.kt:32)
+  at kotlinx.coroutines.JobSupport.completeStateFinalization(JobSupport.kt:310)
+  at kotlinx.coroutines.JobSupport.tryFinalizeFinishingState(JobSupport.kt:236)
+  at kotlinx.coroutines.JobSupport.tryMakeCompletingSlowPath(JobSupport.kt:849)
+  at kotlinx.coroutines.JobSupport.tryMakeCompleting(JobSupport.kt:811)
+  at kotlinx.coroutines.JobSupport.makeCompletingOnce$kotlinx_coroutines_core(JobSupport.kt:787)
+  at kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:111)
+  at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)
+  at kotlinx.coroutines.DispatchedTask.run(Dispatched.kt:241)
+  at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:270)
+  at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:79)
+  at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:54)
+  at kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source)
+  at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:36)
+  at kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source)
+  at ftl.cli.firebase.test.android.AndroidRunCommand.run(AndroidRunCommand.kt:48)
+  at picocli.CommandLine.executeUserObject(CommandLine.java:1769)
+  at picocli.CommandLine.access$900(CommandLine.java:145)
+  at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2150)
+  at picocli.CommandLine$RunLast.handle(CommandLine.java:2144)
+  at picocli.CommandLine$RunLast.handle(CommandLine.java:2108)
+  at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:1975)
+  at picocli.CommandLine.execute(CommandLine.java:1904)
+  at ftl.Main$Companion$main$1.invoke(Main.kt:53)
+  at ftl.Main$Companion$main$1.invoke(Main.kt:43)
+  at ftl.util.Utils.withGlobalExceptionHandling(Utils.kt:130)
+  at ftl.Main$Companion.main(Main.kt:49)
+  at ftl.Main.main(Main.kt)
+C used by: com.google.api.client.googleapis.json.GoogleJsonResponseException: 429 Too Many Requests
+{ 
+  &quot;code&quot; : 429,
+  &quot;errors&quot; : [ {
+    &quot;domain&quot; : &quot;global&quot;,
+    &quot;message&quot; : &quot;Quota exceeded for quota group &#39;default&#39; and limit &#39;Queries per user per 100 seconds&#39; of service &#39;toolresults.googleapis.com&#39; for consumer &#39;project_number:x&#39;.&quot;,
+    &quot;reason&quot; : &quot;rateLimitExceeded&quot;
+  } ],
+  &quot;message&quot; : &quot;Quota exceeded for quota group &#39;default&#39; and limit &#39;Queries per user per 100 seconds&#39; of service &#39;toolresults.googleapis.com&#39; for consumer &#39;project_number:x&#39;.&quot;,
+  &quot;status&quot; : &quot;RESOURCE_EXHAUSTED&quot;
+} 
+  at com.google.api.client.googleapis.json.GoogleJsonResponseException.from(GoogleJsonResponseException.java:150)
+  at com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest.newExceptionOnError(AbstractGoogleJsonClientRequest.java:113)
+  at com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest.newExceptionOnError(AbstractGoogleJsonClientRequest.java:40)
+  at com.google.api.client.googleapis.services.AbstractGoogleClientRequest$1.interceptResponse(AbstractGoogleClientRequest.java:443)
+  at com.google.api.client.http.HttpRequest.execute(HttpRequest.java:1092)
+  at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.executeUnparsed(AbstractGoogleClientRequest.java:541)
+  at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.executeUnparsed(AbstractGoogleClientRequest.java:474)
+  at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.execute(AbstractGoogleClientRequest.java:591)
+  at ftl.http.ExecuteWithRetryKt$executeWithRetry$$inlined$withRetry$1.invokeSuspend(ExecuteWithRetry.kt:41)
+  ... 52 more   
+</code></pre></div>
+<h2 id="reported-flank-config">Reported flank config</h2>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">flank</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">max-test-shards</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+<span class="w">      </span><span class="nt">shard-time</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">160</span>
+<span class="w">      </span><span class="nt">num-test-runs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">smart-flank-gcs-path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gs://x/unit-tests.xml</span>
+<span class="w">      </span><span class="nt">smart-flank-disable-upload</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">      </span><span class="nt">files-to-download</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">test-targets-always-run</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">disable-sharding</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">      </span><span class="nt">project</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">x</span>
+<span class="w">      </span><span class="nt">local-result-dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">results</span>
+<span class="w">      </span><span class="nt">full-junit-result</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="c1"># Android Flank Yml</span>
+<span class="w">      </span><span class="nt">keep-file-path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">      </span><span class="nt">additional-app-test-apks</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">run-timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-1</span>
+<span class="w">      </span><span class="nt">legacy-junit-result</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">      </span><span class="nt">ignore-failed-tests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">      </span><span class="nt">output-style</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">multi</span>
+
+<span class="l l-Scalar l-Scalar-Plain">RunTests</span>
+
+<span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Smart Flank cache hit</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100% (88 / 88)</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">Shard times</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">93s, 93s</span>
+
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">Uploadingx-app-debug.apk .</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">Uploading x-androidTest.apk .</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">88 tests / 2 shards</span>
+</code></pre></div>
+<h2 id="to-reproduce">To Reproduce</h2>
+<p><code>shell script
+Flank.jar firebase test android run --num-flaky-test-attempts=0 --full-junit-result=true
+<div class="highlight"><pre><span></span><code>## API usage outline
+Real examples simplified to pseudo code that outlines only API call usage 
+#### Gcloud
+Case for disabled sharding
+* [MonitorTestExecutionProgress](https://github.com/Flank/gcloud_cli/blob/137d864acd5928baf25434cf59b0225c4d1f9319/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/matrix_ops.py#L164)
+</code></pre></div>
+while (matrix status is not completed) {
+    _client.projects_testMatrices.Get(
+        TestingProjectsTestMatricesGetRequest(projectId, testMatrixId)
+    )
+    wait(6s)
+}
+<div class="highlight"><pre><span></span><code>* [MonitorTestMatrixProgress](https://github.com/Flank/gcloud_cli/blob/137d864acd5928baf25434cf59b0225c4d1f9319/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/matrix_ops.py#L248)
+Case for enabled sharding  
+</code></pre></div>
+while (matrix status is not completed) {
+    _client.projects_testMatrices.Get(
+        TestingProjectsTestMatricesGetRequest(projectId, testMatrixId)
+    )
+    wait(6s)
+}
+<div class="highlight"><pre><span></span><code>#### Flank v20.06.2
+* [pollMatrices](https://github.com/Flank/flank/blob/6ee6939263923953edf67afa7218cf2c496c2ef2/test_runner/src/main/kotlin/ftl/run/common/PollMatrices.kt#L19)
+</code></pre></div>
+forEach(test matrix) {
+    async while(matrix status is not completed) {
+        GcTestMatrix.refresh(testMatrixId, projectId)
+        wait(5s)
+    }
+}
+<div class="highlight"><pre><span></span><code>* [SavedMatrix.finished](https://github.com/Flank/flank/blob/c88cb2786de67c0a114fc31a7b25917a035e145b/test_runner/src/main/kotlin/ftl/json/SavedMatrix.kt#L75)
+</code></pre></div>
+forEach(test matrix) {
+    sync forEach(matrix test execution) {
+        GcToolResults.listTestCases(toolResultsStep)
+        GcToolResults.getStepResult(toolResultsStep)
+    }
+    sync forEach(matrix test execution) {
+        GcToolResults.getExecutionResult(testExecution)
+        GcToolResults.getStepResult(toolResultsStep)
+    }
+}
+<div class="highlight"><pre><span></span><code>#### Flank v20.05.2
+* [pollMatrices](https://github.com/Flank/flank/blob/accca3b941874e9556eea6616b34a9f4319c8746/test_runner/src/main/kotlin/ftl/run/common/PollMatrices.kt#L15)
+</code></pre></div>
+// Only the first matrix is getting status updates
+// the others are blocked until the first is getting completed.
+// As a result, it reduces the amount of requests to 1 per 5 secs.
+// That is why this version of the flank is not getting limit exceeded.
+forEach(test matrix) {
+    sync while(matrix status is not completed) {
+        GcTestMatrix.refresh(testMatrixId, projectId)
+        wait(5s)
+    }
+}
+<div class="highlight"><pre><span></span><code>#### Flank v20.06.2
+* [pollMatrices](https://github.com/Flank/flank/blob/6ee6939263923953edf67afa7218cf2c496c2ef2/test_runner/src/main/kotlin/ftl/run/common/PollMatrices.kt#L19)
+</code></pre></div>
+forEach(test matrix) {
+    async while(matrix status is not completed) {
+        GcTestMatrix.refresh(testMatrixId, projectId)
+        wait(5s)
+    }
+}
+<div class="highlight"><pre><span></span><code>* [SavedMatrix.finished](https://github.com/Flank/flank/blob/c88cb2786de67c0a114fc31a7b25917a035e145b/test_runner/src/main/kotlin/ftl/json/SavedMatrix.kt#L75)
+</code></pre></div>
+forEach(test matrix) {
+    sync forEach(matrix test execution) {
+        GcToolResults.getStepResult(toolResultsStep)
+    }  
+}
+<div class="highlight"><pre><span></span><code>## API calls usage comparison table
+Following table should compare API calls complexity.
+
+|         | execution status updates |
+|:-------:|:------------------------:|
+| Gcloud  | 1 * r / 6s + 1           |
+| 20.05.2 | 1 * r / 5s + (E * r)     |
+| 20.06.2 | M * r / 5s + (M * E * 4 * r) |
+</code></pre></div>
+r - request
+s - second
+M - count of matrixes
+E - count of test executions in matrix scope
+<div class="highlight"><pre><span></span><code>## Conclusions
+#### Gcloud
+Because of single matrix run gives only 1 request per 6 seconds
+
+#### Flank v20.05.2
+Gets matrix status updates in synchronize way so only the first matrix is getting status updates,
+the others are blocked until the first is getting completed, so the amount of requests is reduced to 1 per 5 secs.
+Plus additional number of requests for each execution in one matrix scope.
+That is why this version of the flank is not getting a limit exceeded.
+
+#### Flank v20.06.2
+Is polling results asynchronously for each matrix. 
+At last, it is doing a request for each test execution for each matrix, 
+and this is the place where flank is getting a rate limit exceeded.
+It is visible on stack trace.
+</code></pre></div>
+  at ftl.gc.GcToolResults.getStepResult(GcToolResults.kt:98)
+  at ftl.json.SavedMatrix.finished(SavedMatrix.kt:90)</code></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

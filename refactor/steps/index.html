@@ -1,0 +1,2685 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Flank is a massively parallel Android and iOS test runner for Firebase Test Lab.">
+      
+      
+      
+        <link rel="canonical" href="https://flank.github.io/flank/refactor/steps/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.45">
+    
+    
+      
+        <title>Refactor steps - Flank</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#refactor-steps" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Flank" class="md-header__button md-logo" aria-label="Flank" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flank
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Refactor steps
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Flank/flank/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flank
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Flank" class="md-nav__button md-logo" aria-label="Flank" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Flank
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Flank/flank/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flank
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flank_vision/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vision
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_sharding/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sharding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../smart_flank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Smart Flank
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../building_updating_flank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Building & updating Flank
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../windows_wsl_guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows WSL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cucumber_support/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cucumber
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flank_corellium/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Corellium
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Contribution
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Contribution
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pr_titles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pull request
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Development
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../onboarding/1_environment_setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Environment setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../onboarding/2_contribution/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contribution
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../onboarding/3_estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../onboarding/4_buddy_system/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Buddy system
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../onboarding/5_code_review/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code review
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_artifacts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Test artifacts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_generation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Client generation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dependencies_update_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dependencies update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flank_secrets/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Releasing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../binaries_used_in_flank_io_testing.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Binaries for Flank's iOS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture abstraction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    High-level design
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            High-level design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl#flank-high-level-design" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_2" id="__nav_11_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Presentation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_2">
+            <span class="md-nav__icon md-icon"></span>
+            Presentation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/presentation#presentation" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/cli#cli" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CLI
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/domain#domain" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Domain
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/data#data" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/adapter#adapter" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Adapter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Hypershard
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            Hypershard
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hypershard_ios/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    iOS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hypershard_android/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Android
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#move-commands-to-correct-package" class="md-nav__link">
+    <span class="md-ellipsis">
+      Move commands to correct package
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extract-logic-from-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extract logic from CLI
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Extract logic from CLI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commands-to-domain-mappings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commands to domain mappings:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#files-in-domain-package" class="md-nav__link">
+    <span class="md-ellipsis">
+      Files in domain package
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-filereference-abstraction-where-possible" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use FileReference abstraction where possible
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Use FileReference abstraction where possible">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commonargs" class="md-nav__link">
+    <span class="md-ellipsis">
+      CommonArgs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#androidargs" class="md-nav__link">
+    <span class="md-ellipsis">
+      AndroidArgs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-packages-for-data-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Add packages for data layer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-abstraction-layer-for-external-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create abstraction layer for external API
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Create abstraction layer for external API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#important-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      Important note!
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authorization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Authorization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#provided-software" class="md-nav__link">
+    <span class="md-ellipsis">
+      Provided software
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Provided software">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#presentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Presentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ip-blocks-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      IP Blocks List
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IP Blocks List">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#presentation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Presentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network-profiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Network profiles
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Network profiles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#presentation_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Presentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#locales" class="md-nav__link">
+    <span class="md-ellipsis">
+      Locales
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Locales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#presentation_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Presentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#device-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Device models
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Device models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#presentation_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Presentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#orientation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Orientation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Orientation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#presentation_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Presentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#os-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      OS Version
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OS Version">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#presentation_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Presentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      File reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="File reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remote-storage-aka-gcstorage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remote storage aka GcStorage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Remote storage aka GcStorage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-matrix-results-cancel-refresh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test matrix results, cancel &amp; refresh
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test matrix results, cancel & refresh">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#presentation_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Presentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execute-android-tests-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      Execute Android tests matrix
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Execute Android tests matrix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#presentation_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Presentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execute-ios-tests-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      Execute Ios tests matrix
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Execute Ios tests matrix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#presentation_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Presentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#junit-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      JUnit results
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="JUnit results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Metrics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fetching-artifacts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fetching Artifacts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fetching Artifacts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="refactor-steps">Refactor steps</h1>
+<p>Steps below will be converted to a bunch of issues in epic scope.</p>
+<h2 id="move-commands-to-correct-package">Move commands to correct package</h2>
+<p><em>move to specified <code>package</code> the following <code>commands</code></em></p>
+<ol>
+<li><code>ftl.cli.firebase.test.android</code><ul>
+<li><code>AndroidLocalesCommand.kt</code></li>
+<li><code>AndroidModelsCommand.kt</code></li>
+<li><code>AndroidOrientationsCommand.kt</code></li>
+<li><code>AndroidVersionsCommand.kt</code></li>
+</ul>
+</li>
+<li><code>ftl.cli.firebase.test.ios</code><ul>
+<li><code>IosLocalesCommand.kt</code></li>
+<li><code>IosModelsCommand.kt</code></li>
+<li><code>IosOrientationsCommand.kt</code></li>
+<li><code>IosVersionsCommand.kt</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="extract-logic-from-cli">Extract logic from CLI</h2>
+<ol>
+<li>Create package <code>ftl.domain</code> for domain layer</li>
+<li>For each CLI command that is marked <code>? !</code><ol>
+<li>Create associated domain function in domain package.</li>
+<li>Move the logic from command run method to domain function.</li>
+</ol>
+</li>
+</ol>
+<h3 id="commands-to-domain-mappings">Commands to domain mappings:</h3>
+<ul>
+<li><code>LoginCommand -------------------&gt; loginGoogleAccount</code></li>
+<li><code>AndroidLocalesDescribeCommand --&gt; describeAndroidLocales</code></li>
+<li><code>AndroidLocalesListCommand ------&gt; listAndroidLocales</code></li>
+<li><code>AndroidModelDescribeCommand ----&gt; describeAndroidModels</code></li>
+<li><code>AndroidModelsListCommand -------&gt; listAndroidModels</code></li>
+<li><code>AndroidOrientationsListCommand -&gt; listAndroidOrientations</code></li>
+<li><code>AndroidVersionsDescribeCommand -&gt; describeAndroidVersions</code></li>
+<li><code>AndroidVersionsListCommand -----&gt; listAndroidVersions</code></li>
+<li><code>AndroidDoctorCommand -----------&gt; runAndroidDoctor</code></li>
+<li><code>AndroidRunCommand --------------&gt; runAndroidTest</code></li>
+<li><code>AndroidTestEnvironmentCommand --&gt; describeAndroidTestEnvironment</code></li>
+<li><code>IosLocalesDescribeCommand ------&gt; describeIosLocales</code></li>
+<li><code>IosLocalesListCommand ----------&gt; listIosLocales</code></li>
+<li><code>IosModelDescribeCommand --------&gt; describeIosModels</code></li>
+<li><code>IosModelsListCommand -----------&gt; listIosModels</code></li>
+<li><code>IosOrientationsListCommand -----&gt; listIosOrientations</code></li>
+<li><code>IosVersionsDescribeCommand -----&gt; describeIosVersions</code></li>
+<li><code>IosVersionsListCommand ---------&gt; listIosVersions</code></li>
+<li><code>IosDoctorCommand ---------------&gt; runIosDoctor</code></li>
+<li><code>IosRunCommand ------------------&gt; runIosTest</code></li>
+<li><code>IosTestEnvironmentCommand ------&gt; describeIosTestEnvironment</code></li>
+<li><code>IPBlocksListCommand ------------&gt; listIPBlocks</code></li>
+<li><code>NetworkProfilesDescribeCommand -&gt; describeNetworkProfiles</code></li>
+<li><code>NetworkProfilesListCommand -----&gt; listNetworkProfiles</code></li>
+<li><code>ProvidedSoftwareListCommand ----&gt; listProvidedSoftware</code></li>
+<li><code>CancelCommand ------------------&gt; cancelLastRun</code></li>
+<li><code>RefreshCommand -----------------&gt; refreshLastRun</code></li>
+</ul>
+<h3 id="files-in-domain-package">Files in domain package</h3>
+<div class="highlight"><pre><span></span><code>ftl.domain
+├── LoginGoogleAccount.kt
+├── DescribeAndroidLocales.kt
+├── ListAndroidLocales.kt
+├── DescribeAndroidModels.kt
+├── ListAndroidModels.kt
+├── ListAndroidOrientations.kt
+├── DescribeAndroidVersions.kt
+├── ListAndroidVersions.kt
+├── RunAndroidDoctor.kt
+├── RunAndroidTest.kt
+├── DescribeAndroidTestEnvironment.kt
+├── DescribeIosLocales.kt
+├── ListIosLocales.kt
+├── DescribeIosModels.kt
+├── ListIosModels.kt
+├── ListIosOrientations.kt
+├── DescribeIosVersions.kt
+├── ListIosVersions.kt
+├── RunIosDoctor.kt
+├── RunIosTest.kt
+├── DescribeIosTestEnvironment.kt
+├── ListIPBlocks.kt
+├── DescribeNetworkProfiles.kt
+├── ListNetworkProfiles.kt
+├── ListProvidedSoftware.kt
+├── CancelLastRun.kt
+└── RefreshLastRun.kt
+</code></pre></div>
+<h2 id="use-filereference-abstraction-where-possible">Use FileReference abstraction where possible</h2>
+<p>For convenience, all files that needs to be synchronized with the bucket, should treat as <code>FileReference</code> instead
+of <code>String</code>.</p>
+<h3 id="commonargs">CommonArgs</h3>
+<ul>
+<li><code>otherFiles</code></li>
+</ul>
+<h3 id="androidargs">AndroidArgs</h3>
+<ul>
+<li><code>appApk</code></li>
+<li><code>testApk</code></li>
+<li><code>additionalApks</code></li>
+<li><code>roboScript</code></li>
+<li><code>obbFiles</code></li>
+<li><code>additionalAppTestApks</code></li>
+</ul>
+<h2 id="add-packages-for-data-layer">Add packages for data layer</h2>
+<ol>
+<li>Add <code>ftl.interface</code></li>
+<li>Add <code>ftl.adapter</code></li>
+</ol>
+<h2 id="create-abstraction-layer-for-external-api">Create abstraction layer for external API</h2>
+<h4 id="important-note">Important note!</h4>
+<p>Printing output to console is a part of presentation layer.</p>
+<h3 id="authorization">Authorization</h3>
+<h4 id="target">Target</h4>
+<p><code>ftl/gc/UserAuth.kt</code></p>
+<h4 id="interface">Interface</h4>
+<p><code>ftl/data/AuthorizeUser.kt</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">ftl.data</span>
+
+<span class="kd">object</span><span class="w"> </span><span class="nc">UserAuthorization</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Request</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">UserAuthorization</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="provided-software">Provided software</h3>
+<h4 id="target_1">Target</h4>
+<p><code>ftl/environment/ProvidedSoftwareCatalog.kt</code></p>
+<h4 id="interface_1">Interface</h4>
+<p><code>ftl/data/SoftwareCatalog.kt</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">ftl.data</span>
+
+<span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">SoftwareCatalog</span><span class="p">(</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">orchestratorVersion</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span>
+<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Fetch</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">SoftwareCatalog</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="presentation">Presentation</h4>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">softwareCatalogTable</span><span class="p">:</span><span class="w"> </span><span class="n">suspend</span><span class="w"> </span><span class="n">SoftwareCatalog</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TODO</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="ip-blocks-list">IP Blocks List</h3>
+<h4 id="target_2">Target</h4>
+<p><code>ftl/environment/ListIPBlocks.kt</code></p>
+<h4 id="interface_2">Interface</h4>
+<p><code>ftl/data/IpBlocks.kt</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">ftl.data</span>
+
+<span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">IpBlock</span><span class="p">(</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">block</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">form</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">addedDate</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span>
+<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Fetch</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">IpBlock</span><span class="o">&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="presentation_1">Presentation</h4>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">ipBlocksTable</span><span class="p">:</span><span class="w"> </span><span class="n">suspend</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">IpBlock</span><span class="o">&gt;</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TODO</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="network-profiles">Network profiles</h3>
+<h4 id="target_3">Target</h4>
+<p><code>ftl/environment/NetworkProfileDescription.kt</code></p>
+<h4 id="interface_3">Interface</h4>
+<p><code>ftl/data/NetworkProfile.kt</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">ftl.data</span>
+
+<span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">NetworkProfile</span><span class="p">(</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">downRule</span><span class="p">:</span><span class="w"> </span><span class="n">Rule</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">upRule</span><span class="p">:</span><span class="w"> </span><span class="n">Rule</span>
+<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Rule</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">bandwidth</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">delay</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">packetLossRatio</span><span class="p">:</span><span class="w"> </span><span class="kt">Float</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">packetDuplicationRatio</span><span class="p">:</span><span class="w"> </span><span class="kt">Float</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">burst</span><span class="p">:</span><span class="w"> </span><span class="kt">Float</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Fetch</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">NetworkProfile</span><span class="o">&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="presentation_2">Presentation</h4>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">networkProfileDescription</span><span class="p">:</span><span class="w"> </span><span class="n">suspend</span><span class="w"> </span><span class="n">NetworkProfile</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TODO</span><span class="p">()</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">networkProfileList</span><span class="p">:</span><span class="w"> </span><span class="n">suspend</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">NetworkProfile</span><span class="o">&gt;</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TODO</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="locales">Locales</h3>
+<h4 id="target_4">Target</h4>
+<ul>
+<li><code>AndroidLocalesDescribeCommand</code> -&gt; <code>AndroidCatalog/getLocaleDescription</code> -&gt; <code>AndroidCatalog/getLocales</code></li>
+<li><code>AndroidLocalesListCommand</code> -&gt; <code>AndroidCatalog/localesAsTable</code> -&gt; <code>AndroidCatalog/getLocales</code></li>
+<li><code>IosLocalesDescribeCommand</code> -&gt; <code>IosCatalog/getLocaleDescription</code> -&gt; <code>IosCatalog/getLocales</code></li>
+<li><code>IosLocalesListCommand</code> -&gt; <code>IosCatalog/localesAsTable</code> -&gt; <code>IosCatalog/iosDeviceCatalog</code></li>
+</ul>
+<h4 id="interface_4">Interface</h4>
+<p><code>ftl/data/Locales.kt</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">ftl.data</span>
+
+<span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Locale</span><span class="p">(</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">region</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">tags</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Identity</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">projectId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">platform</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Fetch</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">Identity</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Locale</span><span class="o">&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="presentation_3">Presentation</h4>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">localeDescription</span><span class="p">:</span><span class="w"> </span><span class="n">suspend</span><span class="w"> </span><span class="n">Locale</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TODO</span><span class="p">()</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">localeTable</span><span class="p">:</span><span class="w"> </span><span class="n">suspend</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Locale</span><span class="o">&gt;</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TODO</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="device-models">Device models</h3>
+<h4 id="target_5">Target</h4>
+<ul>
+<li><code>AndroidModelDescribeCommand</code> -&gt; <code>AndroidCatalog/describeModel</code> -&gt; <code>AndroidCatalog/getModels</code></li>
+<li><code>AndroidModelsListCommand</code> -&gt; <code>AndroidCatalog/devicesCatalogAsTable</code> -&gt; <code>AndroidCatalog/getModels</code></li>
+<li><code>IosModelDescribeCommand</code> -&gt; <code>IosCatalog/describeModel</code> -&gt; <code>IosCatalog/getModels</code></li>
+<li><code>IosModelsListCommand</code> -&gt; <code>IosCatalog/devicesCatalogAsTable</code> -&gt; <code>IosCatalog/getModels</code></li>
+<li><code>AndroidArgs/validate</code> -&gt; <code>AndroidArgs/assertDevicesSupported</code><ul>
+<li><code>AndroidCatalog/supportedDeviceConfig</code> -&gt; <code>AndroidCatalog/deviceCatalog(projectId).models</code></li>
+<li><code>AndroidCatalog/androidModelIds</code> -&gt; <code>AndroidCatalog/deviceCatalog(projectId).models</code></li>
+<li><code>AndroidCatalog/getSupportedVersionId</code> -&gt; <code>AndroidCatalog/deviceCatalog(projectId).models</code></li>
+</ul>
+</li>
+<li><code>IosArgs/validateRefresh</code> -&gt; <code>IosArgs/assertDevicesSupported</code> -&gt; <code>IosCatalog/iosDeviceCatalog(projectId).models</code></li>
+</ul>
+<h4 id="interface_5">Interface</h4>
+<p><code>ftl/data/DeviceModels.kt</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">ftl.data</span>
+
+<span class="kd">object</span><span class="w"> </span><span class="nc">DeviceModel</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Android</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">tags</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">screenX</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">screenY</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">formFactor</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">screenDensity</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">supportedVersionIds</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">form</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">brand</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">codename</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">manufacturer</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">thumbnailUrl</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">supportedAbis</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">lowFpsVideoRecording</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Fetch</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">projectId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Android</span><span class="o">&gt;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Ios</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">tags</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">screenX</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">screenY</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">formFactor</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">screenDensity</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">supportedVersionIds</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">deviceCapabilities</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Fetch</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">projectId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Ios</span><span class="o">&gt;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="presentation_4">Presentation</h4>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">androidModelDescription</span><span class="p">:</span><span class="w"> </span><span class="n">suspend</span><span class="w"> </span><span class="n">DeviceModel</span><span class="p">.</span><span class="na">Android</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TODO</span><span class="p">()</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">androidModelsTable</span><span class="p">:</span><span class="w"> </span><span class="n">suspend</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">DeviceModel</span><span class="p">.</span><span class="na">Android</span><span class="o">&gt;</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TODO</span><span class="p">()</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">iosModelDescription</span><span class="p">:</span><span class="w"> </span><span class="n">suspend</span><span class="w"> </span><span class="n">DeviceModel</span><span class="p">.</span><span class="na">Ios</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TODO</span><span class="p">()</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">iosModelsTable</span><span class="p">:</span><span class="w"> </span><span class="n">suspend</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">DeviceModel</span><span class="p">.</span><span class="na">Ios</span><span class="o">&gt;</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TODO</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="orientation">Orientation</h3>
+<h4 id="target_6">Target</h4>
+<ul>
+<li><code>AndroidOrientationsListCommand</code> -&gt; <code>AndroidCatalog/supportedOrientationsAsTable</code> -&gt; <code>AndroidCatalog/deviceCatalog</code></li>
+<li><code>IosOrientationsListCommand</code> -&gt; <code>IosCatalog/supportedOrientationsAsTable</code> -&gt; <code>IosCatalog/iosDeviceCatalog</code></li>
+</ul>
+<h4 id="interface_6">Interface</h4>
+<p><code>ftl/data/Orientation.kt</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">ftl.data</span>
+
+<span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Orientation</span><span class="p">(</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">tags</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Fetch</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">projectId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="n">platform</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Orientation</span><span class="o">&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="presentation_5">Presentation</h4>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">orientationsTable</span><span class="p">:</span><span class="w"> </span><span class="n">suspend</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Orientation</span><span class="o">&gt;</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TODO</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="os-version">OS Version</h3>
+<h4 id="target_7">Target</h4>
+<ul>
+<li><code>AndroidVersionsListCommand</code> -&gt; <code>AndroidCatalog/supportedVersionsAsTable</code> -&gt; <code>AndroidCatalog/getVersionsList</code></li>
+<li><code>IosVersionsListCommand</code> -&gt; <code>IosCatalog/softwareVersionsAsTable</code> -&gt; <code>IosCatalog/getVersionsList</code></li>
+<li><code>AndroidArgs/validate</code> -&gt; <code>AndroidArgs/assertDevicesSupported</code> -&gt; <code>AndroidCatalog/androidVersionIds</code> -&gt; <code>AndroidCatalog/deviceCatalog(projectId).versions</code></li>
+</ul>
+<h4 id="interface_7">Interface</h4>
+<p><code>ftl/data/OsVersion.kt</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">ftl.data</span>
+
+<span class="kd">object</span><span class="w"> </span><span class="nc">OsVersion</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Android</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">apiLevel</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">codeName</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">distribution</span><span class="p">:</span><span class="w"> </span><span class="n">Distribution</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">releaseDate</span><span class="p">:</span><span class="w"> </span><span class="n">Date</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">tags</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">versionString</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Fetch</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">projectId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Android</span><span class="o">&gt;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Ios</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">majorVersion</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">minorVersion</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">supportedXcodeVersionIds</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">tags</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Fetch</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">projectId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Ios</span><span class="o">&gt;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="presentation_6">Presentation</h4>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">androidOsVersionDescription</span><span class="p">:</span><span class="w"> </span><span class="n">suspend</span><span class="w"> </span><span class="n">OsVersion</span><span class="p">.</span><span class="na">Android</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TODO</span><span class="p">()</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">androidOsVersionsTable</span><span class="p">:</span><span class="w"> </span><span class="n">suspend</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">OsVersion</span><span class="p">.</span><span class="na">Android</span><span class="o">&gt;</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TODO</span><span class="p">()</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">iosOsVersionDescription</span><span class="p">:</span><span class="w"> </span><span class="n">suspend</span><span class="w"> </span><span class="n">OsVersion</span><span class="p">.</span><span class="na">Ios</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TODO</span><span class="p">()</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">iosOsVersionsTable</span><span class="p">:</span><span class="w"> </span><span class="n">suspend</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">OsVersion</span><span class="p">.</span><span class="na">Ios</span><span class="o">&gt;</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TODO</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="file-reference">File reference</h3>
+<h4 id="target_8">Target</h4>
+<ul>
+<li><code>FileReference</code></li>
+</ul>
+<h4 id="interface_8">Interface</h4>
+<p><code>ftl/data/FileReference.kt</code></p>
+<div class="highlight"><pre><span></span><code><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">FileReference</span><span class="p">(</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">local</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">remote</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Exist</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">FileReference</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Upload</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">FileReference</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">FileReference</span>
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Download</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">FileReference</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">FileReference</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="remote-storage-aka-gcstorage">Remote storage aka GcStorage</h3>
+<h4 id="target_9">Target</h4>
+<ul>
+<li><code>IArgs/checkResultsDirUnique</code></li>
+</ul>
+<h4 id="interface_9">Interface</h4>
+<p><code>ftl/data/RemoteStorage.kt</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">ftl.data</span>
+
+<span class="kd">object</span><span class="w"> </span><span class="nc">RemoteStorage</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Dir</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">bucket</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">path</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">class</span><span class="w"> </span><span class="nc">Data</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">path</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">bytes</span><span class="p">:</span><span class="w"> </span><span class="n">ByteArray? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="c1">// Use, when file under the given path doesn&#39;t exist.</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Exist</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">Dir</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Upload</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">Dir</span><span class="p">,</span><span class="w"> </span><span class="n">Data</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="test-matrix-results-cancel-refresh">Test matrix results, cancel &amp; refresh</h3>
+<h4 id="target_10">Target</h4>
+<ul>
+<li><code>SavedMatrix</code></li>
+<li><code>TestOutcome</code></li>
+<li><code>TestSuiteOverviewData</code></li>
+<li><code>MatrixMap</code></li>
+<li><code>CancelCommand</code> -&gt; <code>cancelLastRun</code> -&gt; <code>cancelMatrices</code> -&gt; <code>GcTestMatrix/cancel</code></li>
+<li><code>RefreshCommand</code> -&gt; <code>refreshLastRun</code><ul>
+<li><code>refreshMatrices</code><ul>
+<li><code>GcTestMatrix/refresh</code></li>
+<li><code>SavedMatrix/updateWithMatrix</code> -&gt; <code>SavedMatrix/updatedSavedMatrix</code> -&gt; <code>TestMatrix/fetchTestOutcomeContext</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>newTestRun</code><ul>
+<li><code>pollMatrices</code> -&gt; <code>matrixChangesFlow</code> -&gt; <code>GcTestMatrix/refresh</code></li>
+<li><code>Iterable&lt;TestMatrix&gt;/updateMatrixMap</code> -&gt; <code>SavedMatrix/updateWithMatrix</code> -&gt; <code>TestMatrix/fetchTestOutcomeContext</code></li>
+<li><code>ReportManager/generate</code><ul>
+<li><code>ReportManager/parseTestSuite</code><ul>
+<li><code>refreshMatricesAndGetExecutions</code> -&gt; <code>refreshTestMatrices</code> -&gt; <code>GcTestMatrix/refresh</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="interface_10">Interface</h4>
+<p><code>ftl/data/TestMatrix.kt</code></p>
+<div class="highlight"><pre><span></span><code><span class="kd">object</span><span class="w"> </span><span class="nc">TestMatrix</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">runPath</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">map</span><span class="p">:</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="n">Data</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Data</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">matrixId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">gcsPath</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">webLink</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">downloaded</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">billableMinutes</span><span class="p">:</span><span class="w"> </span><span class="n">BillableMinutes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BillableMinutes</span><span class="p">(),</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">clientDetails</span><span class="p">:</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="kt">String</span><span class="o">&gt;?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">gcsPathWithoutRootBucket</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">gcsRootBucket</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">axes</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Outcome</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">emptyList</span><span class="p">()</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Outcome</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">device</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">outcome</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">details</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">suiteOverview</span><span class="p">:</span><span class="w"> </span><span class="n">SuiteOverview</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SuiteOverview</span><span class="p">()</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">SuiteOverview</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">total</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">errors</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">failures</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">flakes</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">skipped</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">elapsedTime</span><span class="p">:</span><span class="w"> </span><span class="kt">Double</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.0</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">overheadTime</span><span class="p">:</span><span class="w"> </span><span class="kt">Double</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.0</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">BillableMinutes</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">virtual</span><span class="p">:</span><span class="w"> </span><span class="kt">Long</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">physical</span><span class="p">:</span><span class="w"> </span><span class="kt">Long</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Summary</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">billableMinutes</span><span class="p">:</span><span class="w"> </span><span class="n">BillableMinutes</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">axes</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Outcome</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Identity</span><span class="p">(</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">projectId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">historyId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">executionId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="p">)</span>
+
+<span class="w">        </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Fetch</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">Identity</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Summary</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Identity</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">matrixId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">projectId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Cancel</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">Identity</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span>
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Refresh</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">Identity</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Data</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="presentation_7">Presentation</h4>
+<div class="highlight"><pre><span></span><code><span class="n">TODO</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="execute-android-tests-matrix">Execute Android tests matrix</h3>
+<h4 id="target_11">Target</h4>
+<ul>
+<li><code>AndroidRunCommand</code> -&gt; <code>AndroidArgs/runAndroidTests</code> -&gt; <code>GcAndroidTestMatrix/build</code></li>
+<li><code>AndroidTestConfig</code></li>
+</ul>
+<h4 id="interface_11">Interface</h4>
+<p><code>ftl/data/AndroidTestMatrix.kt</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">ftl.data</span>
+
+<span class="kd">object</span><span class="w"> </span><span class="nc">AndroidTestMatrix</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">(</span>
+<span class="w">        </span><span class="c1">// args</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">clientDetails</span><span class="p">:</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="kt">String</span><span class="o">&gt;?</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">resultsBucket</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">autoGoogleLogin</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">networkProfile</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">directoriesToPull</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">obbNames</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">environmentVariables</span><span class="p">:</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">autograntPermissions</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">testTimeout</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">performanceMetrics</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">recordVideo</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">flakyTestAttempts</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">failFast</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">project</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">resultsHistoryName</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="p">,</span>
+
+<span class="w">        </span><span class="c1">// build</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">otherFiles</span><span class="p">:</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">runGcsPath</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">devices</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Device</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">additionalApkGcsPaths</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">obbFiles</span><span class="p">:</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Type</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Instrumentation</span><span class="p">(</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">appApkGcsPath</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">testApkGcsPath</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">testRunnerClass</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">orchestratorOption</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="p">,</span>
+<span class="w">            </span><span class="c1">// sharding</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">disableSharding</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">testShards</span><span class="p">:</span><span class="w"> </span><span class="n">ShardChunks</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">numUniformShards</span><span class="p">:</span><span class="w"> </span><span class="kt">Int?</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">keepTestTargetsEmpty</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">environmentVariables</span><span class="p">:</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="kt">String</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">emptyMap</span><span class="p">(),</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">testTargetsForShard</span><span class="p">:</span><span class="w"> </span><span class="n">ShardChunks</span>
+<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Type</span><span class="p">()</span>
+
+<span class="w">        </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Robo</span><span class="p">(</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">appApkGcsPath</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">flankRoboDirectives</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">FlankRoboDirective</span><span class="o">&gt;?</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">roboScriptGcsPath</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span>
+<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Type</span><span class="p">()</span>
+
+<span class="w">        </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">GameLoop</span><span class="p">(</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">appApkGcsPath</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">testRunnerClass</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">scenarioNumbers</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">scenarioLabels</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span>
+<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Type</span><span class="p">()</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Execute</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">Config</span><span class="p">,</span><span class="w"> </span><span class="n">Type</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">TestMatrix</span><span class="p">.</span><span class="na">Result</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="presentation_8">Presentation</h4>
+<div class="highlight"><pre><span></span><code><span class="n">TODO</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="execute-ios-tests-matrix">Execute Ios tests matrix</h3>
+<h4 id="target_12">Target</h4>
+<ul>
+<li><code>IosRunCommand</code> -&gt; <code>IosArgs/runIosTests</code> -&gt; <code>GcIosTestMatrix/build</code></li>
+<li><code>IosTestContext</code></li>
+</ul>
+<h4 id="interface_12">Interface</h4>
+<p><code>ftl/data/IosTestMatrix.kt</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">ftl.data</span>
+
+<span class="kd">object</span><span class="w"> </span><span class="nc">IosTestMatrix</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">(</span>
+<span class="w">        </span><span class="c1">// args</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">clientDetails</span><span class="p">:</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="kt">String</span><span class="o">&gt;?</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">networkProfile</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">directoriesToPull</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">testTimeout</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">recordVideo</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">flakyTestAttempts</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">failFast</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">project</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">resultsHistoryName</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="p">,</span>
+
+<span class="w">        </span><span class="c1">// build</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">devices</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Device</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">otherFiles</span><span class="p">:</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">additionalIpasGcsPaths</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Type</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">XcTest</span><span class="p">(</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">xcTestGcsPath</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">xcTestRunFileGcsPath</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">xcodeVersion</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">testSpecialEntitlements</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">matrixGcsPath</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="p">)</span>
+
+<span class="w">        </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">GameLoop</span><span class="p">(</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">appGcsPath</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">scenarios</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">matrixGcsPath</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Execute</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">Config</span><span class="p">,</span><span class="w"> </span><span class="n">Type</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">TestMatrix</span><span class="p">.</span><span class="na">Result</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="presentation_9">Presentation</h4>
+<div class="highlight"><pre><span></span><code><span class="n">TODO</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="junit-results">JUnit results</h3>
+<h4 id="target_13">Target</h4>
+<ul>
+<li><code>ReportManager/generate</code> -&gt; <code>ReportManager/parseTestSuite</code><ul>
+<li><code>ReportManager/processXmlFromFile</code></li>
+<li><code>refreshMatricesAndGetExecutions</code> -&gt; <code>List&lt;TestExecution&gt;/createJUnitTestResult</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="interface_13">Interface</h4>
+<p><code>ftl/data/JUnitTestResult.kt</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">ftl.data</span>
+
+<span class="kd">object</span><span class="w"> </span><span class="nc">JUnitTest</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@JacksonXmlRootElement</span><span class="p">(</span><span class="n">localName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;testsuites&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span>
+<span class="w">        </span><span class="nd">@JsonInclude</span><span class="p">(</span><span class="n">JsonInclude</span><span class="p">.</span><span class="na">Include</span><span class="p">.</span><span class="na">NON_EMPTY</span><span class="p">)</span>
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">localName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;testsuite&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nv">testsuites</span><span class="p">:</span><span class="w"> </span><span class="n">MutableList</span><span class="o">&lt;</span><span class="n">Suite</span><span class="o">&gt;?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">ApiIdentity</span><span class="p">(</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">projectId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">matrixIds</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">        </span><span class="kd">interface</span><span class="w"> </span><span class="nc">GenerateFromApi</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">ApiIdentity</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Result</span>
+
+<span class="w">        </span><span class="kd">interface</span><span class="w"> </span><span class="nc">ParseFromFiles</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">File</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Result</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Suite</span><span class="p">(</span>
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">isAttribute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nv">name</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">isAttribute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nv">tests</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="c1">// Int</span>
+
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">isAttribute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nv">failures</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="c1">// Int</span>
+
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">isAttribute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nv">flakes</span><span class="p">:</span><span class="w"> </span><span class="kt">Int?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">isAttribute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nv">errors</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="c1">// Int</span>
+
+<span class="w">        </span><span class="nd">@JsonInclude</span><span class="p">(</span><span class="n">JsonInclude</span><span class="p">.</span><span class="na">Include</span><span class="p">.</span><span class="na">NON_NULL</span><span class="p">)</span>
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">isAttribute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nv">skipped</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="p">,</span><span class="w"> </span><span class="c1">// Int. Android only</span>
+
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">isAttribute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nv">time</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="c1">// Double</span>
+
+<span class="w">        </span><span class="nd">@JsonInclude</span><span class="p">(</span><span class="n">JsonInclude</span><span class="p">.</span><span class="na">Include</span><span class="p">.</span><span class="na">NON_NULL</span><span class="p">)</span>
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">isAttribute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">timestamp</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="p">,</span><span class="w"> </span><span class="c1">// String. Android only</span>
+
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">isAttribute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">hostname</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;localhost&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// String.</span>
+
+<span class="w">        </span><span class="nd">@JsonInclude</span><span class="p">(</span><span class="n">JsonInclude</span><span class="p">.</span><span class="na">Include</span><span class="p">.</span><span class="na">NON_NULL</span><span class="p">)</span>
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">isAttribute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">testLabExecutionId</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="c1">// String.</span>
+
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">localName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;testcase&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nv">testcases</span><span class="p">:</span><span class="w"> </span><span class="n">MutableCollection</span><span class="o">&lt;</span><span class="n">Case</span><span class="o">&gt;?</span><span class="p">,</span>
+
+<span class="w">        </span><span class="c1">// not used</span>
+<span class="w">        </span><span class="nd">@JsonInclude</span><span class="p">(</span><span class="n">JsonInclude</span><span class="p">.</span><span class="na">Include</span><span class="p">.</span><span class="na">NON_NULL</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">properties</span><span class="p">:</span><span class="w"> </span><span class="kt">Any?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="c1">// &lt;properties /&gt;</span>
+
+<span class="w">        </span><span class="nd">@JsonInclude</span><span class="p">(</span><span class="n">JsonInclude</span><span class="p">.</span><span class="na">Include</span><span class="p">.</span><span class="na">NON_NULL</span><span class="p">)</span>
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">localName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;system-out&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">systemOut</span><span class="p">:</span><span class="w"> </span><span class="kt">Any?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="c1">// &lt;system-out /&gt;</span>
+
+<span class="w">        </span><span class="nd">@JsonInclude</span><span class="p">(</span><span class="n">JsonInclude</span><span class="p">.</span><span class="na">Include</span><span class="p">.</span><span class="na">NON_NULL</span><span class="p">)</span>
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">localName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;system-err&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">systemErr</span><span class="p">:</span><span class="w"> </span><span class="kt">Any?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="c1">// &lt;system-err /&gt;</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Case</span><span class="p">(</span>
+<span class="w">        </span><span class="c1">// name, classname, and time are always present except for empty test cases &lt;testcase/&gt;</span>
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">isAttribute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="p">,</span>
+
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">isAttribute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">classname</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="p">,</span>
+
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">isAttribute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">time</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="p">,</span>
+
+<span class="w">        </span><span class="c1">// iOS contains multiple failures for a single test.</span>
+<span class="w">        </span><span class="c1">// JUnit XML allows arbitrary amounts of failure/error tags</span>
+<span class="w">        </span><span class="nd">@JsonInclude</span><span class="p">(</span><span class="n">JsonInclude</span><span class="p">.</span><span class="na">Include</span><span class="p">.</span><span class="na">NON_NULL</span><span class="p">)</span>
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">localName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;failure&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">failures</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+
+<span class="w">        </span><span class="nd">@JsonInclude</span><span class="p">(</span><span class="n">JsonInclude</span><span class="p">.</span><span class="na">Include</span><span class="p">.</span><span class="na">NON_NULL</span><span class="p">)</span>
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">localName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;error&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">errors</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+
+<span class="w">        </span><span class="nd">@JsonInclude</span><span class="p">(</span><span class="n">JsonInclude</span><span class="p">.</span><span class="na">Include</span><span class="p">.</span><span class="na">CUSTOM</span><span class="p">,</span><span class="w"> </span><span class="n">valueFilter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FilterNotNull</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">skipped</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;absent&quot;</span><span class="w"> </span><span class="c1">// used by FilterNotNull to filter out absent `skipped` values</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="c1">// Consider to move all properties to constructor if will doesn&#39;t conflict with parser</span>
+
+<span class="w">        </span><span class="nd">@JsonInclude</span><span class="p">(</span><span class="n">JsonInclude</span><span class="p">.</span><span class="na">Include</span><span class="p">.</span><span class="na">NON_NULL</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nv">webLink</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
+
+<span class="w">        </span><span class="nd">@JacksonXmlProperty</span><span class="p">(</span><span class="n">isAttribute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nv">flaky</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="c1">// use null instead of false</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Suppress</span><span class="p">(</span><span class="s">&quot;UnusedPrivateClass&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">FilterNotNull</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">equals</span><span class="p">(</span><span class="n">other</span><span class="p">:</span><span class="w"> </span><span class="kt">Any?</span><span class="p">):</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// other is null     = present</span>
+<span class="w">            </span><span class="c1">// other is not null = absent (default value)</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">hashCode</span><span class="p">():</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">javaClass</span><span class="p">.</span><span class="na">hashCode</span><span class="p">()</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="performance-metrics">Performance Metrics</h3>
+<h4 id="target_14">Target</h4>
+<p><code>GcToolResults/getPerformanceMetric</code></p>
+<h4 id="interface_14">Interface</h4>
+<p><code>ftl/data/PerfMetrics.kt</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">ftl.data</span>
+
+<span class="kd">object</span><span class="w"> </span><span class="nc">PerfMetrics</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="c1">// based on com.google.api.services.toolresults.model.PerfMetricsSummary</span>
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Summary</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">appStartTime</span><span class="p">:</span><span class="w"> </span><span class="n">AppStartTime? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">graphicsStats</span><span class="p">:</span><span class="w"> </span><span class="n">GraphicsStats? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">perfEnvironment</span><span class="p">:</span><span class="w"> </span><span class="n">PerfEnvironment? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">perfMetrics</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">executionId</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">historyId</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">projectId</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">stepId</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">GraphicsStats</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">buckets</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Bucket</span><span class="o">&gt;?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">highInputLatencyCount</span><span class="p">:</span><span class="w"> </span><span class="kt">Long?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">jankyFrames</span><span class="p">:</span><span class="w"> </span><span class="kt">Long?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">missedVsyncCount</span><span class="p">:</span><span class="w"> </span><span class="kt">Long?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">p50Millis</span><span class="p">:</span><span class="w"> </span><span class="kt">Long?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">p90Millis</span><span class="p">:</span><span class="w"> </span><span class="kt">Long?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">p95Millis</span><span class="p">:</span><span class="w"> </span><span class="kt">Long?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">p99Millis</span><span class="p">:</span><span class="w"> </span><span class="kt">Long?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">slowBitmapUploadCount</span><span class="p">:</span><span class="w"> </span><span class="kt">Long?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">slowDrawCount</span><span class="p">:</span><span class="w"> </span><span class="kt">Long?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">slowUiThreadCount</span><span class="p">:</span><span class="w"> </span><span class="kt">Long?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">totalFrames</span><span class="p">:</span><span class="w"> </span><span class="kt">Long?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Bucket</span><span class="p">(</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">frameCount</span><span class="p">:</span><span class="w"> </span><span class="kt">Long?</span><span class="p">,</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">renderMillis</span><span class="p">:</span><span class="w"> </span><span class="kt">Long?</span><span class="p">,</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">AppStartTime</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">fullyDrawnTime</span><span class="p">:</span><span class="w"> </span><span class="n">Duration? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">initialDisplayTime</span><span class="p">:</span><span class="w"> </span><span class="n">Duration? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">PerfEnvironment</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">cpuInfo</span><span class="p">:</span><span class="w"> </span><span class="n">CPUInfo? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">memoryInfo</span><span class="p">:</span><span class="w"> </span><span class="n">MemoryInfo? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">CPUInfo</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">cpuProcessor</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">cpuSpeedInGhz</span><span class="p">:</span><span class="w"> </span><span class="kt">Float?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">numberOfCores</span><span class="p">:</span><span class="w"> </span><span class="kt">Int?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">MemoryInfo</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">memoryCapInKibibyte</span><span class="p">:</span><span class="w"> </span><span class="kt">Long?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">memoryTotalInKibibyte</span><span class="p">:</span><span class="w"> </span><span class="kt">Long?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Identity</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">executionId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">historyId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">projectId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">stepId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Fetch</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">Identity</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Summary</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="fetching-artifacts">Fetching Artifacts</h3>
+<h4 id="target_15">Target</h4>
+<ul>
+<li><code>FetchArtifacts.kt</code></li>
+</ul>
+<h4 id="interface_15">Interface</h4>
+<p><code>ftl/data/PerfMetrics.kt</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">ftl.data</span>
+
+<span class="kd">object</span><span class="w"> </span><span class="nc">Artifacts</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Identity</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">gcsPathWithoutRootBucket</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">gcsRootBucket</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">regex</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Regex</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">blobPath</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">downloadPath</span><span class="p">:</span><span class="w"> </span><span class="n">DownloadPath</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">DownloadPath</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">localResultDir</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">useLocalResultDir</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">keepFilePath</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Fetch</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">Identity</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

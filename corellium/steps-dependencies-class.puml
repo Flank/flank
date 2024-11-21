@@ -1,0 +1,45 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+skinparam componentStyle rectangle
+
+legend left
+  |= Color |= Depends on |
+  |<#LightGreen>| API |
+  |<#LightBlue>| tool |
+end legend
+
+[authorize] #LightGreen
+[parseTestCasesFromApks] #LightBlue
+[createOutputDir]
+[prepareShards] #LightBlue
+[dumpShards] #LightBlue
+[invokeDevices] #LightGreen
+[installApks] #LightGreen
+[parseApksInfo] #LightBlue
+[executeTests] #LightGreen
+[cleanUpInstances] #LightGreen
+[generateReport] #LightBlue
+[finish]
+
+prepareShards --> invokeDevices
+
+prepareShards --> dumpShards
+parseTestCasesFromApks --> prepareShards
+authorize --> invokeDevices
+authorize --> installApks
+authorize --> executeTests
+authorize --> cleanUpInstances
+invokeDevices --> installApks
+invokeDevices --> executeTests
+createOutputDir --> dumpShards
+createOutputDir --> generateReport
+prepareShards --> executeTests
+parseApksInfo --> executeTests
+installApks --> executeTests
+executeTests --> generateReport
+executeTests ..> cleanUpInstances
+cleanUpInstances --> finish
+generateReport --> finish
+
+@enduml

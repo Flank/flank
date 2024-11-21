@@ -1,0 +1,59 @@
+@startuml
+'left to right direction
+package "parallel" {
+
+object "Parallel.Function.invoke()" as Function {
+creates
+}
+
+class "Parallel.Task" as Task<R>
+class "Parallel.Task.Signature" as Task_Signature<R>
+interface "Parallel.Type<R>" as Type
+interface "Parallel.Type<R>" as Type2
+interface ExecuteTask<R> << (T, orchid) >>
+interface ParallelState << (T, orchid) >>
+
+object "using" as usingType {
+creates
+}
+object "using" as usingSignature {
+creates
+}
+object from {
+creates
+}
+
+object "invoke()" as invokeExecution {
+executes
+}
+object "invoke()" as reduce {
+reduces
+}
+
+ExecuteTask <. "1" Function
+
+ExecuteTask <--o "1" usingSignature
+usingSignature "1" #--> Task_Signature
+usingSignature  "1" ..> Task
+usingSignature -right-* usingType
+
+Type <--# "1" usingType
+ExecuteTask <--o "1" usingType
+usingType "1" ..> Task
+usingType *-left- from
+
+Type <--# "1" from
+Type <--o "*" from
+from "1" ..> Task_Signature
+
+Type2 <--o "*" reduce
+Task <. "*" reduce
+Task <-# "*" reduce
+
+Task <--# "*" invokeExecution
+
+invokeExecution "*" .left.> ParallelState
+invokeExecution "1" o-left-> ParallelState
+
+}
+@enduml

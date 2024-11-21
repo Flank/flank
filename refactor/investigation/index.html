@@ -1,0 +1,2023 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Flank is a massively parallel Android and iOS test runner for Firebase Test Lab.">
+      
+      
+      
+        <link rel="canonical" href="https://flank.github.io/flank/refactor/investigation/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.45">
+    
+    
+      
+        <title>Flank investigation - Flank</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#flank-investigation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Flank" class="md-header__button md-logo" aria-label="Flank" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flank
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Flank investigation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Flank/flank/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flank
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Flank" class="md-nav__button md-logo" aria-label="Flank" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Flank
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Flank/flank/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flank
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flank_vision/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vision
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_sharding/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sharding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../smart_flank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Smart Flank
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../building_updating_flank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Building & updating Flank
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../windows_wsl_guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows WSL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cucumber_support/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cucumber
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flank_corellium/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Corellium
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Contribution
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Contribution
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pr_titles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pull request
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Development
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../onboarding/1_environment_setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Environment setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../onboarding/2_contribution/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contribution
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../onboarding/3_estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../onboarding/4_buddy_system/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Buddy system
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../onboarding/5_code_review/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code review
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_artifacts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Test artifacts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_generation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Client generation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dependencies_update_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dependencies update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flank_secrets/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Releasing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../binaries_used_in_flank_io_testing.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Binaries for Flank's iOS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture abstraction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    High-level design
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            High-level design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl#flank-high-level-design" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_2" id="__nav_11_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Presentation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_2">
+            <span class="md-nav__icon md-icon"></span>
+            Presentation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/presentation#presentation" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/cli#cli" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CLI
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/domain#domain" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Domain
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/data#data" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/adapter#adapter" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Adapter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Hypershard
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            Hypershard
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hypershard_ios/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    iOS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hypershard_android/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Android
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Motivation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Layers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#presentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Presentation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Presentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cli-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      CLI commands
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      Domain
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Domain">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#issues_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Issues
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-adapters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data &amp; Adapters
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data & Adapters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#issues_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#external-api-libs" class="md-nav__link">
+    <span class="md-ellipsis">
+      External API libs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-of-external-api-usages-in-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      List of external API usages in files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#google-api-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Google API use cases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#google-api-usage-function-call-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      Google API usage function call tree
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="flank-investigation">Flank investigation</h1>
+<p>This document contains investigation of flank architecture, layers and package structure.</p>
+<h2 id="motivation">Motivation</h2>
+<p>Currently, the flank code is not well documented, and the only source of true is the implementation. The code base has
+grown over the last year, now it's almost impossible to keep in mind whole project. So to make further work more doable
+and convenient, it's necessary to identify hidden constraints in code, expose them in documentation and do refactor.
+This document is and entity point for further improvements.</p>
+<h2 id="layers">Layers</h2>
+<h3 id="presentation">Presentation</h3>
+<h4 id="issues">Issues</h4>
+<ol>
+<li><code>ftl.Main</code> command shouldn't be bound with <code>main</code> function through companion object due to single responsibility principle.</li>
+<li>Some commands that can run domain code are doing too much.</li>
+<li>Some of composing commands seem to be in wrong package.</li>
+</ol>
+<h4 id="cli-commands">CLI commands</h4>
+<p>Flank commands tree.</p>
+<div class="highlight"><pre><span></span><code>ftl/cli/
+├── AuthCommand.kt /
+├── FirebaseCommand.kt /
+├── auth
+│   └── LoginCommand.kt ? !
+└── firebase
+    ├── CancelCommand.kt ? !
+    ├── RefreshCommand.kt ? !
+    ├── TestCommand.kt /
+    └── test
+        ├── AndroidCommand.kt /
+        ├── CommandUtil.kt
+        ├── CommonRunCommand.kt
+        ├── IPBlocksCommand.kt /
+        ├── IosCommand.kt /
+        ├── NetworkProfilesCommand.kt /
+        ├── ProvidedSoftwareCommand.kt /
+        ├── android
+        │   ├── AndroidDoctorCommand.kt ? !
+        │   ├── AndroidRunCommand.kt ? !
+        │   ├── AndroidTestEnvironmentCommand.kt ? !
+        │   ├── configuration
+        │   │   ├── AndroidLocalesCommand.kt / ^
+        │   │   ├── AndroidLocalesDescribeCommand.kt ? !
+        │   │   └── AndroidLocalesListCommand.kt ? !
+        │   ├── models
+        │   │   ├── AndroidModelDescribeCommand.kt ? !
+        │   │   ├── AndroidModelsCommand.kt / ^
+        │   │   └── AndroidModelsListCommand.kt ? !
+        │   ├── orientations
+        │   │   ├── AndroidOrientationsCommand.kt / ^
+        │   │   └── AndroidOrientationsListCommand.kt ? !
+        │   └── versions
+        │       ├── AndroidVersionsCommand.kt / ^
+        │       ├── AndroidVersionsDescribeCommand.kt ? !
+        │       └── AndroidVersionsListCommand.kt ? !
+        ├── ios
+        │   ├── IosDoctorCommand.kt ? !
+        │   ├── IosRunCommand.kt ? !
+        │   ├── IosTestEnvironmentCommand.kt ? !
+        │   ├── configuration
+        │   │   ├── IosLocalesCommand.kt / ^
+        │   │   ├── IosLocalesDescribeCommand.kt ? !
+        │   │   └── IosLocalesListCommand.kt ? !
+        │   ├── models
+        │   │   ├── IosModelDescribeCommand.kt ? !
+        │   │   ├── IosModelsCommand.kt / ^
+        │   │   └── IosModelsListCommand.kt ? !
+        │   ├── orientations
+        │   │   ├── IosOrientationsCommand.kt / ^
+        │   │   └── IosOrientationsListCommand.kt ? !
+        │   └── versions
+        │       ├── IosVersionsCommand.kt / ^
+        │       ├── IosVersionsDescribeCommand.kt ? !
+        │       └── IosVersionsListCommand.kt ? !
+        ├── ipblocks
+        │   └── IPBlocksListCommand.kt ?
+        ├── networkprofiles
+        │   ├── NetworkProfilesDescribeCommand.kt ?
+        │   └── NetworkProfilesListCommand.kt ?
+        └── providedsoftware
+            └── ProvidedSoftwareListCommand.kt ?
+</code></pre></div>
+<p>command that:</p>
+<ul>
+<li><code>?</code> is running domain code</li>
+<li><code>/</code> routes to subcommands</li>
+<li><code>!</code> is doing too much in run function</li>
+<li><code>^</code> should be moved up in package hierarchy</li>
+</ul>
+<h3 id="domain">Domain</h3>
+<h4 id="issues_1">Issues</h4>
+<ol>
+<li>The core domain api is not easy to identify.</li>
+<li>The domain layer of flank is not clearly separated of CLI and external APIs.</li>
+<li>Domain logic is huge and complicated but there is lack of diagram for visualize it.</li>
+</ol>
+<h3 id="data-adapters">Data &amp; Adapters</h3>
+<h4 id="issues_2">Issues</h4>
+<ul>
+<li>External APIs are not hidden behind interfaces</li>
+<li>External API wrappers / adapters are not clearly separated from other layers.</li>
+</ul>
+<h4 id="external-api-libs">External API libs</h4>
+<ul>
+<li><code>com.google.testing:firebase_apis:test_api</code></li>
+<li><code>com.google.api-client:google-api-client</code></li>
+<li><code>com.google.auth:google-auth-library-oauth2-http</code></li>
+<li><code>com.google.cloud:google-cloud-nio</code></li>
+<li><code>com.google.cloud:google-cloud-storage</code></li>
+<li><code>com.google.apis:google-api-services-toolresults</code></li>
+</ul>
+<h4 id="list-of-external-api-usages-in-files">List of external API usages in files</h4>
+<p>Based on <a href="../../gcloud/google_api_usecases/">google_api_usecases</a></p>
+<ol>
+<li>com.google.api.client.http<ul>
+<li>GoogleApiLogger.kt</li>
+</ul>
+</li>
+<li>ftl.android<ul>
+<li>AndroidCatalog.kt</li>
+</ul>
+</li>
+<li>ftl.args<ul>
+<li>ArgsHelper.kt</li>
+</ul>
+</li>
+<li>ftl.config<ul>
+<li>Credentials.kt</li>
+<li>FtlConstants.kt</li>
+</ul>
+</li>
+<li>ftl.environment<ul>
+<li>ListIPBlocks.kt $</li>
+<li>ListLocales.kt $</li>
+<li>LocalesDescription.kt $</li>
+<li>NetworkProfileDescription.kt $</li>
+</ul>
+</li>
+<li>ftl.environment.android<ul>
+<li>AndroidModelDescription.kt $</li>
+<li>AndroidSoftwareVersionDescription.kt $</li>
+<li>ListAndroidDevices.kt $</li>
+<li>ListAndroidSoftwareVersions.kt $</li>
+</ul>
+</li>
+<li>ftl.environment.common<ul>
+<li>ListNetworkConfiguration.kt $</li>
+<li>ListOrientations.kt $</li>
+<li>ListProvidedSoftware.kt $</li>
+</ul>
+</li>
+<li>ftl.environment.ios<ul>
+<li>IosModelDescription.kt $</li>
+<li>IosSoftwareVersionDescription.kt $</li>
+<li>ListIOsDevices.kt $</li>
+<li>ListIOsSoftwareVersions.kt $</li>
+</ul>
+</li>
+<li>ftl.gc<ul>
+<li>GcAndroidDevice.kt $</li>
+<li>GcAndroidTestMatrix.kt</li>
+<li>GcIosMatrix.kt $</li>
+<li>GcIosTestMatrix.kt</li>
+<li>GcStorage.kt</li>
+<li>GcTesting.kt $</li>
+<li>GcTestMatrix.kt</li>
+<li>GcToolResults.kt</li>
+<li>UserAuth.kt</li>
+<li>ftl/gc/Utils.kt $</li>
+</ul>
+</li>
+<li>ftl.gc.android<ul>
+<li>CreateAndroidInstrumentationTest.kt $</li>
+<li>CreateAndroidLoopTest.kt $</li>
+<li>CreateAndroidRobotTest.kt $</li>
+<li>SetupAndroidTest.kt $</li>
+<li>SetupEnvironmentVariables.kt $</li>
+<li>ftl/gc/android/Utils.kt $</li>
+</ul>
+</li>
+<li>ftl.gc.ios<ul>
+<li>SetupIosTest.kt $</li>
+</ul>
+</li>
+<li>ftl.http<ul>
+<li>ExecuteWithRetry.kt</li>
+<li>HttpTimeoutIncrease.kt</li>
+</ul>
+</li>
+<li>ftl.ios<ul>
+<li>IosCatalog.kt $</li>
+</ul>
+</li>
+<li>ftl.json<ul>
+<li>MatrixMap.kt $</li>
+<li>OutcomeDetailsFormatter.kt $</li>
+<li>SavedMatrix.kt $</li>
+</ul>
+</li>
+<li>ftl.log<ul>
+<li>Loggers.kt</li>
+</ul>
+</li>
+<li>ftl.mock<ul>
+<li>MockServer.kt</li>
+</ul>
+</li>
+<li>ftl.reports<ul>
+<li>HtmlErrorReport.kt</li>
+</ul>
+</li>
+<li>ftl.reports.api<ul>
+<li>CreateJUnitTestCase.kt $</li>
+<li>CreateJUnitTestResult.kt $</li>
+<li>CreateTestExecutionData.kt</li>
+<li>CreateTestSuiteOverviewData.kt $</li>
+<li>PerformanceMetrics.kt</li>
+<li>PrepareForJUnitResult.kt</li>
+<li>ProcessFromApi.kt $</li>
+<li>ftl/reports/api/Utils.kt</li>
+</ul>
+</li>
+<li>ftl.reports.api.data<ul>
+<li>TestExecutionData.kt $</li>
+<li>TestSuiteOverviewData.kt $</li>
+</ul>
+</li>
+<li>ftl.reports.outcome<ul>
+<li>BillableMinutes.kt $</li>
+<li>CreateMatrixOutcomeSummary.kt $</li>
+<li>CreateTestSuiteOverviewData.kt $</li>
+<li>TestOutcome.kt $</li>
+<li>TestOutcomeContext.kt $</li>
+<li>ftl/reports/outcome/Util.kt $</li>
+</ul>
+</li>
+<li>ftl.reports.util<ul>
+<li>ReportManager.kt $</li>
+</ul>
+</li>
+<li>ftl.run<ul>
+<li>RefreshLastRun.kt $</li>
+</ul>
+</li>
+<li>ftl.run.common<ul>
+<li>FetchArtifacts.kt</li>
+<li>PollMatrices.kt</li>
+</ul>
+</li>
+<li>ftl.run.platform<ul>
+<li>RunAndroidTests.kt $</li>
+</ul>
+</li>
+<li>ftl.run.platform.common<ul>
+<li>AfterRunTests.kt $</li>
+</ul>
+</li>
+<li>ftl.run.status<ul>
+<li>ExecutionStatusListPrinter.kt $</li>
+<li>TestMatrixStatusPrinter.kt $</li>
+</ul>
+</li>
+<li>ftl.util<ul>
+<li>MatrixState.kt $</li>
+<li>TestMatrixExtension.kt $</li>
+</ul>
+</li>
+</ol>
+<p>where</p>
+<ul>
+<li><code>$</code> - only operates on API structures, not call methods directly</li>
+</ul>
+<h4 id="google-api-use-cases">Google API use cases</h4>
+<p>From the CLI command point of view. The most nested points refer API calls.</p>
+<ul>
+<li>
+<p><code>auth/LoginCommand.kt</code></p>
+<ul>
+<li>Authorizing google account using OAuth2 for getting credentials.</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/CancelCommand.kt</code></p>
+<ul>
+<li>Sending cancel request using projectId and testMatrixId</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/RefreshCommand.kt</code> ?</p>
+<ul>
+<li>Getting current test matrices' status for updating matrix file if needed</li>
+<li>Polling the matrices' status for live logging until all matrices are not finished.</li>
+<li>Downloading test artifacts from bucket</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/providedsoftware/ProvidedSoftwareListCommand.kt</code></p>
+<ul>
+<li>Getting softwareCatalog from testEnvironmentCatalog</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/ipblocks/IPBlocksListCommand.kt</code></p>
+<ul>
+<li>Getting orchestratorVersion from testEnvironmentCatalog</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/networkprofiles/NetworkProfilesDescribeCommand.kt</code></p>
+<ul>
+<li>Getting configurations from testEnvironmentCatalog through networkConfigurationCatalog</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/networkprofiles/NetworkProfilesListCommand.kt</code></p>
+<ul>
+<li>Getting configurations from testEnvironmentCatalog through networkConfigurationCatalog</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/android/configuration/AndroidLocalesDescribeCommand.kt</code></p>
+<ul>
+<li>Getting android device catalog for obtain locales</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/android/configuration/AndroidLocalesListCommand.kt</code></p>
+<ul>
+<li>Getting android device catalog for obtain locales</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/android/models/AndroidModelDescribeCommand.kt</code></p>
+<ul>
+<li>Getting android device catalog for obtain models</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/android/models/AndroidModelsListCommand.kt</code></p>
+<ul>
+<li>Getting android device catalog for obtain models</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/android/orientations/AndroidOrientationsListCommand.kt</code></p>
+<ul>
+<li>Getting android device catalog for obtain orientations</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/android/versions/AndroidVersionsDescribeCommand.kt</code></p>
+<ul>
+<li>Getting android device catalog for obtain versions</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/android/versions/AndroidVersionsListCommand.kt</code></p>
+<ul>
+<li>Getting android device catalog for obtain versions</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/android/AndroidTestEnvironmentCommand.kt</code></p>
+<ul>
+<li><code>AndroidModelsListCommand</code></li>
+<li><code>AndroidVersionsListCommand</code></li>
+<li><code>AndroidLocalesListCommand</code></li>
+<li><code>ProvidedSoftwareListCommand</code></li>
+<li><code>NetworkProfilesListCommand</code></li>
+<li><code>AndroidOrientationsListCommand</code></li>
+<li><code>IPBlocksListCommand</code></li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/ios/configuration/IosLocalesDescribeCommand.kt</code></p>
+<ul>
+<li>Getting ios device catalog for obtain locales</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/ios/configuration/IosLocalesListCommand.kt</code></p>
+<ul>
+<li>Getting ios device catalog for obtain locales</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/ios/models/IosModelDescribeCommand.kt</code></p>
+<ul>
+<li>Getting ios device catalog for obtain models</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/ios/models/IosModelsListCommand.kt</code></p>
+<ul>
+<li>Getting ios device catalog for obtain models</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/ios/orientations/IosOrientationsListCommand.kt</code></p>
+<ul>
+<li>Getting ios device catalog for obtain orientations</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/ios/versions/IosVersionsDescribeCommand.kt</code></p>
+<ul>
+<li>Getting ios device catalog for obtain versions</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/ios/versions/IosVersionsListCommand.kt</code></p>
+<ul>
+<li>Getting ios device catalog for obtain versions</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/ios/IosTestEnvironmentCommand.kt</code></p>
+<ul>
+<li><code>IosModelsListCommand</code></li>
+<li><code>IosVersionsListCommand</code></li>
+<li><code>IosLocalesListCommand</code></li>
+<li><code>ProvidedSoftwareListCommand</code></li>
+<li><code>NetworkProfilesListCommand</code></li>
+<li><code>IosOrientationsListCommand</code></li>
+<li><code>IPBlocksListCommand</code></li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/android/AndroidRunCommand.kt</code></p>
+<ul>
+<li>Validation<ul>
+<li>Checking if bucket exist (common args validation)</li>
+<li>Getting android device catalog for check supported devices</li>
+</ul>
+</li>
+<li>Running android tests<ul>
+<li>Preparing data</li>
+<li>Uploading files</li>
+<li>Creating android test contexts<ul>
+<li>downloading apks if needed</li>
+</ul>
+</li>
+<li>Dumping shards<ul>
+<li>Uploading dumped shards if needed</li>
+</ul>
+</li>
+<li>Uploading<ul>
+<li>Uploading apks if needed &amp; depending on test context</li>
+</ul>
+</li>
+<li>Building and running android test matrix</li>
+<li>After run test<ul>
+<li>Uploading session ID</li>
+<li>Printing matrices web links<ul>
+<li>getOrUpdateWebLink<ul>
+<li>Getting test matrices</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Pooling matrices<ul>
+<li>Getting test matrices</li>
+</ul>
+</li>
+<li>Generating report<ul>
+<li>Parsing test suite<ul>
+<li>Getting test matrices</li>
+<li>Creating JUnit test result</li>
+</ul>
+</li>
+<li>Uploading each report<ul>
+<li>Cost report</li>
+<li>Matrix results report</li>
+<li>Html error report</li>
+<li>JUnit report</li>
+</ul>
+</li>
+<li>Getting test matrices for test executions</li>
+<li>Processing junit results<ul>
+<li>processing full junit result<ul>
+<li>Creating JUnit test result</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Create and upload performance metrics</li>
+<li>Upload matrices ids</li>
+</ul>
+</li>
+<li>Fetching artifacts</li>
+<li>Printing matrices web links<ul>
+<li>get or update web for each matrix<ul>
+<li>Getting test matrices</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>firebase/test/ios/IosRunCommand.kt</code></p>
+<ul>
+<li>validation<ul>
+<li>Checking if bucket exist (common args validation)</li>
+<li>Getting ios device catalog for check supported devices</li>
+</ul>
+</li>
+<li>Running ios tests<ul>
+<li>Preparing data</li>
+<li>Uploading files</li>
+<li>Dump shards if needed<ul>
+<li>Uploading dumped shards if needed</li>
+</ul>
+</li>
+<li>Creating ios test contexts<ul>
+<li>Creating xctest context<ul>
+<li>Uploading xctest files</li>
+</ul>
+</li>
+<li>Creating gameloop test context<ul>
+<li>Uploading app file</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Building and running android test matrix</li>
+<li>After run test (from this point the path is same as for android)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>where</p>
+<ul>
+<li><code>?</code> - investigate if implementation is correct or is performing some not necessary operations.</li>
+</ul>
+<h4 id="google-api-usage-function-call-tree">Google API usage function call tree</h4>
+<ul>
+<li><code>LoginCommand</code> -&gt; <code>UserAuth/request</code></li>
+<li><code>CancelCommand</code><ul>
+<li><code>getLastArgs</code><ul>
+<li><code>IosArgs/validateRefresh</code> -&gt; <code>IosArgs/assertDevicesSupported</code></li>
+<li><code>AndroidArgs/validate</code><ul>
+<li><code>AndroidArgs/assertDevicesSupported</code><ul>
+<li><code>AndroidCatalog/supportedDeviceConfig</code> -&gt; <code>AndroidCatalog/deviceCatalog(projectId).models</code></li>
+<li><code>AndroidCatalog/androidModelIds</code> -&gt; <code>AndroidCatalog/deviceCatalog(projectId).models</code></li>
+<li><code>AndroidCatalog/androidVersionIds</code> -&gt; <code>AndroidCatalog/deviceCatalog(projectId).versions</code></li>
+<li><code>AndroidCatalog/getSupportedVersionId</code> -&gt; <code>AndroidCatalog/deviceCatalog(projectId).models</code></li>
+</ul>
+</li>
+<li><code>IArgs/checkResultsDirUnique</code> -&gt; <code>GcStorage/exist</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>cancelLastRun</code> -&gt; <code>cancelMatrices</code> -&gt; <code>GcTestMatrix/cancel</code></li>
+</ul>
+</li>
+<li><code>RefreshCommand</code> -&gt; <code>refreshLastRun</code><ul>
+<li><code>getLastArgs</code><ul>
+<li><code>IosArgs/validateRefresh</code> -&gt; <code>IosArgs/assertDevicesSupported</code></li>
+<li><code>AndroidArgs/validate</code><ul>
+<li><code>AndroidArgs/assertDevicesSupported</code><ul>
+<li><code>AndroidCatalog/supportedDeviceConfig</code> -&gt; <code>AndroidCatalog/deviceCatalog(projectId).models</code></li>
+<li><code>AndroidCatalog/androidModelIds</code> -&gt; <code>AndroidCatalog/deviceCatalog(projectId).models</code></li>
+<li><code>AndroidCatalog/androidVersionIds</code> -&gt; <code>AndroidCatalog/deviceCatalog(projectId).versions</code></li>
+<li><code>AndroidCatalog/getSupportedVersionId</code> -&gt; <code>AndroidCatalog/deviceCatalog(projectId).models</code></li>
+</ul>
+</li>
+<li><code>IArgs/checkResultsDirUnique</code> -&gt; <code>GcStorage/exist</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>refreshMatrices</code><ul>
+<li><code>GcTestMatrix/refresh</code></li>
+<li><code>SavedMatrix/updateWithMatrix</code> -&gt; <code>SavedMatrix/updatedSavedMatrix</code> -&gt; <code>TestMatrix/fetchTestOutcomeContext</code><ul>
+<li><code>TestMatrix/getToolResultsIds</code></li>
+<li><code>GcToolResults/listAllEnvironments</code></li>
+<li><code>GcToolResults/listAllSteps</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>ProvidedSoftwareListCommand</code> -&gt; <code>providedSoftwareAsTable</code> -&gt; <code>getProvidedSoftware</code></li>
+<li><code>IPBlocksListCommand</code> -&gt; <code>ipBlocksListAsTable</code> -&gt; <code>deviceIPBlocks</code></li>
+<li><code>NetworkProfilesDescribeCommand</code> -&gt; <code>networkProfileDescription</code> -&gt; <code>getNetworkConfiguration</code></li>
+<li>
+<p><code>NetworkProfilesListCommand</code> -&gt; <code>networkConfigurationAsTable</code> -&gt; <code>getNetworkConfiguration</code></p>
+</li>
+<li>
+<p><code>AndroidLocalesDescribeCommand</code> -&gt; <code>AndroidCatalog/getLocaleDescription</code> -&gt; <code>AndroidCatalog/getLocales</code></p>
+</li>
+<li><code>AndroidLocalesListCommand</code> -&gt; <code>AndroidCatalog/localesAsTable</code> -&gt; <code>AndroidCatalog/getLocales</code></li>
+<li><code>AndroidModelDescribeCommand</code> -&gt; <code>AndroidCatalog/describeModel</code> -&gt; <code>AndroidCatalog/getModels</code></li>
+<li><code>AndroidModelsListCommand</code> -&gt; <code>AndroidCatalog/devicesCatalogAsTable</code> -&gt; <code>AndroidCatalog/getModels</code></li>
+<li><code>AndroidOrientationsListCommand</code> -&gt; <code>AndroidCatalog/supportedOrientationsAsTable</code> -&gt; <code>AndroidCatalog/deviceCatalog</code></li>
+<li><code>AndroidVersionsDescribeCommand</code> -&gt; <code>AndroidCatalog/describeSoftwareVersion</code> -&gt; <code>AndroidCatalog/getVersionsList</code></li>
+<li><code>AndroidVersionsListCommand</code> -&gt; <code>AndroidCatalog/supportedVersionsAsTable</code> -&gt; <code>AndroidCatalog/getVersionsList</code></li>
+<li>
+<p><code>AndroidTestEnvironmentCommand</code></p>
+<ul>
+<li><code>AndroidModelsListCommand</code></li>
+<li><code>AndroidVersionsListCommand</code></li>
+<li><code>AndroidLocalesListCommand</code></li>
+<li><code>ProvidedSoftwareListCommand</code></li>
+<li><code>NetworkProfilesListCommand</code></li>
+<li><code>AndroidOrientationsListCommand</code></li>
+<li><code>IPBlocksListCommand</code></li>
+</ul>
+</li>
+<li>
+<p><code>IosLocalesDescribeCommand</code> -&gt; <code>IosCatalog/getLocaleDescription</code> -&gt; <code>IosCatalog/getLocales</code></p>
+</li>
+<li><code>IosLocalesListCommand</code> -&gt; <code>IosCatalog/localesAsTable</code> -&gt; <code>IosCatalog/iosDeviceCatalog</code></li>
+<li><code>IosModelDescribeCommand</code> -&gt; <code>IosCatalog/describeModel</code> -&gt; <code>IosCatalog/getModels</code></li>
+<li><code>IosModelsListCommand</code> -&gt; <code>IosCatalog/devicesCatalogAsTable</code> -&gt; <code>IosCatalog/getModels</code></li>
+<li><code>IosOrientationsListCommand</code> -&gt; <code>IosCatalog/supportedOrientationsAsTable</code> -&gt; <code>IosCatalog/iosDeviceCatalog</code></li>
+<li><code>IosVersionsDescribeCommand</code> -&gt; <code>IosCatalog/describeSoftwareVersion</code> -&gt; <code>IosCatalog/getVersionsList</code></li>
+<li><code>IosVersionsListCommand</code> -&gt; <code>IosCatalog/softwareVersionsAsTable</code> -&gt; <code>IosCatalog/getVersionsList</code></li>
+<li>
+<p><code>IosTestEnvironmentCommand</code></p>
+<ul>
+<li><code>IosModelsListCommand</code></li>
+<li><code>IosVersionsListCommand</code></li>
+<li><code>IosLocalesListCommand</code></li>
+<li><code>ProvidedSoftwareListCommand</code></li>
+<li><code>NetworkProfilesListCommand</code></li>
+<li><code>IosOrientationsListCommand</code></li>
+<li><code>IPBlocksListCommand</code></li>
+</ul>
+</li>
+<li>
+<p><code>AndroidRunCommand</code></p>
+<ul>
+<li><code>AndroidArgs/validate</code><ul>
+<li><code>AndroidArgs/assertDevicesSupported</code><ul>
+<li><code>AndroidCatalog/supportedDeviceConfig</code></li>
+<li><code>AndroidCatalog/androidModelIds</code></li>
+<li><code>AndroidCatalog/androidVersionIds</code></li>
+<li><code>AndroidCatalog/getSupportedVersionId</code></li>
+</ul>
+</li>
+<li><code>IArgs/checkResultsDirUnique</code> -&gt; <code>GcStorage/exist</code></li>
+</ul>
+</li>
+<li><code>AndroidArgs/runAndroidTests</code><ul>
+<li><code>GcAndroidDevice/build</code></li>
+<li><code>GcToolResults/createToolResultsHistory</code></li>
+<li><code>IArgs/uploadOtherFiles</code> -&gt; <code>GcStorage/upload</code></li>
+<li><code>AndroidArgs/uploadAdditionalApks</code> -&gt; <code>List&lt;String&gt;/uploadToGcloudIfNeeded</code> -&gt; <code>FileReference/uploadIfNeeded</code>-&gt; <code>GcStorage/upload</code></li>
+<li><code>AndroidArgs/uploadObbFiles</code> -&gt; <code>GcStorage/upload</code></li>
+<li><code>AndroidArgs/createAndroidTestContexts</code> -&gt; <code>List&lt;AndroidTestContext&gt;/setupShards</code>-&gt; <code>InstrumentationTestContext/downloadApks</code> -&gt; <code>FileReference/downloadIfNeeded</code> -&gt; <code>GcStorage/download</code></li>
+<li><code>List&lt;AndroidTestContext&gt;/dumpShards</code> -&gt; <code>GcStorage/upload</code></li>
+<li><code>List&lt;AndroidTestContext&gt;/upload</code> -&gt; <code>AndroidTestContext/upload</code><ul>
+<li><code>InstrumentationTestContext/upload</code> -&gt; <code>FileReference/uploadIfNeeded</code> -&gt; <code>GcStorage/upload</code></li>
+<li><code>RoboTestContext/upload</code> -&gt; <code>FileReference/uploadIfNeeded</code> -&gt; <code>GcStorage/upload</code></li>
+<li><code>SanityRoboTestContext/upload</code> -&gt; <code>FileReference/uploadIfNeeded</code> -&gt; <code>GcStorage/upload</code></li>
+<li><code>GameLoopContext/upload</code> -&gt; <code>FileReference/uploadIfNeeded</code> -&gt; <code>GcStorage/upload</code></li>
+</ul>
+</li>
+<li><code>GcAndroidTestMatrix/build</code></li>
+<li><code>AbstractGoogleJsonClientRequest&lt;T&gt;/executeWithRetry</code></li>
+<li><code>IArgs/afterRunTests</code><ul>
+<li><code>MatrixMap/printMatricesWebLinks</code> -&gt; <code>getOrUpdateWebLink</code> -&gt; <code>GcTestMatrix/refresh</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>pollMatrices</code> -&gt; <code>matrixChangesFlow</code> -&gt; <code>GcTestMatrix/refresh</code></li>
+<li><code>Iterable&lt;TestMatrix&gt;/updateMatrixMap</code> -&gt; <code>SavedMatrix/updateWithMatrix</code> -&gt; <code>TestMatrix/fetchTestOutcomeContext</code><ul>
+<li><code>TestMatrix/getToolResultsIds</code></li>
+<li><code>GcToolResults/listAllEnvironments</code></li>
+<li><code>GcToolResults/listAllSteps</code></li>
+</ul>
+</li>
+<li><code>ReportManager/generate</code><ul>
+<li><code>ReportManager/parseTestSuite</code><ul>
+<li><code>refreshMatricesAndGetExecutions</code> -&gt; <code>refreshTestMatrices</code> -&gt; <code>GcTestMatrix/refresh</code></li>
+<li><code>List&lt;TestExecution&gt;/createJUnitTestResult</code> -&gt; <code>List&lt;TestExecution&gt;/createTestExecutionDataListAsync</code>-&gt; <code>TestExecution/createTestExecutionData</code> -&gt; <code>getAsync</code><ul>
+<li><code>GcToolResults/listTestCases</code></li>
+<li><code>GcToolResults/getStepResult</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>CostReport.run</code> -&gt; <code>GcStorage/uploadReportResult</code></li>
+<li><code>MatrixResultsReport.run</code> -&gt; <code>GcStorage/uploadReportResult</code></li>
+<li><code>HtmlErrorReport.run</code> -&gt; <code>GcStorage/uploadReportResult</code></li>
+<li><code>JUnitReport.run</code> -&gt; <code>GcStorage/uploadReportResult</code></li>
+<li><code>refreshMatricesAndGetExecutions</code> -&gt; <code>refreshTestMatrices</code> -&gt; <code>GcTestMatrix/refresh</code></li>
+<li><code>ReportManager/processJunitResults</code><ul>
+<li><code>ReportManager/processFullJunitResult</code> -&gt; <code>List&lt;TestExecution&gt;/createJUnitTestResult</code> -&gt; <code>List&lt;TestExecution&gt;/createTestExecutionDataListAsync</code>-&gt; <code>TestExecution/createTestExecutionData</code> -&gt; <code>getAsync</code><ul>
+<li><code>GcToolResults/listTestCases</code></li>
+<li><code>GcToolResults/getStepResult</code></li>
+</ul>
+</li>
+<li><code>FullJUnitReport.run</code> -&gt; <code>GcStorage.uploadReportResult</code></li>
+</ul>
+</li>
+<li><code>ReportManager/createAndUploadPerformanceMetricsForAndroid</code> -&gt; <code>List&lt;Pair&lt;TestExecution, String&gt;&gt;.getAndUploadPerformanceMetrics</code> -&gt;<ul>
+<li><code>TestExecution.getPerformanceMetric</code> -&gt; <code>GcToolResults.getPerformanceMetric</code></li>
+<li><code>PerfMetricsSummary.upload</code> -&gt; <code>GcStorage.uploadPerformanceMetrics</code></li>
+</ul>
+</li>
+<li><code>GcStorage/uploadMatricesId</code></li>
+</ul>
+</li>
+<li><code>fetchArtifacts</code><ul>
+<li><code>Storage.BlobListOption.fields</code></li>
+<li><code>Storage.BlobListOption.prefix</code></li>
+<li><code>GcStorage.storage.list</code></li>
+<li><code>Blob.downloadTo</code></li>
+</ul>
+</li>
+<li><code>MatrixMap/printMatricesWebLinks</code> -&gt; <code>getOrUpdateWebLink</code> -&gt; <code>GcTestMatrix/refresh</code></li>
+</ul>
+</li>
+<li>
+<p><code>IosRunCommand</code></p>
+<ul>
+<li><code>IosArgs/validate</code><ul>
+<li><code>IosArgs/assertDevicesSupported</code><ul>
+<li><code>IosCatalog/supportedDevice</code></li>
+<li><code>IosCatalog/Device/getSupportedVersionId</code></li>
+</ul>
+</li>
+<li><code>IArgs/checkResultsDirUnique</code> -&gt; <code>GcStorage/exist</code></li>
+</ul>
+</li>
+<li><code>IosArgs/runIosTests</code><ul>
+<li><code>GcIosMatrix/build</code></li>
+<li><code>GcToolResults/createToolResultsHistory</code></li>
+<li><code>IArgs/uploadOtherFiles</code> -&gt; <code>GcStorage/upload</code></li>
+<li><code>IosArgs.uploadAdditionalIpas</code></li>
+<li><code>IosArgs.dumpShardsIfXcTest</code> -&gt; <code>GcStorage/upload</code></li>
+<li><code>IosArgs/createIosTestContexts</code><ul>
+<li><code>IosArgs.createXcTestContexts</code><ul>
+<li><code>IArgs.uploadIfNeeded</code> -&gt; <code>FileReference.uploadIfNeeded</code> -&gt; <code>GcStorage.upload</code></li>
+<li><code>GcStorage.uploadXCTestFile</code></li>
+</ul>
+</li>
+<li><code>IosArgs.createGameloopTestContexts</code><ul>
+<li><code>IArgs.uploadIfNeeded</code> -&gt; <code>FileReference.uploadIfNeeded</code> -&gt; <code>GcStorage.upload</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>GcIosTestMatrix/build</code></li>
+<li><code>AbstractGoogleJsonClientRequest&lt;T&gt;/executeWithRetry</code></li>
+<li><code>IArgs/afterRunTests</code> - the rest of steps are same as for android</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

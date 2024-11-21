@@ -1,0 +1,34 @@
+// tag::picocli-generated-full-manpage[]
+
+// tag::picocli-generated-man-section-name[]
+== Name
+
+flank.jar
+-ios-screen-orientations - Information about available orientation versions
+
+// end::picocli-generated-man-section-name[]
+
+// tag::picocli-generated-man-section-synopsis[]
+== Synopsis
+
+*flank.jar
+ ios screen-orientations* [COMMAND]
+
+// end::picocli-generated-man-section-synopsis[]
+
+// tag::picocli-generated-man-section-description[]
+== Description
+
+Prints list of available orientations
+
+// end::picocli-generated-man-section-description[]
+
+// tag::picocli-generated-man-section-commands[]
+== Commands
+
+*list*::
+  List of device orientations available to test against
+
+// end::picocli-generated-man-section-commands[]
+
+// end::picocli-generated-full-manpage[]

@@ -1,0 +1,62 @@
+@startuml
+'https://plantuml.com/object-diagram
+
+left to right direction
+
+package layer1 {
+package File1 {
+[public function 1]
+}
+package nested1 {
+package File2 {
+[internal function 2]
+}
+package File3 {
+[internal function 1]
+[private function 1]
+[private function 2]
+}
+package File4 {
+[internal function 3]
+}
+}
+}
+package layer2 {
+package tool1 {
+package File5 {
+[public function 2]
+}
+package nested2 {
+package File6 {
+[internal function 4]
+[internal function 5]
+[internal function 6]
+}
+}
+}
+package api {
+package File7 {
+() "functional interface 1"
+}
+package File8 {
+() "functional interface 2"
+}
+}
+}
+
+[public function 1] --> [internal function 3]
+[public function 1] --> [internal function 1]
+[public function 1] --> [internal function 2]
+
+[internal function 1] -right-> [private function 1]
+[internal function 1] --> [private function 2]
+[internal function 3] ---> [public function 2]
+
+[internal function 2] ---> () "functional interface 2"
+[internal function 1] ---> () "functional interface 1"
+
+[public function 2] --> [internal function 4]
+[public function 2] --> [internal function 5]
+[public function 2] ---> [internal function 6]
+
+@enduml

@@ -1,0 +1,37 @@
+// tag::picocli-generated-full-manpage[]
+
+// tag::picocli-generated-man-section-name[]
+== Name
+
+flank.jar
+-android-models - Information about available models
+
+// end::picocli-generated-man-section-name[]
+
+// tag::picocli-generated-man-section-synopsis[]
+== Synopsis
+
+*flank.jar
+ android models* [COMMAND]
+
+// end::picocli-generated-man-section-synopsis[]
+
+// tag::picocli-generated-man-section-description[]
+== Description
+
+Information about available models. For example prints list of available models to test against
+
+// end::picocli-generated-man-section-description[]
+
+// tag::picocli-generated-man-section-commands[]
+== Commands
+
+*list*::
+  Print current list of devices available to test against
+
+*describe*::
+  Describe android model 
+
+// end::picocli-generated-man-section-commands[]
+
+// end::picocli-generated-full-manpage[]

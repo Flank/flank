@@ -1,0 +1,40 @@
+// tag::picocli-generated-full-manpage[]
+
+// tag::picocli-generated-man-section-name[]
+== Name
+
+flank.jar
+-firebase - 
+
+// end::picocli-generated-man-section-name[]
+
+// tag::picocli-generated-man-section-synopsis[]
+== Synopsis
+
+*flank.jar
+ firebase* [COMMAND]
+
+// end::picocli-generated-man-section-synopsis[]
+
+// tag::picocli-generated-man-section-description[]
+== Description
+
+
+
+// end::picocli-generated-man-section-description[]
+
+// tag::picocli-generated-man-section-commands[]
+== Commands
+
+*test*::
+  
+
+*refresh*::
+  Downloads results for the last Firebase Test Lab run
+
+*cancel*::
+  Cancels the last Firebase Test Lab run
+
+// end::picocli-generated-man-section-commands[]
+
+// end::picocli-generated-full-manpage[]

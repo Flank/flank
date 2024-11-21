@@ -1,0 +1,53 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+left to right direction
+
+package application {
+
+package presentation {
+[User interface]
+}
+
+package domain {
+[Internal logic]
+[Public functions]
+}
+
+package tool {
+[Document parser]
+[Complicated calculations]
+[Structures generator]
+}
+
+package api {
+[Structures] - () Interfaces
+}
+
+package adapter {
+[API function 1]
+[API function 2]
+[API function 3]
+}
+
+package client {
+[Internal]
+[Third-party]
+}
+
+[User interface] -up-> [Public functions]
+[Internal logic] <- [Public functions]
+[Internal logic] --> Interfaces
+[Document parser] -> [Third-party serializer]
+[Complicated calculations] <-down-- [Internal logic]
+[Structures generator] <-down- [Internal logic]
+[Document parser] <-down- [Internal logic]
+Interfaces <--- [API function 1]
+Interfaces <-- [API function 2]
+Interfaces <-- [API function 3]
+[API function 1] ---> [Third-party]
+[API function 2] --> [Third-party]
+[API function 3] --> [Internal]
+}
+
+@enduml

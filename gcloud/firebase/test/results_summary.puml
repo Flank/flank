@@ -1,0 +1,57 @@
+@startuml
+start
+:CreateMatrixOutcomeSummaryUsingSteps;
+:_GetStepOutcomeDetails;
+if (outcome success) then (yes)
+    :_GetSuccessCountDetails;
+    if (successDetail and otherNativeCrash) then (yes)
+        :format details;
+    else (no)
+        :details;
+    endif
+else if (failure) then (yes)
+    if (failureDetail) then (yes)
+        :_GetFailureDetail;
+    elseif (not testExecutionStep) then (yes)
+        :Unknown failure;
+    else (no)
+        :_GetFailureOrFlakyCountDetails;
+    endif
+else if (inconclusive) then (yes)
+    :_GetInconclusiveDetail;
+elseif (skipped) then (yes)
+    :_GetSkippedDetail;
+else (no)
+    :Unknown outcome;
+endif
+end
+
+start
+:CreateMatrixOutcomeSummaryUsingEnvironments;
+if (environments and all environmentResult outcome) then (yes)
+:_GetEnvironmentOutcomeDetails;
+    if (outcome success) then (yes)
+        :_GetSuccessCountDetails;
+        if (successDetail and otherNativeCrash) then (yes)
+            :format details;
+        else (no)
+            :details;
+        endif
+    else if (failure or flaky) then (yes)
+        if (failureDetail) then (yes)
+            :_GetFailureDetail;
+        else (no)
+            :_GetFailureOrFlakyCountDetails;
+        endif
+    else if (inconclusive) then (yes)
+        :_GetInconclusiveDetail;
+    elseif (skipped) then (yes)
+        :_GetSkippedDetail;
+    else (no)
+        :Unknown outcome;
+    endif
+else (no)
+    :_GetStepOutcomeDetails;
+endif
+end
+@enduml

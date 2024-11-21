@@ -1,0 +1,65 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+skinparam ConditionEndStyle hline
+  partition "create android test contexts" #LightBlue {
+    #snow :resolve apks;
+    partition "setup shards" #LightBlue {
+      #snow :prepare test filters;
+      repeat
+        split
+        partition "instrumentation with user sharding" #LightBlue {
+          #snow :download apks;
+            partition "calculate shards" #LightBlue {
+              #snow :get flank test method;
+              #snow :create shards by test for shards;
+              #snow :add always run methods;
+              #snow :shards>
+            }
+        }
+        split again
+        partition "instrumentation with flank sharding" #LightBlue {
+          #snow :download apks;
+          partition "calculate shards" #LightBlue {
+            #snow :get flank test methods;
+            partition "get old results or default" #LightBlue {
+              #snow :download xml results;
+              partition "parse all suites xml" #LightBlue {
+                #snow :fix html codes;
+                #snow :read value;
+              }
+            }
+            partition "calculate shards count" #LightBlue {
+              #snow :create tests duration map;
+              #snow :get test method time;
+              #snow :shards count>
+            }
+            partition "create shards by shard count" #LightBlue {
+              #snow :create tests duration map;
+              partition "create test methods" #LightBlue {
+                #snow :get fallback times;
+                repeat
+                  #snow :get test method time;
+                  #snow :enrich test method with time;
+                repeat while (for each test)
+                #snow :list of test methods with time>
+              }
+              #snow :add always run methods;
+              #snow :print cache info;
+              #snow :print shards info;
+              #snow :shards>
+            }
+          }
+        }
+        split again
+        #snow :robo / game loop test\n      __no sharding__;
+        end split
+      repeat while (for each context)
+    }
+    #snow :drop empty shards;
+    #snow :shards + ignored tests list>
+  }
+end
+
+@enduml

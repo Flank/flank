@@ -1,0 +1,1427 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Flank is a massively parallel Android and iOS test runner for Firebase Test Lab.">
+      
+      
+      
+        <link rel="canonical" href="https://flank.github.io/flank/architecture/">
+      
+      
+        <link rel="prev" href="../release_process/">
+      
+      
+        <link rel="next" href="../hypershard_ios/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.45">
+    
+    
+      
+        <title>Architecture abstraction - Flank</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.0253249f.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#architecture" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Flank" class="md-header__button md-logo" aria-label="Flank" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flank
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Architecture abstraction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Flank/flank/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flank
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Flank" class="md-nav__button md-logo" aria-label="Flank" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Flank
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Flank/flank/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flank
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../flank_vision/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vision
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_sharding/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sharding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../smart_flank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Smart Flank
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../building_updating_flank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Building & updating Flank
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows_wsl_guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows WSL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cucumber_support/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cucumber
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../flank_corellium/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Corellium
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Contribution
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Contribution
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pr_titles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pull request
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Development
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../onboarding/1_environment_setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Environment setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../onboarding/2_contribution/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contribution
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../onboarding/3_estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../onboarding/4_buddy_system/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Buddy system
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../onboarding/5_code_review/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code review
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_artifacts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Test artifacts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../client_generation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Client generation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dependencies_update_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dependencies update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../flank_secrets/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../release_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Releasing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../binaries_used_in_flank_io_testing.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Binaries for Flank's iOS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Architecture abstraction
+  </span>
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    High-level design
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            High-level design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl#flank-high-level-design" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_2" id="__nav_11_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Presentation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_2">
+            <span class="md-nav__icon md-icon"></span>
+            Presentation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/presentation#presentation" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/cli#cli" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CLI
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/domain#domain" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Domain
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/data#data" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/adapter#adapter" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Adapter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Hypershard
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            Hypershard
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hypershard_ios/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    iOS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hypershard_android/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Android
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="architecture">Architecture</h1>
+<p>This document describes abstract architecture design which should be able to apply to any use-case in flank scope, starting from user interface and ending on remote API calls. Use it as a reference for explaining common abstract problems around implementation.</p>
+<h1 id="table-of-contents">Table of contents</h1>
+<ol>
+<li><a href="#motivation">Motivation</a></li>
+<li><a href="#goals">Goals</a></li>
+<li><a href="#scalability">Scalability</a></li>
+<li><a href="#layers">Layers</a></li>
+<li><a href="#presentation">Presentation</a><ol>
+<li><a href="#presentation_responsibilities">Responsibilities</a></li>
+<li><a href="#presentconstrains">Constrains</a></li>
+<li><a href="#presentation_scale">How to scale</a></li>
+<li><a href="#presentation_dependencies">Dependencies</a></li>
+</ol>
+</li>
+<li><a href="#domain">Domain</a><ol>
+<li><a href="#execution_context">Execution context</a></li>
+<li><a href="#top_level_function">Top-level function</a></li>
+<li><a href="#low_level_function">Low-level function</a></li>
+<li><a href="#domain_responsibilities">Responsibilities</a></li>
+<li><a href="#domain_constrains">Constrains</a></li>
+<li><a href="#domain_scale">How to scale</a></li>
+<li><a href="#domain_dependencies">Dependencies</a></li>
+<li><a href="#static_dependencies">Static</a></li>
+<li><a href="#dynamic_dependencies">Dynamic</a></li>
+<li><a href="#both">Both</a></li>
+</ol>
+</li>
+<li><a href="#tool">Tool</a><ol>
+<li><a href="#tool_scale">How to scale</a></li>
+<li><a href="#tool_dependencies">Dependencies</a></li>
+</ol>
+</li>
+<li><a href="#api">API</a><ol>
+<li><a href="#api_scale">How to scale</a></li>
+<li><a href="#api_dependencies">Dependencies</a></li>
+</ol>
+</li>
+<li><a href="#client">Client</a><ol>
+<li><a href="#client_scale">How to scale</a></li>
+<li><a href="#client_dependencies">Dependencies</a></li>
+</ol>
+</li>
+<li><a href="#adapter">Adapter</a><ol>
+<li><a href="#adapter_scale">How to scale</a></li>
+<li><a href="#adapter_dependencies">Dependencies</a></li>
+</ol>
+</li>
+<li><a href="#implementation">Implementation</a><ol>
+<li><a href="#implementation_public_api">Public API</a></li>
+<li><a href="#components_composition">Components composition</a></li>
+<li><a href="#code_composition">Code composition</a></li>
+<li><a href="#code_composition_vertical">Vertical</a></li>
+<li><a href="#code_composition_horizontal">Horizontal</a></li>
+<li><a href="#code_composition_horizontal_layered">Horizontal Layered</a></li>
+</ol>
+</li>
+</ol>
+<h1 id="motivation">Motivation <a name="motivation"/></h1>
+<p>Without well-defined architecture, the application can grow in an uncontrolled way. This typically increases the amount of unwanted redundancy, unneeded calls, and unnecessary logical operations which as result makes code harder to understand, more error-prone, and sometimes even impossible to scale.</p>
+<h1 id="goals">Goals <a name="goals"/></h1>
+<p>The architecture should help achieve the following goals:</p>
+<ul>
+<li>Organize implementation into restricted logical layers.</li>
+<li>Divide implementation into small and easy-to-understand parts.</li>
+<li>Identify scalability vectors for each part of the architecture.</li>
+<li>Make implementation easy to navigate through.</li>
+<li>Optimize the amount of code for implementation.</li>
+<li>Make implementation less error-prone.</li>
+</ul>
+<h1 id="scalability">Scalability <a name="scalability"/></h1>
+<p>The design is specifying two types of scaling:</p>
+<ul>
+<li><code>Horizontal</code> - by adding atomic components that are not related to each other, but must meet common requirements.</li>
+<li><code>Vertical</code> - by expanding one component for new features.</li>
+</ul>
+<p>Typically, <code>horizontal</code> scaling is preferred when <code>vertical</code> scaling become to break the single responsibility principle.</p>
+<h1 id="layers">Layers <a name="layers"/></h1>
+<p>The example diagram that is exposing relations between layers:</p>
+<p><img alt="architecture_template" src="http://www.plantuml.com/plantuml/proxy?cache=no&amp;fmt=svg&amp;src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/architecture-template.puml" /></p>
+<h1 id="presentation">Presentation <a name="presentation"/></h1>
+<p>The front-end layer of the flank application.</p>
+<ul>
+<li>From the higher level of view, the presentation layer is a bridge between end-user and business logic.</li>
+<li>From the implementation perspective it is just adapter for <a href="#domain"><code>domain</code></a> <a href="#top_level_function"><code>top-level function</code></a> call.</li>
+</ul>
+<h3 id="responsibilities">Responsibilities <a name="presentation_responsibilities"/></h3>
+<ul>
+<li>Implements user interface and adapt it to <a href="#domain"><code>domain</code></a> API.</li>
+<li>Converts input from user into <a href="#domain"><code>domain</code></a> <a href="#top_level_function"><code>top-level functions</code></a> calls.</li>
+<li>Converts structural output result from the <a href="#domain"><code>domain</code></a> into the output specific for the <code>presentation</code>.</li>
+<li>Passes  <a href="#dynamic_dependencies"><code>dynamic</code></a> dependencies to <a href="#domain"><code>domain</code></a> if needed.</li>
+</ul>
+<h3 id="constrains">Constrains <a name="presentconstrains"/></h3>
+<ul>
+<li>SHOULD<ul>
+<li>avoid logical operations</li>
+</ul>
+</li>
+<li>CAN<ul>
+<li>base on third-part framework or library</li>
+<li>invoke <a href="#domain"><code>domain</code></a> public functions</li>
+</ul>
+</li>
+<li>CAN'T<ul>
+<li>access <a href="#api"><code>API</code></a> layer directly</li>
+<li>access tools deserved for <a href="#domain"><code>domain</code></a></li>
+</ul>
+</li>
+</ul>
+<h3 id="how-to-scale">How to scale <a name="presentation_scale"/></h3>
+<ul>
+<li><a href="#scalability"><code>Horizontal</code></a> - by adding different UI implementations</li>
+<li>Along with <a href="#domain"><code>domain</code></a> <a href="#top_level_function"><code>top-level functions</code></a>.</li>
+</ul>
+<h3 id="dependencies">Dependencies <a name="presentation_dependencies"/></h3>
+<ul>
+<li><a href="#domain"><code>Domain</code></a> layer</li>
+<li><a href="#adapter"><code>Adapter</code></a> layer (required meet domain interface)</li>
+</ul>
+<h1 id="domain">Domain <a name="domain"/></h1>
+<p>Is the implementation of the application business logic.</p>
+<p>Exposes its own API as a one, or many public extension functions, called <a href="#top_level_function"><code>top-level functions</code></a>. Each <a href="#top_level_function"><code>top-level function</code></a> have its own <a href="#execution_context"><code>execution context</code></a>, can produce a <code>structured output</code> during the <code>execution</code> and can be composed of one or more <a href="#low_level_function"><code>low-level functions</code></a>.</p>
+<p>This layer can be considered as a standalone library, that is providing access to business logic through pure kotlin functions.</p>
+<h3 id="execution-context">Execution context <a name="execution_context"/></h3>
+<p>The context can provide arguments and <a href="#dynamic_dependencies"><code>dynamic</code></a> functions required by the execution. Its name should reflect the related use case.</p>
+<h3 id="top-level-function">Top-level function <a name="top_level_function"/></h3>
+<p>Is a public function placed in root of the domain package. Is responsible to implement domain logic directly or compose it using <a href="#low_level_function"><code>low-level functions</code></a>, <a href="#tool"><code>tools</code></a> or <a href="#api"><code>API</code></a>. For simplification, consider a simple common type for all <a href="#top_level_function"><code>top-level functions</code></a>.</p>
+<div class="highlight"><pre><span></span><code><span class="k">typealias</span><span class="w"> </span><span class="n">UseCase</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span>
+</code></pre></div>
+<p>Where <code>A</code> is a generic type that is representing the <a href="#execution_context"><code>execution context</code></a>.</p>
+<h3 id="low-level-function">Low-level function <a name="low_level_function"/></h3>
+<p>The low-level function is useful when it comes to dividing complex <a href="#top_level_function"><code>top-level function</code></a> into the composition of smaller chunks or the reuse of some logic in many top-level functions. It is crucial in keeping the composition of low-level functions flat. More nesting in-depth can make a code much harder to understand and maintain.</p>
+<h3 id="responsibilities_1">Responsibilities <a name="domain_responsibilities"/></h3>
+<ul>
+<li>Contains the business logic of the application</li>
+<li>Provide access to the use cases through formalized API</li>
+</ul>
+<h3 id="constrains_1">Constrains <a name="domain_constrains"/></h3>
+<ul>
+<li>MUST<ul>
+<li>define a dedicated <a href="#execution_context"><code>execution context</code></a> for each <a href="#top_level_function"><code>top-level function</code></a>.</li>
+<li>keep the <a href="#top_level_function"><code>top-level functions</code></a> directly inside root package.</li>
+<li>keep the low-level functions inside nested packages of the root.</li>
+</ul>
+</li>
+<li>SHOULD<ul>
+<li>access third-party clients through <a href="#api"><code>API</code></a> layer abstraction.</li>
+<li>keep the <a href="#execution_context"><code>execution context</code></a> with related <a href="#top_level_function"><code>top-level function</code></a> in the same file.</li>
+</ul>
+</li>
+<li>CAN<ul>
+<li>use <a href="#tool"><code>tools</code></a> directly.</li>
+<li>use <a href="#api"><code>API</code></a> directly.</li>
+</ul>
+</li>
+<li>CAN'T<ul>
+<li>specify anything else than <a href="#top_level_function"><code>top-level functions</code></a> &amp; related <a href="#execution_context"><code>contexts</code></a>
+  directly inside root package</li>
+</ul>
+</li>
+</ul>
+<h3 id="how-to-scale_1">How to scale <a name="domain_scale"/></h3>
+<ul>
+<li><a href="#scalability"><code>Horizontal</code></a> - by adding new <a href="#top_level_function"><code>top-level functions</code></a>.</li>
+<li><a href="#scalability"><code>Vertically</code></a> - by adding new <a href="#low_level_function"><code>low-level functions</code></a> for a single <a href="#top_level_function"><code>top-level function</code></a>.</li>
+</ul>
+<h3 id="dependencies_1">Dependencies <a name="domain_dependencies"/></h3>
+<p>The domain layer shouldn't implement complicated or specialized operations by itself or use third-party libraries directly. Instead of this, it can depend on dedicated internal tools and APIs, that are designed to exactly meet domain requirements. There are 2 types of domain dependencies:</p>
+<h3 id="static">Static <a name="static_dependencies"/></h3>
+<p>The dependencies that are providing its API through static imports.</p>
+<p>It's dedicated to the tools that don't need to be mocked for unit testing.</p>
+<p>In details the static dependency:</p>
+<ul>
+<li>CAN:<ul>
+<li>Implement algorithms.</li>
+<li>Generate files.</li>
+<li>Parse files (only if can generate it also)</li>
+<li>Format data.</li>
+<li>Parse data</li>
+</ul>
+</li>
+<li>CANNOT:<ul>
+<li>Make network calls.</li>
+<li>Use external applications (shell, SQL server, etc..).</li>
+<li>Operate on binary files that need to be provided.</li>
+</ul>
+</li>
+</ul>
+<h3 id="dynamic">Dynamic <a name="dynamic_dependencies"/></h3>
+<p>The dependencies that are provided to the <a href="#domain"><code>domain</code></a> through the <a href="#execution_context"><code>execution context</code></a>, as a reference.</p>
+<p>It's dedicated to the tools that need to be mocked for unit testing.</p>
+<ul>
+<li>CAN:<ul>
+<li>Make network calls.</li>
+<li>Use external applications (shell, SQL server, etc..).</li>
+<li>Operate on binary files that need to be provided.</li>
+<li>Generate data structures.</li>
+</ul>
+</li>
+<li>CANNOT:<ul>
+<li>Generate files.</li>
+<li>Implement algorithms.</li>
+</ul>
+</li>
+<li>SHOULD NOT:<ul>
+<li>Parse formatted data (except simple strings like date).</li>
+<li>Format data (except simple string formatting).</li>
+</ul>
+</li>
+</ul>
+<h3 id="both">Both <a name="both_dependencies"/></h3>
+<p>Additionally, both  <a href="#static_dependencies"><code>static</code></a> and  <a href="#dynamic_dependencies"><code>dynamic</code></a>:</p>
+<ul>
+<li>CAN:<ul>
+<li>Specify data structures.</li>
+<li>Map data structures.</li>
+</ul>
+</li>
+</ul>
+<h1 id="tool">Tool <a name="tool"/></h1>
+<p>The layer that groups various atomic tools required by the domain. Mainly  <a href="#static_dependencies"><code>static</code></a> dependencies or not client specific  <a href="#dynamic_dependencies"><code>dynamic</code></a> dependencies. Typically, tools are specialized to solve one, or a group of related problems like:</p>
+<ul>
+<li>parsing and formatting</li>
+<li>calculating</li>
+<li>mapping</li>
+</ul>
+<p>Notice that, tools are solving specialized problems that are meeting <a href="#domain"><code>domain</code></a> requirements, but should be designed as standalone libraries that do know nothing about the whole domain problem. Instead, just solving well the small highly isolated part. Designing tools as standalone libraries makes the code more decoupled and easier to reuse if needed.</p>
+<h3 id="how-to-scale_2">How to scale <a name="tool_scale"/></h3>
+<ul>
+<li><a href="#scalability"><code>Horizontal</code></a> - as a group of libs just by adding more standalone tools if needed.</li>
+</ul>
+<h3 id="dependencies_2">Dependencies <a name="tool_dependencies"/></h3>
+<ul>
+<li>third-party library</li>
+</ul>
+<h1 id="api">API <a name="api"/></h1>
+<p>The light-weight layer that is specifying structures and functional interfaces for <a href="#client"><code>client</code></a> operations. Like <a href="#tool"><code>tool</code></a> this layer must exactly meet the <a href="#domain"><code>domain</code></a> requirements and specify public API designed for it. Unlike the <a href="#tool"><code>tool</code></a>, it cannot define any implementation, so it can be scaled horizontally by adding new not unrelated scopes.</p>
+<h3 id="how-to-scale_3">How to scale <a name="api_scale"/></h3>
+<ul>
+<li><a href="#scalability"><code>Horizontal</code></a> - by adding more namespaces for structures and functional interfaces.</li>
+</ul>
+<h3 id="dependencies_3">Dependencies <a name="api_dependencies"/></h3>
+<ul>
+<li>Only standard libraries</li>
+</ul>
+<h1 id="client">Client <a name="client"/></h1>
+<p>The client-side specific operations not related directly to the domain. Typically, there are two purposes for this layer implementation:</p>
+<ul>
+<li>Is necessary to create a library wrapper for remote protocol, driven on WS, REST, TCP, etc...</li>
+<li>The third-party library is not convenient and requires some adjustments.</li>
+</ul>
+<h3 id="how-to-scale_4">How to scale <a name="client_scale"/></h3>
+<ul>
+<li>Along with third-party API changes.</li>
+</ul>
+<h3 id="dependencies_4">Dependencies <a name="client_dependencies"/></h3>
+<ul>
+<li>Network libraries</li>
+<li>third-party client library</li>
+</ul>
+<h1 id="adapter">Adapter <a name="adapter"/></h1>
+<p>This layer is adapting <a href="#client"><code>client</code></a> or third-party libraries to structures and interfaces, specified in the <a href="#api"><code>API</code></a> layer.</p>
+<h3 id="how-to-scale_5">How to scale <a name="adapter_scale"/></h3>
+<ul>
+<li>Along with <a href="#api"><code>API</code></a> changes.</li>
+</ul>
+<h3 id="dependencies_5">Dependencies <a name="adapter_dependencies"/></h3>
+<p>one of or many:</p>
+<ul>
+<li>internal <a href="#client"><code>client</code></a> library</li>
+<li>third-party client library</li>
+</ul>
+<h1 id="implementation">Implementation <a name="implementation"/></h1>
+<p>For convenience and clarity, the code should be written in a functional programming style. It's mandatory to avoid the OOP style which almost always makes things much more complicated than should be.</p>
+<h2 id="public-api">Public API <a name="implementation_public_api"/></h2>
+<p>Any application or library must always have a public API and an internal/private part. For convenience keep public functions and structures in the root package, so the API will be easy to find. Additionally, if the <code>component</code>:</p>
+<ul>
+<li>is providing accessibility to public API's with additional structures. -It is mandatory to keep the public structures and functions distinct from internal implementation which should be kept in nested package(s).</li>
+<li>is just a simple tool with a compact implementation that is not specifying many structures. - Private implementations can be kept in the same file, just behind the public API or even the whole tool can be delivered as one public function if the implementation is simple enough.</li>
+</ul>
+<p>DO NOT keep multiple public functions along with internal implementations in the same file or package, because it is messes up the public API, which makes code harder to analyze and navigate.</p>
+<h2 id="components-composition">Components composition <a name="components_composition"/></h2>
+<p>Business logic shouldn't implement complicated tools on its own because it is can mess up crucial high-level implementations making it harder to understand. Instead, it should be decomposed into high-level use-case implementations that operate on tools provided by specialized components.</p>
+<h2 id="code-composition">Code composition <a name="code_composition"/></h2>
+<p>Typically, when huge features are divided into smaller functions and one of those functions is a (public) root, the functions can be composed in two different ways.</p>
+<h3 id="vertical">Vertical <a name="code_composition_vertical"/></h3>
+<p>The preceding function is calling the following, so the composition of functions is similar to a linked list.</p>
+<p><img alt="vertical-composition" src="http://www.plantuml.com/plantuml/proxy?cache=no&amp;fmt=svg&amp;src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/vertical-composition.puml" /></p>
+<p>Try to <strong>AVOID</strong> this pattern where possible, especially in business logic. In some situations it can be even worse than one huge monolithic function with comments, for example when internal functions are not ordered correctly. Understanding the feature composed in vertical style, almost always require analyzing the whole chain of functions which typically is not efficient.</p>
+<h3 id="horizontal">Horizontal <a name="code_composition_horizontal"/></h3>
+<p>Root function is controlling independent internal and specialized functions.</p>
+<p><img alt="horizontal-composition" src="http://www.plantuml.com/plantuml/proxy?cache=no&amp;fmt=svg&amp;src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/horizontal-composition.puml" /></p>
+<p>This approach gives a fast overview of high-level implementation but is hiding the details not important from the high-level perspective. Comparing to <code>vertical</code> composition where the cost of manual access to internal functions (jumping on references in IDE) in the worst-case scenario is <code>n</code>, the horizontal composition almost always gives <code>1</code> on the same layer (or <code>2</code> taking private functions into account if exist).</p>
+<h3 id="horizontal-layered">Horizontal-Layered <a name="code_composition_horizontal_layered"/></h3>
+<p>An example of horizontal composition in layered architecture can look as following:</p>
+<p><img alt="horizontal-composition-layered" src="http://www.plantuml.com/plantuml/proxy?cache=no&amp;fmt=svg&amp;src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/horizontal-composition-layered.puml" /></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>
