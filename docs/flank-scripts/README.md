@@ -8,7 +8,7 @@ This repository contains helper scripts for developing flank. For now, it contai
 To build flank-scripts:
   - Run script `buildFlankScripts.sh` in `flank-scripts/bash/` directory
   - Run command `./gradlew clean flank-scripts:assemble flank-scripts:shadowJar` and manual copy file from `/flank-scripts/build/libs/flank-scripts.jar` to `flank-scripts/bash/`
-  - You could always run/build it from Intellij IDEA
+  - You could always run/build it from IntelliJ IDEA
 
 ### Usage
 
@@ -53,11 +53,11 @@ ___
 
 ___
 
-- `github` - Group of command for managing Github integration
+- `github` - Group of command for managing GitHub integration
   - `copy_issue_properties` - Copy properties(assignees, story points, labels) from issue to pull request
   - `delete_old_tag` - Delete old tag on GitHub
   - `delete_release` - Delete old release on github
-  - `make_release` - Make new Github release
+  - `make_release` - Make new GitHub release
 
 ___
 

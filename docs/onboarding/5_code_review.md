@@ -24,7 +24,7 @@ formalized and described below.
 If any step above will fail for you, try to reproduce it for sure and
 notify about a faced problem using pull request comment.
 Additionally, you may attach any of:
-- Github `commitable` suggestion if possible, and you already know it.
+- GitHub `commitable` suggestion if possible, and you already know it.
 - Description of what is unclear for you.
 - Description of what should be changed or what is missing.
 - Any additional information important for final quality.

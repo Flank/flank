@@ -16,7 +16,7 @@ export PATH=$PATH:$HOME/Library/Python/2.7/bin
 #export PATH=$PATH:$HOME/"path to your local gcloud repository"/gcloud_cli/google-cloud-sdk/bin
 export FLANK_PROJECT_ID=ftl-flank-open-source
 export GOOGLE_CLOUD_PROJECT=ftl-flank-open-source
-export GITHUB_TOKEN="type your gihub token here"
+export GITHUB_TOKEN="type your github token here"
 ```
 
 ### Common
@@ -26,7 +26,7 @@ export GITHUB_TOKEN="type your gihub token here"
 1. Ask for access to test bucket on a google cloud platform
 1. Install [Oracle JDK 8](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)
     * Unfortunately there is no official way to download installer without a login account.
-    * Unfortunately unofficial instruction from [here](https://gist.github.com/wavezhang/ba8425f24a968ec9b2a8619d7c2d86a6) sometimes isn't working.
+    * Unfortunately unofficial instruction from [wavezhang](https://gist.github.com/wavezhang/ba8425f24a968ec9b2a8619d7c2d86a6) sometimes isn't working.
 1. Use [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/) to install IDE.
     1. Install JetBrains Toolbox
         * download from [website](https://www.jetbrains.com/toolbox-app/)

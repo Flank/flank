@@ -22,11 +22,11 @@ fun CommonArgs.validate() {
     }
 }
 
-private fun List<Device>.devicesWithMispeltOrientations(availableOrientations: List<String>) =
+private fun List<Device>.devicesWithMisspeltOrientations(availableOrientations: List<String>) =
     filter { it.orientation !in availableOrientations }
 
 private fun CommonArgs.assertOrientationCorrectness() =
-    devices.devicesWithMispeltOrientations(listOf("portrait", "landscape", "default")).throwIfAnyMisspelt()
+    devices.devicesWithMisspeltOrientations(listOf("portrait", "landscape", "default")).throwIfAnyMisspelt()
 
 private fun List<Device>.throwIfAnyMisspelt() =
     if (isNotEmpty()) throw FlankGeneralError("Orientation misspelled or incorrect, found\n${joinToString(separator = "\n")} \nAborting.")

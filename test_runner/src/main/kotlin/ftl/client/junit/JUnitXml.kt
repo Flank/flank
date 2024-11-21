@@ -46,7 +46,7 @@ fun parseAllSuitesXml(path: File): JUnitTest.Result {
 }
 
 private fun parseAllSuitesXml(data: String): JUnitTest.Result =
-    // This is workaround for flank being unable to parse <testsuites/> into JUnitTesResults
+    // This is workaround for flank being unable to parse <testsuites/> into JUnitTestResults
     // We need to preserve configure(EMPTY_ELEMENT_AS_NULL, true) to skip empty elements
     // Once better solution is found, this should be fixed
     if (data.contains("<testsuites/>"))

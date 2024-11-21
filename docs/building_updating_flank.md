@@ -1,5 +1,5 @@
 # Building and Updating Flank
-Ensure that all steps taken for contributing and building Flank have been followed, which are found [here](../README.md)
+Ensure that you have followed all steps for [contributing and building Flank](../README.md)
 
 ## Building an updated flank
 To build an updated version of flank from source simply run (This assumes you are in the root Flank directory)

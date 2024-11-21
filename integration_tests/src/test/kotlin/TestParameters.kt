@@ -30,7 +30,7 @@ private fun Map<String, String>.withDefault(outputPattern: String, runParams: Li
     getPropertyAsList("run-params", runParams),
 )
 
-fun Map<String, String>.getOrValueIfEmpty(key: String, defaut: String) = get(key).orEmpty().let {
-    if (it.isBlank()) defaut
+fun Map<String, String>.getOrValueIfEmpty(key: String, default: String) = get(key).orEmpty().let {
+    if (it.isBlank()) default
     else it
 }
