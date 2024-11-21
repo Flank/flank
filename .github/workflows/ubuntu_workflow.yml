@@ -78,4 +78,3 @@ jobs:
           echo "**Buildscan URL for ubuntu-workflow run:**" >> $GITHUB_STEP_SUMMARY
           echo "[${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
           echo "${{ needs.build.outputs.build-scan-url }}" >> $GITHUB_STEP_SUMMARY
-      
