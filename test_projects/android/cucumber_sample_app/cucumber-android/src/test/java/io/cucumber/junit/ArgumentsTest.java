@@ -406,7 +406,7 @@ public class ArgumentsTest {
     @Test
     public void coverageDataFilePath_returns_value_when_bundle_contains_value() {
         // given
-        final String fileName = "some_custome_file.name";
+        final String fileName = "some_custom_file.name";
         final Bundle bundle = spy(new Bundle());
         bundle.putString(Arguments.KEY.COVERAGE_DATA_FILE_PATH, fileName);
 

@@ -202,7 +202,7 @@ forEach(test matrix) {
 }
 ```
 
-## API calls usage comparision table
+## API calls usage comparison table
 Following table should compare API calls complexity.
 
 |         | execution status updates |
@@ -219,7 +219,7 @@ E - count of test executions in matrix scope
 ```
 
 ## Conclusions
-#### Gclud
+#### Gcloud
 Because of single matrix run gives only 1 request per 6 seconds
 
 #### Flank v20.05.2

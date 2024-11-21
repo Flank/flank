@@ -6,7 +6,7 @@ on:
     types: [ closed ]
 
 # TODO: update workflow permissions to least privilege after auditing all the APIs used
-# permissions:  # limit the permissions of the GITHIUB_TOKEN to reading repository contents
+# permissions:  # limit the permissions of the GITHUB_TOKEN to reading repository contents
 #   contents: read
 
 jobs:

@@ -2193,7 +2193,7 @@ AndroidArgs
             - model: blueline
               version: 28
               locale: en
-              orientation: poortrait
+              orientation: portrait_
         flank:
           max-test-shards: -1
         """.trimIndent()
@@ -2828,7 +2828,7 @@ AndroidArgs
     }
 
     @Test
-    fun `should throw exception if paramterized test is incorrect`() {
+    fun `should throw exception if parameterized test is incorrect`() {
         val yaml = """
         gcloud:
             # Android gcloud
@@ -2855,7 +2855,7 @@ AndroidArgs
     }
 
     @Test
-    fun `should throw NOT throw an exception if paramterized test is ignore-all`() {
+    fun `should throw NOT throw an exception if parameterized test is ignore-all`() {
         val yaml = """
         gcloud:
             # Android gcloud
@@ -2867,7 +2867,7 @@ AndroidArgs
     }
 
     @Test
-    fun `should throw NOT throw an exception if paramterized test is shard-into-single`() {
+    fun `should throw NOT throw an exception if parameterized test is shard-into-single`() {
         val yaml = """
         gcloud:
             # Android gcloud

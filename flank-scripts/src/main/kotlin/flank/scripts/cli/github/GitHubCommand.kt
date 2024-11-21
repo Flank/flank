@@ -5,7 +5,7 @@ import com.github.ajalt.clikt.core.subcommands
 
 object GitHubCommand : CliktCommand(
     name = "github",
-    help = "Group of command for managing Github integration"
+    help = "Group of command for managing GitHub integration"
 ) {
     init {
         subcommands(

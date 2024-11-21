@@ -141,7 +141,7 @@ Based on [google_api_usecases](../gcloud/google_api_usecases.md)
     * AndroidModelDescription.kt $
     * AndroidSoftwareVersionDescription.kt $
     * ListAndroidDevices.kt $
-    * ListAndroidSofwareVersions.kt $
+    * ListAndroidSoftwareVersions.kt $
 1. ftl.environment.common
     * ListNetworkConfiguration.kt $
     * ListOrientations.kt $
@@ -150,7 +150,7 @@ Based on [google_api_usecases](../gcloud/google_api_usecases.md)
     * IosModelDescription.kt $
     * IosSoftwareVersionDescription.kt $
     * ListIOsDevices.kt $
-    * ListIOsSofwareVersions.kt $
+    * ListIOsSoftwareVersions.kt $
 1. ftl.gc
     * GcAndroidDevice.kt $
     * GcAndroidTestMatrix.kt

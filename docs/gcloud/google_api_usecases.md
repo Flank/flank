@@ -31,7 +31,7 @@
 1. AndroidModelDescription.kt
 1. AndroidSoftwareVersionDescription.kt
 1. ListAndroidDevices.kt
-1. ListAndroidSofwareVersions.kt
+1. ListAndroidSoftwareVersions.kt
 
 ## ftl.environment.common
 
@@ -44,7 +44,7 @@
 1. IosModelDescription.kt
 1. IosSoftwareVersionDescription.kt
 1. ListIOsDevices.kt
-1. ListIOsSofwareVersions.kt
+1. ListIOsSoftwareVersions.kt
 
 ## ftl.gc
 
@@ -199,12 +199,12 @@
 1. AndroidModelDescription.kt
 1. AndroidSoftwareVersionDescription.kt
 1. ListAndroidDevices.kt
-1. ListAndroidSofwareVersions.kt
+1. ListAndroidSoftwareVersions.kt
 
 1. IosModelDescription.kt
 1. IosSoftwareVersionDescription.kt
 1. ListIOsDevices.kt
-1. ListIOsSofwareVersions.kt
+1. ListIOsSoftwareVersions.kt
 
 ## Android Run use case
 

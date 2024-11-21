@@ -52,7 +52,7 @@ class FetchProjectIdTest {
     fun teardown() = unmockkAll()
 
     @Test
-    fun `should fetch project id from GCLOUD_APLICATION_CREDENTIALS`() {
+    fun `should fetch project id from GCLOUD_APPLICATION_CREDENTIALS`() {
         mockkStatic("ftl.util.Utils") {
             every { getGACPathOrEmpty() } returns gac.absolutePath.toString()
             assertThat(ArgsHelper.getDefaultProjectIdOrNull()).isEqualTo("id_from_gac")

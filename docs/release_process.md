@@ -5,7 +5,7 @@
 1. A release process should be run withing macOS environment
 2. The machine should contain:
     `homebrew` - Package manager
-    `gh` - Github CLI tool
+    `gh` - GitHub CLI tool
 
 ## Current setup
 
@@ -19,7 +19,7 @@ Each push:
 ## Triggering release 
 
 ### Manually
-1. Navigate to [Github Actions](https://github.com/Flank/flank/actions)
+1. Navigate to [GitHub Actions](https://github.com/Flank/flank/actions)
 2. Run job [`Generate release notes for next commit`](https://github.com/Flank/flank/actions?query=workflow%3A%22Generate+release+notes+for+next+commit%22) by using `Run Workflow` button
 3. After merging PR,  the next tag will be pushed to repository
 4. Wait for CI job to finish
