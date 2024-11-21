@@ -81,6 +81,8 @@ jobs:
 
     - name: Release snapshot
       if: ${{ env.RELEASE_TAG == 'flank-snapshot' }}
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: flankScripts github make_release --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --commit-hash=$GITHUB_SHA --snapshot
 
     - name: Release stable
@@ -91,7 +93,7 @@ jobs:
 
     - name: Append checksum to release
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         sha256sum ./test_runner/build/libs/flank.jar > flank.sha256
         gh release upload $RELEASE_TAG flank.sha256
