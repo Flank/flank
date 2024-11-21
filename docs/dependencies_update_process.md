@@ -6,7 +6,7 @@ Process run commands and update files with defined versions in the provided file
 ### Modules
 0. [Gradle Versions Plugin](https://github.com/ben-manes/gradle-versions-plugin) which check dependencies version and generate report
 0. [Command](../flank-scripts/README.md#dependencies) in `flank-scripts` which update dependencies versions
-0. Github action job which runs dependencies check every Monday at 5 AM UTC or on-demand
+0. GitHub action job which runs dependencies check every Monday at 5 AM UTC or on-demand
 
 ## Usage
 
@@ -15,8 +15,8 @@ Process run commands and update files with defined versions in the provided file
 0. Build flank scripts using script `./flank-scripts/bash/buildFlankScripts.sh`
 0. Run `./flank-scripts/bash/flankScripts dependencies update`
 
-### Github action
-Run `Update dependencies` job using [Github action menu](https://github.com/Flank/flank/actions) by clicking `Run workflow` button
+### GitHub action
+Run `Update dependencies` job using [GitHub action menu](https://github.com/Flank/flank/actions) by clicking `Run workflow` button
 
 ## Merging to master
 

@@ -11,7 +11,7 @@ import kotlin.system.exitProcess
 
 object MakeReleaseCommand : CliktCommand(
     name = "make_release",
-    help = "Make new Github release"
+    help = "Make new GitHub release"
 ) {
     private val inputFile by option(help = "Path to release file")
         .path(mustExist = true).required()

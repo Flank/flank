@@ -1,10 +1,10 @@
-# Flank Github action
+# Flank GitHub action
 
-Add Github action which allows running Flank
+Add GitHub action which allows running Flank
 
 # References
 
-- [Github actions documentation](https://github.com/features/actions)
+- [GitHub actions documentation](https://github.com/features/actions)
 
 - [Creating a Docker container action](https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action)
 
@@ -12,15 +12,15 @@ Add Github action which allows running Flank
 
 - [Creating a composite run steps action](https://docs.github.com/en/actions/creating-actions/creating-a-composite-run-steps-action)
 
-- [Github actions marketplace](https://github.com/marketplace?type=actions)
+- [GitHub actions marketplace](https://github.com/marketplace?type=actions)
 
   
 
 # Motivation
 
-Bitrise and Circle CI have steps in their CIs to run Flank. As Github is a widely used code repository and Github actions become more and more popular there should be also Github action that allows running Flank. 
+Bitrise and Circle CI have steps in their CIs to run Flank. As GitHub is a widely used code repository and GitHub actions become more and more popular there should be also GitHub action that allows running Flank. 
 
-After creating Github action, Flank could reach more users.
+After creating GitHub action, Flank could reach more users.
 
 # Goals
 
@@ -30,7 +30,7 @@ After creating Github action, Flank could reach more users.
 
 # Design
 
-There should be a possibility to specify all flank options using Github action variables as input, as well as passing the configuration itself.
+There should be a possibility to specify all flank options using GitHub action variables as input, as well as passing the configuration itself.
 
 User must provide at least:
 
@@ -41,13 +41,13 @@ User must provide at least:
 
 # API
 
-Flank Github action will be developed using [composite run steps action](https://docs.github.com/en/actions/creating-actions/creating-a-composite-run-steps-action) which just packs other actions and runs it as a single action.
+Flank GitHub action will be developed using [composite run steps action](https://docs.github.com/en/actions/creating-actions/creating-a-composite-run-steps-action) which just packs other actions and runs it as a single action.
 
 ### Design proposal
 
 ```yaml
 name: 'Flank'
-description: 'Run Flank from Github actions!'
+description: 'Run Flank from GitHub actions!'
 inputs:
     version: 
         description: 'Version of flank to run'
@@ -80,10 +80,10 @@ runs:
       run: <download flank>
       shell: bash
     - id: validate configuration
-      run: <check if configuation file or any options are specified>
+      run: <check if configuration file or any options are specified>
       shell: bash
     - id: run flank
-      run: <check if configuation file or any options are specified>
+      run: <check if configuration file or any options are specified>
       shell: bash
     - id: report
       run: <show run report to user>
@@ -143,7 +143,7 @@ jobs:
 
 # Results
 
-After finishing Flank GitHub actions should be published to [Github actions marketplace](https://github.com/marketplace?type=actions). 
+After finishing Flank GitHub actions should be published to [GitHub actions marketplace](https://github.com/marketplace?type=actions). 
 
 There should be also an announcement on Flank channel on Slack.
 
@@ -151,7 +151,7 @@ The thing to consider is also using it for our internal verification together wi
 
 # Dependencies
 
-Github action needs to have `action.yml` file in the root of the repository, however, Flank repository has the file for posting Slack message after release. However it is only used by Flank team, so it will be best to move it as a side repository and keep the main Flank action in Flank's mono repository
+GitHub action needs to have `action.yml` file in the root of the repository, however, Flank repository has the file for posting Slack message after release. However it is only used by Flank team, so it will be best to move it as a side repository and keep the main Flank action in Flank's mono repository
 
 # Testing
 

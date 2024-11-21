@@ -1,5 +1,5 @@
 name: 'Flank'
-description: 'Run Flank from Github actions!'
+description: 'Run Flank from GitHub actions!'
 inputs:
   version: 
     description: 'Flank version to run'

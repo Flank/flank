@@ -2,7 +2,7 @@
 
 ## git-lfs
 
-Docs can be found [here](https://git-lfs.github.com)
+Docs can be found at [git-lfs.github.com](https://git-lfs.github.com)
 
 ### Costs
 
@@ -64,7 +64,7 @@ There is nothing to configure. When you modify files on branch changes not shown
 
 ## git-submodules
 
-Docs can be found [here](https://gist.github.com/gitaarik/8735255)
+Docs can be found at [gist.github.com/gitaarik/8735255](https://gist.github.com/gitaarik/8735255)
 
 ### Is git submodules versioning files?
 
@@ -114,8 +114,8 @@ https://stackoverflow.com/questions/9189575/git-submodule-tracking-latest
 
 ## git-annex
 
-Docs can be found [here](https://git-annex.branchable.com/git-annex/)
-Docs for github [here](https://git-annex.branchable.com/tips/centralized_git_repository_tutorial/on_GitHub/)
+Docs can be found at [git-annex](https://git-annex.branchable.com/git-annex/)
+Docs for [github at git-annex](https://git-annex.branchable.com/tips/centralized_git_repository_tutorial/on_GitHub/)
 
 We can configure git-annex to store files in places like ftp, amazon s3, etc. Probably it can reduce costs on many large files. [link](https://git-annex.branchable.com/special_remotes/)
 
@@ -157,9 +157,9 @@ Git diff looks like:
 
     ```
 
-    If you don't have brew installed. Install it from [this page](https://brew.sh)
+    If you don't have brew installed. Install it from [brew.sh](https://brew.sh)
 
-    Installing on other systems can be found [here](https://git-annex.branchable.com/install/)
+    Installing on other systems can be found at [git-annex install](https://git-annex.branchable.com/install/)
 
 2. Initialize
 
@@ -212,7 +212,7 @@ Git-annex allows to host binary files in different locations, after a little dis
 
 This list is only our idea feel free to suggest another one.
 
-All of the supported storage types can be [here](https://git-annex.branchable.com/special_remotes/)
+All of the supported storage types can be seen at [git-annex special_remotes](https://git-annex.branchable.com/special_remotes/)
 
 ### How to play with branches
 
@@ -220,8 +220,8 @@ When you change branch you can override file and commit changes (remember to unl
 
 ### How to configure new git-annex repository with google drive
 
-1. Install rclone from [here](https://downloads.rclone.org/v1.37/)
-2. Install git-annex-rclone from [here](https://github.com/DanielDent/git-annex-remote-rclone)
+1. Install rclone from [downloads.rclone.org](https://downloads.rclone.org/v1.37/)
+2. Install git-annex-rclone from [git-annex-remote-rclone](https://github.com/DanielDent/git-annex-remote-rclone)
 3. Go to repository directory and in console enter `rclone config`
 4. Init remote by `git annex initremote CONFIG_NAME type=external externaltype=rclone target=CONFIG_NAME prefix=git-annex chunk=50MiB encryption=shared mac=HMACSHA512 rclone_layout=lower`
 5. You can test remote by `git annex testremote`

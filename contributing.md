@@ -27,7 +27,7 @@ There is a [`Debug.kt`](https://github.com/Flank/flank/blob/master/test_runner/s
 
 Note: The breakpoints will only hit for the actual command being run. For example, for `firebase test android run`, the debugger will directly enter [`AndroidRunCommand`](https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidRunCommand.kt).
 
-The yml file being read is located [here](https://github.com/Flank/flank/blob/master/test_runner/flank.yml).
+The yml file being read is located at [test_runner/flank.yml](https://github.com/Flank/flank/blob/master/test_runner/flank.yml).
 
 Run `./gradlew check` to fix lint issues
 
@@ -35,8 +35,8 @@ Run `./gradlew check` to fix lint issues
 
 - Add property to `GcloudYml` and update `keys` in config files
 - Update `IArgs` with new property
-- Update `AndroidArgs` to reference the propery and update `toString`
-- Update `IosArgs` to reference the propery and `toString`
+- Update `AndroidArgs` to reference the property and update `toString`
+- Update `IosArgs` to reference the property and `toString`
 - Add test to `IosArgsTest`
 - Add test to `IosRunCommandTest` and update `empty_params_parse_null` test
 - Add test to `AndroidArgsTest`

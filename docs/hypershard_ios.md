@@ -4,10 +4,10 @@ This is a step-by-step guide of using Hypershard for companies that are unable t
 
 ### Installation
 
-1. Clone Github repository using
+1. Clone GitHub repository using
     1. https - `git clone https://github.com/dropbox/hypershard-ios.git`
     2. SSH - `git clone git@github.com:dropbox/hypershard-ios.git`
-    3. Github CLI - `gh repo clone dropbox/hypershard-ios`
+    3. GitHub CLI - `gh repo clone dropbox/hypershard-ios`
 2. Install swift if you are not using macOS
     1. https://swift.org/download/#releases
 3. Open Terminal/cmd

@@ -16,6 +16,7 @@ import ftl.run.model.AndroidTestShards
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.RoboTestContext
 import ftl.test.util.mixedConfigYaml
+import ftl.test.util.parameterizedConfigYaml
 import ftl.test.util.should
 import ftl.util.FlankTestMethod
 import io.mockk.every
@@ -25,8 +26,7 @@ import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -38,6 +38,8 @@ class CreateAndroidTestContextKtTest {
     val root = TemporaryFolder()
 
     private val args: AndroidArgs = AndroidArgs.load(mixedConfigYaml)
+    private val parameterizedArgs: AndroidArgs = AndroidArgs.load(parameterizedConfigYaml)
+
 
     @After
     fun tearDown() = unmockkAll()
@@ -59,8 +61,8 @@ class CreateAndroidTestContextKtTest {
                 environmentVariables = should { equals(args.environmentVariables) },
                 args = should {
                     maxTestShards == 1 &&
-                        testApk?.endsWith("app-single-success-debug-androidTest.apk") == true &&
-                        environmentVariables == args.environmentVariables
+                            testApk?.endsWith("app-single-success-debug-androidTest.apk") == true &&
+                            environmentVariables == args.environmentVariables
                 }
             ),
             InstrumentationTestContext(
@@ -71,8 +73,8 @@ class CreateAndroidTestContextKtTest {
                 environmentVariables = should { equals(args.environmentVariables) },
                 args = should {
                     testTargets == listOf("class com.example.test_app.InstrumentedTest") &&
-                        testApk?.endsWith("app-multiple-flaky-debug-androidTest.apk") == true &&
-                        environmentVariables == args.environmentVariables
+                            testApk?.endsWith("app-multiple-flaky-debug-androidTest.apk") == true &&
+                            environmentVariables == args.environmentVariables
                 }
             )
         )
@@ -279,7 +281,7 @@ class CreateAndroidTestContextKtTest {
         customSharding.values.forEach { customShards ->
             val context = instrumentationContexts.filter {
                 it.app.local.contains(customShards.app.drop(1)) &&
-                    it.test.local.contains(customShards.test.drop(1))
+                        it.test.local.contains(customShards.test.drop(1))
             }.run {
                 // there should be only one context with app and test matching
                 assertEquals(1, size)
@@ -291,5 +293,47 @@ class CreateAndroidTestContextKtTest {
             // all custom shards are present in the context
             assertTrue(customShards.shards.values.containsAll(context.shards.map { it.testMethodNames }))
         }
+    }
+
+    @Test
+    fun `Annotated parameterized tests cases should run when specified in test-targets`() {
+        val testInstrumentationContext = InstrumentationTestContext(
+            FileReference("", ""),
+            FileReference("../test_projects/android/apks/parametrized-app-debug-androidTest.apk", ""),
+            args = parameterizedArgs
+        )
+
+        val testFilters = TestFilters.fromTestTargets(parameterizedArgs.testTargets, emptyList())
+
+        val parsedTests = testInstrumentationContext
+            .getFlankTestMethods(
+                testFilters
+            )
+            .map { it.testName }
+            .toSet()
+
+        assertTrue(parsedTests.isNotEmpty())
+        assertTrue(parsedTests.contains("class flank.shard.annotationbug.ParameterizedAnnotatedTest#useAppContext"))
+    }
+
+    @Test
+    fun `Parameterized tests with custom annotation should not execute when not specified in test-targets`() {
+        val testInstrumentationContext = InstrumentationTestContext(
+            FileReference("", ""),
+            FileReference("../test_projects/android/apks/parametrized-app-debug-androidTest.apk", ""),
+            args = parameterizedArgs
+        )
+
+        val testFilters = TestFilters.fromTestTargets(parameterizedArgs.testTargets, emptyList())
+
+        val parsedTests = testInstrumentationContext
+            .getFlankTestMethods(
+                testFilters
+            )
+            .map { it.testName }
+            .toSet()
+
+        assertTrue(parsedTests.isNotEmpty())
+        assertFalse(parsedTests.contains("class flank.shard.annotationbug.FooAnnotatedParameterizedTest#useAppContext"))
     }
 }

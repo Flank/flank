@@ -35,11 +35,11 @@ ___
 
 ___
 
-- `github` - Group of command for managing Github integration
+- `github` - Group of command for managing GitHub integration
     - `copy_issue_properties` - Copy properties(assignees, story points, labels) from issue to pull request
     - `delete_old_tag` - Delete old tag on GitHub
     - `delete_release` - Delete old release on github
-    - `make_release` - Make new Github release
+    - `make_release` - Make new GitHub release
     - `download_flank` - Downloads flank.jar with selected version.
 
 ___

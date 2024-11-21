@@ -80,7 +80,7 @@ gcloud:
   use-orchestrator: true
 ```
 
-## Reported flade config
+## Reported fladle config
 ```groovy
 fladle {
     serviceAccountCredentials = file("pathToCredentials")
@@ -120,4 +120,4 @@ fladle {
 * Create multi-module project which will provide many test apks and try to reproduce issue.
 * Ensure that our knowledge about issue in `What we know from report issue` is correct.
 * Based on: https://stackoverflow.com/questions/39241640/android-instrumented-test-no-tests-found try to make real multi dex app and try trun tests on it
-* Play with @BefeoreClass and @Before annotations (exception on @BeforeClass produce null without test cases on test-lab).
+* Play with @BeforeClass and @Before annotations (exception on @BeforeClass produce null without test cases on test-lab).

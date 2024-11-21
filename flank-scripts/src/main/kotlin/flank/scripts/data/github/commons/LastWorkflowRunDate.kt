@@ -14,7 +14,7 @@ suspend fun getLastWorkflowRunDate(
     githubToken = token,
     workflow = requireNotNull(
         workflowName ?: workflowFileName
-    ) { "** Missing either workflow name or workflow file name. Both can not be null" },
+    ) { "** Missing either workflow name or workflow file name. Both cannot be null" },
     parameters = listOf(
         "per_page" to 20,
         "page" to 1
