@@ -73,8 +73,11 @@ jobs:
           utcOffset: "+00:00"
 
       - name: Write Buildscan URL to Summary
+        env:
+          TIMESTAMP: ${{ steps.current-time.outputs.formattedTime }}
+          BUILD_SCAN_URL: ${{ needs.build.outputs.build-scan-url }}
         run: |
-          echo "**Timestamp:** ${{ steps.current-time.outputs.formattedTime }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Timestamp:** $TIMESTAMP" >> $GITHUB_STEP_SUMMARY
           echo "**Buildscan URL for ubuntu-workflow run:**" >> $GITHUB_STEP_SUMMARY
-          echo "[${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
-          echo "${{ needs.build.outputs.build-scan-url }}" >> $GITHUB_STEP_SUMMARY
+          echo "[$GITHUB_RUN_ID](https://github.com/Flank/flank/actions/runs/$GITHUB_RUN_ID)" >> $GITHUB_STEP_SUMMARY
+          echo "$BUILD_SCAN_URL" >> $GITHUB_STEP_SUMMARY
