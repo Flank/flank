@@ -52,7 +52,8 @@ jobs:
         run: ./gradlew clean build
       
   publish-scan-url:
-    needs: [build]
+    needs: 
+      - build
     permissions:
       pull-requests: write # to allow creating or updating a comment
     if: ${{ github.event_name == 'pull_request' }}

@@ -118,11 +118,13 @@ jobs:
           echo "./flank-scripts/bash" >> $GITHUB_PATH
 
       - name: Process IT results
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           flankScripts integration_tests process_results \
           --global-result=${{ needs.run-it-full-suite.outputs.job_status }} \
           --run-result='${{ toJSON(env) }}' \
-          --github-token=${{ secrets.GITHUB_TOKEN }} \
+          --github-token="$GH_TOKEN" \
           --run-id=${{ github.run_id }}
 
   trigger-pointer:
