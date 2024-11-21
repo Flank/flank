@@ -6,16 +6,16 @@ on:
       - master
   pull_request:
     branches:
-      - "*"
+      - '*'
 
-permissions: # limit the permissions of the GITHIUB_TOKEN to reading repository contents
+permissions:  # limit the permissions of the GITHIUB_TOKEN to reading repository contents
   contents: read
 
 jobs:
   build:
     permissions:
-      actions: write # for styfle/cancel-workflow-action to cancel/stop running workflows
-      contents: read # for actions/checkout to fetch code
+      actions: write  # for styfle/cancel-workflow-action to cancel/stop running workflows
+      contents: read  # for actions/checkout to fetch code
     runs-on: ubuntu-latest
     outputs:
       build-scan-url: ${{ steps.build.outputs.build-scan-url }}
@@ -41,16 +41,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - id: build
-        name: Gradle clean build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HEAD_REF: ${{ github.head_ref }}
-        run: ./gradlew clean build
-
+              - name: Setup Gradle
+              uses: gradle/actions/setup-gradle@v4
+      
+            - id: build
+              name: Gradle clean build
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                HEAD_REF: ${{ github.head_ref }}
+              run: ./gradlew clean build
+      
   publish-scan-url:
     needs: [build]
     permissions:
@@ -77,3 +77,4 @@ jobs:
           echo "**Buildscan URL for ubuntu-workflow run:**" >> $GITHUB_STEP_SUMMARY
           echo "[${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
           echo "${{ needs.build.outputs.build-scan-url }}" >> $GITHUB_STEP_SUMMARY
+      
