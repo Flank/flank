@@ -6,7 +6,7 @@ on:
     types: [ closed ]
 
 # TODO: update workflow permissions to least privilege after auditing all the APIs used
-# permissions:  # limit the permissions of the GITHIUB_TOKEN to reading repository contents
+# permissions:  # limit the permissions of the GITHUB_TOKEN to reading repository contents
 #   contents: read
 
 jobs:
@@ -34,8 +34,10 @@ jobs:
           ./gradlew :flank-scripts:download
           echo "./flank-scripts/bash" >> $GITHUB_PATH
       - name: Set next release tag variable
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          TAG=$(flankScripts release next_tag --token=${{ secrets.GITHUB_TOKEN }})
+          TAG=$(flankScripts release next_tag --token="$GH_TOKEN")
           echo "NEXT_RELEASE_TAG=$(echo $TAG)" >> $GITHUB_ENV
 
       - name: Push tag

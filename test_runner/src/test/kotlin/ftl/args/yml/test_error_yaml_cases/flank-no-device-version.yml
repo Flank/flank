@@ -18,7 +18,7 @@ gcloud:
       orientation: portrait
       # Samsung Galaxy S9 SM-G9600
     - model: starqltechn
-      versxion: 28
+      version_: 28
       locale: en
       orientation: portrait
       # LG Nexus 5

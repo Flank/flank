@@ -44,7 +44,7 @@ internal fun AndroidInstrumentationTest.setupTestTargets(
                 if (numUniformShards != null) {
                     testTargets = testShards.flatten()
                     val safeNumUniformShards = if (testTargets.size > numUniformShards) numUniformShards else {
-                        logLn("WARNING: num-uniform-shards ($numUniformShards) is higher than number of test cases (${testTargets.size}) from ${testApk.gcsPath}")
+                        logLn("WARNING: num-uniform-shards ($numUniformShards) is greater than number of test cases (${testTargets.size}) from ${testApk.gcsPath}")
                         testTargets.size
                     }
                     uniformSharding = UniformSharding().setNumShards(safeNumUniformShards)

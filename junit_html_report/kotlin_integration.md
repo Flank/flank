@@ -10,7 +10,7 @@ group:
 item:
 `=[{key:"item-0",...]`
 
-Regex search & replace with seralized JSON
+Regex search & replace with serialized JSON
 
 Group format:
 ```javascript

@@ -29,7 +29,7 @@ class IgnoreTestsAnnotationTest {
     }
 
     @Test
-    fun `InstrumentationContext with @Supress annotation shouldn't have ignoredTestCases in shards`() {
+    fun `InstrumentationContext with @Suppress annotation shouldn't have ignoredTestCases in shards`() {
         val testContext = runBlocking {
             AndroidArgs.load(singleSuccessYaml).createAndroidTestContexts()
         }.single() as InstrumentationTestContext

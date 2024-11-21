@@ -21,4 +21,4 @@ It always executes on the same thread so it is not a concurrency issue
   
 - [X] on ```ExecutionStatusPrinter.kt``` -> ```MultiLinePrinter``` try to force add to output two same ExecutionStatus but no effect
 
-- [X] on ```GcTestMatrix.kt``` -> ```refresh()``` try to add testSpecyfication with same id but without effect
+- [X] on ```GcTestMatrix.kt``` -> ```refresh()``` try to add testSpecification with same id but without effect

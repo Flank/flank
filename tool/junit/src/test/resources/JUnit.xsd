@@ -45,7 +45,7 @@
     </xs:element>
     <xs:complexType name="testsuite">
         <xs:annotation>
-            <xs:documentation xml:lang="en">Contains the results of exexuting a testsuite</xs:documentation>
+            <xs:documentation xml:lang="en">Contains the results of executing a testsuite</xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="properties">
@@ -87,7 +87,7 @@
                                         </xs:attribute>
                                         <xs:attribute name="type" type="xs:string" use="required">
                                             <xs:annotation>
-                                                <xs:documentation xml:lang="en">The type of error that occured. e.g., if a java execption is thrown the full class name of the exception.</xs:documentation>
+                                                <xs:documentation xml:lang="en">The type of error that occurred. e.g., if a java exception is thrown the full class name of the exception.</xs:documentation>
                                             </xs:annotation>
                                         </xs:attribute>
                                     </xs:extension>
