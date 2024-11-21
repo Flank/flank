@@ -28,10 +28,11 @@ jobs:
           app_id: ${{ secrets.FLANK_RELEASE_APP_ID }}
           private_key: ${{ secrets.FLANK_RELEASE_PRIVATE_KEY }}
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
       - name: Gradle dependency updates raport
-        uses: gradle/gradle-build-action@v3.5.0
-        with:
-          arguments: dependencyUpdates -DoutputFormatter=json -DoutputDir=.
+        run: ./gradlew dependencyUpdates -DoutputFormatter=json -DoutputDir=.
 
       - name: Download flankScripts and add it to PATH
         env:
@@ -117,9 +118,11 @@ jobs:
           echo "./flank-scripts/bash" >> $GITHUB_PATH
 
       - name: Run SDK check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           flankScripts firebase check_for_sdk_updates \
-          --github-token=${{ secrets.GITHUB_TOKEN }} \
+          --github-token="$GH_TOKEN" \
 
   trigger-pointer:
     runs-on: ubuntu-latest
