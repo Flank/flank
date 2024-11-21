@@ -59,13 +59,14 @@ jobs:
           echo "$GITHUB_SHA" > ./test_runner/src/main/resources/revision.txt
           echo "$RELEASE_TAG" > ./test_runner/src/main/resources/version.txt
 
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v4
+
     - name: Gradle Build Flank
-      uses: gradle/gradle-build-action@v3.5.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         HEAD_REF: ${{ github.head_ref }}
-      with:
-        arguments: "clean test_runner:build test_runner:shadowJar"
+      run: ./gradlew clean test_runner:build test_runner:shadowJar
 
     - name: Delete old release
       env:
@@ -98,22 +99,16 @@ jobs:
         gh release upload $RELEASE_TAG flank.sha256
 
     - name: Gradle Upload to MavenCentral
-      uses: gradle/gradle-build-action@v3.5.0
       env:
         PGP_SIGNING_KEY: ${{ secrets.PGP_SIGNING_KEY }}
-      with:
-        arguments: :test_runner:publishMavenJavaPublicationToMavenCentralRepository -PMVN_CENTRAL_USER=${{ secrets.MVN_CENTRAL_USER }} -PMVN_CENTRAL_PASSWORD=${{ secrets.MVN_CENTRAL_PASSWORD }}
+      run: ./gradlew :test_runner:publishMavenJavaPublicationToMavenCentralRepository -PMVN_CENTRAL_USER=${{ secrets.MVN_CENTRAL_USER }} -PMVN_CENTRAL_PASSWORD=${{ secrets.MVN_CENTRAL_PASSWORD }}
 
     - name: Gradle close staging on MavenCentral
-      uses: gradle/gradle-build-action@v3.5.0
       if: startsWith(github.ref, 'refs/tags/v')
-      with:
-        arguments: closeAndReleaseRepository -PMVN_CENTRAL_USER=${{ secrets.MVN_CENTRAL_USER }} -PMVN_CENTRAL_PASSWORD=${{ secrets.MVN_CENTRAL_PASSWORD }}
+      run: ./gradlew closeAndReleaseRepository -PMVN_CENTRAL_USER=${{ secrets.MVN_CENTRAL_USER }} -PMVN_CENTRAL_PASSWORD=${{ secrets.MVN_CENTRAL_PASSWORD }}
 
     - name: Gradle Upload to GitHub packages
-      uses: gradle/gradle-build-action@v3.5.0
       if: startsWith(github.ref, 'refs/tags/v')
       env:
         PGP_SIGNING_KEY: ${{ secrets.PGP_SIGNING_KEY }}
-      with:
-        arguments: ":test_runner:publishMavenJavaPublicationToGitHubPackagesRepository -PGITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
+      run: ./gradlew :test_runner:publishMavenJavaPublicationToGitHubPackagesRepository -PGITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}

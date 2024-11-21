@@ -79,14 +79,15 @@ jobs:
             fi
         shell: bash
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
       - name: Gradle integration tests
-        uses: gradle/gradle-build-action@v3.5.0
         id: run-it
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_REF: ${{ github.ref }}
-        with:
-          arguments: "integrationTests"
+        run: ./gradlew integrationTests
 
       - name: Export Variables for FlankScripts
         if: ${{ always() }}

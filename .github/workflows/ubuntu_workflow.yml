@@ -41,14 +41,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
       - id: build
         name: Gradle clean build
-        uses: gradle/gradle-build-action@v3.5.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_REF: ${{ github.head_ref }}
-        with:
-          arguments: "clean build"
+        run: ./gradlew clean build
 
   publish-scan-url:
     needs: [build]

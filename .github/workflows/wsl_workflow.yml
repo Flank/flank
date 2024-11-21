@@ -57,17 +57,18 @@ jobs:
           GCLOUD_DIR="$HOME/.config/gcloud/"
           mkdir -p "$GCLOUD_DIR"
           echo "$GCLOUD_KEY" | base64 --ignore-garbage --decode > "$GCLOUD_DIR/application_default_credentials.json"
+          
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v4
 
     - name: Gradle Integration Tests Android
-      uses: gradle/gradle-build-action@v3.5.0
       env:
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-      with:
-        arguments: "--info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml"
+      run: |
+          ./gradlew --info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml
 
     - name: Gradle Integration Tests iOS
-      uses: gradle/gradle-build-action@v3.5.0
       env:
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-      with:
-        arguments: "--info :integration_tests:test --tests IntegrationTests.shouldMatchIosSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_ios.yml"
+      run: |
+          ./gradlew --info :integration_tests:test --tests IntegrationTests.shouldMatchIosSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_ios.yml
