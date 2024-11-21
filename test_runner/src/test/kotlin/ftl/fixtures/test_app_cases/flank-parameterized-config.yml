@@ -1,0 +1,7 @@
+gcloud:
+  app: ../test_projects/android/apks/parametrized-app-debug.apk
+  test: ../test_projects/android/apks/parametrized-app-debug-androidTest.apk
+  test-targets:
+    - annotation flank.shard.annotationbug.Annotation
+flank:
+  max-test-shards: 10
