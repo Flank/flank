@@ -31,16 +31,23 @@ runs:
       shell: bash
     - id: download_flank
       run: |
-        ./flankScripts github download_flank --version=${{ inputs.version }}
+        ./flankScripts github download_flank --version=${INPUTS_VERSION}
       shell: bash
+      env:
+        INPUTS_VERSION: ${{ inputs.version }}
     - id: authentication
       run: |
-        ./flankScripts firebase save_service_account --account='${{ inputs.service_account }}'
+        ./flankScripts firebase save_service_account --account='${INPUTS_SERVICE_ACCOUNT}'
       shell: bash
+      env:
+        INPUTS_SERVICE_ACCOUNT: ${{ inputs.service_account }}
     - id: run_flank
       run: |
-        java -jar flank.jar firebase test ${{ inputs.platform }} run -c=${{ inputs.flank_configuration_file }}
+        java -jar flank.jar firebase test ${INPUTS_PLATFORM} run -c=${INPUTS_FLANK_CONFIGURATION_FILE}
       shell: bash
+      env:
+        INPUTS_PLATFORM: ${{ inputs.platform }}
+        INPUTS_FLANK_CONFIGURATION_FILE: ${{ inputs.flank_configuration_file }}
     - id: output_paths
       run: |
         file_path=$(find . -name "flank-links.log")

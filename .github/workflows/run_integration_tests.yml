@@ -32,7 +32,7 @@ jobs:
           run_it: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' }}
         run: |
           echo "event name: ${{ github.event_name }}"
-          echo "should_run=${{ env.run_it }}" >> $GITHUB_OUTPUT
+          echo "should_run=${RUN_IT}" >> $GITHUB_OUTPUT
 
   run-it-full-suite:
     needs: [ should_run_it ]
@@ -120,9 +120,10 @@ jobs:
       - name: Process IT results
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEEDS_RUN_IT_FULL_SUITE_OUTPUTS_JOB_STATUS: ${{ needs.run-it-full-suite.outputs.job_status }}
         run: |
           flankScripts integration_tests process_results \
-          --global-result=${{ needs.run-it-full-suite.outputs.job_status }} \
+          --global-result=${NEEDS_RUN_IT_FULL_SUITE_OUTPUTS_JOB_STATUS} \
           --run-result='${{ toJSON(env) }}' \
           --github-token="$GH_TOKEN" \
           --run-id=${{ github.run_id }}
