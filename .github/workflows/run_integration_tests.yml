@@ -91,7 +91,7 @@ jobs:
 
       - name: Export Variables for FlankScripts
         if: ${{ always() }}
-        uses: UnlyEd/github-action-store-variable@v3.0.16
+        uses: UnlyEd/github-action-store-variable@v4.0.0
         with:
           variables: |
             ${{ runner.os }}=${{ job.status }}
@@ -102,7 +102,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Import variable
-        uses: UnlyEd/github-action-store-variable@v3.0.16
+        uses: UnlyEd/github-action-store-variable@v4.0.0
         with:
           delimiter: ','
           variables: |
